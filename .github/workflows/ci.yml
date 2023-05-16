@@ -33,9 +33,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           arguments: test
-      - name: Scoverage
-        if: matrix.os == 'ubuntu-latest'
-        run: ./gradlew scoverage
-      - name: Report Scoverage
-        if: matrix.os == 'ubuntu-latest'
-        run: ./gradlew reportScoverage -PscoverageCompileOnly
