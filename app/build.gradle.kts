@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     // Use Scala 2.13 in our library project
-    implementation("org.scala-lang:scala-library:2.13.6")
+    implementation("org.scala-lang:scala-library:2.13.10")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
