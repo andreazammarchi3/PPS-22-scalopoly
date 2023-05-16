@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+    paths-ignore:
+      - 'README.md'
+  pull_request:
+
+jobs:
+  Test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3.3.0
+        with:
+          fetch-depth: 0
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1.0.6
+      - name: Setup JDK
+        uses: actions/setup-java@v3.9.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Setup Gradle and Test
+        uses: gradle/gradle-build-action@v2.3.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          arguments: test
+      - name: Scoverage
+        if: matrix.os == 'ubuntu-latest'
+        run: ./gradlew scoverage
+      - name: Report Scoverage
+        if: matrix.os == 'ubuntu-latest'
+        run: ./gradlew reportScoverage -PscoverageCompileOnly
