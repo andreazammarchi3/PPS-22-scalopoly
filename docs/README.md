@@ -7,3 +7,5 @@
 5. [Design di dettaglio](/5-detailed-design/README.md)
 6. [Implementazione](/6-implementation/README.md)
 7. [Conclusioni](/7-conclusion/README.md)
+
+I backlog prodotti durante gli Sprint sono disponibili [qui](/process/README.md).
