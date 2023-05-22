@@ -1,5 +1,6 @@
 # Backlogs
 Il product backlog è il seguente
+
 | Priority | Item | Versione |
 | :---: | --- | :---: |
 | 1 | Organizzazione del progetto | BASIC |
