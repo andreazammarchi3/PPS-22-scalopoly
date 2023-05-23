@@ -20,19 +20,10 @@ repositories {
 }
 
 dependencies {
-    // Use Scala 2.13 in our library project
-    implementation("org.scala-lang:scala-library:2.13.10")
-
-    // This dependency is used by the application.
-    implementation("com.google.guava:guava:30.1.1-jre")
-
-    // Use Scalatest for testing our library
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.scalatest:scalatest_2.13:3.2.9")
-    testImplementation("org.scalatestplus:junit-4-13_2.13:3.2.2.0")
-
-    // Need scala-xml at test runtime
-    testRuntimeOnly("org.scala-lang.modules:scala-xml_2.13:1.2.0")
+    implementation("org.scala-lang:scala3-library_3:3.2.2")
+    implementation("commons-collections:commons-collections:3.2.2")
+    testImplementation("org.scalatest:scalatest_3:3.2.9")
+    testImplementation("junit:junit:4.13")
 }
 
 application {
