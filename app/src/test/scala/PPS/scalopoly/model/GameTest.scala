@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 class GameTest {
 
   @Test
-  def testAddPlayer() = {
+  def testAddPlayer(): Unit = {
     val game = new Game
     assertEquals(List.empty, game.players)
     val carlo = Player("Carlo", Token.FUNGO)

@@ -29,3 +29,7 @@ application {
     // Define the main class for the application.
     mainClass.set("PPS.scalopoly.App")
 }
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
