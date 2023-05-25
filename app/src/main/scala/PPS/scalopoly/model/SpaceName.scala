@@ -49,3 +49,5 @@ enum SpaceName(name: String) :
 
   case TASSA_PATRIMONIALE extends SpaceName("Tassa patrimoniale")
   case TASSA_DI_LUSSO extends SpaceName("Tassa di Lusso")
+
+  override def equals(obj: Any): Boolean = super.equals(obj)

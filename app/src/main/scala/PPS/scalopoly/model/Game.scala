@@ -37,3 +37,6 @@ class Game:
   def movePlayer(): Unit =
     currentPlayer.get.actualPosition = 
       GameUtils.addSumToPosition(dice.sum(), currentPlayer.get.actualPosition, gameBoard)
+      
+  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
+    gameBoard.gameBoardMap(player.actualPosition)
