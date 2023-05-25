@@ -33,7 +33,3 @@ application {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
-
-tasks.withType<ScalaCompile> {
-    targetCompatibility = ""
-}
