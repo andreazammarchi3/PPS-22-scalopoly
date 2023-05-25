@@ -4,7 +4,7 @@ class Game:
 
   private[this] var _currentPlayer: Option[Player] = None
   private[this] var _players: List[Player] = List.empty
-  private[this] var _gameBoard: Map[Integer, SpaceName] = Map.empty
+  private[this] var _gameBoard: Map[Int, SpaceName] = Map.empty
 
   def currentPlayer: Option[Player] = _currentPlayer
 
@@ -18,9 +18,9 @@ class Game:
     _players = value
   }
 
-  def gameBoard: Map[Integer, SpaceName] = _gameBoard
+  def gameBoard: Map[Int, SpaceName] = _gameBoard
 
-  def gameBoard_=(value: Map[Integer, SpaceName]): Unit = {
+  def gameBoard_=(value: Map[Int, SpaceName]): Unit = {
     _gameBoard = value
   }
 

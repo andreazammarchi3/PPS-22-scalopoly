@@ -13,4 +13,15 @@ class GameTest {
     game.addPlayer(carlo)
     assertEquals(List(carlo), game.players)
   }
+
+  @Test
+  def testStartGame(): Unit = {
+    val game = new Game
+    
+  }
+
+  @Test
+  def testEndTurn(): Unit = {
+
+  }
 }
