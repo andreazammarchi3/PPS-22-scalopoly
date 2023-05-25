@@ -5,9 +5,10 @@ import PPS.scalopoly.utils.GameUtils
 import scala.util.Random
 
 class Game:
-  private[this] var _currentPlayer: Option[Player] = None
-  private[this] var _players: List[Player] = List.empty
-  private[this] val _gameBoard: GameBoard = new GameBoard
+  private var _currentPlayer: Option[Player] = None
+  private var _players: List[Player] = List.empty
+  private val _gameBoard: GameBoard = new GameBoard
+  private val dice = new Dice
 
   def currentPlayer: Option[Player] = _currentPlayer
 
@@ -32,3 +33,7 @@ class Game:
     val currentIndex = players.indexOf(currentPlayer.get)
     val newIndex = (currentIndex + 1) % players.length
     currentPlayer = Some(players(newIndex))
+
+  def movePlayer(): Unit =
+    currentPlayer.get.actualPosition = 
+      GameUtils.addSumToPosition(dice.sum(), currentPlayer.get.actualPosition, gameBoard)

@@ -8,6 +8,7 @@ class TestGame {
   var player1: Player = Player("", null)
   var player2: Player = Player("", null)
   var player3: Player = Player("", null)
+
   @BeforeEach
   def setup(): Unit =
     game = new Game
@@ -23,12 +24,13 @@ class TestGame {
     assertEquals(List(player4, player1, player2, player3), game.players)
 
   @Test
-  def testShufflePlayers(): Unit =
+  def testStartGame(): Unit =
     game.startGame()
     assertEquals(3, game.players.length)
     assertTrue(game.players.contains(player1))
     assertTrue(game.players.contains(player2))
     assertTrue(game.players.contains(player3))
+    assertTrue(game.currentPlayer.isDefined)
 
   @Test
   def testEndTurn(): Unit =
