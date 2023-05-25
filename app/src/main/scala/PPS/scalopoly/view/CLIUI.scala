@@ -1,18 +1,30 @@
 package PPS.scalopoly.view
 
-import PPS.scalopoly.model.{Game, SpaceName}
+import PPS.scalopoly.model._
 
 class CLIUI {
   def showGameBoard(game: Game): Unit = {
-    // stampo a video game.gameBoard
-    var board = game.gameBoard
-    println("Monopoly Board:")
-    printMonopolyBoard(board)
+    // stampo a video gameBoard
+    println("Scalopoly Board:")
+    printMonopolyBoard(game.gameBoard)
     println("\n")
     println("-------------------------------")
   }
 
-  private def printMonopolyBoard(board: Map[Int, SpaceName]): Unit = {
+  private def drawCell(gameBoard: GameBoard, cellId: Int): Unit = {
+    var spaceName = cellId match {
+      case x if x > -1 => gameBoard.gameBoardMap.getOrElse(cellId, "").toString.padTo(23, ' ')
+      case _ => " ".padTo(23, ' ')
+    }
+    drawCellWithContainer(spaceName)
+  }
+
+  private def drawCellWithContainer(cellContent: String): Unit = {
+    print(" ".padTo(23, ' '))
+    print(f"| $cellContent")
+  }
+
+  private def printMonopolyBoard(gameBoard: GameBoard): Unit = {
     val rows: List[List[Int]] = List(
       List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
       List(39, -1, -1, -1, -1, -1, -1, -1, -1, -1, 11),
@@ -28,15 +40,78 @@ class CLIUI {
     )
 
     for (row <- rows) {
-      for (cell <- row) {
-        val spaceName = if (cell == -1) " ".padTo(23, ' ') else board.getOrElse(cell, "").toString.padTo(23, ' ')
-        print(f"$spaceName")
-      }
-      println()
+        // Stampa il contenuto delle celle
+        for (cell <- row) {
+          drawCell(gameBoard, cell)
+        }
+        println("|")
+
     }
   }
-  def showGameStart(): Unit = {
-    // stampo a video Linizio del game
+  def showGameStart(game: Game): Unit = {
+    // stampo a video l'inizio del gioco
+    println("Benvenuti a Scalopoly")
+    var validChoise = false
+    while (!validChoise) {
+      println("Premere 'G' se si vuole giocare, premere 'E' se si vuole terminare.")
+      // Reads the line from the Console
+      val result = scala.io.StdIn.readChar() match
+        case 'g' | 'G' => {
+          validChoise = true
+          println("Che il gioco inizi!")
+//          game.startGame()
+        }
+        case 'e' | 'E' => {
+          println("Alla prossima!")
+          sys.exit(0)
+        }
+        case _ => println("Inserire un carattere valido")
+    }
+  }
+  def showGameAddPlayerOrStartPlay(game: Game): Unit = {
+    // Chiedo di aggiungere giocatori
+    println("Premere 'A' per aggiungere giocatore o premere 'P' per avviare la partita")
+    scala.io.StdIn.readChar() match
+      case 'a' | 'A' => {
+        showGameAddPlayers(game)
+      }
+      case 'p' | 'P' => {
+        showGameStartPlay(game)
+      }
+  }
+  def showGameAddPlayers(game: Game): Unit = {
+    // Chiedo di aggiungere giocatori
+    println("Aggiungere giocatore")
+//    game.players match
+//      case Nil  =>
+//      {
+        println("Inserire nome giocatore")
+        scala.io.StdIn.readLine() match
+          case null => {
+            println("Nessun input. Il gioco verrà terminato.")
+            sys.exit(0)
+          }
+          case "" => {
+            println("Nessun nome inserito")
+            showGameAddPlayers(game)
+          }
+          case name => {
+            insertPlayerWithRandomToken(game, name)
+            showGameAddPlayerOrStartPlay(game)
+          }
+//      }
 
   }
+
+  def showGameStartPlay(game: Game): Unit = {
+    println("Inizio partita")
+    game.startGame()
+  }
+
+  private def insertPlayerWithRandomToken(game: Game, playerName: String): Unit = {
+    var token = Token.values(util.Random.nextInt(Token.values.length))
+    println(f"Benvenuto $playerName, il tuo token sarà $token")
+    game.addPlayer(Player(playerName, token)) //TODO: scelta del token
+  }
+
 }
