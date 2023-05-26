@@ -37,7 +37,7 @@ enum SpaceName(name: String) :
   case STAZIONE_EST extends SpaceName("Stazione Est")
 
   case SOCIETA_ELETTRICA extends SpaceName("Societa' Elettrica")
-  case SOCIETA_ACQUA_POSTABILE extends SpaceName("Societa' Acqua Potabile")
+  case SOCIETA_ACQUA_POTABILE extends SpaceName("Societa' Acqua Potabile")
 
   case PROBABILITA extends SpaceName("Probabilita'")
   case IMPREVISTI extends SpaceName("Imprevisti")
