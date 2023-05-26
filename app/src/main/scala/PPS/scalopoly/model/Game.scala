@@ -12,15 +12,13 @@ class Game:
 
   def currentPlayer: Option[Player] = _currentPlayer
 
-  def currentPlayer_=(value: Option[Player]): Unit = {
+  def currentPlayer_=(value: Option[Player]): Unit =
     _currentPlayer = value
-  }
 
   def players: List[Player] = _players
 
-  def players_=(value: List[Player]): Unit = {
+  def players_=(value: List[Player]): Unit =
     _players = value
-  }
   
   def gameBoard: GameBoard = _gameBoard
 

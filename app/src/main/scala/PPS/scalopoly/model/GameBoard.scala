@@ -2,7 +2,7 @@ package PPS.scalopoly.model
 
 import PPS.scalopoly.model.SpaceName.*
 
-class GameBoard {
+class GameBoard:
   private val _gameBoardMap: Map[Int, SpaceName] = Map(
     0 -> VIA,
     1 -> VICOLO_CORTO,
@@ -49,4 +49,4 @@ class GameBoard {
   def gameBoardMap: Map[Int, SpaceName] = _gameBoardMap
   
   def size: Int = _gameBoardMap.size
-}
+

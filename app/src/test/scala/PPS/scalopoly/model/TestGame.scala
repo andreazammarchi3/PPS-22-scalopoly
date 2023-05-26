@@ -4,7 +4,7 @@ import PPS.scalopoly.model.SpaceName.VIA
 import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
-class TestGame {
+class TestGame:
   var game: Game = new Game
   var player1: Player = Player("", null)
   var player2: Player = Player("", null)
@@ -46,4 +46,4 @@ class TestGame {
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
     assertEquals(game.gameBoard.gameBoardMap(0), game.getSpaceNameFromPlayerPosition(player1))
-}
+

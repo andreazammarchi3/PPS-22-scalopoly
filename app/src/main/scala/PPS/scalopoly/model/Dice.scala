@@ -2,7 +2,7 @@ package PPS.scalopoly.model
 
 import scala.util.Random
 
-class Dice {
+class Dice:
   private var _dice1: Int = 1
   private var _dice2: Int = 1
 
@@ -19,4 +19,3 @@ class Dice {
   def dice1: Int = _dice1
 
   def dice2: Int = _dice2
-}
