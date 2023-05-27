@@ -25,6 +25,13 @@ class TestGame:
     assertEquals(List(player4, player1, player2, player3), game.players)
 
   @Test
+  def testRemovePlayer(player: Player): Unit =
+    val player4 = Player("P4", Token.DITALE)
+    game.addPlayer(player4)
+    game.removePlayer(player4)
+    assertEquals(List(player1, player2, player3), game.players)
+
+  @Test
   def testStartGame(): Unit =
     game.startGame()
     assertEquals(3, game.players.length)
@@ -46,4 +53,12 @@ class TestGame:
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
     assertEquals(game.gameBoard.gameBoardMap(0), game.getSpaceNameFromPlayerPosition(player1))
+
+  @Test
+  def testGetAvailableTokens(): Unit =
+    assertEquals(game.getAvailableTokens().length, Token.values.length)
+    val player4 = Player("P4", Token.DITALE)
+    game.addPlayer(player4)
+    assertEquals(game.getAvailableTokens().length, Token.values.length - 1)
+    assertEquals(game.getAvailableTokens(), Token.values.filterNot(elm => elm == Token.DITALE).toList)
 

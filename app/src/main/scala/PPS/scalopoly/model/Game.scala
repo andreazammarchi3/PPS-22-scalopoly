@@ -7,6 +7,7 @@ import scala.util.Random
 class Game:
   private var _currentPlayer: Option[Player] = None
   private var _players: List[Player] = List.empty
+  private var _availableTokens: List[Token] = Token.values.toList
   private val _gameBoard: GameBoard = new GameBoard
   private val dice = new Dice
 
@@ -22,8 +23,21 @@ class Game:
   
   def gameBoard: GameBoard = _gameBoard
 
-  def addPlayer(newPlayer: Player): Unit =
-    players = newPlayer :: players
+  def addPlayer(player: Player): Unit =
+    players = player :: players
+    val playerToken = player.token
+    _availableTokens = _availableTokens.filterNot(elm => elm == playerToken)
+
+  def removePlayer(player: Player): Unit =
+    _availableTokens = _availableTokens.filterNot(elm => elm == player)
+    _availableTokens = player.token :: _availableTokens
+
+  def currentPlayerQuit(): Unit =
+    _currentPlayer match
+      case Some(player: Player) =>
+        endTurn()
+        removePlayer(player)
+      case _ => exitGame()
 
   def startGame(): Unit =
     players = GameUtils.shufflePlayers(players)
@@ -40,3 +54,9 @@ class Game:
       
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     gameBoard.gameBoardMap(player.actualPosition)
+
+  def getAvailableTokens(): List[Token] =
+    _availableTokens
+  def exitGame(): Unit =
+    println("Partita terminata, alla prossima partita!")
+    sys.exit(0)

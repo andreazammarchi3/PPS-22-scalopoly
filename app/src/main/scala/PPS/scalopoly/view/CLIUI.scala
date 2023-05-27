@@ -1,13 +1,15 @@
 package PPS.scalopoly.view
 
 import PPS.scalopoly.model._
+import scala.util.Try
 
 class CLIUI:
   def showGameBoard(game: Game): Unit =
     // stampo a video gameBoard
-    println("Scalopoly Board:")
+    println("Tabellone Scalopoly:")
     printMonopolyBoard(game.gameBoard)
     println("\n")
+    printMonopolyPlayerStatus(game)
     println("-------------------------------")
 
   private def drawCell(gameBoard: GameBoard, cellId: Int): Unit =
@@ -18,9 +20,19 @@ class CLIUI:
     drawCellWithContainer(spaceName)
 
   private def drawCellWithContainer(cellContent: String): Unit =
-    print(" ".padTo(23, ' '))
-    print(f"| $cellContent")
+//    print(" ".padTo(23, ' '))
+    if (cellContent == null || cellContent.isEmpty)  print("") else  print(f"| ${cellContent}")
 
+  private def printMonopolyPlayerStatus(game: Game): Unit =
+    game.players match
+      case l if (l.size >0) =>
+        game.currentPlayer match
+          case Some(player:Player) => println(f"È il turno del giocatore ${player.nickname}")
+          case _ => println("")
+
+        println("Giocatori:")
+        game.players.foreach( (x) => println(f"${x.nickname}, ${x.token}. Posizione ${x.actualPosition}"))
+      case _ => println("Nessun giocatore presente.")
   private def printMonopolyBoard(gameBoard: GameBoard): Unit =
     val rows: List[List[Int]] = List(
       List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
@@ -39,7 +51,7 @@ class CLIUI:
         // Stampa il contenuto delle celle
         for (cell <- row)
           drawCell(gameBoard, cell)
-        println("|")
+        println("")
 
   def showGameStart(game: Game): Unit =
     // stampo a video l'inizio del gioco
@@ -55,8 +67,7 @@ class CLIUI:
 //          game.startGame()
         }
         case 'e' | 'E' => {
-          println("Alla prossima!")
-          sys.exit(0)
+          game.exitGame()
         }
         case _ => println("Inserire un carattere valido")
   def showGameAddPlayerOrStartPlay(game: Game): Unit =
@@ -65,28 +76,21 @@ class CLIUI:
     scala.io.StdIn.readChar() match
       case 'a' | 'A' =>
         showGameAddPlayers(game)
-
       case 'p' | 'P' =>
         showGameStartPlay(game)
+      case 'e' | 'E' =>
+        game.exitGame()
 
   def showGameAddPlayers(game: Game): Unit =
-    // Chiedo di aggiungere giocatori
-    println("Aggiungere giocatore")
-//    game.players match
-//      case Nil  =>
-        println("Inserire nome giocatore")
-        scala.io.StdIn.readLine() match
-          case null =>
-            println("Nessun input. Il gioco verrà terminato.")
-            sys.exit(0)
-
-          case "" =>
-            println("Nessun nome inserito")
-            showGameAddPlayers(game)
-
-          case name =>
-            insertPlayerWithRandomToken(game, name)
-            showGameAddPlayerOrStartPlay(game)
+    println("Benvenuto nuovo giocatore, inserisci il tuo nickname:")
+    scala.io.StdIn.readLine() match
+      case null | "" =>
+        println("Nessun nickname inserito.")
+        showGameAddPlayers(game)
+      case name =>
+        val token = askForAToken(game, name)
+        insertPlayer(game, name, token)
+        showGameAddPlayerOrStartPlay(game)
 
 
 
@@ -94,8 +98,55 @@ class CLIUI:
     println("Inizio partita")
     game.startGame()
 
-  private def insertPlayerWithRandomToken(game: Game, playerName: String): Unit =
-    val token = Token.values(util.Random.nextInt(Token.values.length))
-    println(f"Benvenuto $playerName, il tuo token sarà $token")
-    game.addPlayer(Player(playerName, token)) //TODO: scelta del token
+  private def insertPlayer(game: Game, playerName: String, token: Token): Unit =
+    println(f"$playerName, il tuo token sarà $token")
+    game.addPlayer(Player(playerName, token))
 
+
+  private def askForAToken(game: Game, playerName: String): Token =
+    println(f"Benvenuto $playerName, scegli il tuo token tra quelli disponibili:")
+    val availableTokens = game.getAvailableTokens()
+    availableTokens.foreach((x) => println(f"Premere ${availableTokens.indexOf(x)} per ${x.toString}"))
+    tryToInt(scala.io.StdIn.readLine()) match
+      case Some(position: Int) => Token.fromOrdinal(position)
+      case _ =>
+        showInputNotValid()
+        askForAToken(game, playerName)
+
+  private def showInputNotValid(): Unit =
+    println("Input non valido.")
+
+  def showAskCurrentUserToRollDiceOrQuit(game: Game): Unit =
+    println(f"${game.currentPlayer.get.nickname}, premi 1 per lanciare i dati, 2 per abbandonare la partita")
+    tryToInt(scala.io.StdIn.readLine()) match
+      case Some(position: Int) => position match
+        case 1 =>
+          println(f"${game.currentPlayer.get.nickname}, ha lanciato i dati e procede.")
+          game.movePlayer()
+        case 2 =>
+          println(f"${game.currentPlayer.get.nickname} abbadnona la partita.")
+          game.currentPlayerQuit()
+        case _ =>
+          showInputNotValid()
+          showAskCurrentUserToRollDiceOrQuit(game)
+      case _ =>
+        showInputNotValid()
+        showAskCurrentUserToRollDiceOrQuit(game)
+
+  def showAskCurrentPlayerEndTurnOrOrQuit(game: Game): Unit =
+    println(f"${game.currentPlayer.get.nickname}, premi 1 per terminare il turno, 2 per abbandonare la partita")
+    tryToInt(scala.io.StdIn.readLine()) match
+      case Some(position: Int) => position match
+        case 1 =>
+          println(f"${game.currentPlayer.get.nickname} termina il turno.")
+          game.endTurn()
+        case 2 =>
+          println(f"${game.currentPlayer.get.nickname} abbadnona la partita.")
+          game.currentPlayerQuit()
+        case _ =>
+          showInputNotValid()
+          showAskCurrentUserToRollDiceOrQuit(game)
+      case _ =>
+        showInputNotValid()
+        showAskCurrentUserToRollDiceOrQuit(game)
+  private def tryToInt( s: String ) = Try(s.toInt).toOption
