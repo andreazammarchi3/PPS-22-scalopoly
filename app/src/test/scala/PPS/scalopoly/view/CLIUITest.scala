@@ -13,23 +13,21 @@ import java.io.{ByteArrayInputStream, InputStream, PrintStream, PrintWriter, Str
 class CLIUITest:
 
   @Test
-  def testShowGameBoard(): Unit = {
+  def testShowGameBoard(): Unit =
     val game = new Game
     val cli = CLIUI()
     cli.showGameBoard(game)
-  }
 
   @Test
-  def testShowGameStartGame(): Unit = {
+  def testShowGameStartGame(): Unit =
     val game = new Game
     val cli = CLIUI()
 
     val in = new ByteArrayInputStream("G".getBytes());
     System.setIn(in);
     cli.showGameStart(game)
-  }
   @Test
-  def testShowGameStartExit(): Unit = {
+  def testShowGameStartExit(): Unit =
     val game = new Game
     val cli = CLIUI()
 
@@ -37,10 +35,9 @@ class CLIUITest:
     System.setIn(in);
 
     cli.showGameStart(game)
-  }
 
   @Test
-  def testShowGameAddPlayerMarioOrStartPlay_AddPlayer(): Unit = {
+  def testShowGameAddPlayerMarioOrStartPlay_AddPlayer(): Unit =
     val game = new Game
     val cli = CLIUI()
 
@@ -48,9 +45,8 @@ class CLIUITest:
     System.setIn(in);
 
     cli.showGameAddPlayerOrStartPlay(game)
-  }
   @Test
-  def testShowGameAddPlayerMario(): Unit = {
+  def testShowGameAddPlayerMario(): Unit =
     val game = new Game
     val cli = CLIUI()
 
@@ -58,6 +54,5 @@ class CLIUITest:
     System.setIn(in);
 
     cli.showGameAddPlayers(game)
-  }
 
 
