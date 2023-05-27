@@ -11,7 +11,7 @@ class CLIUI:
     println("-------------------------------")
 
   private def drawCell(gameBoard: GameBoard, cellId: Int): Unit =
-    var spaceName = cellId match
+    val spaceName = cellId match
       case x if x > -1 => gameBoard.gameBoardMap.getOrElse(cellId, "").toString.padTo(23, ' ')
       case _ => " ".padTo(23, ' ')
 
@@ -95,7 +95,7 @@ class CLIUI:
     game.startGame()
 
   private def insertPlayerWithRandomToken(game: Game, playerName: String): Unit =
-    var token = Token.values(util.Random.nextInt(Token.values.length))
+    val token = Token.values(util.Random.nextInt(Token.values.length))
     println(f"Benvenuto $playerName, il tuo token sarà $token")
     game.addPlayer(Player(playerName, token)) //TODO: scelta del token
 
