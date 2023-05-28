@@ -64,7 +64,7 @@ class CLIUI:
         case 'g' | 'G' => {
           validChoise = true
           println("Che il gioco inizi!")
-//          game.startGame()
+          game.startGame()
         }
         case 'e' | 'E' => {
           game.exitGame()
