@@ -116,10 +116,9 @@ class GameViewCLI:
   @tailrec
   private def askForAToken(game: Game, playerName: String): Token =
     println(f"Benvenuto $playerName, scegli il tuo token tra quelli disponibili:")
-    val availableTokens = game.availableTokens
-    availableTokens.foreach(x => println(f"Premere ${availableTokens.indexOf(x)} per ${x.toString}"))
+    game.availableTokens.foreach(x => println(f"Premere ${game.availableTokens.indexOf(x)} per ${x.toString}"))
     tryToInt(scala.io.StdIn.readLine()) match
-      case Some(position: Int) => Token.fromOrdinal(position)
+      case Some(position: Int) => game.availableTokens(position)
       case _ =>
         showInputNotValid()
         askForAToken(game, playerName)
@@ -135,7 +134,8 @@ class GameViewCLI:
         case 1 =>
           println(f"${game.currentPlayer.get.nickname}, ha lanciato i dadi e procede.")
           gameController.moveCurrentPlayer()
-          println(s"Dai dadi hai ottenuto f${gameController.dice.dice1} e f${gameController.dice.dice2}, per un totale di f${gameController.dice.sum()}")
+          println(f"Dai dadi hai ottenuto ${gameController.dice.dice1} e ${gameController.dice.dice2}, per un totale di ${gameController.dice.sum()}")
+          printMonopolyPlayerStatus(game)
           showAskCurrentPlayerEndTurnOrOrQuit(game)
         case 2 =>
           playerQuit(game)
