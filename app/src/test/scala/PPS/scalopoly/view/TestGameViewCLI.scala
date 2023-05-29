@@ -15,10 +15,10 @@ import java.security.Permission
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @Disabled
-class TestCLIUI:
+class TestGameViewCLI:
 
   var game = new Game
-  var cli = new CLIUI
+  var cli = new GameViewCLI
   var testIn: ByteArrayInputStream = null
 
   //region System.exit JUnit handling
@@ -38,7 +38,7 @@ class TestCLIUI:
   @BeforeEach
   def setUp(): Unit =
     val game = new Game
-    val cli = CLIUI()
+    val cli = GameViewCLI()
 
   @AfterAll
   def tearDownAll(): Unit =
@@ -51,7 +51,7 @@ class TestCLIUI:
     val player2 = Player("P2", Token.NAVE)
     val player3 = Player("P3", Token.GATTO)
     game.players = List(player1, player2, player3)
-    if (start) game.startGame()
+    //if (start) game.startGame()
   private def provideInput(data: String): Unit =
     testIn = new ByteArrayInputStream(data.getBytes())
     System.setIn(testIn)

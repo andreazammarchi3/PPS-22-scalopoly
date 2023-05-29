@@ -30,6 +30,10 @@ application {
     mainClass.set("PPS.scalopoly.App")
 }
 
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }

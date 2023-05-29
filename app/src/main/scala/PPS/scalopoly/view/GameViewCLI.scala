@@ -1,15 +1,23 @@
 package PPS.scalopoly.view
 
+import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
 
 import scala.annotation.tailrec
 import scala.util.Try
 
-class CLIUI:
+class GameViewCLI:
+  private var gameController: GameController = _
+
+  def setController(controller: GameController): Unit =
+    gameController = controller
+    
+  def getController: GameController = gameController
+
   def showGameBoard(game: Game): Unit =
     // stampo a video gameBoard
     println("Tabellone Scalopoly:")
-    printMonopolyBoard(game.gameBoard)
+    printMonopolyBoard(gameController.gameBoard)
     println("\n")
     printMonopolyPlayerStatus(game)
     println("-------------------------------")
@@ -28,14 +36,13 @@ class CLIUI:
     game.players match
       case l if l.nonEmpty =>
         game.currentPlayer match
-          case Some(player:Player) => println(f"È il turno del giocatore ${player.nickname}")
+          case Some(player: Player) => println(f"È il turno del giocatore ${player.nickname}")
           case _ => println("")
 
         println("Giocatori:")
-        game.players.foreach(x => println(f"${x.nickname}, ${x.token}. Posizione ${x.actualPosition}"))
+        game.players.foreach(x => println(f"${x.nickname}, ${x.token}. Posizione ${gameController.getSpaceNameFromPlayerPosition(x)}"))
       case _ =>
         println("Nessun giocatore presente.")
-        game.exitGame()
 
   private def printMonopolyBoard(gameBoard: GameBoard): Unit =
     val rows: List[List[Int]] = List(
@@ -70,7 +77,7 @@ class CLIUI:
           println("Che il gioco inizi!")
           showGameAddPlayers(game)
         case 'e' | 'E' =>
-          game.exitGame()
+          exitGame()
         case _ => println("Inserire un carattere valido")
 
   def showGameAddPlayerOrStartPlay(game: Game): Unit =
@@ -82,7 +89,8 @@ class CLIUI:
       case 'p' | 'P' =>
         showGameStartPlay(game)
       case 'e' | 'E' =>
-        game.exitGame()
+        exitGame()
+      case _ => println("Inserire un carattere valido")
 
   def showGameAddPlayers(game: Game): Unit =
     println("Benvenuto nuovo giocatore, inserisci il tuo nickname:")
@@ -97,8 +105,7 @@ class CLIUI:
 
   private def showGameStartPlay(game: Game): Unit =
     println("Inizio partita")
-    game.startGame()
-    showGameBoard(game)
+    gameController.startGame()
     showAskCurrentUserToRollDiceOrQuit(game)
 
   private def insertPlayer(game: Game, playerName: String, token: Token): Unit =
@@ -109,7 +116,7 @@ class CLIUI:
   @tailrec
   private def askForAToken(game: Game, playerName: String): Token =
     println(f"Benvenuto $playerName, scegli il tuo token tra quelli disponibili:")
-    val availableTokens = game.getAvailableTokens
+    val availableTokens = game.availableTokens
     availableTokens.foreach(x => println(f"Premere ${availableTokens.indexOf(x)} per ${x.toString}"))
     tryToInt(scala.io.StdIn.readLine()) match
       case Some(position: Int) => Token.fromOrdinal(position)
@@ -127,12 +134,11 @@ class CLIUI:
       case Some(position: Int) => position match
         case 1 =>
           println(f"${game.currentPlayer.get.nickname}, ha lanciato i dadi e procede.")
-          game.movePlayer()
+          gameController.moveCurrentPlayer()
+          println(s"Dai dadi hai ottenuto f${gameController.dice.dice1} e f${gameController.dice.dice2}, per un totale di f${gameController.dice.sum()}")
           showAskCurrentPlayerEndTurnOrOrQuit(game)
         case 2 =>
-          println(f"${game.currentPlayer.get.nickname} abbandona la partita.")
-          game.currentPlayerQuit()
-          showAskCurrentUserToRollDiceOrQuit(game)
+          playerQuit(game)
         case _ =>
           showInputNotValid()
           showAskCurrentUserToRollDiceOrQuit(game)
@@ -146,12 +152,10 @@ class CLIUI:
       case Some(position: Int) => position match
         case 1 =>
           println(f"${game.currentPlayer.get.nickname} termina il turno.")
-          game.endTurn()
+          gameController.endTurn()
           showAskCurrentUserToRollDiceOrQuit(game)
         case 2 =>
-          println(f"${game.currentPlayer.get.nickname} abbandona la partita.")
-          game.currentPlayerQuit()
-          showAskCurrentUserToRollDiceOrQuit(game)
+          playerQuit(game)
         case _ =>
           showInputNotValid()
           showAskCurrentUserToRollDiceOrQuit(game)
@@ -159,4 +163,13 @@ class CLIUI:
         showInputNotValid()
         showAskCurrentUserToRollDiceOrQuit(game)
 
+  private def playerQuit(game: Game): Unit =
+    println(f"${game.currentPlayer.get.nickname} abbandona la partita.")
+    gameController.currentPlayerQuit()
+    showAskCurrentUserToRollDiceOrQuit(game)
+
   private def tryToInt( s: String ) = Try(s.toInt).toOption
+    
+  private def exitGame(): Unit =
+    println("Partita terminata. A presto!")
+    gameController.exitGame()
