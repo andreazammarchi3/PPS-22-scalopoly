@@ -25,12 +25,9 @@ class GameController(game: Game, view: GameViewCLI, _dice: Dice = new Dice, _gam
     sys.exit(0)
 
   def endTurn(): Unit =
-    game.players.length match
-      case 1 => exitGame()
-      case _ =>
-        val currentIndex = game.players.indexOf(game.currentPlayer.get)
-        val newIndex = (currentIndex + 1) % game.players.length
-        game.currentPlayer = Some(game.players(newIndex))
+    val currentIndex = game.players.indexOf(game.currentPlayer.get)
+    val newIndex = (currentIndex + 1) % game.players.length
+    game.currentPlayer = Some(game.players(newIndex))
 
   def moveCurrentPlayer(): Unit =
     dice.rollDice()
@@ -39,7 +36,9 @@ class GameController(game: Game, view: GameViewCLI, _dice: Dice = new Dice, _gam
 
   def currentPlayerQuit(): Unit =
     endTurn()
-    game.players = game.removePlayer(game.currentPlayer.get)
+    game.players.length match
+      case 1 => exitGame()
+      case _ => game.players = game.removePlayer(game.currentPlayer.get)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     gameBoard.gameBoardMap(player.actualPosition)
