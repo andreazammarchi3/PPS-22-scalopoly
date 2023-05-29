@@ -8,6 +8,7 @@ import org.junit.jupiter.api.{BeforeEach, Test}
 @Test
 class TestGameController extends BaseTest:
   var gameController: GameController = _
+
   @BeforeEach
   override def setup(): Unit =
     super.setup()
@@ -37,6 +38,15 @@ class TestGameController extends BaseTest:
     gameController.startGame()
     gameController.moveCurrentPlayer()
     assertEquals(gameController.dice.sum(), game.currentPlayer.get.actualPosition)
+
+  @Test
+  def testCurrentPlayerQuit(): Unit =
+    gameController.startGame()
+    gameController.currentPlayerQuit()
+    assertEquals(2, game.players.length)
+    gameController.currentPlayerQuit()
+    assertEquals(1, game.players.length)
+
 
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
