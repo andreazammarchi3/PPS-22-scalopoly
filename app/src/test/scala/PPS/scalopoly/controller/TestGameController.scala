@@ -42,10 +42,14 @@ class TestGameController extends BaseTest:
   @Test
   def testCurrentPlayerQuit(): Unit =
     gameController.startGame()
+    var deletedPlayer = game.currentPlayer.get
     gameController.currentPlayerQuit()
     assertEquals(2, game.players.length)
+    assertTrue(!game.players.contains(deletedPlayer))
+    deletedPlayer = game.currentPlayer.get
     gameController.currentPlayerQuit()
     assertEquals(1, game.players.length)
+    assertTrue(!game.players.contains(deletedPlayer))
 
 
   @Test

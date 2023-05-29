@@ -35,10 +35,11 @@ class GameController(game: Game, view: GameViewCLI, _dice: Dice = new Dice, _gam
       GameUtils.addSumToPosition(dice.sum(), game.currentPlayer.get.actualPosition, gameBoard)
 
   def currentPlayerQuit(): Unit =
+    val playerToDelete = game.currentPlayer.get
     endTurn()
     game.players.length match
       case 1 => exitGame()
-      case _ => game.players = game.removePlayer(game.currentPlayer.get)
+      case _ => game.players = game.removePlayer(playerToDelete)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     gameBoard.gameBoardMap(player.actualPosition)
