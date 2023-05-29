@@ -15,7 +15,7 @@ import java.security.Permission
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @Disabled
-class CLIUITest:
+class TestCLIUI:
 
   var game = new Game
   var cli = new CLIUI
