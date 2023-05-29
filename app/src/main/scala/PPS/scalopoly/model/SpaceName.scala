@@ -1,6 +1,6 @@
 package PPS.scalopoly.model
 
-enum SpaceName(name: String) :
+enum SpaceName(name: String):
   case VICOLO_CORTO extends SpaceName("Vicolo Corto")
   case VICOLO_STRETTO extends SpaceName("Vicolo Stretto")
 

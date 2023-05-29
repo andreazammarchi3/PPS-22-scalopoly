@@ -16,7 +16,10 @@ class TestGame extends BaseTest:
     assertEquals(game.availableTokens.length, Token.values.length)
     val player4 = Player("P4", Token.DITALE)
     game.addPlayer(player4)
-    assertEquals(game.availableTokens, Token.values.filter(_ != Token.DITALE).toList)
+    assertEquals(
+      game.availableTokens,
+      Token.values.filter(_ != Token.DITALE).toList
+    )
     game.removePlayer(player4)
     assertEquals(game.availableTokens, Token.values.toList)
 
@@ -30,5 +33,3 @@ class TestGame extends BaseTest:
   def testRemovePlayer(): Unit =
     game.players = game.removePlayer(player1)
     assertEquals(List(player2, player3), game.players)
-
-

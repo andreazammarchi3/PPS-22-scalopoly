@@ -8,5 +8,3 @@ case class Player(nickname: String, token: Token):
 
   def actualPosition_=(value: Int): Unit =
     _actualPosition = value
-
-  

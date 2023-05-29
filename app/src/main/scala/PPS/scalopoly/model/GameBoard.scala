@@ -47,6 +47,5 @@ class GameBoard:
   )
 
   def gameBoardMap: Map[Int, SpaceName] = _gameBoardMap
-  
-  def size: Int = _gameBoardMap.size
 
+  def size: Int = _gameBoardMap.size

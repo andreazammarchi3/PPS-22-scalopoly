@@ -4,12 +4,17 @@ import PPS.scalopoly.model.{Dice, Game, GameBoard, Player, SpaceName}
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.view.GameViewCLI
 
-class GameController(game: Game, view: GameViewCLI, _dice: Dice = new Dice, _gameBoard: GameBoard = new GameBoard):
+class GameController(
+    game: Game,
+    view: GameViewCLI,
+    _dice: Dice = new Dice,
+    _gameBoard: GameBoard = new GameBoard
+):
 
   def dice: Dice = _dice
-  
+
   def gameBoard: GameBoard = _gameBoard
-  
+
   def initialize(): Unit =
     view.setController(this)
 
@@ -31,8 +36,11 @@ class GameController(game: Game, view: GameViewCLI, _dice: Dice = new Dice, _gam
 
   def moveCurrentPlayer(): Unit =
     dice.rollDice()
-    game.currentPlayer.get.actualPosition =
-      GameUtils.addSumToPosition(dice.sum(), game.currentPlayer.get.actualPosition, gameBoard)
+    game.currentPlayer.get.actualPosition = GameUtils.addSumToPosition(
+      dice.sum(),
+      game.currentPlayer.get.actualPosition,
+      gameBoard
+    )
 
   def currentPlayerQuit(): Unit =
     val playerToDelete = game.currentPlayer.get

@@ -8,4 +8,3 @@ class TestGameBoard:
   def testGameBoard(): Unit =
     val gameBoard = new GameBoard
     assertEquals(40, gameBoard.size)
-

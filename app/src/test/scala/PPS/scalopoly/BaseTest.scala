@@ -9,7 +9,7 @@ abstract class BaseTest:
   var player1: Player = Player("", null)
   var player2: Player = Player("", null)
   var player3: Player = Player("", null)
-  
+
   def setup(): Unit =
     game = new Game
     player1 = Player("P1", Token.FUNGO)

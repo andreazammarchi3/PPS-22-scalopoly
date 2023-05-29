@@ -37,7 +37,10 @@ class TestGameController extends BaseTest:
   def testMoveCurrentPlayer(): Unit =
     gameController.startGame()
     gameController.moveCurrentPlayer()
-    assertEquals(gameController.dice.sum(), game.currentPlayer.get.actualPosition)
+    assertEquals(
+      gameController.dice.sum(),
+      game.currentPlayer.get.actualPosition
+    )
 
   @Test
   def testCurrentPlayerQuit(): Unit =
@@ -51,7 +54,9 @@ class TestGameController extends BaseTest:
     assertEquals(1, game.players.length)
     assertTrue(!game.players.contains(deletedPlayer))
 
-
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
-    assertEquals(gameController.gameBoard.gameBoardMap(0), gameController.getSpaceNameFromPlayerPosition(player1))
+    assertEquals(
+      gameController.gameBoard.gameBoardMap(0),
+      gameController.getSpaceNameFromPlayerPosition(player1)
+    )

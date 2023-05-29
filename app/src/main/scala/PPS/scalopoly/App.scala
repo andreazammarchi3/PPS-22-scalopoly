@@ -11,5 +11,5 @@ object App:
     val controller = new GameController(model, view)
 
     controller.initialize()
-    
+
     controller.run()

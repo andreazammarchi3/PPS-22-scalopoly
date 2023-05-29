@@ -11,7 +11,7 @@ class GameViewCLI:
 
   def setController(controller: GameController): Unit =
     gameController = controller
-    
+
   def getController: GameController = gameController
 
   def showGameBoard(game: Game): Unit =
@@ -24,23 +24,30 @@ class GameViewCLI:
 
   private def drawCell(gameBoard: GameBoard, cellId: Int): Unit =
     val spaceName = cellId match
-      case x if x > -1 => gameBoard.gameBoardMap.getOrElse(cellId, "").toString.padTo(23, ' ')
+      case x if x > -1 =>
+        gameBoard.gameBoardMap.getOrElse(cellId, "").toString.padTo(23, ' ')
       case _ => " ".padTo(23, ' ')
 
     drawCellWithContainer(spaceName)
 
   private def drawCellWithContainer(cellContent: String): Unit =
-    if (cellContent == null || cellContent.isEmpty)  print("") else  print(f"| $cellContent")
+    if (cellContent == null || cellContent.isEmpty) print("")
+    else print(f"| $cellContent")
 
   private def printMonopolyPlayerStatus(game: Game): Unit =
     game.players match
       case l if l.nonEmpty =>
         game.currentPlayer match
-          case Some(player: Player) => println(f"È il turno del giocatore ${player.nickname}")
+          case Some(player: Player) =>
+            println(f"È il turno del giocatore ${player.nickname}")
           case _ => println("")
 
         println("Giocatori:")
-        game.players.foreach(x => println(f"${x.nickname}, ${x.token}. Posizione ${gameController.getSpaceNameFromPlayerPosition(x)}"))
+        game.players.foreach(x =>
+          println(
+            f"${x.nickname}, ${x.token}. Posizione ${gameController.getSpaceNameFromPlayerPosition(x)}"
+          )
+        )
       case _ =>
         println("Nessun giocatore presente.")
 
@@ -59,17 +66,19 @@ class GameViewCLI:
       List(30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20)
     )
     for (row <- rows)
-        // Stampa il contenuto delle celle
-        for (cell <- row)
-          drawCell(gameBoard, cell)
-        println("")
+      // Stampa il contenuto delle celle
+      for (cell <- row)
+        drawCell(gameBoard, cell)
+      println("")
 
   def showGameStart(game: Game): Unit =
     // stampo a video l'inizio del gioco
     println("Benvenuti a Scalopoly")
     var validChoise = false
     while (!validChoise)
-      println("Premere 'G' se si vuole giocare, premere 'E' se si vuole terminare.")
+      println(
+        "Premere 'G' se si vuole giocare, premere 'E' se si vuole terminare."
+      )
       // Reads the line from the Console
       scala.io.StdIn.readChar() match
         case 'g' | 'G' =>
@@ -82,7 +91,9 @@ class GameViewCLI:
 
   def showGameAddPlayerOrStartPlay(game: Game): Unit =
     // Chiedo di aggiungere giocatori
-    println("Premere 'A' per aggiungere giocatore o premere 'P' per avviare la partita")
+    println(
+      "Premere 'A' per aggiungere giocatore o premere 'P' per avviare la partita"
+    )
     scala.io.StdIn.readChar() match
       case 'a' | 'A' =>
         showGameAddPlayers(game)
@@ -112,11 +123,14 @@ class GameViewCLI:
     println(f"$playerName, il tuo token sarà $token")
     game.addPlayer(Player(playerName, token))
 
-
   @tailrec
   private def askForAToken(game: Game, playerName: String): Token =
-    println(f"Benvenuto $playerName, scegli il tuo token tra quelli disponibili:")
-    game.availableTokens.foreach(x => println(f"Premere ${game.availableTokens.indexOf(x)} per ${x.toString}"))
+    println(
+      f"Benvenuto $playerName, scegli il tuo token tra quelli disponibili:"
+    )
+    game.availableTokens.foreach(x =>
+      println(f"Premere ${game.availableTokens.indexOf(x)} per ${x.toString}")
+    )
     tryToInt(scala.io.StdIn.readLine()) match
       case Some(position: Int) => game.availableTokens(position)
       case _ =>
@@ -128,40 +142,50 @@ class GameViewCLI:
 
   def showAskCurrentUserToRollDiceOrQuit(game: Game): Unit =
     printMonopolyPlayerStatus(game)
-    println(f"${game.currentPlayer.get.nickname}, premi 1 per lanciare i dadi, 2 per abbandonare la partita")
+    println(
+      f"${game.currentPlayer.get.nickname}, premi 1 per lanciare i dadi, 2 per abbandonare la partita"
+    )
     tryToInt(scala.io.StdIn.readLine()) match
-      case Some(position: Int) => position match
-        case 1 =>
-          println(f"${game.currentPlayer.get.nickname}, ha lanciato i dadi e procede.")
-          gameController.moveCurrentPlayer()
-          println(f"Dai dadi hai ottenuto ${gameController.dice.dice1} e ${gameController.dice.dice2}, per un totale di ${gameController.dice.sum()}")
-          printMonopolyPlayerStatus(game)
-          if (gameController.dice.checkSame())
+      case Some(position: Int) =>
+        position match
+          case 1 =>
+            println(
+              f"${game.currentPlayer.get.nickname}, ha lanciato i dadi e procede."
+            )
+            gameController.moveCurrentPlayer()
+            println(
+              f"Dai dadi hai ottenuto ${gameController.dice.dice1} e ${gameController.dice.dice2}, per un totale di ${gameController.dice.sum()}"
+            )
+            printMonopolyPlayerStatus(game)
+            if (gameController.dice.checkSame())
+              showAskCurrentUserToRollDiceOrQuit(game)
+            else
+              showAskCurrentPlayerEndTurnOrOrQuit(game)
+          case 2 =>
+            playerQuit(game)
+          case _ =>
+            showInputNotValid()
             showAskCurrentUserToRollDiceOrQuit(game)
-          else
-            showAskCurrentPlayerEndTurnOrOrQuit(game)
-        case 2 =>
-          playerQuit(game)
-        case _ =>
-          showInputNotValid()
-          showAskCurrentUserToRollDiceOrQuit(game)
       case _ =>
         showInputNotValid()
         showAskCurrentUserToRollDiceOrQuit(game)
 
   def showAskCurrentPlayerEndTurnOrOrQuit(game: Game): Unit =
-    println(f"${game.currentPlayer.get.nickname}, premi 1 per terminare il turno, 2 per abbandonare la partita")
+    println(
+      f"${game.currentPlayer.get.nickname}, premi 1 per terminare il turno, 2 per abbandonare la partita"
+    )
     tryToInt(scala.io.StdIn.readLine()) match
-      case Some(position: Int) => position match
-        case 1 =>
-          println(f"${game.currentPlayer.get.nickname} termina il turno.")
-          gameController.endTurn()
-          showAskCurrentUserToRollDiceOrQuit(game)
-        case 2 =>
-          playerQuit(game)
-        case _ =>
-          showInputNotValid()
-          showAskCurrentUserToRollDiceOrQuit(game)
+      case Some(position: Int) =>
+        position match
+          case 1 =>
+            println(f"${game.currentPlayer.get.nickname} termina il turno.")
+            gameController.endTurn()
+            showAskCurrentUserToRollDiceOrQuit(game)
+          case 2 =>
+            playerQuit(game)
+          case _ =>
+            showInputNotValid()
+            showAskCurrentUserToRollDiceOrQuit(game)
       case _ =>
         showInputNotValid()
         showAskCurrentUserToRollDiceOrQuit(game)
@@ -171,8 +195,8 @@ class GameViewCLI:
     gameController.currentPlayerQuit()
     showAskCurrentUserToRollDiceOrQuit(game)
 
-  private def tryToInt( s: String ) = Try(s.toInt).toOption
-    
+  private def tryToInt(s: String) = Try(s.toInt).toOption
+
   private def exitGame(): Unit =
     println("Partita terminata. A presto!")
     gameController.exitGame()

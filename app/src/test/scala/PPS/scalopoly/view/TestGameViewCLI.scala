@@ -4,15 +4,28 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.view.*
 import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.TestInstance.Lifecycle
-import org.junit.jupiter.api.{AfterAll, AfterEach, BeforeAll, BeforeEach, Disabled, Test, TestInstance}
+import org.junit.jupiter.api.{
+  AfterAll,
+  AfterEach,
+  BeforeAll,
+  BeforeEach,
+  Disabled,
+  Test,
+  TestInstance
+}
 import org.junit.jupiter.api.extension.ExtensionContext
 
-import java.io.{ByteArrayInputStream, InputStream, PrintStream, PrintWriter, StringReader}
+import java.io.{
+  ByteArrayInputStream,
+  InputStream,
+  PrintStream,
+  PrintWriter,
+  StringReader
+}
 import java.security.Permission
 
-/**
- * CLI testing
- */
+/** CLI testing
+  */
 @TestInstance(Lifecycle.PER_CLASS)
 @Disabled
 class TestGameViewCLI:
@@ -21,17 +34,18 @@ class TestGameViewCLI:
   var cli = new GameViewCLI
   var testIn: ByteArrayInputStream = null
 
-  //region System.exit JUnit handling
-  sealed case class ExitException(status: Int) extends SecurityException("System.exit() handler")
+  // region System.exit JUnit handling
+  sealed case class ExitException(status: Int)
+      extends SecurityException("System.exit() handler")
   sealed class NoExitSecurityManager extends SecurityManager:
     override def checkPermission(perm: Permission): Unit = {}
     override def checkPermission(perm: Permission, context: Object): Unit = {}
     override def checkExit(status: Int): Unit =
       super.checkExit(status)
       throw ExitException(status)
-  //endregion
+  // endregion
 
-  //region SetUp/TearDown
+  // region SetUp/TearDown
   @BeforeAll
   def setUpAll(): Unit =
     System.setSecurityManager(new NoExitSecurityManager())
@@ -44,14 +58,17 @@ class TestGameViewCLI:
   def tearDownAll(): Unit =
     System.setSecurityManager(null)
 
-  //endregion
+  // endregion
 
-  private def initGameWithOnePlayerAndStartGame(game: Game, start: Boolean = true) : Unit =
+  private def initGameWithOnePlayerAndStartGame(
+      game: Game,
+      start: Boolean = true
+  ): Unit =
     val player1 = Player("P1", Token.FUNGO)
     val player2 = Player("P2", Token.NAVE)
     val player3 = Player("P3", Token.GATTO)
     game.players = List(player1, player2, player3)
-    //if (start) game.startGame()
+    // if (start) game.startGame()
   private def provideInput(data: String): Unit =
     testIn = new ByteArrayInputStream(data.getBytes())
     System.setIn(testIn)
@@ -77,17 +94,15 @@ class TestGameViewCLI:
   @Test
   def testShowGameStart_Exit(): Unit =
     provideInput("E\n")
-    try
-      cli.showGameStart(game)
+    try cli.showGameStart(game)
     catch
       case e: ExitException =>
-        assertEquals( 0, e.status)
+        assertEquals(0, e.status)
 
   @Test
   def testShowGameStart_ExitWithWrongInputThanExit(): Unit =
     provideInput("d\ne\n")
-    try
-      cli.showGameStart(game)
+    try cli.showGameStart(game)
     catch
       case e: ExitException =>
         assertEquals(0, e.status)
@@ -114,8 +129,7 @@ class TestGameViewCLI:
   @Test
   def testShowGameAddPlayer_EmptyInput(): Unit =
     provideInput("\n")
-    try
-      cli.showGameAddPlayers(game)
+    try cli.showGameAddPlayers(game)
     catch
       case e: ExitException =>
         assertEquals(0, e.status)
@@ -124,8 +138,7 @@ class TestGameViewCLI:
   def testShowAskCurrentPlayerRollDiceOrQuit_Quit(): Unit =
     initGameWithOnePlayerAndStartGame(game: Game)
     provideInput("2\n")
-    try
-      cli.showAskCurrentUserToRollDiceOrQuit(game)
+    try cli.showAskCurrentUserToRollDiceOrQuit(game)
     catch
       case e: ExitException =>
         assertEquals(0, e.status)
@@ -139,8 +152,7 @@ class TestGameViewCLI:
   def testShowAskCurrentPlayerEndTurnOrOrQuit_Quit(): Unit =
     initGameWithOnePlayerAndStartGame(game: Game)
     provideInput("2\n")
-    try
-      cli.showAskCurrentPlayerEndTurnOrOrQuit(game)
+    try cli.showAskCurrentPlayerEndTurnOrOrQuit(game)
     catch
       case e: ExitException =>
         assertEquals(0, e.status)

@@ -9,5 +9,7 @@ class TestGameUtils:
   def testAddSumToPosition(): Unit =
     val gameBoard = new GameBoard
     assertEquals(5, GameUtils.addSumToPosition(4, 1, gameBoard))
-    assertEquals(0, GameUtils.addSumToPosition(1, gameBoard.size - 1, gameBoard))
-
+    assertEquals(
+      0,
+      GameUtils.addSumToPosition(1, gameBoard.size - 1, gameBoard)
+    )
