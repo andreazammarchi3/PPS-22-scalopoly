@@ -64,7 +64,7 @@ class CLIUI:
     while (!validChoise)
       println("Premere 'G' se si vuole giocare, premere 'E' se si vuole terminare.")
       // Reads the line from the Console
-      val result: Unit = scala.io.StdIn.readChar() match
+      scala.io.StdIn.readChar() match
         case 'g' | 'G' =>
           validChoise = true
           println("Che il gioco inizi!")
