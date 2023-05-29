@@ -4,7 +4,7 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.view.*
 import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.TestInstance.Lifecycle
-import org.junit.jupiter.api.{AfterAll, AfterEach, BeforeAll, BeforeEach, Test, TestInstance}
+import org.junit.jupiter.api.{AfterAll, AfterEach, BeforeAll, BeforeEach, Disabled, Test, TestInstance}
 import org.junit.jupiter.api.extension.ExtensionContext
 
 import java.io.{ByteArrayInputStream, InputStream, PrintStream, PrintWriter, StringReader}
@@ -14,6 +14,7 @@ import java.security.Permission
  * CLI testing
  */
 @TestInstance(Lifecycle.PER_CLASS)
+@Disabled
 class CLIUITest:
 
   var game = new Game

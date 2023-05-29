@@ -3,10 +3,11 @@
  */
 package PPS.scalopoly
 
-object App {
-  def main(args: Array[String]): Unit = {
-    println(greeting())
-  }
+import PPS.scalopoly.model.Game
+import PPS.scalopoly.view.CLIUI
 
-  def greeting(): String = "Hello, world!"
-}
+object App:
+  def main(args: Array[String]): Unit =
+    val view: CLIUI = new  CLIUI
+    val game: Game = new Game
+    view.showGameStart(game)

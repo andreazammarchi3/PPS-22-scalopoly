@@ -25,11 +25,9 @@ class TestGame:
     assertEquals(List(player4, player1, player2, player3), game.players)
 
   @Test
-  def testRemovePlayer(player: Player): Unit =
-    val player4 = Player("P4", Token.DITALE)
-    game.addPlayer(player4)
-    game.removePlayer(player4)
-    assertEquals(List(player1, player2, player3), game.players)
+  def testRemovePlayer(): Unit =
+    game.players = game.removePlayer(player1)
+    assertEquals(List(player2, player3), game.players)
 
   @Test
   def testStartGame(): Unit =
@@ -56,9 +54,9 @@ class TestGame:
 
   @Test
   def testGetAvailableTokens(): Unit =
-    assertEquals(game.getAvailableTokens().length, Token.values.length)
+    assertEquals(game.getAvailableTokens.length, Token.values.length)
     val player4 = Player("P4", Token.DITALE)
     game.addPlayer(player4)
-    assertEquals(game.getAvailableTokens().length, Token.values.length - 1)
-    assertEquals(game.getAvailableTokens(), Token.values.filterNot(elm => elm == Token.DITALE).toList)
+    assertEquals(game.getAvailableTokens.length, Token.values.length - 1)
+    assertEquals(game.getAvailableTokens, Token.values.filterNot(elm => elm == Token.DITALE).toList)
 
