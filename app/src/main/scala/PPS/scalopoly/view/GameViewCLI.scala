@@ -136,7 +136,10 @@ class GameViewCLI:
           gameController.moveCurrentPlayer()
           println(f"Dai dadi hai ottenuto ${gameController.dice.dice1} e ${gameController.dice.dice2}, per un totale di ${gameController.dice.sum()}")
           printMonopolyPlayerStatus(game)
-          showAskCurrentPlayerEndTurnOrOrQuit(game)
+          if (gameController.dice.checkSame())
+            showAskCurrentUserToRollDiceOrQuit(game)
+          else
+            showAskCurrentPlayerEndTurnOrOrQuit(game)
         case 2 =>
           playerQuit(game)
         case _ =>
