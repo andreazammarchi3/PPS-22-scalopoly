@@ -18,12 +18,13 @@ repositories {
 dependencies {
     implementation("org.scala-lang:scala3-library_3:3.2.2")
     implementation("org.scalafx:scalafx_3:20.0.0-R31")
+    implementation("org.scalafx:scalafxml-core_2.11:0.2.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }
 
 javafx {
     version = "20"
-    modules = listOf("javafx.controls", "javafx.media")
+    modules = listOf("javafx.controls", "javafx.media", "javafx.fxml", "javafx.base", "javafx.graphics")
 }
 
 application {
