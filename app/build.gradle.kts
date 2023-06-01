@@ -25,7 +25,7 @@ dependencies {
 }
 
 javafx {
-    version = "20"
+    version = "17"
     modules = listOf("javafx.controls", "javafx.media", "javafx.fxml", "javafx.base", "javafx.graphics")
 }
 
