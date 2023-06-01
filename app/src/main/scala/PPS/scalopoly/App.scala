@@ -1,15 +1,30 @@
 package PPS.scalopoly
 
-import PPS.scalopoly.controller.GameController
-import PPS.scalopoly.model.Game
-import PPS.scalopoly.view.GameViewCLI
+import javafx.{fxml as jfxf, scene as jfxs}
+import scalafx.Includes.*
+import scalafx.application.JFXApp3
+import scalafx.application.JFXApp3.PrimaryStage
+import scalafx.scene.Scene
 
-object App:
-  def main(args: Array[String]): Unit =
-    val model = new Game
-    val view = new GameViewCLI
-    val controller = new GameController(model, view)
+import java.io.IOException
+import java.nio.file.Paths
 
-    controller.initialize()
+/**
+ * Example of using FXMLLoader from ScalaFX.
+ *
+ * @author Jarek Sacha
+ */
+object App extends JFXApp3:
 
-    controller.run()
+  def start(): Unit =
+
+    val resource = getClass.getResource("/fxml/StartMenuFXML.fxml")
+    if (resource == null)
+      throw new IOException("Cannot load resource")
+    
+    val root: jfxs.Parent = jfxf.FXMLLoader.load(resource)
+
+    stage = new PrimaryStage():
+      title = "SCALOPOLY"
+      scene = new Scene(root)
+

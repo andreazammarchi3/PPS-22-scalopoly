@@ -45,11 +45,10 @@ object FxmlUtils:
   def loadPanelAndGetController[T](
       fxmlPath: String,
       paneConsumer: AnchorPane => Unit
-  ): Option[T] = {
+  ): Option[T] =
     val loadedMutationChoicePanel = loadFXMLResource[jfxs.AnchorPane](fxmlPath)
     paneConsumer(loadedMutationChoicePanel._1)
     Some(loadedMutationChoicePanel._2.getController[T])
-  }
 
   /** Method that sets the 4 anchors to zero of an AnchorPane's children
     *

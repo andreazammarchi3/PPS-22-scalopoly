@@ -7,7 +7,7 @@ plugins {
 
     id("cz.alenkacz.gradle.scalafmt") version "1.16.2"
     id("jacoco")
-    id ("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.openjfx.javafxplugin") version "0.0.13"
     id("org.danilopianini.gradle-kotlin-qa") version "0.34.1"
 }
 
@@ -89,11 +89,11 @@ val wartRemoverCompileOptions = Wartremover.configFile(file("../config/.wartremo
 // Scala Compiler Options
 tasks.withType(ScalaCompile::class.java) {
     scalaCompileOptions.additionalParameters =
-            listOf(
-                    "-Xtarget:17",
-                    "-indent",
-                    "-rewrite",
-                    "-feature",
-                    "-language:implicitConversions"
-            ) + wartRemoverCompileOptions
+        listOf(
+            "-Xtarget:17",
+            "-indent",
+            "-rewrite",
+            "-feature",
+            "-language:implicitConversions"
+        ) + wartRemoverCompileOptions
 }
