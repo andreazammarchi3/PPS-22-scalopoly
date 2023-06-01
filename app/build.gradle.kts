@@ -7,6 +7,7 @@ plugins {
 
     id("cz.alenkacz.gradle.scalafmt") version "1.16.2"
     id("jacoco")
+    id("org.danilopianini.gradle-kotlin-qa") version "0.34.1"
 }
 
 repositories {
@@ -16,6 +17,7 @@ repositories {
 
 dependencies {
     implementation("org.scala-lang:scala3-library_3:3.2.2")
+    scalaCompilerPlugins("org.wartremover:wartremover_3.2.2:3.0.11")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }
 
@@ -36,6 +38,17 @@ tasks.withType<ScalaCompile> {
     targetCompatibility = ""
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
 tasks.jacocoTestReport {
     // Configurazione dei report di copertura
     reports {
@@ -53,4 +66,26 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
+}
+
+scalafmt {
+    // .scalafmt.conf in the project root is default value, provide only if other location is needed
+    // config file has to be relative path from current project or root project in case of multimodule projects
+    // example usage:
+    configFilePath = "config/.scalafmt.conf"
+}
+
+// Code Linting (error prevention...)
+val wartRemoverCompileOptions = Wartremover.configFile(file("../config/.wartremover.conf")).toCompilerOptions()
+
+// Scala Compiler Options
+tasks.withType(ScalaCompile::class.java) {
+    scalaCompileOptions.additionalParameters =
+            listOf(
+                    "-Xtarget:17",
+                    "-indent",
+                    "-rewrite",
+                    "-feature",
+                    "-language:implicitConversions"
+            ) + wartRemoverCompileOptions
 }
