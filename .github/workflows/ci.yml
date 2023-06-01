@@ -34,23 +34,31 @@ jobs:
         with:
           arguments: test
 
-  CheckQuality:
+  Quality:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3.3.0
-        with:
-          fetch-depth: 0
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.6
-      - name: Setup JDK
-        uses: actions/setup-java@v3.9.0
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-      - name: Setup Gradle and Check Quality
-        uses: gradle/gradle-build-action@v2.3.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        with:
-          arguments: checkScalafmtAll
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gradle
+    - name: Quality
+      working-directory: ./
+      run: ./gradlew checkScalafmtAll
+
+  Coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
+      - name: Coverage
+        working-directory: ./
+        run: |
+          ./gradlew clean
+          ./gradlew build
+          ./gradlew jacocoTestCoverageVerification
