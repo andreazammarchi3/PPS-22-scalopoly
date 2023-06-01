@@ -7,6 +7,7 @@ plugins {
 
     id("cz.alenkacz.gradle.scalafmt") version "1.16.2"
     id("jacoco")
+    id ("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 repositories {
@@ -16,7 +17,13 @@ repositories {
 
 dependencies {
     implementation("org.scala-lang:scala3-library_3:3.2.2")
+    implementation("org.scalafx:scalafx_3:20.0.0-R31")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+}
+
+javafx {
+    version = "20"
+    modules = listOf("javafx.controls", "javafx.media")
 }
 
 application {
