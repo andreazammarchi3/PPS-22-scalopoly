@@ -3,6 +3,7 @@ package PPS.scalopoly.controller
 import javafx.scene.{control as jfxsc, layout as jfxsl}
 import javafx.{event as jfxe, fxml as jfxf}
 import scalafx.Includes.*
+import scalafx.scene.control.Alert.*
 import scalafx.scene.layout.{BorderPane, GridPane}
 
 import java.net.URL
@@ -21,3 +22,8 @@ class StartMenuController extends jfxf.Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     borderPane = new BorderPane(pane)
+
+  //Qua deve chiudere la finestrea attuale e visualizzare quella in cui si aggiungono i giocatori
+  def playGame() : Unit = new jfxsc.Alert(AlertType.Information, "Creazione giocatori...").showAndWait()
+
+  def exitGame() : Unit = sys.exit(0)
