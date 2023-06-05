@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <VBox fx:id="player1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname1" />
+                        <Label fx:id="money1" />
+                        <Button fx:id="property1" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="player2" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname2" />
+                        <Label fx:id="money2" />
+                        <Button fx:id="property2" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="player3" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname3" />
+                        <Label fx:id="money3" />
+                        <Button fx:id="property3" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="player4" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname4" />
+                        <Label fx:id="money4" />
+                        <Button fx:id="property4" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="player5" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname5" />
+                        <Label fx:id="money5" />
+                        <Button fx:id="property5" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="player6" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="nickname6" />
+                        <Label fx:id="money6" />
+                        <Button fx:id="property6" mnemonicParsing="false" text="Proprietà" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="turnLbl" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="throwDiceBtn" mnemonicParsing="false" text="Lanca dadi" />
+                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="buildBtn" mnemonicParsing="false" text="Costruisci" />
+                        <Button fx:id="exitBtn" mnemonicParsing="false" text="Abbandona" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ImageView fx:id="gameBoard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
