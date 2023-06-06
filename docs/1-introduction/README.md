@@ -10,3 +10,5 @@ Il cuore del gioco risiede nella strategia finanziaria. I giocatori possono cost
 Il tabellone utilizzato nella realizzazione di questa versione di Monopoly, si può vedere nella figura sotto riportata.
 
 ![Tabellone di gioco](../images/Gameboard.png)
+
+[Torna alla Home](../README.md) | [Vai a Metodologia di Sviluppo](../2-development-process/README.md)
