@@ -27,4 +27,4 @@ object App extends JFXApp3:
     stage = new PrimaryStage():
       title = "SCALOPOLY"
       scene = new Scene(root)
-
+      resizable = false

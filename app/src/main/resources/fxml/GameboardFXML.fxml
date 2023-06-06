@@ -7,17 +7,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PPS.scalopoly.controller.GameboardController">
    <bottom>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="bottomMenu" alignment="CENTER" prefHeight="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER">
+            <HBox fx:id="bottomLeftMenu" alignment="CENTER_LEFT" prefHeight="100.0">
                <children>
                   <VBox fx:id="player1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
-                        <Label fx:id="nickname1" />
-                        <Label fx:id="money1" />
+                        <Label fx:id="nickname1" text="Andrea (nave)" />
+                        <Label fx:id="money1" text="5000 €" />
                         <Button fx:id="property1" mnemonicParsing="false" text="Proprietà" />
                      </children>
                   </VBox>
@@ -58,18 +57,17 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0">
+            <VBox fx:id="bottomRightMenu" alignment="CENTER_RIGHT" prefHeight="100.0">
                <children>
-                  <Label fx:id="turnLbl" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" spacing="10.0">
+                     <children>
+                        <Label fx:id="turnLbl" text="Tocca a: Andrea" />
+                     </children></HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" spacing="10.0">
                      <children>
                         <Button fx:id="throwDiceBtn" mnemonicParsing="false" text="Lanca dadi" />
-                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
                         <Button fx:id="buildBtn" mnemonicParsing="false" text="Costruisci" />
+                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" />
                         <Button fx:id="exitBtn" mnemonicParsing="false" text="Abbandona" />
                      </children>
                   </HBox>
