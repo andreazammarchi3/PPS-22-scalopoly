@@ -31,3 +31,8 @@ class Game:
   def removePlayer(player: Player): List[Player] =
     availableTokens = player.token :: availableTokens
     players.filter(_ != player)
+
+  def reset(): Unit =
+    currentPlayer = None
+    players = List.empty
+    availableTokens = Token.values.toList
