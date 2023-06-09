@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PPS.scalopoly.controller.StartMenuController">
-   <top>
-      <Label text="Scalopoly" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="System Bold" size="36.0" />
-         </font>
-      </Label>
-   </top>
-   <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="startBtn" mnemonicParsing="false" onAction="#playGame" text="Start" />
-            <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exitGame" text="Exit" />
-         </children>
-      </HBox>
-   </center>
-</BorderPane>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<AnchorPane fx:id="startMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PPS.scalopoly.controller.StartMenuController">
+    <children>
+        <GridPane alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1" >
+                            <Button fx:id="startBtn" StackPane.alignment="TOP_CENTER" mnemonicParsing="true" onAction="#playGame" text="_Play" />
+                            <Button fx:id="exitBtn" StackPane.alignment="BOTTOM_CENTER" mnemonicParsing="true" onAction="#exitGame" text="_Exit" />
+                        </StackPane>
+                    </children>
+                </GridPane>
+            </children>
+         </GridPane>
+    </children>
+</AnchorPane >
