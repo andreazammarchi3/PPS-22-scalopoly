@@ -2,29 +2,34 @@ package PPS.scalopoly.controller
 
 import PPS.scalopoly.model.{Dice, Game, GameBoard, Player, SpaceName}
 import PPS.scalopoly.utils.GameUtils
-import PPS.scalopoly.view.GameViewCLI
 
-class GameController(
-    game: Game,
-    view: GameViewCLI,
-    _dice: Dice = new Dice,
-    _gameBoard: GameBoard = new GameBoard
-):
+// Io farei un singleton GameEngine o GameController che è l'UNICO entry point per gestire il GAME
+// (il player lo crei nel controller della relativa view ma poi per aggiungerlo al game si passa dal singleton)
+object GameController:
+
+  private val _game: Game = new Game
+  private val _dice: Dice = new Dice
+  private val _gameBoard: GameBoard = new GameBoard
 
   def dice: Dice = _dice
 
   def gameBoard: GameBoard = _gameBoard
 
-  def initialize(): Unit =
-    view.setController(this)
+  def game: Game = _game
 
-  def run(): Unit =
-    view.showGameBoard(game)
-    view.showGameStart(game)
+  def players: List[Player] = game.players
+
+  def currentPlayer: Option[Player] = game.currentPlayer
+
+  def addPlayer(player: Player): Unit =
+    game.addPlayer(player)
 
   def startGame(): Unit =
     game.players = GameUtils.shufflePlayers(game.players)
     game.currentPlayer = Some(game.players.head)
+
+  def newGame(): Unit =
+    game.reset()
 
   def exitGame(): Unit =
     sys.exit(0)

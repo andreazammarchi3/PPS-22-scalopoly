@@ -11,7 +11,7 @@
    <bottom>
       <HBox fx:id="bottomMenu" alignment="CENTER" prefHeight="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="bottomLeftMenu" alignment="CENTER_LEFT" prefHeight="100.0">
+            <HBox fx:id="bottomLeftMenu" alignment="CENTER" prefHeight="100.0" spacing="10.0">
                <children>
                   <VBox fx:id="player1" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>

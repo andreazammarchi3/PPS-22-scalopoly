@@ -7,56 +7,55 @@ import org.junit.jupiter.api.{BeforeEach, Test}
 
 @Test
 class TestGameController extends BaseTest:
-  var gameController: GameController = _
 
   @BeforeEach
   override def setup(): Unit =
     super.setup()
-    gameController = new GameController(game, null)
+    GameController.newGame()
+    game.players.foreach(p => GameController.addPlayer(p))
+    GameController.startGame()
 
   @Test
   def testStartGame(): Unit =
-    gameController.startGame()
-    assertEquals(3, game.players.length)
-    assertTrue(game.players.contains(player1))
-    assertTrue(game.players.contains(player2))
-    assertTrue(game.players.contains(player3))
-    assertTrue(game.currentPlayer.isDefined)
+    assertEquals(3, GameController.players.length)
+    assertTrue(GameController.players.contains(player1))
+    assertTrue(GameController.players.contains(player2))
+    assertTrue(GameController.players.contains(player3))
+    assertTrue(GameController.currentPlayer.isDefined)
 
   @Test
   def testEndTurn(): Unit =
-    game.currentPlayer = Some(player1)
-    gameController.endTurn()
-    assertTrue(game.currentPlayer.get.equals(player2))
-    gameController.endTurn()
-    assertTrue(game.currentPlayer.get.equals(player3))
-    gameController.endTurn()
-    assertTrue(game.currentPlayer.get.equals(player1))
+    game.players = GameController.players
+    GameController.endTurn()
+    assertTrue(GameController.currentPlayer.get.equals(game.players(1)))
+    GameController.endTurn()
+    assertTrue(GameController.currentPlayer.get.equals(game.players(2)))
+    GameController.endTurn()
+    assertTrue(GameController.currentPlayer.get.equals(game.players(0)))
 
   @Test
   def testMoveCurrentPlayer(): Unit =
-    gameController.startGame()
-    gameController.moveCurrentPlayer()
+    val startPosition = GameController.currentPlayer.get.actualPosition
+    GameController.moveCurrentPlayer()
     assertEquals(
-      gameController.dice.sum(),
-      game.currentPlayer.get.actualPosition
+      startPosition + GameController.dice.sum(),
+      GameController.currentPlayer.get.actualPosition
     )
 
   @Test
   def testCurrentPlayerQuit(): Unit =
-    gameController.startGame()
-    var deletedPlayer = game.currentPlayer.get
-    gameController.currentPlayerQuit()
-    assertEquals(2, game.players.length)
-    assertTrue(!game.players.contains(deletedPlayer))
-    deletedPlayer = game.currentPlayer.get
-    gameController.currentPlayerQuit()
-    assertEquals(1, game.players.length)
-    assertTrue(!game.players.contains(deletedPlayer))
+    var deletedPlayer = GameController.currentPlayer.get
+    GameController.currentPlayerQuit()
+    assertEquals(2, GameController.players.length)
+    assertTrue(!GameController.players.contains(deletedPlayer))
+    deletedPlayer = GameController.currentPlayer.get
+    GameController.currentPlayerQuit()
+    assertEquals(1, GameController.players.length)
+    assertTrue(!GameController.players.contains(deletedPlayer))
 
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
     assertEquals(
-      gameController.gameBoard.gameBoardMap(0),
-      gameController.getSpaceNameFromPlayerPosition(player1)
+      GameController.gameBoard.gameBoardMap(0),
+      GameController.getSpaceNameFromPlayerPosition(GameController.currentPlayer.get)
     )
