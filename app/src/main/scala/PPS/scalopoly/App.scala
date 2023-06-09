@@ -1,5 +1,7 @@
 package PPS.scalopoly
 
+import PPS.scalopoly.utils.resources.FxmlResources
+
 import javafx.{fxml as jfxf, scene as jfxs}
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
@@ -9,16 +11,11 @@ import scalafx.scene.Scene
 import java.io.IOException
 import java.nio.file.Paths
 
-/**
- * Example of using FXMLLoader from ScalaFX.
- *
- * @author Jarek Sacha
- */
 object App extends JFXApp3:
 
   def start(): Unit =
 
-    val resource = getClass.getResource("/fxml/StartMenuFXML.fxml")
+    val resource = getClass.getResource(FxmlResources.START_MENU.path())
     if (resource == null)
       throw new IOException("Cannot load resource")
     

@@ -27,7 +27,7 @@ class StartMenuController extends jfxf.Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
 
-    val css = getClass.getResource(CssResources.START_MENU_STYLE).toExternalForm
+    val css = getClass.getResource(CssResources.START_MENU_STYLE.path()).toExternalForm
     startMenuPane.getStylesheets.add(css)
     val screenResolution = javafx.stage.Screen.getPrimary.getBounds
     val width = screenResolution.getWidth * 0.9
@@ -38,7 +38,7 @@ class StartMenuController extends jfxf.Initializable:
 
 
   def playGame() : Unit =
-    val root: jfxs.Parent = jfxf.FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW))
+    val root: jfxs.Parent = jfxf.FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path()))
     val scene = new Scene(root)
     val newStage = startBtn.getScene.getWindow.asInstanceOf[Stage]
     newStage.setScene(scene)

@@ -142,7 +142,7 @@ class GameViewController extends jfxf.Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     TEMPtoDELETE()
-    val imageUrl = getClass.getResource(ImgResources.GAMEBOARD)
+    val imageUrl = getClass.getResource(ImgResources.GAMEBOARD.path())
     val image = new jfxsi.Image(imageUrl.toString)
     gameBoard.setImage(image)
     gameBoard.setPreserveRatio(false)

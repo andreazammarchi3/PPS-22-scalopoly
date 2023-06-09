@@ -1,6 +1,6 @@
 package PPS.scalopoly.utils.resources
 
-enum ImgResources(path: String):
+enum ImgResources(_path: String):
   case GAMEBOARD extends ImgResources("/img/Gameboard.png")
   case BOAT_TOKEN extends ImgResources("/img/token/Boat.png")
   case BOOT_TOKEN extends ImgResources("/img/token/Boot.png")
@@ -10,3 +10,6 @@ enum ImgResources(path: String):
   case HAT_TOKEN extends ImgResources("/img/token/Hat.png")
   case THIMBLE_TOKEN extends ImgResources("/img/token/Thimble.png")
   case WHEELBARROW_TOKEN extends ImgResources("/img/token/Wheelbarrow.png")
+
+  def path(): String =
+    _path
