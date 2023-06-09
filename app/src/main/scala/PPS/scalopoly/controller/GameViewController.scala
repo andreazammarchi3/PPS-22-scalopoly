@@ -2,6 +2,7 @@ package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{Player, Token}
+import PPS.scalopoly.utils.resources.ImgResources
 import javafx.scene.{control as jfxsc, image as jfxsi, layout as jfxsl}
 import javafx.{event as jfxe, fxml as jfxf}
 import scalafx.Includes.*
@@ -11,7 +12,7 @@ import scalafx.scene.layout.{BorderPane, GridPane}
 import java.net.URL
 import java.util
 
-class GameboardController extends jfxf.Initializable:
+class GameViewController extends jfxf.Initializable:
 
   //Player 1
   @jfxf.FXML
@@ -141,7 +142,7 @@ class GameboardController extends jfxf.Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     TEMPtoDELETE()
-    val imageUrl = getClass.getResource("/img/Gameboard.png")
+    val imageUrl = getClass.getResource(ImgResources.GAMEBOARD)
     val image = new jfxsi.Image(imageUrl.toString)
     gameBoard.setImage(image)
     gameBoard.setPreserveRatio(false)
