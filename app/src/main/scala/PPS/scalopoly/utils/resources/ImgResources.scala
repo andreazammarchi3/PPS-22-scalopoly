@@ -11,5 +11,4 @@ enum ImgResources(_path: String):
   case THIMBLE_TOKEN extends ImgResources("/img/token/Thimble.png")
   case WHEELBARROW_TOKEN extends ImgResources("/img/token/Wheelbarrow.png")
 
-  def path(): String =
-    _path
+  val path: String = _path

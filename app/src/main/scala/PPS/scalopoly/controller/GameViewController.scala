@@ -47,7 +47,7 @@ class GameViewController extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     //GameEngine.startGame()
-    val image = new Image(getClass.getResource(ImgResources.GAMEBOARD.path()).toString)
+    val image = new Image(getClass.getResource(ImgResources.GAMEBOARD.path).toString)
     gameBoard.setImage(image)
     gameBoard.setPreserveRatio(false)
     setResolution()

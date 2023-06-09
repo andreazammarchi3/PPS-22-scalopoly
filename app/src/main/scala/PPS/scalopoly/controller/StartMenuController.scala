@@ -23,7 +23,7 @@ class StartMenuController extends Initializable:
 
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    startMenuPane.getStylesheets.add(getClass.getResource(CssResources.START_MENU_STYLE.path()).toExternalForm)
+    startMenuPane.getStylesheets.add(getClass.getResource(CssResources.START_MENU_STYLE.path).toExternalForm)
     val screenResolution = Screen.getPrimary.getBounds
     val width = screenResolution.getWidth * 0.9
     val height = screenResolution.getHeight * 0.9
@@ -33,7 +33,7 @@ class StartMenuController extends Initializable:
 
 
   def playGame() : Unit =
-    val root: Parent = FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path()))
+    val root: Parent = FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path))
     val scene = new Scene(root)
     val newStage = startBtn.getScene.getWindow.asInstanceOf[Stage]
     newStage.setScene(scene)

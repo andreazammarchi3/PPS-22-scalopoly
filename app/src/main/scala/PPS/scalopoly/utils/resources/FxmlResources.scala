@@ -4,5 +4,4 @@ enum FxmlResources(_path: String):
   case START_MENU extends FxmlResources("/fxml/StartMenuFXML.fxml")
   case GAME_VIEW extends FxmlResources("/fxml/GameViewFXML.fxml")
 
-  def path(): String =
-    _path
+  val path: String = _path
