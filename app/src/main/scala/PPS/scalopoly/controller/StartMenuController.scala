@@ -1,5 +1,6 @@
 package PPS.scalopoly.controller
 
+import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.{CssResources, FxmlResources}
 import javafx.scene.control.Button
 import javafx.stage.{Screen, Stage, Window}
@@ -33,9 +34,6 @@ class StartMenuController extends Initializable:
 
 
   def playGame() : Unit =
-    val root: Parent = FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path))
-    val scene = new Scene(root)
-    val newStage = startBtn.getScene.getWindow.asInstanceOf[Stage]
-    newStage.setScene(scene)
+    FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
 
   def exitGame() : Unit = sys.exit(0)
