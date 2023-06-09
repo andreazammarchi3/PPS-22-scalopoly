@@ -1,35 +1,30 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.utils.resources.{CssResources, FxmlResources}
-import javafx.scene.{control as jfxsc, image as jfxsi, layout as jfxsl}
-import javafx.stage.{Stage, Window}
-import javafx.{event as jfxe, fxml as jfxf, scene as jfxs}
-import jdk.internal.org.jline.utils.InfoCmp.Capability
-import scalafx.Includes.*
-import scalafx.scene.control.Alert.*
-import scalafx.scene.layout.{BorderPane, GridPane, HBox}
-import scalafx.scene.Scene
+import javafx.scene.control.Button
+import javafx.stage.{Screen, Stage, Window}
+import javafx.fxml.{FXML, FXMLLoader, Initializable}
+import javafx.scene.{Parent, Scene}
+import javafx.scene.layout.AnchorPane
 
 import java.io.IOException
 import java.net.URL
 import java.util
 
-class StartMenuController extends jfxf.Initializable:
+class StartMenuController extends Initializable:
 
-  @jfxf.FXML
-  private var startBtn: jfxsc.Button = _
-  @jfxf.FXML
-  private var exitBtn: jfxsc.Button = _
+  @FXML
+  private var startBtn: Button = _
+  @FXML
+  private var exitBtn: Button = _
 
-  @jfxf.FXML
-  private var startMenuPane: jfxsl.AnchorPane  = _
+  @FXML
+  private var startMenuPane: AnchorPane  = _
 
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-
-    val css = getClass.getResource(CssResources.START_MENU_STYLE.path()).toExternalForm
-    startMenuPane.getStylesheets.add(css)
-    val screenResolution = javafx.stage.Screen.getPrimary.getBounds
+    startMenuPane.getStylesheets.add(getClass.getResource(CssResources.START_MENU_STYLE.path()).toExternalForm)
+    val screenResolution = Screen.getPrimary.getBounds
     val width = screenResolution.getWidth * 0.9
     val height = screenResolution.getHeight * 0.9
 
@@ -38,7 +33,7 @@ class StartMenuController extends jfxf.Initializable:
 
 
   def playGame() : Unit =
-    val root: jfxs.Parent = jfxf.FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path()))
+    val root: Parent = FXMLLoader.load(getClass.getResource(FxmlResources.GAME_VIEW.path()))
     val scene = new Scene(root)
     val newStage = startBtn.getScene.getWindow.asInstanceOf[Stage]
     newStage.setScene(scene)
