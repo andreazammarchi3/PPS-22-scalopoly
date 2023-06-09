@@ -1,11 +1,9 @@
-package PPS.scalopoly.controller
+package PPS.scalopoly.engine
 
-import PPS.scalopoly.model.{Dice, Game, GameBoard, Player, SpaceName}
+import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
-// Io farei un singleton GameEngine o GameController che è l'UNICO entry point per gestire il GAME
-// (il player lo crei nel controller della relativa view ma poi per aggiungerlo al game si passa dal singleton)
-object GameController:
+object GameEngine:
 
   private val _game: Game = new Game
   private val _dice: Dice = new Dice

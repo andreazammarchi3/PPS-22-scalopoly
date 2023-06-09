@@ -1,5 +1,6 @@
 package PPS.scalopoly.controller
 
+import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{Player, Token}
 import javafx.scene.{control as jfxsc, image as jfxsi, layout as jfxsl}
 import javafx.{event as jfxe, fxml as jfxf}
@@ -128,14 +129,14 @@ class GameboardController extends jfxf.Initializable:
   private var borderPane: BorderPane = _
 
   private def TEMPtoDELETE(): Unit =
-    GameController.addPlayer(Player("Andrea", Token.FUNGO))
-    GameController.addPlayer(Player("Zak", Token.NAVE))
-    GameController.addPlayer(Player("Mic", Token.GATTO))
-    GameController.addPlayer(Player("Luca", Token.DITALE))
-    GameController.addPlayer(Player("Enri", Token.AUTOMOBILE))
-    GameController.addPlayer(Player("Baldo", Token.CARRIOLA))
+    GameEngine.addPlayer(Player("Andrea", Token.FUNGO))
+    GameEngine.addPlayer(Player("Zak", Token.NAVE))
+    GameEngine.addPlayer(Player("Mic", Token.GATTO))
+    GameEngine.addPlayer(Player("Luca", Token.DITALE))
+    GameEngine.addPlayer(Player("Enri", Token.AUTOMOBILE))
+    GameEngine.addPlayer(Player("Baldo", Token.CARRIOLA))
 
-    GameController.startGame()
+    GameEngine.startGame()
 
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
@@ -163,7 +164,7 @@ class GameboardController extends jfxf.Initializable:
     bottomRightMenu.setPrefWidth(width * 1/3)
 
   private def setBottomMenu(): Unit =
-    GameController.players.length match
+    GameEngine.players.length match
       case 2 =>
         player3.setVisible(false)
         player4.setVisible(false)
@@ -200,34 +201,34 @@ class GameboardController extends jfxf.Initializable:
         setPlayer5()
         setPlayer6()
 
-    turnLbl.setText("Tocca a: " + GameController.currentPlayer.get.nickname)
+    turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)
 
     def setPlayer1(): Unit =
-      nickname1.setText(GameController.players(0).nickname +
-        " (" + GameController.players(0).token + ")")
+      nickname1.setText(GameEngine.players(0).nickname +
+        " (" + GameEngine.players(0).token + ")")
       money1.setText("9999 €")
 
     def setPlayer2(): Unit =
-      nickname2.setText(GameController.players(1).nickname +
-        " (" + GameController.players(1).token + ")")
+      nickname2.setText(GameEngine.players(1).nickname +
+        " (" + GameEngine.players(1).token + ")")
       money2.setText("9999 €")
 
     def setPlayer3(): Unit =
-      nickname3.setText(GameController.players(2).nickname +
-        " (" + GameController.players(2).token + ")")
+      nickname3.setText(GameEngine.players(2).nickname +
+        " (" + GameEngine.players(2).token + ")")
       money3.setText("9999 €")
 
     def setPlayer4(): Unit =
-      nickname4.setText(GameController.players(3).nickname +
-        " (" + GameController.players(3).token + ")")
+      nickname4.setText(GameEngine.players(3).nickname +
+        " (" + GameEngine.players(3).token + ")")
       money4.setText("9999 €")
 
     def setPlayer5(): Unit =
-      nickname5.setText(GameController.players(4).nickname +
-        " (" + GameController.players(4).token + ")")
+      nickname5.setText(GameEngine.players(4).nickname +
+        " (" + GameEngine.players(4).token + ")")
       money5.setText("9999 €")
 
     def setPlayer6(): Unit =
-      nickname6.setText(GameController.players(5).nickname +
-        " (" + GameController.players(5).token + ")")
+      nickname6.setText(GameEngine.players(5).nickname +
+        " (" + GameEngine.players(5).token + ")")
       money6.setText("9999 €")
