@@ -6,6 +6,7 @@ import PPS.scalopoly.model.{Game, Player, Token}
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.ImgResources
 import javafx.fxml.{FXML, Initializable}
+import javafx.geometry.Pos
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{BorderPane, HBox, VBox}
@@ -46,6 +47,8 @@ class GameView extends Initializable:
   @FXML
   private var pane: BorderPane = _
 
+  private var playersVBox: Map[Player, VBox] = Map.empty
+
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD.path).toString))
@@ -53,6 +56,10 @@ class GameView extends Initializable:
     setResolution()
     temp()
     updateTurnLbl()
+
+    GameEngine.players.foreach(p => createPlayerBox(p))
+    playerListHBox.setSpacing(10)
+    playerListHBox.setAlignment(Pos.CENTER)
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
@@ -64,6 +71,7 @@ class GameView extends Initializable:
     bottomRightMenu.setPrefWidth(width * 1/3)
 
   def quitBtnClick(): Unit =
+    playersVBox(GameEngine.currentPlayer.get).setDisable(true)
     GameController.currentPlayerQuit()
     updateTurnLbl()
 
@@ -90,3 +98,24 @@ class GameView extends Initializable:
 
   private def updateTurnLbl(): Unit =
     turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)
+
+  private def createPlayerBox(player: Player): Unit =
+    val playerVBox: VBox = new VBox()
+    playerListHBox.getChildren.add(playerVBox)
+
+    val playerLbl: Label = new Label(player.nickname)
+    playerVBox.getChildren.add(playerLbl)
+
+    /*
+    val playerMoneyLbl: Label = new Label("0$")
+    playerVBox.getChildren.add(playerMoneyLbl)
+
+    val playerPropertiesBtn: Button = new Button("Proprietà")
+    playerVBox.getChildren.add(playerPropertiesBtn)
+    */
+
+    playerVBox.setSpacing(5)
+    playerVBox.setAlignment(Pos.CENTER)
+
+    playersVBox += (player -> playerVBox)
+
