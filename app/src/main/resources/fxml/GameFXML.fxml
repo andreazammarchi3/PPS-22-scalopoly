@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.controller.GameViewController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.view.GameView">
    <bottom>
       <HBox fx:id="bottomMenu" alignment="CENTER" prefHeight="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,10 +20,10 @@
                      </children></HBox>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" spacing="10.0">
                      <children>
-                        <Button fx:id="throwDiceBtn" mnemonicParsing="false" text="Lancia dadi" />
-                        <Button fx:id="buildBtn" mnemonicParsing="false" text="Costruisci" />
-                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" />
-                        <Button fx:id="exitBtn" mnemonicParsing="false" text="Abbandona" />
+                        <Button fx:id="throwDiceBtn" mnemonicParsing="false" text="Lancia dadi" onAction="#throwDiceBtnClick"/>
+                        <Button fx:id="buildBtn" mnemonicParsing="false" text="Costruisci" disable="true"/>
+                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" disable="true"/>
+                        <Button fx:id="quitBtn" mnemonicParsing="false" text="Abbandona" onAction="#quitBtnClick"/>
                      </children>
                   </HBox>
                </children>

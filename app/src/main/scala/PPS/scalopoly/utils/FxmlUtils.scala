@@ -4,7 +4,8 @@ import PPS.scalopoly.utils.resources.FxmlResources
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.layout.{AnchorPane, Pane}
-import scalafx.Includes._
+import javafx.stage.Screen
+import scalafx.Includes.*
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene
@@ -37,3 +38,10 @@ object FxmlUtils:
       title.value = "SCALOPOLY"
       scene = FxmlUtils.loadFXMLResource(FxmlResources.START_MENU.path)
       resizable = false
+
+  def setResolution(pane: Pane, widthPerc: Double, heightPerc: Double): Unit =
+    val screenResolution = Screen.getPrimary.getBounds
+    val width = screenResolution.getWidth * widthPerc
+    val height = screenResolution.getHeight * heightPerc
+    pane.setPrefWidth(width)
+    pane.setPrefHeight(height)

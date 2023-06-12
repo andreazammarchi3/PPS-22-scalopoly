@@ -4,7 +4,6 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
-
   private val _game: Game = new Game
   private val _dice: Dice = new Dice
   private val _gameBoard: GameBoard = new GameBoard

@@ -25,12 +25,7 @@ class StartMenuController extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     startMenuPane.getStylesheets.add(getClass.getResource(CssResources.START_MENU_STYLE.path).toExternalForm)
-    val screenResolution = Screen.getPrimary.getBounds
-    val width = screenResolution.getWidth * 0.9
-    val height = screenResolution.getHeight * 0.9
-
-    startMenuPane.setPrefWidth(width)
-    startMenuPane.setPrefHeight(height)
+    FxmlUtils.setResolution(startMenuPane, 0.9, 0.9)
 
 
   def playGame() : Unit =
