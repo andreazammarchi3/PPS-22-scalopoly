@@ -15,34 +15,34 @@ import java.util
 class GameViewController extends Initializable:
 
   @FXML
-  private var bottomMenu: HBox = _
+  private val bottomMenu: HBox = new HBox()
 
   @FXML
-  private var playerListHBox: HBox = _
+  private val playerListHBox: HBox = new HBox()
 
   @FXML
-  private var bottomRightMenu: VBox = _
+  private val bottomRightMenu: VBox = new VBox()
 
   @FXML
-  private var turnLbl: Label = _
+  private val turnLbl: Label = new Label()
 
   @FXML
-  private var throwDiceBtn: Button = _
+  private val throwDiceBtn: Button = new Button()
 
   @FXML
-  private var buildBtn: Button = _
+  private val buildBtn: Button = new Button()
 
   @FXML
-  private var endTurnBtn: Button = _
+  private val endTurnBtn: Button = new Button()
 
   @FXML
-  private var exitBtn: Button = _
+  private val exitBtn: Button = new Button()
 
   @FXML
-  private var gameBoard: ImageView = _
+  private val gameBoard: ImageView = new ImageView()
 
   @FXML
-  private var pane: BorderPane = _
+  private val pane: BorderPane = new BorderPane()
 
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
