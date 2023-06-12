@@ -15,6 +15,8 @@ import java.io.IOException
 
 object FxmlUtils:
   private var _stage: Stage = _
+  private var width: Double = _
+  private var height: Double = _
 
   def stage: Stage = _stage
 
@@ -41,7 +43,10 @@ object FxmlUtils:
 
   def setResolution(pane: Pane, widthPerc: Double, heightPerc: Double): Unit =
     val screenResolution = Screen.getPrimary.getBounds
-    val width = screenResolution.getWidth * widthPerc
-    val height = screenResolution.getHeight * heightPerc
+    width = screenResolution.getWidth * widthPerc
+    height = screenResolution.getHeight * heightPerc
     pane.setPrefWidth(width)
     pane.setPrefHeight(height)
+    
+  def getResolution: (Double, Double) =
+    (width, height)

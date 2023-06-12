@@ -55,11 +55,8 @@ class GameView extends Initializable:
     updateTurnLbl()
 
   private def setResolution(): Unit =
-    val screenResolution = Screen.getPrimary.getBounds
-    val width = screenResolution.getWidth * 0.9
-    val height = screenResolution.getHeight * 0.9
-    pane.setPrefWidth(width)
-    pane.setPrefHeight(height)
+    FxmlUtils.setResolution(pane, 0.9, 0.9)
+    val (width, height) = FxmlUtils.getResolution
     gameBoard.setFitWidth(width - 2)
     gameBoard.setFitHeight(pane.getPrefHeight - bottomMenu.getPrefHeight)
     bottomMenu.setPrefWidth(width - 2)
@@ -68,6 +65,7 @@ class GameView extends Initializable:
 
   def quitBtnClick(): Unit =
     GameController.currentPlayerQuit()
+    updateTurnLbl()
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
@@ -89,6 +87,6 @@ class GameView extends Initializable:
     GameEngine.addPlayer(p2)
     GameEngine.addPlayer(p3)
     GameEngine.startGame()
-    
+
   private def updateTurnLbl(): Unit =
     turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)
