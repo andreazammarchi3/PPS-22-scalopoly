@@ -6,10 +6,10 @@ import PPS.scalopoly.model.{Game, Player, Token}
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.ImgResources
 import javafx.fxml.{FXML, Initializable}
-import javafx.geometry.Pos
+import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{BorderPane, HBox, VBox}
+import javafx.scene.layout.{BorderPane, GridPane, HBox, VBox}
 import javafx.stage.Screen
 
 import java.net.URL
@@ -18,16 +18,10 @@ import java.util
 class GameView extends Initializable:
 
   @FXML
-  private var bottomMenu: HBox = _
+  private var playerListBox: VBox = _
 
   @FXML
-  private var playerListHBox: HBox = _
-
-  @FXML
-  private var bottomRightMenu: VBox = _
-
-  @FXML
-  private var turnLbl: Label = _
+  private var actionsMenu: VBox = _
 
   @FXML
   private var throwDiceBtn: Button = _
@@ -47,33 +41,37 @@ class GameView extends Initializable:
   @FXML
   private var pane: BorderPane = _
 
-  private var playersVBox: Map[Player, VBox] = Map.empty
+  @FXML
+  private var mainGrid: GridPane = _
 
+  private var playersHBox: Map[Player, HBox] = Map.empty
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD.path).toString))
+    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
     gameBoard.setPreserveRatio(false)
     setResolution()
     temp()
-    updateTurnLbl()
 
     GameEngine.players.foreach(p => createPlayerBox(p))
-    playerListHBox.setSpacing(10)
-    playerListHBox.setAlignment(Pos.CENTER)
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
     val (width, height) = FxmlUtils.getResolution
-    gameBoard.setFitWidth(width - 2)
-    gameBoard.setFitHeight(pane.getPrefHeight - bottomMenu.getPrefHeight)
-    bottomMenu.setPrefWidth(width - 2)
-    playerListHBox.setPrefWidth(width * 2/3)
-    bottomRightMenu.setPrefWidth(width * 1/3)
+    val gameBoardSize = pane.getPrefHeight
+    gameBoard.setFitWidth(gameBoardSize)
+    gameBoard.setFitHeight(gameBoardSize)
+    initTokens(gameBoardSize)
+
+    val menuWidth = width - gameBoardSize
+    actionsMenu.setPrefWidth(menuWidth / 2)
+    playerListBox.setPrefWidth(menuWidth / 2)
+
+  private def initTokens(gameBoardSize: Double): Unit =
+    ???
 
   def quitBtnClick(): Unit =
-    playersVBox(GameEngine.currentPlayer.get).setDisable(true)
+    playersHBox(GameEngine.currentPlayer.get).setDisable(true)
     GameController.currentPlayerQuit()
-    updateTurnLbl()
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
@@ -85,7 +83,6 @@ class GameView extends Initializable:
     GameController.endTurn()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
-    updateTurnLbl()
 
   private def temp(): Unit =
     val p1: Player = Player("P1", Token.DITALE)
@@ -96,26 +93,23 @@ class GameView extends Initializable:
     GameEngine.addPlayer(p3)
     GameEngine.startGame()
 
-  private def updateTurnLbl(): Unit =
-    turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)
-
   private def createPlayerBox(player: Player): Unit =
-    val playerVBox: VBox = new VBox()
-    playerListHBox.getChildren.add(playerVBox)
+    val playerHBox: HBox = new HBox()
+    playerListBox.getChildren.add(playerHBox)
 
     val playerLbl: Label = new Label(player.nickname)
-    playerVBox.getChildren.add(playerLbl)
+    playerHBox.getChildren.add(playerLbl)
 
     /*
     val playerMoneyLbl: Label = new Label("0$")
-    playerVBox.getChildren.add(playerMoneyLbl)
+    playerHBox.getChildren.add(playerMoneyLbl)
 
     val playerPropertiesBtn: Button = new Button("Proprietà")
-    playerVBox.getChildren.add(playerPropertiesBtn)
+    playerHBox.getChildren.add(playerPropertiesBtn)
     */
 
-    playerVBox.setSpacing(5)
-    playerVBox.setAlignment(Pos.CENTER)
+    playerHBox.setSpacing(5)
+    playerHBox.setAlignment(Pos.CENTER)
 
-    playersVBox += (player -> playerVBox)
+    playersHBox += (player -> playerHBox)
 
