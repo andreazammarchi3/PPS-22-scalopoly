@@ -9,7 +9,7 @@ import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{BorderPane, GridPane, HBox, VBox}
+import javafx.scene.layout.{Border, BorderPane, GridPane, HBox, VBox}
 import javafx.stage.Screen
 
 import java.net.URL
@@ -67,7 +67,25 @@ class GameView extends Initializable:
     playerListBox.setPrefWidth(menuWidth / 2)
 
   private def initTokens(gameBoardSize: Double): Unit =
-    ???
+    for i <- 0 to 10
+      j <- 0 to 10
+      if ((i == 0 || i == 10) && (j >= 0 && j <= 10)) || ((j == 0 || j == 10) && (i >= 0 && i <= 10))
+    do
+      val tmpGrid = new GridPane()
+      tmpGrid.addColumn(0)
+      tmpGrid.addColumn(1)
+      tmpGrid.addColumn(2)
+      tmpGrid.addColumn(3)
+      tmpGrid.addRow(0)
+      tmpGrid.addRow(1)
+      tmpGrid.addRow(2)
+      tmpGrid.add(new Button("s"), 0, 0)
+      tmpGrid.add(new Button("t"), 1, 1)
+      tmpGrid.add(new Button("a"), 2, 2)
+      tmpGrid.add(new Button("a"), 3, 2)
+      tmpGrid.setGridLinesVisible(true)
+      tmpGrid.setStyle("-fx-grid-lines-visible: true; -fx-border-color: black;")
+      mainGrid.add(tmpGrid, i, j)
 
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.get).setDisable(true)
