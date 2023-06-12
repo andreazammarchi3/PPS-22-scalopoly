@@ -17,34 +17,34 @@ import java.util
 class GameView extends Initializable:
 
   @FXML
-  private val bottomMenu: HBox = new HBox()
+  private var bottomMenu: HBox = _
 
   @FXML
-  private val playerListHBox: HBox = new HBox()
+  private var playerListHBox: HBox = _
 
   @FXML
-  private val bottomRightMenu: VBox = new VBox()
+  private var bottomRightMenu: VBox = _
 
   @FXML
-  private val turnLbl: Label = new Label()
+  private var turnLbl: Label = _
 
   @FXML
-  private val throwDiceBtn: Button = new Button()
+  private var throwDiceBtn: Button = _
 
   @FXML
-  private val buildBtn: Button = new Button()
+  private var buildBtn: Button = _
 
   @FXML
-  private val endTurnBtn: Button = new Button()
+  private var endTurnBtn: Button = _
 
   @FXML
-  private val quitBtn: Button = new Button()
+  private var quitBtn: Button = _
 
   @FXML
-  private val gameBoard: ImageView = new ImageView()
+  private var gameBoard: ImageView = _
 
   @FXML
-  private val pane: BorderPane = new BorderPane()
+  private var pane: BorderPane = _
 
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
@@ -52,6 +52,7 @@ class GameView extends Initializable:
     gameBoard.setPreserveRatio(false)
     setResolution()
     temp()
+    updateTurnLbl()
 
   private def setResolution(): Unit =
     val screenResolution = Screen.getPrimary.getBounds
@@ -78,7 +79,7 @@ class GameView extends Initializable:
     GameController.endTurn()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
-    turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)
+    updateTurnLbl()
 
   private def temp(): Unit =
     val p1: Player = Player("P1", Token.DITALE)
@@ -88,3 +89,6 @@ class GameView extends Initializable:
     GameEngine.addPlayer(p2)
     GameEngine.addPlayer(p3)
     GameEngine.startGame()
+    
+  private def updateTurnLbl(): Unit =
+    turnLbl.setText("Tocca a: " + GameEngine.currentPlayer.get.nickname)

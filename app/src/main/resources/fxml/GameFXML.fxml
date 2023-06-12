@@ -22,7 +22,7 @@
                      <children>
                         <Button fx:id="throwDiceBtn" mnemonicParsing="false" text="Lancia dadi" onAction="#throwDiceBtnClick"/>
                         <Button fx:id="buildBtn" mnemonicParsing="false" text="Costruisci" disable="true"/>
-                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" disable="true"/>
+                        <Button fx:id="endTurnBtn" mnemonicParsing="false" text="Fine turno" disable="true" onAction="#endTurnBtnClick"/>
                         <Button fx:id="quitBtn" mnemonicParsing="false" text="Abbandona" onAction="#quitBtnClick"/>
                      </children>
                   </HBox>
