@@ -83,12 +83,14 @@ class GameView extends Initializable:
       if ((i == 0 || i == 10) && (j >= 0 && j <= 10)) || ((j == 0 || j == 10) && (i >= 0 && i <= 10))
     do
       val tmpGrid = new GridPane()
-      if i == 0 || i == 10 then
-        spawnColumns(tmpGrid, 3)
-        spawnRows(tmpGrid, 4)
-      else
-        spawnColumns(tmpGrid, 4)
-        spawnRows(tmpGrid, 3)
+      spawnColumns(tmpGrid, 4)
+      spawnRows(tmpGrid, 3)
+      if i == 0 then
+        tmpGrid.setRotate(90)
+      else if i == 10  && j < 10 then
+        tmpGrid.setRotate(-90)
+      if j == 0 then
+        tmpGrid.setRotate(180)
 
       mainGrid.add(tmpGrid, i, j)
       cellsGrids += ((i, j), tmpGrid)
@@ -109,9 +111,15 @@ class GameView extends Initializable:
     val p1: Player = Player("P1", Token.DITALE)
     val p2: Player = Player("P2", Token.NAVE)
     val p3: Player = Player("P3", Token.GATTO)
+    val p4: Player = Player("P4", Token.CANE)
+    val p5: Player = Player("P5", Token.STIVALE)
+    val p6: Player = Player("P6", Token.AUTOMOBILE)
     GameEngine.addPlayer(p1)
     GameEngine.addPlayer(p2)
     GameEngine.addPlayer(p3)
+    GameEngine.addPlayer(p4)
+    GameEngine.addPlayer(p5)
+    GameEngine.addPlayer(p6)
     GameEngine.startGame()
 
   private def createPlayerBox(player: Player): Unit =
@@ -152,4 +160,8 @@ class GameView extends Initializable:
   def updateTokenPosition(player: Player): Unit =
     val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
     val cellGrid = cellsGrids(coordinate)
-    cellGrid.add(tokensImgView(player.token), 1, 1)
+    val (col, row) = getFirstFreeCellForToken(cellGrid)
+    cellGrid.add(tokensImgView(player.token), col, row)
+
+  private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
+    GameUtils.getCoordinateFromOneNumber(gridPane.getChildren.size() + 1, 4)
