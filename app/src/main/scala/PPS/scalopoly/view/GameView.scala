@@ -142,9 +142,16 @@ class GameView extends Initializable:
 
     playersHBox += (player -> playerHBox)
 
+  private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
+    GameUtils.getCoordinateFromOneNumber(gridPane.getChildren.size() + 1, 4)
+
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.get).setDisable(true)
+    tokensImgView(GameEngine.currentPlayer.get.token).setDisable(true)
+    tokensImgView(GameEngine.currentPlayer.get.token).setStyle("-fx-opacity: 0.5")
     GameController.currentPlayerQuit()
+    endTurnBtn.setDisable(true)
+    throwDiceBtn.setDisable(false)
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
@@ -162,6 +169,3 @@ class GameView extends Initializable:
     val cellGrid = cellsGrids(coordinate)
     val (col, row) = getFirstFreeCellForToken(cellGrid)
     cellGrid.add(tokensImgView(player.token), col, row)
-
-  private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getCoordinateFromOneNumber(gridPane.getChildren.size() + 1, 4)
