@@ -4,12 +4,13 @@ import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{Game, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
-import PPS.scalopoly.utils.resources.ImgResources
+import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
+import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
+import javafx.scene.paint.Color
 import javafx.stage.Screen
 
 import java.net.URL
@@ -64,6 +65,9 @@ class GameView extends Initializable:
       tokenImg.setFitWidth(gameBoard.getFitWidth / 11 / 4)
       tokenImg.setFitHeight(gameBoard.getFitHeight / 11 / 4)
       updateTokenPosition(p))
+
+    pane.getStylesheets.add(getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm)
+    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("green-background")
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
@@ -148,7 +152,7 @@ class GameView extends Initializable:
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.get).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.get.token).setDisable(true)
-    tokensImgView(GameEngine.currentPlayer.get.token).setStyle("-fx-opacity: 0.5")
+    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("transparent-background")
     GameController.currentPlayerQuit()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
@@ -160,9 +164,11 @@ class GameView extends Initializable:
     throwDiceBtn.setDisable(true)
 
   def endTurnBtnClick(): Unit =
+    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("transparent-background")
     GameController.endTurn()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
+    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("green-background")
 
   def updateTokenPosition(player: Player): Unit =
     val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)

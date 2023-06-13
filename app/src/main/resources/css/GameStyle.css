@@ -1,0 +1,14 @@
+.green-background {
+    -fx-background-color: green;
+}
+
+.transparent-background {
+    -fx-background-color: transparent;
+}
+
+:disabled {
+    /* Stili per i nodi disabilitati */
+    -fx-opacity: 0.5; /* Opacità ridotta */
+    -fx-background-color: lightgray; /* Colore di sfondo */
+    -fx-text-fill: darkgray; /* Colore del testo */
+}
