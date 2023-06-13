@@ -46,23 +46,24 @@ class GameView extends Initializable:
 
   private var playersHBox: Map[Player, HBox] = Map.empty
 
-  private val cellsGrids: Map[(Int, Int), GridPane] = Map.empty
+  private var cellsGrids: Map[(Int, Int), GridPane] = Map.empty
+  private var tokensImgView: Map[Token, ImageView] = Map.empty
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
+    GameController.setView(this)
     gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
     gameBoard.setPreserveRatio(false)
     setResolution()
     temp()
 
-    GameEngine.players.foreach(p => createPlayerBox(p))
-    GameEngine.players.foreach(p => moveTokenOf(p))
-
-  private def moveTokenOf(player: Player): Unit =
-    val tokenImg = new ImageView()
-    tokenImg.setImage(new Image(getClass.getResource(player.token.img.path).toString))
-    val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
-    val cellGrid = mainGrid
-
+    GameEngine.players.foreach(p =>
+      createPlayerBox(p)
+      val tokenImg = new ImageView(new Image(getClass.getResource(p.token.img.path).toString))
+      tokensImgView += (p.token, tokenImg)
+      tokenImg.setPreserveRatio(false)
+      tokenImg.setFitWidth(gameBoard.getFitWidth / 11 / 4)
+      tokenImg.setFitHeight(gameBoard.getFitHeight / 11 / 4)
+      updateTokenPosition(p))
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
@@ -90,6 +91,7 @@ class GameView extends Initializable:
         spawnRows(tmpGrid, 3)
 
       mainGrid.add(tmpGrid, i, j)
+      cellsGrids += ((i, j), tmpGrid)
 
       def spawnColumns(grid: GridPane, numCol: Int): Unit =
         val col = new ColumnConstraints()
@@ -102,22 +104,6 @@ class GameView extends Initializable:
         row.setPercentHeight(50)
         for _ <- 0 until numRow do
           grid.getRowConstraints.add(row)
-
-
-  def quitBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.get).setDisable(true)
-    GameController.currentPlayerQuit()
-
-  def throwDiceBtnClick(): Unit =
-    GameController.throwDice()
-    println("Dadi: " + GameEngine.dice.dice1 + " e " + GameEngine.dice.dice2)
-    endTurnBtn.setDisable(false)
-    throwDiceBtn.setDisable(true)
-
-  def endTurnBtnClick(): Unit =
-    GameController.endTurn()
-    endTurnBtn.setDisable(true)
-    throwDiceBtn.setDisable(false)
 
   private def temp(): Unit =
     val p1: Player = Player("P1", Token.DITALE)
@@ -148,3 +134,22 @@ class GameView extends Initializable:
 
     playersHBox += (player -> playerHBox)
 
+  def quitBtnClick(): Unit =
+    playersHBox(GameEngine.currentPlayer.get).setDisable(true)
+    GameController.currentPlayerQuit()
+
+  def throwDiceBtnClick(): Unit =
+    GameController.throwDice()
+    println("Dadi: " + GameEngine.dice.dice1 + " e " + GameEngine.dice.dice2)
+    endTurnBtn.setDisable(false)
+    throwDiceBtn.setDisable(true)
+
+  def endTurnBtnClick(): Unit =
+    GameController.endTurn()
+    endTurnBtn.setDisable(true)
+    throwDiceBtn.setDisable(false)
+
+  def updateTokenPosition(player: Player): Unit =
+    val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
+    val cellGrid = cellsGrids(coordinate)
+    cellGrid.add(tokensImgView(player.token), 1, 1)

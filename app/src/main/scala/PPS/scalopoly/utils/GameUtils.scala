@@ -15,9 +15,7 @@ object GameUtils:
       case result                             => result
 
   def getCoordinateFromPosition(position: Int): (Int, Int) = position match
-    case _ if _ < 10 => (10 - _, 10)
-    case _ if _ < 20 => (0, 20 - _)
-    case _ if _ < 30 => (_ - 20, 0)
-    case _ if _ < 40 => (10, _ - 30)
-    
-  def getPositionFromCoordinate(coordinate: (Int, Int)): Int = 
+    case _ if position < 10 => (10 - position, 10)
+    case _ if position < 20 => (0, 20 - position)
+    case _ if position < 30 => (position - 20, 0)
+    case _ => (10, position - 30)
