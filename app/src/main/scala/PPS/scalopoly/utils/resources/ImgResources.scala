@@ -3,13 +3,13 @@ package PPS.scalopoly.utils.resources
 enum ImgResources(_path: String):
   case GAMEBOARD extends ImgResources("/img/Gameboard.png")
   case GAMEBOARD_SQUARED extends ImgResources("/img/GameboardSquare.png")
-  case BOAT_TOKEN extends ImgResources("/img/token/Boat.png")
-  case BOOT_TOKEN extends ImgResources("/img/token/Boot.png")
-  case CAR_TOKEN extends ImgResources("/img/token/Car.png")
-  case CAT_TOKEN extends ImgResources("/img/token/Cat.png")
-  case DOG_TOKEN extends ImgResources("/img/token/Dog.png")
-  case HAT_TOKEN extends ImgResources("/img/token/Hat.png")
-  case THIMBLE_TOKEN extends ImgResources("/img/token/Thimble.png")
-  case WHEELBARROW_TOKEN extends ImgResources("/img/token/Wheelbarrow.png")
+  case IMG_TOKEN_NAVE extends ImgResources("/img/token/Boat.png")
+  case IMG_TOKEN_STIVALE extends ImgResources("/img/token/Boot.png")
+  case IMG_TOKEN_AUTOMOBILE extends ImgResources("/img/token/Car.png")
+  case IMG_TOKEN_GATTO extends ImgResources("/img/token/Cat.png")
+  case IMG_TOKEN_CANE extends ImgResources("/img/token/Dog.png")
+  case IMG_TOKEN_CILINDRO extends ImgResources("/img/token/Hat.png")
+  case IMG_TOKEN_DITALE extends ImgResources("/img/token/Thimble.png")
+  case IMG_TOKEN_CARRIOLA extends ImgResources("/img/token/Wheelbarrow.png")
 
   val path: String = _path

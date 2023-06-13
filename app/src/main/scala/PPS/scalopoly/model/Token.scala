@@ -1,11 +1,15 @@
 package PPS.scalopoly.model
 
-enum Token:
-  case DITALE
-  case AUTOMOBILE
-  case NAVE
-  case CILINDRO
-  case CARRIOLA
-  case STIVALE
-  case GATTO
-  case FUNGO
+import PPS.scalopoly.utils.resources.ImgResources
+
+enum Token(_img: ImgResources):
+  case DITALE extends Token(ImgResources.IMG_TOKEN_DITALE)
+  case AUTOMOBILE extends Token(ImgResources.IMG_TOKEN_AUTOMOBILE)
+  case NAVE extends Token(ImgResources.IMG_TOKEN_NAVE)
+  case CILINDRO extends Token(ImgResources.IMG_TOKEN_CILINDRO)
+  case CARRIOLA extends Token(ImgResources.IMG_TOKEN_CARRIOLA)
+  case STIVALE extends Token(ImgResources.IMG_TOKEN_STIVALE)
+  case GATTO extends Token(ImgResources.IMG_TOKEN_GATTO)
+  case CANE extends Token(ImgResources.IMG_TOKEN_CANE)
+
+  val img: ImgResources = _img

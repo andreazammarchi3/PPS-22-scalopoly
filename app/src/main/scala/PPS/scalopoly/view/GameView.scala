@@ -3,13 +3,13 @@ package PPS.scalopoly.view
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{Game, Player, Token}
-import PPS.scalopoly.utils.FxmlUtils
+import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.ImgResources
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{Border, BorderPane, GridPane, HBox, VBox}
+import javafx.scene.layout.{Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
 import javafx.stage.Screen
 
 import java.net.URL
@@ -46,6 +46,8 @@ class GameView extends Initializable:
 
   private var playersHBox: Map[Player, HBox] = Map.empty
 
+  private val cellsGrids: Map[(Int, Int), GridPane] = Map.empty
+
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
     gameBoard.setPreserveRatio(false)
@@ -53,6 +55,14 @@ class GameView extends Initializable:
     temp()
 
     GameEngine.players.foreach(p => createPlayerBox(p))
+    GameEngine.players.foreach(p => moveTokenOf(p))
+
+  private def moveTokenOf(player: Player): Unit =
+    val tokenImg = new ImageView()
+    tokenImg.setImage(new Image(getClass.getResource(player.token.img.path).toString))
+    val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
+    val cellGrid = mainGrid
+
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
@@ -60,32 +70,39 @@ class GameView extends Initializable:
     val gameBoardSize = pane.getPrefHeight
     gameBoard.setFitWidth(gameBoardSize)
     gameBoard.setFitHeight(gameBoardSize)
-    initTokens(gameBoardSize)
+    initCellGrids()
 
     val menuWidth = width - gameBoardSize
     actionsMenu.setPrefWidth(menuWidth / 2)
     playerListBox.setPrefWidth(menuWidth / 2)
 
-  private def initTokens(gameBoardSize: Double): Unit =
+  private def initCellGrids(): Unit =
     for i <- 0 to 10
       j <- 0 to 10
       if ((i == 0 || i == 10) && (j >= 0 && j <= 10)) || ((j == 0 || j == 10) && (i >= 0 && i <= 10))
     do
       val tmpGrid = new GridPane()
-      tmpGrid.addColumn(0)
-      tmpGrid.addColumn(1)
-      tmpGrid.addColumn(2)
-      tmpGrid.addColumn(3)
-      tmpGrid.addRow(0)
-      tmpGrid.addRow(1)
-      tmpGrid.addRow(2)
-      tmpGrid.add(new Button("s"), 0, 0)
-      tmpGrid.add(new Button("t"), 1, 1)
-      tmpGrid.add(new Button("a"), 2, 2)
-      tmpGrid.add(new Button("a"), 3, 2)
-      tmpGrid.setGridLinesVisible(true)
-      tmpGrid.setStyle("-fx-grid-lines-visible: true; -fx-border-color: black;")
+      if i == 0 || i == 10 then
+        spawnColumns(tmpGrid, 3)
+        spawnRows(tmpGrid, 4)
+      else
+        spawnColumns(tmpGrid, 4)
+        spawnRows(tmpGrid, 3)
+
       mainGrid.add(tmpGrid, i, j)
+
+      def spawnColumns(grid: GridPane, numCol: Int): Unit =
+        val col = new ColumnConstraints()
+        col.setPercentWidth(50)
+        for _ <- 0 until numCol do
+          grid.getColumnConstraints.add(col)
+
+      def spawnRows(grid: GridPane, numRow: Int): Unit =
+        val row = new RowConstraints()
+        row.setPercentHeight(50)
+        for _ <- 0 until numRow do
+          grid.getRowConstraints.add(row)
+
 
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.get).setDisable(true)
