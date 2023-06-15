@@ -3,7 +3,8 @@ package PPS.scalopoly.utils
 import PPS.scalopoly.utils.resources.FxmlResources
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.layout.{AnchorPane, Pane}
+import javafx.scene.image.ImageView
+import javafx.scene.layout.{AnchorPane, BorderPane, Pane}
 import javafx.stage.Screen
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
@@ -41,7 +42,13 @@ object FxmlUtils:
       scene = FxmlUtils.loadFXMLResource(FxmlResources.START_MENU.path)
       resizable = false
 
-  def setResolution(pane: Pane, widthPerc: Double, heightPerc: Double): Unit =
+  def setGameBoardSize(pane: BorderPane, gameBoard: ImageView): Unit =
+    val (width, height) = getResolution
+    val gameBoardSize = pane.getPrefHeight
+    gameBoard.setFitWidth(gameBoardSize)
+    gameBoard.setFitHeight(gameBoardSize)
+
+  def setPaneResolution(pane: BorderPane, widthPerc: Double, heightPerc: Double): Unit =
     val screenResolution = Screen.getPrimary.getBounds
     width = screenResolution.getWidth * widthPerc
     height = screenResolution.getHeight * heightPerc

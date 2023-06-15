@@ -2,7 +2,8 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{Game, Player, Token}
+import PPS.scalopoly.model.{Game, GameBoard, Player, Token}
+import PPS.scalopoly.utils.FxmlUtils.getResolution
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
@@ -56,9 +57,7 @@ class GameView extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
-    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
-    gameBoard.setPreserveRatio(false)
-    setResolution()
+    initUIElements()
     temp()
 
     GameEngine.players.foreach(p =>
@@ -73,17 +72,21 @@ class GameView extends Initializable:
     pane.getStylesheets.add(getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm)
     updateStyleForCurrentPLayer()
 
-  private def setResolution(): Unit =
-    FxmlUtils.setResolution(pane, 0.9, 0.9)
-    val (width, height) = FxmlUtils.getResolution
-    val gameBoardSize = pane.getPrefHeight
-    gameBoard.setFitWidth(gameBoardSize)
-    gameBoard.setFitHeight(gameBoardSize)
+  private def initUIElements(): Unit =
+    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
+    gameBoard.setPreserveRatio(false)
+    FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
+    FxmlUtils.setGameBoardSize(pane, gameBoard)
     initCellGrids()
-
+    val gameBoardSize = pane.getPrefHeight
+    val (width, height) = getResolution
     val menuWidth = width - gameBoardSize
     actionsMenu.setPrefWidth(menuWidth / 2)
     playerListBox.setPrefWidth(menuWidth / 2)
+
+
+
+
 
   private def initCellGrids(): Unit =
     for i <- 0 to 10

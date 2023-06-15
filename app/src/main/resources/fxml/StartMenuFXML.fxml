@@ -7,21 +7,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
-<AnchorPane fx:id="startMenuPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.view.StartMenuView">
-    <children>
-        <GridPane alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
-            <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
-            </rowConstraints>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.view.StartMenuView">
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
             <children>
-                <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                <ImageView fx:id="gameBoard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                <GridPane alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                         <ColumnConstraints hgrow="SOMETIMES" />
@@ -33,13 +26,27 @@
                         <RowConstraints vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1" >
-                            <Button fx:id="startBtn" StackPane.alignment="TOP_CENTER" mnemonicParsing="true" onAction="#playGameBtnClick" styleClass="scalopoly-btn-actions" text="_Play" />
-                            <Button fx:id="exitBtn" StackPane.alignment="BOTTOM_CENTER" mnemonicParsing="true" onAction="#exitGameBtnClick" styleClass="scalopoly-btn-actions" text="_Exit" />
-                        </StackPane>
+                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                                <ColumnConstraints hgrow="SOMETIMES" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                                <RowConstraints vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1" >
+                                    <Button fx:id="startBtn" StackPane.alignment="TOP_CENTER" mnemonicParsing="true" onAction="#playGameBtnClick" styleClass="scalopoly-btn-actions" text="_Gioca" />
+                                    <Button fx:id="exitBtn" StackPane.alignment="BOTTOM_CENTER" mnemonicParsing="true" onAction="#exitGameBtnClick" styleClass="scalopoly-btn-actions" text="_Esci" />
+                                </StackPane>
+                            </children>
+                        </GridPane>
                     </children>
-                </GridPane>
+                 </GridPane>
             </children>
-         </GridPane>
-    </children>
-</AnchorPane >
+        </StackPane>
+    </center>
+</BorderPane >

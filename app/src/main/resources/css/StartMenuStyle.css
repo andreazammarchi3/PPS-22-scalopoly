@@ -1,6 +1,5 @@
 .root {
         -fx-background-image: url('/img/Gameboard.png');
-        -fx-opacity: 0.4;
         -fx-background-repeat: stretch;
         -fx-background-position: center center;
 }
