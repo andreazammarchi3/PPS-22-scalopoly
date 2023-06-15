@@ -67,7 +67,7 @@ class GameView extends Initializable:
       updateTokenPosition(p))
 
     pane.getStylesheets.add(getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm)
-    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("green-background")
+    updateStyleForCurrentPLayer()
 
   private def setResolution(): Unit =
     FxmlUtils.setResolution(pane, 0.9, 0.9)
@@ -149,10 +149,13 @@ class GameView extends Initializable:
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getCoordinateFromOneNumber(gridPane.getChildren.size() + 1, 4)
 
+  def updateStyleForCurrentPLayer(): Unit =
+    playersHBox.values.foreach(h => h.getStyleClass.clear())
+    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("green-background")
+
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.get).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.get.token).setDisable(true)
-    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("transparent-background")
     GameController.currentPlayerQuit()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
@@ -164,11 +167,9 @@ class GameView extends Initializable:
     throwDiceBtn.setDisable(true)
 
   def endTurnBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("transparent-background")
     GameController.endTurn()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
-    playersHBox(GameEngine.currentPlayer.get).getStyleClass.add("green-background")
 
   def updateTokenPosition(player: Player): Unit =
     val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)

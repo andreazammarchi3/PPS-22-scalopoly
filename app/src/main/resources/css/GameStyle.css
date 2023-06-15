@@ -1,9 +1,5 @@
-.green-background {
-    -fx-background-color: green;
-}
-
-.transparent-background {
-    -fx-background-color: transparent;
+.green-background Label {
+    -fx-text-fill: green;
 }
 
 :disabled {

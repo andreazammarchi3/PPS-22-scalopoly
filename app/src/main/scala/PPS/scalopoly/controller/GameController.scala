@@ -11,6 +11,7 @@ object GameController:
 
   def currentPlayerQuit(): Unit =
     GameEngine.currentPlayerQuit()
+    gameView.updateStyleForCurrentPLayer()
 
   def throwDice(): Unit =
     GameEngine.moveCurrentPlayer()
@@ -18,3 +19,4 @@ object GameController:
 
   def endTurn(): Unit =
     GameEngine.endTurn()
+    gameView.updateStyleForCurrentPLayer()
