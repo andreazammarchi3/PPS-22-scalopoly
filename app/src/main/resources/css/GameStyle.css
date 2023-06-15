@@ -2,9 +2,30 @@
     -fx-text-fill: green;
 }
 
+.scalopoly-btn-actions {
+    -fx-background-radius: 1em;
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 15pt;
+    -fx-min-width: 200;
+}
+
+.scalopoly-btn {
+    -fx-background-radius: 1em;
+    -fx-font-family: "Comic Sans MS";
+}
+
+Label {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 12pt;
+}
+
 :disabled {
     /* Stili per i nodi disabilitati */
     -fx-opacity: 0.5; /* Opacità ridotta */
     -fx-background-color: lightgray; /* Colore di sfondo */
-    -fx-text-fill: darkgray; /* Colore del testo */
+    -fx-text-fill: black; /* Colore del testo */
+}
+
+HBox {
+    -fx-background-radius: 1em;
 }

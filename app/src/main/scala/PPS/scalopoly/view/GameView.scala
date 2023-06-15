@@ -48,7 +48,11 @@ class GameView extends Initializable:
   private var playersHBox: Map[Player, HBox] = Map.empty
 
   private var cellsGrids: Map[(Int, Int), GridPane] = Map.empty
+
   private var tokensImgView: Map[Token, ImageView] = Map.empty
+
+  private var dice1: ImageView = _
+  private var dice2: ImageView = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
@@ -117,7 +121,7 @@ class GameView extends Initializable:
     val p3: Player = Player("P3", Token.GATTO)
     val p4: Player = Player("P4", Token.CANE)
     val p5: Player = Player("P5", Token.STIVALE)
-    val p6: Player = Player("P6", Token.AUTOMOBILE)
+    val p6: Player = Player("Massimiliano", Token.AUTOMOBILE)
     GameEngine.addPlayer(p1)
     GameEngine.addPlayer(p2)
     GameEngine.addPlayer(p3)
@@ -130,18 +134,19 @@ class GameView extends Initializable:
     val playerHBox: HBox = new HBox()
     playerListBox.getChildren.add(playerHBox)
 
-    val playerLbl: Label = new Label(player.nickname)
+    val playerLbl: Label = new Label(player.nickname + " - " + player.token.toString.toLowerCase())
     playerHBox.getChildren.add(playerLbl)
 
     /*
-    val playerMoneyLbl: Label = new Label("0$")
+    val playerMoneyLbl: Label = new Label("99999$")
     playerHBox.getChildren.add(playerMoneyLbl)
 
     val playerPropertiesBtn: Button = new Button("Proprietà")
+    playerPropertiesBtn.getStyleClass.add("scalopoly-btn")
     playerHBox.getChildren.add(playerPropertiesBtn)
     */
 
-    playerHBox.setSpacing(5)
+    playerHBox.setSpacing(10)
     playerHBox.setAlignment(Pos.CENTER)
 
     playersHBox += (player -> playerHBox)
@@ -162,9 +167,10 @@ class GameView extends Initializable:
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
-    println("Dadi: " + GameEngine.dice.dice1 + " e " + GameEngine.dice.dice2)
-    endTurnBtn.setDisable(false)
-    throwDiceBtn.setDisable(true)
+    println(GameEngine.dice.dice1 + " " + GameEngine.dice.dice2)
+    if (!GameEngine.dice.checkSame())
+        endTurnBtn.setDisable(false)
+        throwDiceBtn.setDisable(true)
 
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
