@@ -7,9 +7,15 @@ import java.util
 
 class ConfigurationMenuController extends Initializable:
 
-  override def initialize(url: URL, rb: util.ResourceBundle): Unit =
+  @FXML
+  private var startBtn: Button = _
+  @FXML
+  private var exitBtn: Button = _
+    override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     var a = 1
 
 
   def playGame(): Unit =
-    var b = 1
+    FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
+
+  def exitGame(): Unit = sys.exit(0)
