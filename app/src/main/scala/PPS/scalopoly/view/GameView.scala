@@ -13,6 +13,7 @@ import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
 import javafx.scene.paint.Color
 import javafx.stage.Screen
+import scalafx.scene.shape.Path
 
 import java.net.URL
 import java.util
@@ -46,14 +47,16 @@ class GameView extends Initializable:
   @FXML
   private var mainGrid: GridPane = _
 
+  @FXML
+  private var diceImageView1: ImageView = _
+  @FXML
+  private var diceImageView2: ImageView = _
+
   private var playersHBox: Map[Player, HBox] = Map.empty
 
   private var cellsGrids: Map[(Int, Int), GridPane] = Map.empty
 
   private var tokensImgView: Map[Token, ImageView] = Map.empty
-
-  private var dice1: ImageView = _
-  private var dice2: ImageView = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
@@ -84,9 +87,8 @@ class GameView extends Initializable:
     actionsMenu.setPrefWidth(menuWidth / 2)
     playerListBox.setPrefWidth(menuWidth / 2)
 
-
-
-
+    diceImageView1.setFitWidth(gameBoardSize / 11)
+    diceImageView2.setFitWidth(gameBoardSize / 11)
 
   private def initCellGrids(): Unit =
     for i <- 0 to 10
@@ -185,3 +187,9 @@ class GameView extends Initializable:
     val cellGrid = cellsGrids(coordinate)
     val (col, row) = getFirstFreeCellForToken(cellGrid)
     cellGrid.add(tokensImgView(player.token), col, row)
+
+  def updateDiceImg(): Unit =
+    val dice1Path: String = ImgResources.valueOf("DICE_" + GameEngine.dice.dice1).path
+    diceImageView1.setImage(new Image(getClass.getResource(dice1Path).toString))
+    val dice2Path: String = ImgResources.valueOf("DICE_" + GameEngine.dice.dice2).path
+    diceImageView2.setImage(new Image(getClass.getResource(dice2Path).toString))
