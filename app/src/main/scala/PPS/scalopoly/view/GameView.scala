@@ -61,7 +61,7 @@ class GameView extends Initializable:
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
     initUIElements()
-    temp()
+//    temp()
 
     GameEngine.players.foreach(p =>
       createPlayerBox(p)
