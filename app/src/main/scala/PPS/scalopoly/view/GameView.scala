@@ -158,7 +158,7 @@ class GameView extends Initializable:
     playersHBox += (player -> playerHBox)
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getCoordinateFromOneNumber(gridPane.getChildren.size() + 1, 4)
+    GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0,0))
 
   def updateStyleForCurrentPLayer(): Unit =
     playersHBox.values.foreach(h => h.getStyleClass.clear())
@@ -187,7 +187,7 @@ class GameView extends Initializable:
     val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
     val cellGrid = cellsGrids(coordinate)
     val (col, row) = getFirstFreeCellForToken(cellGrid)
-    cellGrid.add(tokensImgView(player.token), col, row)
+    cellGrid.add(tokensImgView(player.token), col, row + 1)
 
   def updateDiceImg(): Unit =
     val dice1Path: String = ImgResources.valueOf("DICE_" + GameEngine.dice.dice1).path

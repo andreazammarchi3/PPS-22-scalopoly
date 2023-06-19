@@ -1,4 +1,4 @@
-package PPS.scalopoly.controller
+package PPS.scalopoly.engine
 
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.engine.GameEngine
