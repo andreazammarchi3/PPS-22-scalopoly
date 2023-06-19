@@ -20,8 +20,6 @@ object GameUtils:
     case _ if position < 30 => (position - 20, 0)
     case _ => (10, position - 30)
 
-  def getCoordinateFromOneNumber(number: Int, columns: Int): (Int, Int) =
-    if number % columns != 0 then
-      (number % columns - 1, number / columns + 1)
-    else
-      (columns - 1, number / columns)
+  def getCoordinateFromOneNumber(number: Int, columns: Int): (Int, Int) = number match
+    case _ if number % columns != 0 => (number % columns - 1, number / columns + 1)
+    case _ => (columns - 1, number / columns)
