@@ -64,6 +64,14 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/controller/**", "**/view/**", "**/App**", "**/FxmlUtils**")
+            }
+        })
+    )
+
 }
 
 tasks.jacocoTestCoverageVerification {
