@@ -12,7 +12,7 @@ abstract class BaseTest:
 
   def setup(): Unit =
     game = new Game
-    player1 = Player("P1", Token.FUNGO)
+    player1 = Player("P1", Token.CARRIOLA)
     player2 = Player("P2", Token.NAVE)
     player3 = Player("P3", Token.GATTO)
     game.players = List(player1, player2, player3)
