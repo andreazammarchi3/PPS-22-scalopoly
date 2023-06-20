@@ -68,12 +68,14 @@ tasks.jacocoTestReport {
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
     classDirectories.setFrom(
-        files(classDirectories.files.map {
-            fileTree(it) {
-                include(jacocoIncludes)
-                exclude(jacocoExcludes)
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    include(jacocoIncludes)
+                    exclude(jacocoExcludes)
+                }
             }
-        })
+        )
     )
 }
 
@@ -86,12 +88,14 @@ tasks.jacocoTestCoverageVerification {
         }
     }
     classDirectories.setFrom(
-            files(classDirectories.files.map {
+        files(
+            classDirectories.files.map {
                 fileTree(it) {
                     include(jacocoIncludes)
                     exclude(jacocoExcludes)
                 }
-            })
+            }
+        )
     )
 }
 
