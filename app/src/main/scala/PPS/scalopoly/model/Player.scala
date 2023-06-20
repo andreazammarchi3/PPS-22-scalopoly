@@ -1,10 +1,10 @@
 package PPS.scalopoly.model
 
-case class Player(nickname: String, token: Token):
+case class Player(nickname: String, token: Token, actualPosition: Int):
 
-  private var _actualPosition: Int = 0
+  def move(steps: Int): Player =
+    val newPosition = actualPosition + steps
+    Player(nickname, token, newPosition)
 
-  def actualPosition: Int = _actualPosition
-
-  def actualPosition_=(value: Int): Unit =
-    _actualPosition = value
+object Player:
+  def apply(nickname: String, token: Token): Player = Player(nickname, token, 0)
