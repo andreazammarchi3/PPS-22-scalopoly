@@ -2,7 +2,7 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{Dice, Game, Player, Token}
+import PPS.scalopoly.model.{DiceManager, Game, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
@@ -172,8 +172,8 @@ class GameView extends Initializable:
     throwDiceBtn.setDisable(false)
 
   def throwDiceBtnClick(): Unit =
-    GameController.throwDice()
-    if (!Dice.checkSame())
+    val (dice1, dice2) = GameController.throwDice()
+    if dice1 != dice2 then
         endTurnBtn.setDisable(false)
         throwDiceBtn.setDisable(true)
 
@@ -188,8 +188,8 @@ class GameView extends Initializable:
     val (col, row) = getFirstFreeCellForToken(cellGrid)
     cellGrid.add(tokensImgView(player.token), col, row + 1)
 
-  def updateDiceImg(): Unit =
-    val dice1Path: String = ImgResources.valueOf("DICE_" + Dice.dice1).path
+  def updateDiceImg(dice1: Int, dice2: Int): Unit =
+    val dice1Path: String = ImgResources.valueOf("DICE_" + dice1).path
     diceImageView1.setImage(new Image(getClass.getResource(dice1Path).toString))
-    val dice2Path: String = ImgResources.valueOf("DICE_" + Dice.dice2).path
+    val dice2Path: String = ImgResources.valueOf("DICE_" + dice2).path
     diceImageView2.setImage(new Image(getClass.getResource(dice2Path).toString))

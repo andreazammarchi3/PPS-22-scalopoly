@@ -13,10 +13,11 @@ object GameController:
     GameEngine.currentPlayerQuit()
     gameView.updateStyleForCurrentPLayer()
 
-  def throwDice(): Unit =
-    GameEngine.moveCurrentPlayer()
+  def throwDice(): (Int, Int) =
+    val (dice1, dice2) = GameEngine.moveCurrentPlayer()
     gameView.updateTokenPosition(GameEngine.currentPlayer)
-    gameView.updateDiceImg()
+    gameView.updateDiceImg(dice1, dice2)
+    (dice1, dice2)
 
   def endTurn(): Unit =
     GameEngine.endTurn()

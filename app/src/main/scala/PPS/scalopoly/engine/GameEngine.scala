@@ -4,6 +4,7 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
+  private val diceManager: DiceManager = DiceManager()
 
   def players: List[Player] = Game.players
 
@@ -24,9 +25,10 @@ object GameEngine:
   def endTurn(): Unit =
     Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
 
-  def moveCurrentPlayer(): Unit =
-    Dice.rollDice()
-    Game.players = Game.players.updated(Game.currentPlayer, currentPlayer.move(Dice.sum()))
+  def moveCurrentPlayer(): (Int, Int) =
+    val (dice1, dice2) = diceManager.roll()
+    Game.players = Game.players.updated(Game.currentPlayer, currentPlayer.move(dice1 + dice2))
+    (dice1, dice2)
 
   def currentPlayerQuit(): Unit =
     val playerToDelete = currentPlayer
