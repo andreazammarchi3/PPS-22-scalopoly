@@ -5,10 +5,7 @@ import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
   private val _game: Game = new Game
-  private val _dice: Dice = new Dice
   private val _gameBoard: GameBoard = new GameBoard
-
-  def dice: Dice = _dice
 
   def gameBoard: GameBoard = _gameBoard
 
@@ -37,9 +34,9 @@ object GameEngine:
     game.currentPlayer = Some(game.players(newIndex))
 
   def moveCurrentPlayer(): Unit =
-    dice.rollDice()
+    Dice.rollDice()
     val currentIndex = game.players.indexOf(game.currentPlayer.get)
-    game.currentPlayer = Some(game.currentPlayer.get.move(dice.sum(), gameBoard))
+    game.currentPlayer = Some(game.currentPlayer.get.move(Dice.sum(), gameBoard))
     game.players = game.players.updated(currentIndex, game.currentPlayer.get)
 
   def currentPlayerQuit(): Unit =

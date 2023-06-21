@@ -40,7 +40,7 @@ class TestGameEngine extends BaseTest:
     assertEquals(0, startPosition)
     GameEngine.moveCurrentPlayer()
     assertEquals(
-      startPosition + GameEngine.dice.sum(),
+      startPosition + Dice.sum(),
       GameEngine.currentPlayer.get.actualPosition
     )
 

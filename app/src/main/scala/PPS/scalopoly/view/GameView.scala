@@ -2,7 +2,7 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{Game, Player, Token}
+import PPS.scalopoly.model.{Dice, Game, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
@@ -173,7 +173,7 @@ class GameView extends Initializable:
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
-    if (!GameEngine.dice.checkSame())
+    if (!Dice.checkSame())
         endTurnBtn.setDisable(false)
         throwDiceBtn.setDisable(true)
 
@@ -189,7 +189,7 @@ class GameView extends Initializable:
     cellGrid.add(tokensImgView(player.token), col, row + 1)
 
   def updateDiceImg(): Unit =
-    val dice1Path: String = ImgResources.valueOf("DICE_" + GameEngine.dice.dice1).path
+    val dice1Path: String = ImgResources.valueOf("DICE_" + Dice.dice1).path
     diceImageView1.setImage(new Image(getClass.getResource(dice1Path).toString))
-    val dice2Path: String = ImgResources.valueOf("DICE_" + GameEngine.dice.dice2).path
+    val dice2Path: String = ImgResources.valueOf("DICE_" + Dice.dice2).path
     diceImageView2.setImage(new Image(getClass.getResource(dice2Path).toString))
