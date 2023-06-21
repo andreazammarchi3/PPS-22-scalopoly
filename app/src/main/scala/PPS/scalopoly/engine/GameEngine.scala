@@ -16,6 +16,9 @@ object GameEngine:
   def addPlayer(player: Player): Unit =
     Game.addPlayer(player)
 
+  def removePlayer(player: Player): Unit =
+    Game.removePlayer(player)
+
   def startGame(): Unit =
     Game.players = GameUtils.shufflePlayers(Game.players)
 

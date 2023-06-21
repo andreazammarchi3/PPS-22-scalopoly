@@ -69,7 +69,7 @@
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#addPlayerToTableView" text="Add player" />
-                                    <Button mnemonicParsing="false" text="Remove player" />
+                                    <Button mnemonicParsing="false" onAction="#removePlayerFromTableView" text="Remove player" />
                                  </children>
                                  <VBox.margin>
                                     <Insets />

@@ -114,6 +114,13 @@ class ConfigurationMenuView extends Initializable:
     ConfigurationMenuController.addPayer(newPlayer)
     updateAddPlayerCombobox()
 
+  @FXML
+  def removePlayerFromTableView(): Unit =
+    val selectedPlayer = tableView.getSelectionModel.getSelectedItem
+    tableView.getItems.remove(selectedPlayer)
+    ConfigurationMenuController.removePayer(selectedPlayer)
+    updateAddPlayerCombobox()
+
   def updateAddPlayerCombobox(): Unit =
     addPlayerTokenCombobox.getItems.setAll(FXCollections.observableArrayList(ConfigurationMenuController.availableToken(): _*))
     addPlayerTokenCombobox.getSelectionModel.selectFirst()

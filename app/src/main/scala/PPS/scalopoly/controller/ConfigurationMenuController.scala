@@ -20,6 +20,9 @@ object ConfigurationMenuController:
   def addPayer(player: Player): Unit =
     GameEngine.addPlayer(player)
 
+  def removePayer(player: Player): Unit =
+    GameEngine.removePlayer(player)
+
   def availableToken(): List[Token] =
     GameEngine.availableTokens()
 
