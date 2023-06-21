@@ -10,14 +10,14 @@ object GameUtils:
     val shuffledList = Random.shuffle(players)
     shuffledList
 
-  def addSumToPosition(sum: Int, position: Int, gameBoard: GameBoard): Int =
+  def addSumToPosition(sum: Int, position: Int): Int =
     sum + position match
-      case result if result >= gameBoard.size => result - gameBoard.size
+      case result if result >= GameBoard.size => result - GameBoard.size
       case result                             => result
 
   def getCoordinateFromPosition(position: Int): (Int, Int) = position match
     case _ if position < 0 => throw new IllegalArgumentException("Position cannot be negative")
-    case _ if position >= GameEngine.gameBoard.size => throw new IllegalArgumentException("Position cannot be greater than board size")
+    case _ if position >= GameBoard.size => throw new IllegalArgumentException("Position cannot be greater than board size")
     case _ if position < 10 => (10 - position, 10)
     case _ if position < 20 => (0, 20 - position)
     case _ if position < 30 => (position - 20, 0)

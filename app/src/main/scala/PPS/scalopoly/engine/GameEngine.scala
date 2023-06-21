@@ -5,9 +5,6 @@ import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
   private val _game: Game = new Game
-  private val _gameBoard: GameBoard = new GameBoard
-
-  def gameBoard: GameBoard = _gameBoard
 
   def game: Game = _game
 
@@ -32,7 +29,7 @@ object GameEngine:
 
   def moveCurrentPlayer(): Unit =
     Dice.rollDice()
-    game.players = game.players.updated(game.currentPlayer, currentPlayer.move(Dice.sum(), gameBoard))
+    game.players = game.players.updated(game.currentPlayer, currentPlayer.move(Dice.sum()))
 
   def currentPlayerQuit(): Unit =
     val playerToDelete = currentPlayer
@@ -45,4 +42,4 @@ object GameEngine:
         game.currentPlayer = game.players.indexOf(nextPlayer)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    gameBoard.gameBoardMap(player.actualPosition)
+    GameBoard.gameBoardMap(player.actualPosition)
