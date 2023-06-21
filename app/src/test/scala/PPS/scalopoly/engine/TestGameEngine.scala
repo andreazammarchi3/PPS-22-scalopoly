@@ -37,6 +37,7 @@ class TestGameEngine extends BaseTest:
   @Test
   def testMoveCurrentPlayer(): Unit =
     val startPosition = GameEngine.currentPlayer.get.actualPosition
+    assertEquals(0, startPosition)
     GameEngine.moveCurrentPlayer()
     assertEquals(
       startPosition + GameEngine.dice.sum(),

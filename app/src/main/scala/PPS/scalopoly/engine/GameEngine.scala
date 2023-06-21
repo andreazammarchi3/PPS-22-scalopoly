@@ -38,11 +38,9 @@ object GameEngine:
 
   def moveCurrentPlayer(): Unit =
     dice.rollDice()
-    game.currentPlayer.get.actualPosition = GameUtils.addSumToPosition(
-      dice.sum(),
-      game.currentPlayer.get.actualPosition,
-      gameBoard
-    )
+    val currentIndex = game.players.indexOf(game.currentPlayer.get)
+    game.currentPlayer = Some(game.currentPlayer.get.move(dice.sum(), gameBoard))
+    game.players = game.players.updated(currentIndex, game.currentPlayer.get)
 
   def currentPlayerQuit(): Unit =
     val playerToDelete = game.currentPlayer.get
