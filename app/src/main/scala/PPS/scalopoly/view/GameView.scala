@@ -51,7 +51,7 @@ class GameView extends Initializable:
   @FXML
   private var diceImageView2: ImageView = _
 
-  private var playersHBox: Map[String, HBox] = Map.empty
+  private var playersHBox: Map[Token, HBox] = Map.empty
 
   private var cellsGrids: Map[(Int, Int), GridPane] = Map.empty
 
@@ -155,17 +155,17 @@ class GameView extends Initializable:
     playerHBox.setSpacing(10)
     playerHBox.setAlignment(Pos.CENTER)
 
-    playersHBox += (GameUtils.getPlayerId(player) -> playerHBox)
+    playersHBox += (player.token -> playerHBox)
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0,0))
 
   def updateStyleForCurrentPLayer(): Unit =
     playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameUtils.getPlayerId(GameEngine.currentPlayer.get)).getStyleClass.add("green-background")
+    playersHBox(GameEngine.currentPlayer.get.token).getStyleClass.add("green-background")
 
   def quitBtnClick(): Unit =
-    playersHBox(GameUtils.getPlayerId(GameEngine.currentPlayer.get)).setDisable(true)
+    playersHBox(GameEngine.currentPlayer.get.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.get.token).setDisable(true)
     GameController.currentPlayerQuit()
     endTurnBtn.setDisable(true)
@@ -173,7 +173,6 @@ class GameView extends Initializable:
 
   def throwDiceBtnClick(): Unit =
     GameController.throwDice()
-    println(GameEngine.dice.dice1 + " " + GameEngine.dice.dice2)
     if (!GameEngine.dice.checkSame())
         endTurnBtn.setDisable(false)
         throwDiceBtn.setDisable(true)

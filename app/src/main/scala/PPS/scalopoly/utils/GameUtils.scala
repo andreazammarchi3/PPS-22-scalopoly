@@ -30,6 +30,3 @@ object GameUtils:
     case _ if n > gridSize._1 * gridSize._2 => throw new IllegalArgumentException("N cannot be greater than grid size")
     case _ if n % gridSize._1 != 0 => (n % gridSize._1 - 1, n / gridSize._1)
     case _ => (gridSize._1 - 1, n / gridSize._1 - 1)
-
-  def getPlayerId(player: Player): String =
-    player.nickname + " " + player.token
