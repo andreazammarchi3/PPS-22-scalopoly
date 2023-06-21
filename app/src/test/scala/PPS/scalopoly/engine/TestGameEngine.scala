@@ -22,35 +22,34 @@ class TestGameEngine extends BaseTest:
     assertTrue(GameEngine.players.contains(player1))
     assertTrue(GameEngine.players.contains(player2))
     assertTrue(GameEngine.players.contains(player3))
-    assertTrue(GameEngine.currentPlayer.isDefined)
 
   @Test
   def testEndTurn(): Unit =
     game.players = GameEngine.players
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.get.equals(game.players(1)))
+    assertTrue(GameEngine.currentPlayer.equals(game.players(1)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.get.equals(game.players(2)))
+    assertTrue(GameEngine.currentPlayer.equals(game.players(2)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.get.equals(game.players(0)))
+    assertTrue(GameEngine.currentPlayer.equals(game.players(0)))
 
   @Test
   def testMoveCurrentPlayer(): Unit =
-    val startPosition = GameEngine.currentPlayer.get.actualPosition
+    val startPosition = GameEngine.currentPlayer.actualPosition
     assertEquals(0, startPosition)
     GameEngine.moveCurrentPlayer()
     assertEquals(
       startPosition + Dice.sum(),
-      GameEngine.currentPlayer.get.actualPosition
+      GameEngine.currentPlayer.actualPosition
     )
 
   @Test
   def testCurrentPlayerQuit(): Unit =
-    var deletedPlayer = GameEngine.currentPlayer.get
+    var deletedPlayer = GameEngine.currentPlayer
     GameEngine.currentPlayerQuit()
     assertEquals(2, GameEngine.players.length)
     assertTrue(!GameEngine.players.contains(deletedPlayer))
-    deletedPlayer = GameEngine.currentPlayer.get
+    deletedPlayer = GameEngine.currentPlayer
     GameEngine.currentPlayerQuit()
     assertEquals(1, GameEngine.players.length)
     assertTrue(!GameEngine.players.contains(deletedPlayer))
@@ -59,5 +58,5 @@ class TestGameEngine extends BaseTest:
   def testGetSpaceNameFromPlayerPosition(): Unit =
     assertEquals(
       GameEngine.gameBoard.gameBoardMap(0),
-      GameEngine.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer.get)
+      GameEngine.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
     )

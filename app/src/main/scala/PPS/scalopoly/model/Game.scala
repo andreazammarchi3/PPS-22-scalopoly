@@ -5,13 +5,13 @@ import PPS.scalopoly.utils.GameUtils
 import scala.util.Random
 
 class Game:
-  private var _currentPlayer: Option[Player] = None
+  private var _currentPlayer: Int = 0
   private var _players: List[Player] = List.empty
   private var _availableTokens: List[Token] = Token.values.toList
 
-  def currentPlayer: Option[Player] = _currentPlayer
+  def currentPlayer: Int = _currentPlayer
 
-  def currentPlayer_=(value: Option[Player]): Unit =
+  def currentPlayer_=(value: Int): Unit =
     _currentPlayer = value
 
   def players: List[Player] = _players
@@ -33,6 +33,6 @@ class Game:
     players.filter(_ != player)
 
   def reset(): Unit =
-    currentPlayer = None
+    currentPlayer = 0
     players = List.empty
     availableTokens = Token.values.toList

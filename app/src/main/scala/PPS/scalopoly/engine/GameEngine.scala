@@ -13,14 +13,13 @@ object GameEngine:
 
   def players: List[Player] = game.players
 
-  def currentPlayer: Option[Player] = game.currentPlayer
+  def currentPlayer: Player = players(game.currentPlayer)
 
   def addPlayer(player: Player): Unit =
     game.addPlayer(player)
 
   def startGame(): Unit =
     game.players = GameUtils.shufflePlayers(game.players)
-    game.currentPlayer = Some(game.players.head)
 
   def newGame(): Unit =
     game.reset()
@@ -29,22 +28,21 @@ object GameEngine:
     sys.exit(0)
 
   def endTurn(): Unit =
-    val currentIndex = game.players.indexOf(game.currentPlayer.get)
-    val newIndex = (currentIndex + 1) % game.players.length
-    game.currentPlayer = Some(game.players(newIndex))
+    game.currentPlayer = (game.currentPlayer + 1) % game.players.length
 
   def moveCurrentPlayer(): Unit =
     Dice.rollDice()
-    val currentIndex = game.players.indexOf(game.currentPlayer.get)
-    game.currentPlayer = Some(game.currentPlayer.get.move(Dice.sum(), gameBoard))
-    game.players = game.players.updated(currentIndex, game.currentPlayer.get)
+    game.players = game.players.updated(game.currentPlayer, currentPlayer.move(Dice.sum(), gameBoard))
 
   def currentPlayerQuit(): Unit =
-    val playerToDelete = game.currentPlayer.get
+    val playerToDelete = currentPlayer
     endTurn()
+    val nextPlayer = currentPlayer
     game.players.length match
       case 1 => exitGame()
-      case _ => game.players = game.removePlayer(playerToDelete)
+      case _ =>
+        game.players = game.removePlayer(playerToDelete)
+        game.currentPlayer = game.players.indexOf(nextPlayer)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     gameBoard.gameBoardMap(player.actualPosition)

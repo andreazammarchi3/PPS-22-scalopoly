@@ -15,7 +15,7 @@ object GameController:
 
   def throwDice(): Unit =
     GameEngine.moveCurrentPlayer()
-    gameView.updateTokenPosition(GameEngine.currentPlayer.get)
+    gameView.updateTokenPosition(GameEngine.currentPlayer)
     gameView.updateDiceImg()
 
   def endTurn(): Unit =

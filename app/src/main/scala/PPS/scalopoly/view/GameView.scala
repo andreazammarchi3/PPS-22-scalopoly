@@ -162,11 +162,11 @@ class GameView extends Initializable:
 
   def updateStyleForCurrentPLayer(): Unit =
     playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.get.token).getStyleClass.add("green-background")
+    playersHBox(GameEngine.currentPlayer.token).getStyleClass.add("green-background")
 
   def quitBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.get.token).setDisable(true)
-    tokensImgView(GameEngine.currentPlayer.get.token).setDisable(true)
+    playersHBox(GameEngine.currentPlayer.token).setDisable(true)
+    tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
     endTurnBtn.setDisable(true)
     throwDiceBtn.setDisable(false)
