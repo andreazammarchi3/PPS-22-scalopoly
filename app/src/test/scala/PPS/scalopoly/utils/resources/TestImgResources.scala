@@ -28,22 +28,8 @@ class TestImgResources :
 
   @Test
   def testValueOf(): Unit =
-    assertEquals(ImgResources.GAMEBOARD, ImgResources.valueOf("GAMEBOARD"))
-    assertEquals(ImgResources.GAMEBOARD_SQUARED, ImgResources.valueOf("GAMEBOARD_SQUARED"))
-    assertEquals(ImgResources.IMG_TOKEN_NAVE, ImgResources.valueOf("IMG_TOKEN_NAVE"))
-    assertEquals(ImgResources.IMG_TOKEN_STIVALE, ImgResources.valueOf("IMG_TOKEN_STIVALE"))
-    assertEquals(ImgResources.IMG_TOKEN_AUTOMOBILE, ImgResources.valueOf("IMG_TOKEN_AUTOMOBILE"))
-    assertEquals(ImgResources.IMG_TOKEN_GATTO, ImgResources.valueOf("IMG_TOKEN_GATTO"))
-    assertEquals(ImgResources.IMG_TOKEN_CANE, ImgResources.valueOf("IMG_TOKEN_CANE"))
-    assertEquals(ImgResources.IMG_TOKEN_CILINDRO, ImgResources.valueOf("IMG_TOKEN_CILINDRO"))
-    assertEquals(ImgResources.IMG_TOKEN_DITALE, ImgResources.valueOf("IMG_TOKEN_DITALE"))
-    assertEquals(ImgResources.IMG_TOKEN_CARRIOLA, ImgResources.valueOf("IMG_TOKEN_CARRIOLA"))
-    assertEquals(ImgResources.DICE_1, ImgResources.valueOf("DICE_1"))
-    assertEquals(ImgResources.DICE_2, ImgResources.valueOf("DICE_2"))
-    assertEquals(ImgResources.DICE_3, ImgResources.valueOf("DICE_3"))
-    assertEquals(ImgResources.DICE_4, ImgResources.valueOf("DICE_4"))
-    assertEquals(ImgResources.DICE_5, ImgResources.valueOf("DICE_5"))
-    assertEquals(ImgResources.DICE_6, ImgResources.valueOf("DICE_6"))
+    for (i <- ImgResources.values.indices)
+      assertEquals(ImgResources.fromOrdinal(i), ImgResources.valueOf(ImgResources.fromOrdinal(i).toString))
     assertTrue(Utils.testCatchException[IllegalArgumentException, String, ImgResources](ImgResources.valueOf, "NOT_EXIST"))
 
   @Test

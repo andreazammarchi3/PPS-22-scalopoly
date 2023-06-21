@@ -28,8 +28,8 @@ class TestFxmlResources :
 
   @Test
   def testValueOf(): Unit =
-    assertEquals(FxmlResources.START_MENU, FxmlResources.valueOf("START_MENU"))
-    assertEquals(FxmlResources.GAME_VIEW, FxmlResources.valueOf("GAME_VIEW"))
+    for (i <- FxmlResources.values.indices)
+      assertEquals(FxmlResources.fromOrdinal(i), FxmlResources.valueOf(FxmlResources.fromOrdinal(i).toString))
     assertTrue(Utils.testCatchException[IllegalArgumentException, String, FxmlResources](FxmlResources.valueOf, "NOT_EXIST"))
 
   @Test

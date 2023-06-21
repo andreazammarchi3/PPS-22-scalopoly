@@ -29,8 +29,8 @@ class TestCssResources :
 
   @Test
   def testValueOf(): Unit =
-    assertEquals(CssResources.START_MENU_STYLE, CssResources.valueOf("START_MENU_STYLE"))
-    assertEquals(CssResources.GAME_STYLE, CssResources.valueOf("GAME_STYLE"))
+    for (i <- CssResources.values.indices)
+      assertEquals(CssResources.fromOrdinal(i), CssResources.valueOf(CssResources.fromOrdinal(i).toString))
     assertTrue(Utils.testCatchException[IllegalArgumentException, String, CssResources](CssResources.valueOf, "NOT_EXIST"))
 
   @Test
