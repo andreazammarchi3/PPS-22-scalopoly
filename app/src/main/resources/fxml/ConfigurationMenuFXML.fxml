@@ -49,10 +49,10 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.columnSpan="7" GridPane.rowIndex="2" GridPane.rowSpan="4">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.columnSpan="7" GridPane.rowIndex="1" GridPane.rowSpan="2">
                      <children>
                         <Label text="GIOCATORI" />
-                        <TableView fx:id="tableView" prefHeight="105.0" prefWidth="333.0">
+                        <TableView fx:id="tableView" minHeight="240.0" prefHeight="105.0" prefWidth="333.0" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn fx:id="playerNameColumn" prefWidth="200.0" text="Player" />
                             <TableColumn fx:id="playerTokenColumn" minWidth="0.0" prefWidth="232.0" text="Token" />
@@ -66,7 +66,7 @@
                                     <ComboBox fx:id="addPlayerTokenCombobox" prefWidth="150.0" promptText="Player token" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                              <HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#addPlayerToTableView" text="Add player" />
                                     <Button mnemonicParsing="false" onAction="#removePlayerFromTableView" text="Remove player" />
@@ -82,13 +82,13 @@
                         <Insets bottom="100.0" left="100.0" right="100.0" top="50.0" />
                      </padding>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="5">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="3">
                      <children>
                                  <Button fx:id="startBtn" mnemonicParsing="true" onAction="#playGameBtnClick" styleClass="scalopoly-btn-actions" text="_Gioca" />
                                  <Button fx:id="exitBtn" mnemonicParsing="true" onAction="#exitGameBtnClick" styleClass="scalopoly-btn-actions" text="_Esci" />
                      </children>
                      <GridPane.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="70.0" left="18.0" />
                      </GridPane.margin>
                   </HBox>
                </children>
