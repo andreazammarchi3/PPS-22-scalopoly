@@ -1,22 +1,31 @@
 package PPS.scalopoly.utils.resources
 
-import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull, assertTrue}
+import org.junit.jupiter.api.Assertions.{
+  assertEquals,
+  assertNotNull,
+  assertTrue
+}
 import org.junit.jupiter.api.Test
 
 import PPS.scalopoly.Utils
 
-class TestCssResources :
+class TestCssResources:
 
   @Test
   def testPath(): Unit =
-    assertEquals("/css/GameStyle.css" , CssResources.GAME_STYLE.path)
-    assertEquals("/css/StartMenuStyle.css" , CssResources.START_MENU_STYLE.path)
+    assertEquals("/css/GameStyle.css", CssResources.GAME_STYLE.path)
+    assertEquals("/css/StartMenuStyle.css", CssResources.START_MENU_STYLE.path)
 
   @Test
   def testFromOrdinal(): Unit =
     assertEquals(CssResources.START_MENU_STYLE, CssResources.fromOrdinal(0))
     assertEquals(CssResources.GAME_STYLE, CssResources.fromOrdinal(1))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, Int, CssResources](CssResources.fromOrdinal, CssResources.values.length + 1))
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, Int, CssResources](
+        CssResources.fromOrdinal,
+        CssResources.values.length + 1
+      )
+    )
 
   @Test
   def testGetResource(): Unit =
@@ -30,8 +39,16 @@ class TestCssResources :
   @Test
   def testValueOf(): Unit =
     for (i <- CssResources.values.indices)
-      assertEquals(CssResources.fromOrdinal(i), CssResources.valueOf(CssResources.fromOrdinal(i).toString))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, String, CssResources](CssResources.valueOf, "NOT_EXIST"))
+      assertEquals(
+        CssResources.fromOrdinal(i),
+        CssResources.valueOf(CssResources.fromOrdinal(i).toString)
+      )
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, String, CssResources](
+        CssResources.valueOf,
+        "NOT_EXIST"
+      )
+    )
 
   @Test
   def testOrdinal(): Unit =

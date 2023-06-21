@@ -1,10 +1,14 @@
 package PPS.scalopoly.utils.resources
 
-import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull, assertTrue}
+import org.junit.jupiter.api.Assertions.{
+  assertEquals,
+  assertNotNull,
+  assertTrue
+}
 import org.junit.jupiter.api.Test
 
 import PPS.scalopoly.Utils
-class TestImgResources :
+class TestImgResources:
 
   @Test
   def testPath(): Unit =
@@ -15,7 +19,12 @@ class TestImgResources :
   def testFromOrdinal(): Unit =
     assertEquals(ImgResources.DICE_4, ImgResources.fromOrdinal(13))
     assertEquals(ImgResources.IMG_TOKEN_STIVALE, ImgResources.fromOrdinal(3))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, Int, ImgResources](ImgResources.fromOrdinal, ImgResources.values.length + 1))
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, Int, ImgResources](
+        ImgResources.fromOrdinal,
+        ImgResources.values.length + 1
+      )
+    )
 
   @Test
   def testGetResource(): Unit =
@@ -29,8 +38,16 @@ class TestImgResources :
   @Test
   def testValueOf(): Unit =
     for (i <- ImgResources.values.indices)
-      assertEquals(ImgResources.fromOrdinal(i), ImgResources.valueOf(ImgResources.fromOrdinal(i).toString))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, String, ImgResources](ImgResources.valueOf, "NOT_EXIST"))
+      assertEquals(
+        ImgResources.fromOrdinal(i),
+        ImgResources.valueOf(ImgResources.fromOrdinal(i).toString)
+      )
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, String, ImgResources](
+        ImgResources.valueOf,
+        "NOT_EXIST"
+      )
+    )
 
   @Test
   def testOrdinal(): Unit =

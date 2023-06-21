@@ -5,7 +5,7 @@ import PPS.scalopoly.view.GameView
 
 object GameController:
   private var gameView: GameView = _
-  
+
   def setView(view: GameView): Unit =
     gameView = view
 

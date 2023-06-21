@@ -9,7 +9,12 @@ class TestSpaceName:
   def testFromOrdinal(): Unit =
     assertEquals(SpaceName.VICOLO_CORTO, SpaceName.fromOrdinal(0))
     assertEquals(SpaceName.PIAZZA_UNIVERSITA, SpaceName.fromOrdinal(7))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, Int, SpaceName](SpaceName.fromOrdinal, SpaceName.values.length + 1))
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, Int, SpaceName](
+        SpaceName.fromOrdinal,
+        SpaceName.values.length + 1
+      )
+    )
 
   @Test
   def testValues(): Unit =
@@ -18,5 +23,13 @@ class TestSpaceName:
   @Test
   def testValueOf(): Unit =
     for (i <- SpaceName.values.indices)
-      assertEquals(SpaceName.fromOrdinal(i), SpaceName.valueOf(SpaceName.fromOrdinal(i).toString))
-    assertTrue(Utils.testCatchException[IllegalArgumentException, String, SpaceName](SpaceName.valueOf, "NOT_EXIST"))
+      assertEquals(
+        SpaceName.fromOrdinal(i),
+        SpaceName.valueOf(SpaceName.fromOrdinal(i).toString)
+      )
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, String, SpaceName](
+        SpaceName.valueOf,
+        "NOT_EXIST"
+      )
+    )

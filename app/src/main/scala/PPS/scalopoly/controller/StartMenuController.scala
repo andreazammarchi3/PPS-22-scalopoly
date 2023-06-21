@@ -20,15 +20,15 @@ class StartMenuController extends Initializable:
   private var exitBtn: Button = _
 
   @FXML
-  private var startMenuPane: AnchorPane  = _
-
+  private var startMenuPane: AnchorPane = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    startMenuPane.getStylesheets.add(getClass.getResource(CssResources.START_MENU_STYLE.path).toExternalForm)
+    startMenuPane.getStylesheets.add(
+      getClass.getResource(CssResources.START_MENU_STYLE.path).toExternalForm
+    )
     FxmlUtils.setResolution(startMenuPane, 0.9, 0.9)
 
-
-  def playGame() : Unit =
+  def playGame(): Unit =
     FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
 
-  def exitGame() : Unit = sys.exit(0)
+  def exitGame(): Unit = sys.exit(0)

@@ -9,7 +9,17 @@ import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
+import javafx.scene.layout.{
+  Background,
+  BackgroundFill,
+  Border,
+  BorderPane,
+  ColumnConstraints,
+  GridPane,
+  HBox,
+  RowConstraints,
+  VBox
+}
 import javafx.scene.paint.Color
 import javafx.stage.Screen
 import scalafx.scene.shape.Path
@@ -59,21 +69,30 @@ class GameView extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
-    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
+    gameBoard.setImage(
+      new Image(
+        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
+      )
+    )
     gameBoard.setPreserveRatio(false)
     setResolution()
     temp()
 
     GameEngine.players.foreach(p =>
       createPlayerBox(p)
-      val tokenImg = new ImageView(new Image(getClass.getResource(p.token.img.path).toString))
+      val tokenImg = new ImageView(
+        new Image(getClass.getResource(p.token.img.path).toString)
+      )
       tokensImgView += (p.token, tokenImg)
       tokenImg.setPreserveRatio(false)
       tokenImg.setFitWidth(gameBoard.getFitWidth / 11 / 4)
       tokenImg.setFitHeight(gameBoard.getFitHeight / 11 / 4)
-      updateTokenPosition(p))
+      updateTokenPosition(p)
+    )
 
-    pane.getStylesheets.add(getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm)
+    pane.getStylesheets.add(
+      getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
+    )
     updateStyleForCurrentPLayer()
 
   private def setResolution(): Unit =
@@ -92,19 +111,17 @@ class GameView extends Initializable:
     diceImageView2.setFitWidth(gameBoardSize / 11)
 
   private def initCellGrids(): Unit =
-    for i <- 0 to 10
+    for
+      i <- 0 to 10
       j <- 0 to 10
       if ((i == 0 || i == 10) && (j >= 0 && j <= 10)) || ((j == 0 || j == 10) && (i >= 0 && i <= 10))
     do
       val tmpGrid = new GridPane()
       spawnColumns(tmpGrid, 4)
       spawnRows(tmpGrid, 3)
-      if i == 0 then
-        tmpGrid.setRotate(90)
-      else if i == 10  && j < 10 then
-        tmpGrid.setRotate(-90)
-      if j == 0 then
-        tmpGrid.setRotate(180)
+      if i == 0 then tmpGrid.setRotate(90)
+      else if i == 10 && j < 10 then tmpGrid.setRotate(-90)
+      if j == 0 then tmpGrid.setRotate(180)
 
       mainGrid.add(tmpGrid, i, j)
       cellsGrids += ((i, j), tmpGrid)
@@ -112,14 +129,12 @@ class GameView extends Initializable:
       def spawnColumns(grid: GridPane, numCol: Int): Unit =
         val col = new ColumnConstraints()
         col.setPercentWidth(50)
-        for _ <- 0 until numCol do
-          grid.getColumnConstraints.add(col)
+        for _ <- 0 until numCol do grid.getColumnConstraints.add(col)
 
       def spawnRows(grid: GridPane, numRow: Int): Unit =
         val row = new RowConstraints()
         row.setPercentHeight(50)
-        for _ <- 0 until numRow do
-          grid.getRowConstraints.add(row)
+        for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
   private def temp(): Unit =
     val p1: Player = Player("P1", Token.DITALE)
@@ -140,7 +155,9 @@ class GameView extends Initializable:
     val playerHBox: HBox = new HBox()
     playerListBox.getChildren.add(playerHBox)
 
-    val playerLbl: Label = new Label(player.nickname + " - " + player.token.toString.toLowerCase())
+    val playerLbl: Label = new Label(
+      player.nickname + " - " + player.token.toString.toLowerCase()
+    )
     playerHBox.getChildren.add(playerLbl)
 
     /*
@@ -150,7 +167,7 @@ class GameView extends Initializable:
     val playerPropertiesBtn: Button = new Button("Proprietà")
     playerPropertiesBtn.getStyleClass.add("scalopoly-btn")
     playerHBox.getChildren.add(playerPropertiesBtn)
-    */
+     */
 
     playerHBox.setSpacing(10)
     playerHBox.setAlignment(Pos.CENTER)
@@ -158,11 +175,12 @@ class GameView extends Initializable:
     playersHBox += (player.token -> playerHBox)
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0,0))
+    GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0, 0))
 
   def updateStyleForCurrentPLayer(): Unit =
     playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.token).getStyleClass.add("green-background")
+    playersHBox(GameEngine.currentPlayer.token).getStyleClass
+      .add("green-background")
 
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.token).setDisable(true)
@@ -174,8 +192,8 @@ class GameView extends Initializable:
   def throwDiceBtnClick(): Unit =
     val (dice1, dice2) = GameController.throwDice()
     if dice1 != dice2 then
-        endTurnBtn.setDisable(false)
-        throwDiceBtn.setDisable(true)
+      endTurnBtn.setDisable(false)
+      throwDiceBtn.setDisable(true)
 
   def endTurnBtnClick(): Unit =
     GameController.endTurn()

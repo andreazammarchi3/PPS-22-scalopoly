@@ -27,7 +27,10 @@ object GameEngine:
 
   def moveCurrentPlayer(): (Int, Int) =
     val (dice1, dice2) = diceManager.roll()
-    Game.players = Game.players.updated(Game.currentPlayer, currentPlayer.move(dice1 + dice2))
+    Game.players = Game.players.updated(
+      Game.currentPlayer,
+      currentPlayer.move(dice1 + dice2)
+    )
     (dice1, dice2)
 
   def currentPlayerQuit(): Unit =

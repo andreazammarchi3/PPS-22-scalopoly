@@ -16,7 +16,10 @@ class TestGame extends BaseTest:
 
   @Test
   def testTokensAvailability(): Unit =
-    assertEquals(Game.availableTokens.length, Token.values.length - players.length)
+    assertEquals(
+      Game.availableTokens.length,
+      Token.values.length - players.length
+    )
     val player4 = Player("P4", Token.DITALE)
     Game.addPlayer(player4)
     assertFalse(Game.availableTokens.contains(player4.token))

@@ -9,5 +9,3 @@ object DiceManager:
   def apply(): DiceManager = new DiceManager(rollDice(), rollDice())
 
   private def rollDice(): Int = Random.between(1, 7)
-
-
