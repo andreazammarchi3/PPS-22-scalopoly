@@ -21,10 +21,10 @@ object ConfigurationMenuController:
     GameEngine.addPlayer(player)
 
   def availableToken(): List[Token] =
-    GameEngine.game.availableTokens
+    GameEngine.availableTokens()
 
   def availablePlayer(): List[Player] =
-    GameEngine.game.players
+    GameEngine.players
 
   def playGame(): Unit =
     GameEngine.startGame()

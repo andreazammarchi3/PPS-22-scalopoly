@@ -4,52 +4,47 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
-  private val _game: Game = new Game
-  private val _dice: Dice = new Dice
-  private val _gameBoard: GameBoard = new GameBoard
+  private val diceManager: DiceManager = DiceManager()
 
-  def dice: Dice = _dice
+  def players: List[Player] = Game.players
 
-  def gameBoard: GameBoard = _gameBoard
+  def currentPlayer: Player = players(Game.currentPlayer)
 
-  def game: Game = _game
-
-  def players: List[Player] = game.players
-
-  def currentPlayer: Option[Player] = game.currentPlayer
+  def availableTokens(): List[Token] =
+    Game.availableTokens
 
   def addPlayer(player: Player): Unit =
-    game.addPlayer(player)
+    Game.addPlayer(player)
 
   def startGame(): Unit =
-    game.players = GameUtils.shufflePlayers(game.players)
-    game.currentPlayer = Some(game.players.head)
+    Game.players = GameUtils.shufflePlayers(Game.players)
 
   def newGame(): Unit =
-    game.reset()
+    Game.reset()
 
   def exitGame(): Unit =
     sys.exit(0)
 
   def endTurn(): Unit =
-    val currentIndex = game.players.indexOf(game.currentPlayer.get)
-    val newIndex = (currentIndex + 1) % game.players.length
-    game.currentPlayer = Some(game.players(newIndex))
+    Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
 
-  def moveCurrentPlayer(): Unit =
-    dice.rollDice()
-    game.currentPlayer.get.actualPosition = GameUtils.addSumToPosition(
-      dice.sum(),
-      game.currentPlayer.get.actualPosition,
-      gameBoard
+  def moveCurrentPlayer(): (Int, Int) =
+    val (dice1, dice2) = diceManager.roll()
+    Game.players = Game.players.updated(
+      Game.currentPlayer,
+      currentPlayer.move(dice1 + dice2)
     )
+    (dice1, dice2)
 
   def currentPlayerQuit(): Unit =
-    val playerToDelete = game.currentPlayer.get
+    val playerToDelete = currentPlayer
     endTurn()
-    game.players.length match
+    val nextPlayer = currentPlayer
+    Game.players.length match
       case 1 => exitGame()
-      case _ => game.players = game.removePlayer(playerToDelete)
+      case _ =>
+        Game.removePlayer(playerToDelete)
+        Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    gameBoard.gameBoardMap(player.actualPosition)
+    GameBoard.gameBoardMap(player.actualPosition)

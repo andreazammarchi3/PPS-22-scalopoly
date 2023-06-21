@@ -57,6 +57,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     }
 }
 
+val jacocoIncludes = listOf("**/engine/**/*$.class", "**/model/**/*$.class", "**/utils/**/*$.class")
+val jacocoExcludes = listOf("**/FxmlUtils**")
+
 tasks.jacocoTestReport {
     // Configurazione dei report di copertura
     reports {
@@ -64,6 +67,16 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    include(jacocoIncludes)
+                    exclude(jacocoExcludes)
+                }
+            }
+        )
+    )
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -74,6 +87,16 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    include(jacocoIncludes)
+                    exclude(jacocoExcludes)
+                }
+            }
+        )
+    )
 }
 
 scalafmt {

@@ -24,7 +24,6 @@ object FxmlUtils:
   def stage_=(value: Stage): Unit =
     _stage = value
 
-
   private def loadFXMLResource(fxmlPath: String): Scene =
     val fxmlFile = getClass.getResource(fxmlPath)
     if (fxmlFile == null)
@@ -54,6 +53,6 @@ object FxmlUtils:
     height = screenResolution.getHeight * heightPerc
     pane.setPrefWidth(width)
     pane.setPrefHeight(height)
-    
+
   def getResolution: (Double, Double) =
     (width, height)

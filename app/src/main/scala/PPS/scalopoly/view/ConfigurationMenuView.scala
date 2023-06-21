@@ -22,26 +22,59 @@ import java.util
 class ConfigurationMenuView extends Initializable:
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var startBtn: Button = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var exitBtn: Button = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var pane: BorderPane = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var gameBoard: ImageView = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var leftBorderPaneVBox: VBox = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var rightBorderPaneVBox: VBox = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var tableView: TableView[Player] = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var playerNameColumn: TableColumn[Player, String] = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var playerTokenColumn: TableColumn[Player, Token] = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var addPlayerNameTextField: TextField = _
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var addPlayerTokenCombobox: ComboBox[Token] = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =

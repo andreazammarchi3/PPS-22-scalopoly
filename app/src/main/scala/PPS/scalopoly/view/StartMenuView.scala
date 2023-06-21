@@ -15,14 +15,29 @@ import java.util
 
 class StartMenuView extends Initializable:
 
+
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var startBtn: Button = _
+
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var exitBtn: Button = _
+
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var gameBoard: ImageView = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var pane: BorderPane = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
