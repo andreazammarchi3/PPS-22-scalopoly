@@ -17,11 +17,14 @@ object ConfigurationMenuController:
   def setView(view: ConfigurationMenuView): Unit =
     configurationMenuView = view
 
-  def addPayer(name: String, token: Token): Unit =
-    GameEngine.addPlayer(Player(name, token))
+  def addPayer(player: Player): Unit =
+    GameEngine.addPlayer(player)
 
-  def getAvailableToken(): List[Token] =
+  def availableToken(): List[Token] =
     GameEngine.game.availableTokens
+
+  def availablePlayer(): List[Player] =
+    GameEngine.game.players
 
   def playGame(): Unit =
     GameEngine.startGame()
