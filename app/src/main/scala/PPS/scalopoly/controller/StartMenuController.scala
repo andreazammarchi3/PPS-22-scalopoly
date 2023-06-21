@@ -15,11 +15,21 @@ import java.util
 class StartMenuController extends Initializable:
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var startBtn: Button = _
+
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var exitBtn: Button = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var startMenuPane: AnchorPane = _
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =

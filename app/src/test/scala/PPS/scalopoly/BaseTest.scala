@@ -5,13 +5,9 @@ import org.junit.jupiter.api.{BeforeEach, Test}
 
 @Test
 abstract class BaseTest:
-  var player1: Player = Player("", null)
-  var player2: Player = Player("", null)
-  var player3: Player = Player("", null)
-  var players: List[Player] = _
+  val player1: Player = Player("P1", Token.CARRIOLA)
+  val player2: Player = Player("P2", Token.NAVE)
+  val player3: Player = Player("P3", Token.GATTO)
+  val players: List[Player] = List(player1, player2, player3)
 
-  def setup(): Unit =
-    player1 = Player("P1", Token.CARRIOLA)
-    player2 = Player("P2", Token.NAVE)
-    player3 = Player("P3", Token.GATTO)
-    players = List(player1, player2, player3)
+  def setup(): Unit

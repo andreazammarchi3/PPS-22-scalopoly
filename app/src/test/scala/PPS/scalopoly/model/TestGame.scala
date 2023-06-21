@@ -10,7 +10,6 @@ class TestGame extends BaseTest:
 
   @BeforeEach
   override def setup(): Unit =
-    super.setup()
     Game.reset()
     players.foreach(p => Game.addPlayer(p))
 

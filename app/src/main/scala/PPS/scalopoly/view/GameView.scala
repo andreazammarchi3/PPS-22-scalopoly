@@ -24,48 +24,83 @@ import javafx.scene.paint.Color
 import javafx.stage.Screen
 import scalafx.scene.shape.Path
 
+import scala.collection.mutable.Map as MMap
 import java.net.URL
 import java.util
 
 class GameView extends Initializable:
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var playerListBox: VBox = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var actionsMenu: VBox = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var throwDiceBtn: Button = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var buildBtn: Button = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var endTurnBtn: Button = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var quitBtn: Button = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var gameBoard: ImageView = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var pane: BorderPane = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var mainGrid: GridPane = _
 
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var diceImageView1: ImageView = _
+
   @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var diceImageView2: ImageView = _
 
-  private var playersHBox: Map[Token, HBox] = Map.empty
+  private val playersHBox: MMap[Token, HBox] = MMap.empty
 
-  private var cellsGrids: Map[(Int, Int), GridPane] = Map.empty
+  private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
 
-  private var tokensImgView: Map[Token, ImageView] = Map.empty
+  private val tokensImgView: MMap[Token, ImageView] = MMap.empty
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
@@ -83,7 +118,7 @@ class GameView extends Initializable:
       val tokenImg = new ImageView(
         new Image(getClass.getResource(p.token.img.path).toString)
       )
-      tokensImgView += (p.token, tokenImg)
+      tokensImgView.addOne(p.token, tokenImg)
       tokenImg.setPreserveRatio(false)
       tokenImg.setFitWidth(gameBoard.getFitWidth / 11 / 4)
       tokenImg.setFitHeight(gameBoard.getFitHeight / 11 / 4)
@@ -124,7 +159,7 @@ class GameView extends Initializable:
       if j == 0 then tmpGrid.setRotate(180)
 
       mainGrid.add(tmpGrid, i, j)
-      cellsGrids += ((i, j), tmpGrid)
+      cellsGrids.addOne((i, j), tmpGrid)
 
       def spawnColumns(grid: GridPane, numCol: Int): Unit =
         val col = new ColumnConstraints()
@@ -207,7 +242,7 @@ class GameView extends Initializable:
     cellGrid.add(tokensImgView(player.token), col, row + 1)
 
   def updateDiceImg(dice1: Int, dice2: Int): Unit =
-    val dice1Path: String = ImgResources.valueOf("DICE_" + dice1).path
+    val dice1Path: String = ImgResources.valueOf("DICE_" + dice1.toString).path
     diceImageView1.setImage(new Image(getClass.getResource(dice1Path).toString))
-    val dice2Path: String = ImgResources.valueOf("DICE_" + dice2).path
+    val dice2Path: String = ImgResources.valueOf("DICE_" + dice2.toString).path
     diceImageView2.setImage(new Image(getClass.getResource(dice2Path).toString))

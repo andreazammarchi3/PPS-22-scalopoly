@@ -11,7 +11,6 @@ class TestGameEngine extends BaseTest:
 
   @BeforeEach
   override def setup(): Unit =
-    super.setup()
     GameEngine.newGame()
     players.foreach(p => GameEngine.addPlayer(p))
     GameEngine.startGame()
@@ -25,13 +24,13 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testEndTurn(): Unit =
-    players = GameEngine.players
+    val shuffledPlayer = GameEngine.players
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(players(1)))
+    assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(1)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(players(2)))
+    assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(2)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(players(0)))
+    assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(0)))
 
   @Test
   def testMoveCurrentPlayer(): Unit =
@@ -45,14 +44,12 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testCurrentPlayerQuit(): Unit =
-    var deletedPlayer = GameEngine.currentPlayer
-    GameEngine.currentPlayerQuit()
-    assertEquals(2, GameEngine.players.length)
-    assertTrue(!GameEngine.players.contains(deletedPlayer))
-    deletedPlayer = GameEngine.currentPlayer
-    GameEngine.currentPlayerQuit()
-    assertEquals(1, GameEngine.players.length)
-    assertTrue(!GameEngine.players.contains(deletedPlayer))
+    for i <- 2 to 1
+    do
+      val deletedPlayer = GameEngine.currentPlayer
+      GameEngine.currentPlayerQuit()
+      assertEquals(i, GameEngine.players.length)
+      assertTrue(!GameEngine.players.contains(deletedPlayer))
 
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
