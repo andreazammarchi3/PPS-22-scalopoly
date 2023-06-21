@@ -13,7 +13,7 @@ class TestGameEngine extends BaseTest:
   override def setup(): Unit =
     super.setup()
     GameEngine.newGame()
-    game.players.foreach(p => GameEngine.addPlayer(p))
+    players.foreach(p => GameEngine.addPlayer(p))
     GameEngine.startGame()
 
   @Test
@@ -25,13 +25,13 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testEndTurn(): Unit =
-    game.players = GameEngine.players
+    players = GameEngine.players
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(game.players(1)))
+    assertTrue(GameEngine.currentPlayer.equals(players(1)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(game.players(2)))
+    assertTrue(GameEngine.currentPlayer.equals(players(2)))
     GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(game.players(0)))
+    assertTrue(GameEngine.currentPlayer.equals(players(0)))
 
   @Test
   def testMoveCurrentPlayer(): Unit =

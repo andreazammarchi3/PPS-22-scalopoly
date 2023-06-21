@@ -2,34 +2,34 @@ package PPS.scalopoly.model
 
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.model.SpaceName.VIA
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 @Test
 class TestGame extends BaseTest:
 
   @BeforeEach
-  override def setup(): Unit = super.setup()
+  override def setup(): Unit =
+    super.setup()
+    Game.reset()
+    players.foreach(p => Game.addPlayer(p))
 
   @Test
   def testTokensAvailability(): Unit =
-    assertEquals(game.availableTokens.length, Token.values.length)
+    assertEquals(Game.availableTokens.length, Token.values.length - players.length)
     val player4 = Player("P4", Token.DITALE)
-    game.addPlayer(player4)
-    assertEquals(
-      game.availableTokens,
-      Token.values.filter(_ != Token.DITALE).toList
-    )
-    game.removePlayer(player4)
-    assertEquals(game.availableTokens, Token.values.toList)
+    Game.addPlayer(player4)
+    assertFalse(Game.availableTokens.contains(player4.token))
+    Game.removePlayer(player4)
+    assertTrue(Game.availableTokens.contains(player4.token))
 
   @Test
   def testAddPlayer(): Unit =
     val player4 = Player("P4", Token.DITALE)
-    game.addPlayer(player4)
-    assertEquals(List(player4, player1, player2, player3), game.players)
+    Game.addPlayer(player4)
+    assertEquals(List(player4, player3, player2, player1), Game.players)
 
   @Test
   def testRemovePlayer(): Unit =
-    game.players = game.removePlayer(player1)
-    assertEquals(List(player2, player3), game.players)
+    Game.removePlayer(player1)
+    assertEquals(List(player3, player2), Game.players)

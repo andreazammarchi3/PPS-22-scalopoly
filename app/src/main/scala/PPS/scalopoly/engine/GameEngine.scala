@@ -4,42 +4,39 @@ import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
 object GameEngine:
-  private val _game: Game = new Game
 
-  def game: Game = _game
+  def players: List[Player] = Game.players
 
-  def players: List[Player] = game.players
-
-  def currentPlayer: Player = players(game.currentPlayer)
+  def currentPlayer: Player = players(Game.currentPlayer)
 
   def addPlayer(player: Player): Unit =
-    game.addPlayer(player)
+    Game.addPlayer(player)
 
   def startGame(): Unit =
-    game.players = GameUtils.shufflePlayers(game.players)
+    Game.players = GameUtils.shufflePlayers(Game.players)
 
   def newGame(): Unit =
-    game.reset()
+    Game.reset()
 
   def exitGame(): Unit =
     sys.exit(0)
 
   def endTurn(): Unit =
-    game.currentPlayer = (game.currentPlayer + 1) % game.players.length
+    Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
 
   def moveCurrentPlayer(): Unit =
     Dice.rollDice()
-    game.players = game.players.updated(game.currentPlayer, currentPlayer.move(Dice.sum()))
+    Game.players = Game.players.updated(Game.currentPlayer, currentPlayer.move(Dice.sum()))
 
   def currentPlayerQuit(): Unit =
     val playerToDelete = currentPlayer
     endTurn()
     val nextPlayer = currentPlayer
-    game.players.length match
+    Game.players.length match
       case 1 => exitGame()
       case _ =>
-        game.players = game.removePlayer(playerToDelete)
-        game.currentPlayer = game.players.indexOf(nextPlayer)
+        Game.removePlayer(playerToDelete)
+        Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     GameBoard.gameBoardMap(player.actualPosition)
