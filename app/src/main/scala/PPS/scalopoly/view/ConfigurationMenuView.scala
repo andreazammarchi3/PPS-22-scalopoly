@@ -13,6 +13,8 @@ import javafx.scene.layout.{AnchorPane, BorderPane, VBox}
 import javafx.collections.{FXCollections, ObservableList}
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.control.TableColumn
+import javafx.scene.control.Alert
+import javafx.scene.control.Alert.AlertType
 import scalafx.scene.input.KeyCode.GameC
 import scalafx.scene.control.ControlIncludes.jfxCellDataFeatures2sfx
 
@@ -102,13 +104,23 @@ class ConfigurationMenuView extends Initializable:
 
 
   def playGameBtnClick(): Unit =
-    ConfigurationMenuController.playGame()
+    if (ConfigurationMenuController.canStartGame) ConfigurationMenuController.playGame() else showCantStartAllert()
+
+  def showCantStartAllert(): Unit =
+    val alert = new Alert(AlertType.WARNING)
+    alert.setTitle("Scalopoly")
+    alert.setHeaderText("Non è possibile avviare il gioco.")
+    alert.setContentText("Aggiungere almeno un giocatore.")
+    alert.showAndWait()
 
   def exitGameBtnClick(): Unit =
     ConfigurationMenuController.exitGame()
 
   @FXML
-  def addPlayerToTableView(): Unit =
+  def checkAndAddPlayerToTableView(): Unit =
+    if (ConfigurationMenuController.canAddPlayer) addPlayerToTableView()
+
+  private def addPlayerToTableView(): Unit =
     val newPlayer = Player(addPlayerNameTextField.getText, addPlayerTokenCombobox.getValue)
     tableView.getItems.add(newPlayer)
     ConfigurationMenuController.addPayer(newPlayer)

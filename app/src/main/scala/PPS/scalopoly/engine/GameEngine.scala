@@ -19,6 +19,16 @@ object GameEngine:
   def removePlayer(player: Player): Unit =
     Game.removePlayer(player)
 
+  def canStartGame(): Boolean =
+    Game.players.length match
+      case i if i < 1 => false
+      case _ => true
+
+  def canAddPlayer(): Boolean =
+    Game.players.length match
+      case i if i < 8 => true
+      case _ => false
+
   def startGame(): Unit =
     Game.players = GameUtils.shufflePlayers(Game.players)
 

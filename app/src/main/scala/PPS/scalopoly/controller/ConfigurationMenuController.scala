@@ -29,6 +29,12 @@ object ConfigurationMenuController:
   def availablePlayer(): List[Player] =
     GameEngine.players
 
+  def canAddPlayer: Boolean =
+    GameEngine.canAddPlayer()
+
+  def canStartGame: Boolean =
+    GameEngine.canStartGame()
+
   def playGame(): Unit =
     GameEngine.startGame()
     FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
