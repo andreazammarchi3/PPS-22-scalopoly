@@ -5,35 +5,39 @@ import PPS.scalopoly.model.{GameBoard, Player}
 
 import scala.util.Random
 
-/**
- * A collection of utility methods used in the game.
- */
+/** A collection of utility methods used in the game.
+  */
 object GameUtils:
-  /**
-   * Shuffles a list of players.
-   * @param players List of players to shuffle.
-   * @return Shuffled list of players.
-   */
+  /** Shuffles a list of players.
+    * @param players
+    *   List of players to shuffle.
+    * @return
+    *   Shuffled list of players.
+    */
   def shufflePlayers(players: List[Player]): List[Player] =
     val shuffledList = Random.shuffle(players)
     shuffledList
 
-  /**
-   * Return the new position of a player after a dice roll.
-   * @param sum The sum of the dice roll.
-   * @param position The current position of the player.
-   * @return The new position of the player.
-   */
+  /** Return the new position of a player after a dice roll.
+    * @param sum
+    *   The sum of the dice roll.
+    * @param position
+    *   The current position of the player.
+    * @return
+    *   The new position of the player.
+    */
   def addSumToPosition(sum: Int, position: Int): Int =
     sum + position match
       case result if result >= GameBoard.size => result - GameBoard.size
       case result                             => result
 
-  /**
-   * Return the coordinates of a grid cell given the position of the player on the game board.
-   * @param position The position of the player on the game board.
-   * @return The coordinates of the grid cell.
-   */
+  /** Return the coordinates of a grid cell given the position of the player on
+    * the game board.
+    * @param position
+    *   The position of the player on the game board.
+    * @return
+    *   The coordinates of the grid cell.
+    */
   def getCoordinateFromPosition(position: Int): (Int, Int) = position match
     case _ if position < 0 =>
       throw new IllegalArgumentException("Position cannot be negative")
@@ -46,13 +50,17 @@ object GameUtils:
     case _ if position < 30 => (position - 20, 0)
     case _                  => (10, position - 30)
 
-  /**
-   * Return the coordinate of the nth cell in a grid of gridSize dimensions, starting from startingCell.
-   * @param n The number of the cell which coordinates are to be returned.
-   * @param gridSize The dimensions of the grid.
-   * @param startingCell The starting cell of the grid.
-   * @return The coordinates of the nth cell.
-   */
+  /** Return the coordinate of the nth cell in a grid of gridSize dimensions,
+    * starting from startingCell.
+    * @param n
+    *   The number of the cell which coordinates are to be returned.
+    * @param gridSize
+    *   The dimensions of the grid.
+    * @param startingCell
+    *   The starting cell of the grid.
+    * @return
+    *   The coordinates of the nth cell.
+    */
   def getNthCellInGrid(
       n: Int,
       gridSize: (Int, Int),
