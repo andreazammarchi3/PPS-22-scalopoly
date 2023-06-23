@@ -1,5 +1,8 @@
 package PPS.scalopoly.utils.resources
 
+/**
+ * Enumeration of all the images used in the game.
+ */
 enum ImgResources(_path: String):
   case GAMEBOARD extends ImgResources("/img/Gameboard.png")
   case GAMEBOARD_SQUARED extends ImgResources("/img/GameboardSquare.png")
@@ -18,4 +21,7 @@ enum ImgResources(_path: String):
   case DICE_5 extends ImgResources("/img/dice/5.png")
   case DICE_6 extends ImgResources("/img/dice/6.png")
 
+  /**
+   * @return the path of the image.
+   */
   val path: String = _path
