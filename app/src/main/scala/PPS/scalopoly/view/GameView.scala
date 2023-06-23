@@ -29,7 +29,7 @@ import scala.collection.mutable.Map as MMap
 import java.net.URL
 import java.util
 
-class GameView extends Initializable:
+class GameView extends BaseView:
 
   @FXML
   @SuppressWarnings(
@@ -105,7 +105,7 @@ class GameView extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
-    initUIElements()
+    super.initialize(url, rb)
 
     GameEngine.players.foreach(p =>
       createPlayerBox(p)
@@ -124,13 +124,8 @@ class GameView extends Initializable:
     )
     updateStyleForCurrentPLayer()
 
-  private def initUIElements(): Unit =
-    gameBoard.setImage(
-      new Image(
-        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
-      )
-    )
-    gameBoard.setPreserveRatio(false)
+  override protected def initUIElements(): Unit =
+    FxmlUtils.setGameBoardImage(gameBoard)
     FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
     FxmlUtils.setGameBoardSize(pane, gameBoard)
     initCellGrids()
@@ -142,6 +137,54 @@ class GameView extends Initializable:
 
     diceImageView1.setFitWidth(gameBoardSize / 11)
     diceImageView2.setFitWidth(gameBoardSize / 11)
+
+  /** Update the style of the current player
+    */
+  def updateStyleForCurrentPLayer(): Unit =
+    playersHBox.values.foreach(h => h.getStyleClass.clear())
+    playersHBox(GameEngine.currentPlayer.token).getStyleClass
+      .add("green-background")
+
+  /** Remove current player from the game
+    */
+  def quitBtnClick(): Unit =
+    playersHBox(GameEngine.currentPlayer.token).setDisable(true)
+    tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
+    GameController.currentPlayerQuit()
+    canEndTurn(false)
+
+  /** Throw dice
+    */
+  def throwDiceBtnClick(): Unit =
+    val (dice1, dice2) = GameController.throwDice()
+    if dice1 != dice2 then canEndTurn(true)
+
+  /** End turn
+    */
+  def endTurnBtnClick(): Unit =
+    GameController.endTurn()
+    canEndTurn(false)
+
+  /** Update the position of the token in the game board
+    * @param player
+    *   the player who's token position has to be updated
+    */
+  def updateTokenPosition(player: Player): Unit =
+    val cellGrid = cellsGrids(
+      GameUtils.getCoordinateFromPosition(player.actualPosition)
+    )
+    val (col, row) = getFirstFreeCellForToken(cellGrid)
+    cellGrid.add(tokensImgView(player.token), col, row + 1)
+
+  /** Update the dice image to show the result of the dice throw
+    * @param dice1
+    *   the first dice result
+    * @param dice2
+    *   the second dice result
+    */
+  def updateDiceImg(dice1: Int, dice2: Int): Unit =
+    updateSingleDiceImg(dice1, diceImageView1)
+    updateSingleDiceImg(dice2, diceImageView2)
 
   private def initCellGrids(): Unit =
     for
@@ -195,58 +238,10 @@ class GameView extends Initializable:
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0, 0))
 
-  /**
-   * Update the style of the current player
-   */
-  def updateStyleForCurrentPLayer(): Unit =
-    playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.token).getStyleClass
-      .add("green-background")
+  private def canEndTurn(can: Boolean): Unit =
+    endTurnBtn.setDisable(!can)
+    throwDiceBtn.setDisable(can)
 
-  /**
-   * Remove current player from the game
-   */
-  def quitBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.token).setDisable(true)
-    tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
-    GameController.currentPlayerQuit()
-    endTurnBtn.setDisable(true)
-    throwDiceBtn.setDisable(false)
-
-  /**
-   * Throw dice
-   */
-  def throwDiceBtnClick(): Unit =
-    val (dice1, dice2) = GameController.throwDice()
-    if dice1 != dice2 then
-      endTurnBtn.setDisable(false)
-      throwDiceBtn.setDisable(true)
-
-  /**
-   * End turn
-   */
-  def endTurnBtnClick(): Unit =
-    GameController.endTurn()
-    endTurnBtn.setDisable(true)
-    throwDiceBtn.setDisable(false)
-
-  /**
-   * Update the position of the token in the game board
-   * @param player the player who's token position has to be updated
-   */
-  def updateTokenPosition(player: Player): Unit =
-    val coordinate = GameUtils.getCoordinateFromPosition(player.actualPosition)
-    val cellGrid = cellsGrids(coordinate)
-    val (col, row) = getFirstFreeCellForToken(cellGrid)
-    cellGrid.add(tokensImgView(player.token), col, row + 1)
-
-  /**
-   * Update the dice image to show the result of the dice throw
-   * @param dice1 the first dice result
-   * @param dice2 the second dice result
-   */
-  def updateDiceImg(dice1: Int, dice2: Int): Unit =
-    val dice1Path: String = ImgResources.valueOf("DICE_" + dice1.toString).path
-    diceImageView1.setImage(new Image(getClass.getResource(dice1Path).toString))
-    val dice2Path: String = ImgResources.valueOf("DICE_" + dice2.toString).path
-    diceImageView2.setImage(new Image(getClass.getResource(dice2Path).toString))
+  private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
+    val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
+    diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))

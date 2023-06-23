@@ -12,11 +12,11 @@ import javafx.scene.layout.BorderPane
 
 import java.net.URL
 import java.util
+import java.util.ResourceBundle
 
-/**
- * View of the start menu.
- */
-class StartMenuView extends Initializable:
+/** View of the start menu.
+  */
+class StartMenuView extends BaseView:
 
   @FXML
   @SuppressWarnings(
@@ -44,29 +44,22 @@ class StartMenuView extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     StartMenuController.setView(this)
-    gameBoard.setImage(
-      new Image(
-        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
-      )
-    )
-    gameBoard.setPreserveRatio(false)
+    FxmlUtils.setGameBoardImage(gameBoard)
     pane.getStylesheets.add(
       getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
     )
-    initUIElements()
+    super.initialize(url, rb)
 
-  private def initUIElements(): Unit =
+  override protected def initUIElements(): Unit =
     FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
     FxmlUtils.setGameBoardSize(pane, gameBoard)
 
-  /**
-   * Changes the scene of the stage to the configuration menu scene.
-   */
+  /** Changes the scene of the stage to the configuration menu scene.
+    */
   def playGameBtnClick(): Unit =
     StartMenuController.playGame()
 
-  /**
-   * Exits the game.
-   */
+  /** Exits the game.
+    */
   def exitGameBtnClick(): Unit =
     StartMenuController.exitGame()
