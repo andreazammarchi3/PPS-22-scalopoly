@@ -1,0 +1,143 @@
+package PPS.scalopoly.utils
+
+import PPS.scalopoly.model.{DiceManager, GameBoard, Player}
+import PPS.scalopoly.utils.GameUtils
+import PPS.scalopoly.Utils
+import org.junit.jupiter.api.Assertions.{
+  assertEquals,
+  assertThrows,
+  assertTrue,
+  fail
+}
+import org.junit.jupiter.api.Test
+
+import scala.util.Random
+
+class TestGameUtils:
+  @Test
+  def testAddSumToPosition(): Unit =
+    val RANDOM_POSITION = Random.between(0, GameBoard.size / 2)
+    val RANDOM_STEPS = Random.between(1, DiceManager.MAX_DICE_VALUE * 2)
+    assertEquals(
+      RANDOM_POSITION + RANDOM_STEPS,
+      GameUtils.addSumToPosition(RANDOM_STEPS, RANDOM_POSITION)
+    )
+    assertEquals(
+      Player.DEFAULT_STARTING_POSITION,
+      GameUtils.addSumToPosition(1, GameBoard.size - 1)
+    )
+
+  @Test
+  def testGetCoordinateFromPosition(): Unit =
+    val NEGATIVE_POSITION = -1
+    val OVER_MAX_POSITION = GameBoard.size
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, Int, (Int, Int)](
+        GameUtils.getCoordinateFromPosition,
+        NEGATIVE_POSITION
+      )
+    )
+    assertTrue(
+      Utils.testCatchException[IllegalArgumentException, Int, (Int, Int)](
+        GameUtils.getCoordinateFromPosition,
+        OVER_MAX_POSITION
+      )
+    )
+    val COORD_FIRST_SIDE = ((9, 10), 1)
+    val COORD_SECOND_SIDE = ((0, 9), 11)
+    val COORD_THIRD_SIDE = ((1, 0), 21)
+    val COORD_FOURTH_SIDE = ((10, 1), 31)
+    assertEquals(
+      COORD_FIRST_SIDE._1,
+      GameUtils.getCoordinateFromPosition(COORD_FIRST_SIDE._2)
+    )
+    assertEquals(
+      COORD_SECOND_SIDE._1,
+      GameUtils.getCoordinateFromPosition(COORD_SECOND_SIDE._2)
+    )
+    assertEquals(
+      COORD_THIRD_SIDE._1,
+      GameUtils.getCoordinateFromPosition(COORD_THIRD_SIDE._2)
+    )
+    assertEquals(
+      COORD_FOURTH_SIDE._1,
+      GameUtils.getCoordinateFromPosition(COORD_FOURTH_SIDE._2)
+    )
+
+  @Test
+  def testGetNthCellInGrid(): Unit =
+    val DEFAULT_GRID_SIZE = (4, 3)
+    val FIRST_CELL_OF_SECOND_ROW = (3, 0)
+    val ILLEGAL_GRID_SIZE = (0, 1)
+    val LAST_CELL = (3, 2)
+    val STARTING_CELL = (0, 0)
+
+    val DEFAULT_STARTING_VALUE = 1
+    val ILLEGAL_STARTING_VALUE = 0
+    val LAST_CELL_VALUE = 12
+    val VALUE_OF_FIRST_CELL_OF_SECOND_ROW = 4
+
+    assertTrue(
+      Utils.testCatchException[
+        IllegalArgumentException,
+        (Int, (Int, Int), (Int, Int)),
+        (Int, Int)
+      ](
+        GameUtils.getNthCellInGrid,
+        (DEFAULT_STARTING_VALUE, ILLEGAL_GRID_SIZE, STARTING_CELL)
+      )
+    )
+    assertTrue(
+      Utils.testCatchException[
+        IllegalArgumentException,
+        (Int, (Int, Int), (Int, Int)),
+        (Int, Int)
+      ](
+        GameUtils.getNthCellInGrid,
+        (DEFAULT_STARTING_VALUE, ILLEGAL_GRID_SIZE.swap, STARTING_CELL)
+      )
+    )
+    assertTrue(
+      Utils.testCatchException[
+        IllegalArgumentException,
+        (Int, (Int, Int), (Int, Int)),
+        (Int, Int)
+      ](
+        GameUtils.getNthCellInGrid,
+        (ILLEGAL_STARTING_VALUE, DEFAULT_GRID_SIZE, STARTING_CELL)
+      )
+    )
+    assertTrue(
+      Utils.testCatchException[
+        IllegalArgumentException,
+        (Int, (Int, Int), (Int, Int)),
+        (Int, Int)
+      ](
+        GameUtils.getNthCellInGrid,
+        (LAST_CELL_VALUE + 1, DEFAULT_GRID_SIZE, STARTING_CELL)
+      )
+    )
+    assertEquals(
+      STARTING_CELL,
+      GameUtils.getNthCellInGrid(
+        DEFAULT_STARTING_VALUE,
+        DEFAULT_GRID_SIZE,
+        STARTING_CELL
+      )
+    )
+    assertEquals(
+      FIRST_CELL_OF_SECOND_ROW,
+      GameUtils.getNthCellInGrid(
+        VALUE_OF_FIRST_CELL_OF_SECOND_ROW,
+        DEFAULT_GRID_SIZE,
+        STARTING_CELL
+      )
+    )
+    assertEquals(
+      LAST_CELL,
+      GameUtils.getNthCellInGrid(
+        LAST_CELL_VALUE,
+        DEFAULT_GRID_SIZE,
+        STARTING_CELL
+      )
+    )
