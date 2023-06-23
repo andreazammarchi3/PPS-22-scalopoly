@@ -9,6 +9,7 @@ plugins {
     id("jacoco")
     id("org.openjfx.javafxplugin") version "0.0.13"
     id("org.danilopianini.gradle-kotlin-qa") version "0.34.1"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 }
 
 repositories {
@@ -32,6 +33,7 @@ javafx {
 application {
     // Define the main class for the application.
     mainClass.set("PPS.scalopoly.Launcher")
+    applicationName = "Scalopoly"
 }
 
 tasks.named<JavaExec>("run") {
@@ -119,4 +121,10 @@ tasks.withType(ScalaCompile::class.java) {
             "-feature",
             "-language:implicitConversions"
         ) + wartRemoverCompileOptions
+}
+
+tasks.jar {
+    manifest.attributes["Main-Class"] = "PPS.scalopoly.Launcher"
+    archiveBaseName.set("Scalopoly")
+    //archiveFileName.set("Scalopoly.jar")
 }
