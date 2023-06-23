@@ -55,7 +55,7 @@ class TestGameEngine extends BaseTest:
   @Test
   def testGetSpaceNameFromPlayerPosition(): Unit =
     assertEquals(
-      GameBoard.gameBoardMap(0),
+      GameBoard.gameBoardList(0),
       GameEngine.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
     )
 

@@ -111,4 +111,4 @@ object GameEngine:
     *   the name of the space where the player is.
     */
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    GameBoard.gameBoardMap(player.actualPosition)
+    GameBoard.gameBoardList(player.actualPosition)

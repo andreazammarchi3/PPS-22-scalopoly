@@ -5,57 +5,58 @@ import PPS.scalopoly.model.SpaceName.*
 /** The game board is a map of the game spaces.
   */
 object GameBoard:
-  private val _gameBoardMap: Map[Int, SpaceName] = Map(
-    0 -> VIA,
-    1 -> VICOLO_CORTO,
-    2 -> PROBABILITA,
-    3 -> VICOLO_STRETTO,
-    4 -> TASSA_PATRIMONIALE,
-    5 -> STAZIONE_SUD,
-    6 -> BASTIONI_GRAN_SASSO,
-    7 -> IMPREVISTI,
-    8 -> VIALE_MONTEROSA,
-    9 -> VIALE_VESUVIO,
-    10 -> PRIGIONE_TRANSITO,
-    11 -> VIA_ACCADEMIA,
-    12 -> SOCIETA_ELETTRICA,
-    13 -> CORSO_ATENEO,
-    14 -> PIAZZA_UNIVERSITA,
-    15 -> STAZIONE_OVEST,
-    16 -> VIA_VERDI,
-    17 -> PROBABILITA,
-    18 -> CORSO_RAFFAELLO,
-    19 -> PIAZZA_DANTE,
-    20 -> PARCHEGGIO_GRATUITO,
-    21 -> VIA_MARCO_POLO,
-    22 -> IMPREVISTI,
-    23 -> CORSO_MAGELLANO,
-    24 -> LARGO_COLOMBO,
-    25 -> STAZIONE_NORD,
-    26 -> VIALE_COSTANTINO,
-    27 -> VIALE_TRAIANO,
-    28 -> SOCIETA_ACQUA_POTABILE,
-    29 -> PIAZZA_GIULIO_CESARE,
-    30 -> IN_PRIGIONE,
-    31 -> VIA_ROMA,
-    32 -> CORSO_IMPERO,
-    33 -> PROBABILITA,
-    34 -> LARGO_AUGUSTO,
-    35 -> STAZIONE_EST,
-    36 -> IMPREVISTI,
-    37 -> VIALE_DEI_GIARDINI,
-    38 -> TASSA_DI_LUSSO,
-    39 -> PARCO_DELLA_VITTORIA
+
+  private val _gameBoardList: List[SpaceName] = List(
+    VIA,
+    VICOLO_CORTO,
+    PROBABILITA,
+    VICOLO_STRETTO,
+    TASSA_PATRIMONIALE,
+    STAZIONE_SUD,
+    BASTIONI_GRAN_SASSO,
+    IMPREVISTI,
+    VIALE_MONTEROSA,
+    VIALE_VESUVIO,
+    PRIGIONE_TRANSITO,
+    VIA_ACCADEMIA,
+    SOCIETA_ELETTRICA,
+    CORSO_ATENEO,
+    PIAZZA_UNIVERSITA,
+    STAZIONE_OVEST,
+    VIA_VERDI,
+    PROBABILITA,
+    CORSO_RAFFAELLO,
+    PIAZZA_DANTE,
+    PARCHEGGIO_GRATUITO,
+    VIA_MARCO_POLO,
+    IMPREVISTI,
+    CORSO_MAGELLANO,
+    LARGO_COLOMBO,
+    STAZIONE_NORD,
+    VIALE_COSTANTINO,
+    VIALE_TRAIANO,
+    SOCIETA_ACQUA_POTABILE,
+    PIAZZA_GIULIO_CESARE,
+    IN_PRIGIONE,
+    VIA_ROMA,
+    CORSO_IMPERO,
+    PROBABILITA,
+    LARGO_AUGUSTO,
+    STAZIONE_EST,
+    IMPREVISTI,
+    VIALE_DEI_GIARDINI,
+    TASSA_DI_LUSSO,
+    PARCO_DELLA_VITTORIA
   )
 
   /** Returns the game board map.
     * @return
     *   the game board map.
     */
-  def gameBoardMap: Map[Int, SpaceName] = _gameBoardMap
+  def gameBoardList: List[SpaceName] = _gameBoardList
 
   /** Returns the size of the game board.
     * @return
     *   the size of the game board.
     */
-  def size: Int = _gameBoardMap.size
+  def size: Int = _gameBoardList.length
