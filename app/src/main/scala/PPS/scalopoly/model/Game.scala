@@ -7,7 +7,10 @@ import scala.util.Random
 /** The game object contains all the information about the current game.
   */
 object Game:
-  private var _currentPlayer: Int = 0
+
+  private val DEFAULT_CURRENT_PLAYER: Int = 0
+
+  private var _currentPlayer: Int = DEFAULT_CURRENT_PLAYER
   private var _players: List[Player] = List.empty
   private var _availableTokens: List[Token] = Token.values.toList
 
@@ -71,6 +74,6 @@ object Game:
   /** Resets the game.
     */
   def reset(): Unit =
-    currentPlayer = 0
+    currentPlayer = DEFAULT_CURRENT_PLAYER
     players = List.empty
     availableTokens = Token.values.toList

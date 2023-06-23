@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test
 import PPS.scalopoly.Utils
 class TestImgResources:
 
+  private val DICE_4_POSITION = 13
+  private val DICE_6_POSITION = 15
+  private val IMG_TOKEN_STIVALE_POSITION = 3
+  private val IMG_TOKEN_GATTO_POSITION = 5
+  private val NUM_IMG_RESOURCES = 16
   @Test
   def testPath(): Unit =
     assertEquals("/img/Gameboard.png", ImgResources.GAMEBOARD.path)
@@ -17,8 +22,11 @@ class TestImgResources:
 
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(ImgResources.DICE_4, ImgResources.fromOrdinal(13))
-    assertEquals(ImgResources.IMG_TOKEN_STIVALE, ImgResources.fromOrdinal(3))
+    assertEquals(ImgResources.DICE_4, ImgResources.fromOrdinal(DICE_4_POSITION))
+    assertEquals(
+      ImgResources.IMG_TOKEN_STIVALE,
+      ImgResources.fromOrdinal(IMG_TOKEN_STIVALE_POSITION)
+    )
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, ImgResources](
         ImgResources.fromOrdinal,
@@ -33,7 +41,7 @@ class TestImgResources:
 
   @Test
   def testValues(): Unit =
-    assertEquals(16, ImgResources.values.length)
+    assertEquals(NUM_IMG_RESOURCES, ImgResources.values.length)
 
   @Test
   def testValueOf(): Unit =
@@ -51,5 +59,5 @@ class TestImgResources:
 
   @Test
   def testOrdinal(): Unit =
-    assertEquals(5, ImgResources.IMG_TOKEN_GATTO.ordinal)
-    assertEquals(15, ImgResources.DICE_6.ordinal)
+    assertEquals(IMG_TOKEN_GATTO_POSITION, ImgResources.IMG_TOKEN_GATTO.ordinal)
+    assertEquals(DICE_6_POSITION, ImgResources.DICE_6.ordinal)

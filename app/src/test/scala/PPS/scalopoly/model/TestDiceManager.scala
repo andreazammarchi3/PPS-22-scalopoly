@@ -4,14 +4,22 @@ import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestDiceManager:
+
   val diceManager: DiceManager = DiceManager()
+
   @Test
   def testApply(): Unit =
-    assertTrue(diceManager.dice1 >= 1 && diceManager.dice1 <= 6)
-    assertTrue(diceManager.dice2 >= 1 && diceManager.dice2 <= 6)
-    val newDiceManager = DiceManager(1, 2)
-    assertEquals(1, newDiceManager.dice1)
-    assertEquals(2, newDiceManager.dice2)
+    assertTrue(
+      diceManager.dice1 >= DiceManager.MIN_DICE_VALUE && diceManager.dice1 <= DiceManager.MAX_DICE_VALUE
+    )
+    assertTrue(
+      diceManager.dice2 >= DiceManager.MIN_DICE_VALUE && diceManager.dice2 <= DiceManager.MAX_DICE_VALUE
+    )
+    val DICE1_VALUE = 1
+    val DICE2_VALUE = 2
+    val newDiceManager = DiceManager(DICE1_VALUE, DICE2_VALUE)
+    assertEquals(DICE1_VALUE, newDiceManager.dice1)
+    assertEquals(DICE2_VALUE, newDiceManager.dice2)
 
   @Test
   def testFromProduct(): Unit =
@@ -21,7 +29,10 @@ class TestDiceManager:
   @Test
   def testRoll(): Unit =
     val diceManager: DiceManager = DiceManager()
-    for (_ <- 1 to 10)
+    val TRIES = 10
+    for (_ <- 1 to TRIES)
       diceManager.roll()
       val sum = diceManager.dice1 + diceManager.dice2
-      assertTrue(sum >= 2 && sum <= 12)
+      assertTrue(
+        sum >= DiceManager.MIN_DICE_VALUE * 2 && sum <= DiceManager.MAX_DICE_VALUE * 2
+      )

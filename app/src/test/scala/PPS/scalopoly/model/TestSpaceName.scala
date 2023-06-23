@@ -5,10 +5,20 @@ import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestSpaceName:
+
+  private val VICOLO_CORTO_POSITION = 0
+  private val PIAZZA_UNIVERSITA_POSITION = 7
+  private val NUM_SPACES = 36
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(SpaceName.VICOLO_CORTO, SpaceName.fromOrdinal(0))
-    assertEquals(SpaceName.PIAZZA_UNIVERSITA, SpaceName.fromOrdinal(7))
+    assertEquals(
+      SpaceName.VICOLO_CORTO,
+      SpaceName.fromOrdinal(VICOLO_CORTO_POSITION)
+    )
+    assertEquals(
+      SpaceName.PIAZZA_UNIVERSITA,
+      SpaceName.fromOrdinal(PIAZZA_UNIVERSITA_POSITION)
+    )
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, SpaceName](
         SpaceName.fromOrdinal,
@@ -18,7 +28,7 @@ class TestSpaceName:
 
   @Test
   def testValues(): Unit =
-    assertEquals(36, SpaceName.values.length)
+    assertEquals(NUM_SPACES, SpaceName.values.length)
 
   @Test
   def testValueOf(): Unit =

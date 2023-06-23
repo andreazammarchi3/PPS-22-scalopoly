@@ -8,6 +8,10 @@ import scala.util.Random
 /** A collection of utility methods used in the game.
   */
 object GameUtils:
+
+  val GAMEBOARD_SIDES = 4
+  val CELLS_IN_SIDE = GameBoard.size / GAMEBOARD_SIDES
+
   /** Shuffles a list of players.
     * @param players
     *   List of players to shuffle.
@@ -38,17 +42,21 @@ object GameUtils:
     * @return
     *   The coordinates of the grid cell.
     */
-  def getCoordinateFromPosition(position: Int): (Int, Int) = position match
-    case _ if position < 0 =>
-      throw new IllegalArgumentException("Position cannot be negative")
-    case _ if position >= GameBoard.size =>
-      throw new IllegalArgumentException(
-        "Position cannot be greater than board size"
-      )
-    case _ if position < 10 => (10 - position, 10)
-    case _ if position < 20 => (0, 20 - position)
-    case _ if position < 30 => (position - 20, 0)
-    case _                  => (10, position - 30)
+  def getCoordinateFromPosition(position: Int): (Int, Int) =
+    position match
+      case _ if position < 0 =>
+        throw new IllegalArgumentException("Position cannot be negative")
+      case _ if position >= GameBoard.size =>
+        throw new IllegalArgumentException(
+          "Position cannot be greater than board size"
+        )
+      case _ if position < CELLS_IN_SIDE =>
+        (CELLS_IN_SIDE - position, CELLS_IN_SIDE)
+      case _ if position < CELLS_IN_SIDE * 2 =>
+        (0, CELLS_IN_SIDE * 2 - position)
+      case _ if position < CELLS_IN_SIDE * 3 =>
+        (position - CELLS_IN_SIDE * 2, 0)
+      case _ => (CELLS_IN_SIDE, position - CELLS_IN_SIDE * 3)
 
   /** Return the coordinate of the nth cell in a grid of gridSize dimensions,
     * starting from startingCell.

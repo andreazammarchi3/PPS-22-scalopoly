@@ -19,7 +19,6 @@ class TestGame extends BaseTest:
       Game.availableTokens.length,
       Token.values.length - players.length
     )
-    val player4 = Player("P4", Token.DITALE)
     Game.addPlayer(player4)
     assertFalse(Game.availableTokens.contains(player4.token))
     Game.removePlayer(player4)
@@ -27,7 +26,6 @@ class TestGame extends BaseTest:
 
   @Test
   def testAddPlayer(): Unit =
-    val player4 = Player("P4", Token.DITALE)
     Game.addPlayer(player4)
     assertEquals(List(player4, player3, player2, player1), Game.players)
 

@@ -28,6 +28,9 @@ case class Player(nickname: String, token: Token, actualPosition: Int):
 /** Companion object of the class Player.
   */
 object Player:
+
+  val DEFAULT_STARTING_POSITION = 0
+
   /** Creates a new player with the given nickname and token.
     * @param nickname
     *   the nickname of the player
@@ -36,4 +39,5 @@ object Player:
     * @return
     *   the new player
     */
-  def apply(nickname: String, token: Token): Player = Player(nickname, token, 0)
+  def apply(nickname: String, token: Token): Player =
+    Player(nickname, token, DEFAULT_STARTING_POSITION)

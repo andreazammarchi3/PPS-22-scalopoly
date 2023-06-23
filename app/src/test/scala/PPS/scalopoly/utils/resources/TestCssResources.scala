@@ -11,15 +11,18 @@ import PPS.scalopoly.Utils
 
 class TestCssResources:
 
+  private val GAME_STYLE_POSITION = 0
+  private val NUM_CSS_RESOURCES = 1
   @Test
   def testPath(): Unit =
     assertEquals("/css/GameStyle.css", CssResources.GAME_STYLE.path)
-    assertEquals("/css/StartMenuStyle.css", CssResources.START_MENU_STYLE.path)
 
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(CssResources.START_MENU_STYLE, CssResources.fromOrdinal(0))
-    assertEquals(CssResources.GAME_STYLE, CssResources.fromOrdinal(1))
+    assertEquals(
+      CssResources.GAME_STYLE,
+      CssResources.fromOrdinal(GAME_STYLE_POSITION)
+    )
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, CssResources](
         CssResources.fromOrdinal,
@@ -29,12 +32,11 @@ class TestCssResources:
 
   @Test
   def testGetResource(): Unit =
-    assertNotNull(getClass.getResource(CssResources.START_MENU_STYLE.path))
     assertNotNull(getClass.getResource(CssResources.GAME_STYLE.path))
 
   @Test
   def testValues(): Unit =
-    assertEquals(2, CssResources.values.length)
+    assertEquals(NUM_CSS_RESOURCES, CssResources.values.length)
 
   @Test
   def testValueOf(): Unit =
@@ -52,5 +54,4 @@ class TestCssResources:
 
   @Test
   def testOrdinal(): Unit =
-    assertEquals(0, CssResources.START_MENU_STYLE.ordinal)
-    assertEquals(1, CssResources.GAME_STYLE.ordinal)
+    assertEquals(GAME_STYLE_POSITION, CssResources.GAME_STYLE.ordinal)

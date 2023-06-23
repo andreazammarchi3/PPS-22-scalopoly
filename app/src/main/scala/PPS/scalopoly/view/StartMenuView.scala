@@ -16,7 +16,7 @@ import java.util.ResourceBundle
 
 /** View of the start menu.
   */
-class StartMenuView extends BaseView:
+class StartMenuView extends Initializable:
 
   @FXML
   @SuppressWarnings(
@@ -42,17 +42,14 @@ class StartMenuView extends BaseView:
   )
   private var pane: BorderPane = _
 
-  override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    StartMenuController.setView(this)
-    FxmlUtils.setGameBoardImage(gameBoard)
-    pane.getStylesheets.add(
-      getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
+  override def initialize(location: URL, resources: ResourceBundle): Unit =
+    FxmlUtils.initUIElements(
+      pane,
+      gameBoard,
+      CssResources.GAME_STYLE,
+      FxmlUtils.DEFAULT_WIDTH_PERC,
+      FxmlUtils.DEFAULT_HEIGHT_PERC
     )
-    super.initialize(url, rb)
-
-  override protected def initUIElements(): Unit =
-    FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
-    FxmlUtils.setGameBoardSize(pane, gameBoard)
 
   /** Changes the scene of the stage to the configuration menu scene.
     */

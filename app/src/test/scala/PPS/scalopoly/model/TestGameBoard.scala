@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.*
 
 class TestGameBoard:
+
+  private val GAMEBOARD_SIZE = 40
   @Test
   def testGameBoard(): Unit =
-    assertEquals(40, GameBoard.size)
+    assertEquals(GAMEBOARD_SIZE, GameBoard.size)

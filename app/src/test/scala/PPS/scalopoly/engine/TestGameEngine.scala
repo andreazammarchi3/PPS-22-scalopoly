@@ -17,25 +17,24 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testStartGame(): Unit =
-    assertEquals(3, GameEngine.players.length)
-    assertTrue(GameEngine.players.contains(player1))
-    assertTrue(GameEngine.players.contains(player2))
-    assertTrue(GameEngine.players.contains(player3))
+    assertEquals(players.length, GameEngine.players.length)
+    players.foreach(p => assertTrue(GameEngine.players.contains(p)))
 
   @Test
   def testEndTurn(): Unit =
     val shuffledPlayer = GameEngine.players
-    GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(1)))
-    GameEngine.endTurn()
-    assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(2)))
+    for i <- 1 until players.length
+    do
+      GameEngine.endTurn()
+      assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(i)))
+
     GameEngine.endTurn()
     assertTrue(GameEngine.currentPlayer.equals(shuffledPlayer(0)))
 
   @Test
   def testMoveCurrentPlayer(): Unit =
     val startPosition = GameEngine.currentPlayer.actualPosition
-    assertEquals(0, startPosition)
+    assertEquals(Player.DEFAULT_STARTING_POSITION, startPosition)
     val (dice1, dice2) = GameEngine.moveCurrentPlayer()
     assertEquals(
       startPosition + dice1 + dice2,
@@ -44,7 +43,7 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testCurrentPlayerQuit(): Unit =
-    for i <- 2 to 1
+    for i <- players.length - 1 to 1
     do
       val deletedPlayer = GameEngine.currentPlayer
       GameEngine.currentPlayerQuit()
@@ -82,9 +81,9 @@ class TestGameEngine extends BaseTest:
   @Test
   def testCanAddPlayer(): Unit =
     assertTrue(GameEngine.canAddPlayer)
-    GameEngine.addPlayer(Player("P4", Token.DITALE))
+    GameEngine.addPlayer(player4)
     assertTrue(GameEngine.canAddPlayer)
-    GameEngine.addPlayer(Player("P5", Token.CANE))
+    GameEngine.addPlayer(player5)
     assertTrue(GameEngine.canAddPlayer)
-    GameEngine.addPlayer(Player("P6", Token.CILINDRO))
+    GameEngine.addPlayer(player6)
     assertFalse(GameEngine.canAddPlayer)

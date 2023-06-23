@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test
 
 class TestFxmlResources:
 
+  private val START_MENU_POSITION = 0
+  private val CONFIGURATION_MENU_POSITION = 1
+  private val GAME_VIEW_POSITION = 2
+  private val NUM_FXML_RESOURCES = 3
   @Test
   def testPath(): Unit =
     assertEquals("/fxml/StartMenuFXML.fxml", FxmlResources.START_MENU.path)
@@ -17,8 +21,14 @@ class TestFxmlResources:
 
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(FxmlResources.START_MENU, FxmlResources.fromOrdinal(0))
-    assertEquals(FxmlResources.GAME_VIEW, FxmlResources.fromOrdinal(2))
+    assertEquals(
+      FxmlResources.START_MENU,
+      FxmlResources.fromOrdinal(START_MENU_POSITION)
+    )
+    assertEquals(
+      FxmlResources.GAME_VIEW,
+      FxmlResources.fromOrdinal(GAME_VIEW_POSITION)
+    )
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, FxmlResources](
         FxmlResources.fromOrdinal,
@@ -33,7 +43,7 @@ class TestFxmlResources:
 
   @Test
   def testValues(): Unit =
-    assertEquals(3, FxmlResources.values.length)
+    assertEquals(NUM_FXML_RESOURCES, FxmlResources.values.length)
 
   @Test
   def testValueOf(): Unit =
@@ -51,5 +61,8 @@ class TestFxmlResources:
 
   @Test
   def testOrdinal(): Unit =
-    assertEquals(0, FxmlResources.START_MENU.ordinal)
-    assertEquals(1, FxmlResources.CONFIGURATION_MENU.ordinal)
+    assertEquals(START_MENU_POSITION, FxmlResources.START_MENU.ordinal)
+    assertEquals(
+      CONFIGURATION_MENU_POSITION,
+      FxmlResources.CONFIGURATION_MENU.ordinal
+    )

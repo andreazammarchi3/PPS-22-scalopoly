@@ -6,6 +6,10 @@ import PPS.scalopoly.utils.GameUtils
 /** Object that represents the game engine.
   */
 object GameEngine:
+
+  private val MIN_PLAYERS = 2
+  private val MAX_PLAYERS = 6
+
   private val diceManager: DiceManager = DiceManager()
 
   /** Returns the list of players.
@@ -47,8 +51,8 @@ object GameEngine:
     */
   def canStartGame: Boolean =
     Game.players.length match
-      case i if i < 2 => false
-      case _          => true
+      case i if i < MIN_PLAYERS => false
+      case _                    => true
 
   /** Check if a player can be added to the game, at most 6 players are allowed.
     * @return
@@ -56,8 +60,8 @@ object GameEngine:
     */
   def canAddPlayer: Boolean =
     Game.players.length match
-      case i if i < 6 => true
-      case _          => false
+      case i if i < MAX_PLAYERS => true
+      case _                    => false
 
   /** Starts the game and shuffles the players.
     */
@@ -99,7 +103,7 @@ object GameEngine:
     endTurn()
     val nextPlayer = currentPlayer
     Game.players.length match
-      case 1 => exitGame()
+      case players if players == MIN_PLAYERS - 1 => exitGame()
       case _ =>
         Game.removePlayer(playerToDelete)
         Game.currentPlayer = Game.players.indexOf(nextPlayer)

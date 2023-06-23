@@ -31,7 +31,7 @@ javafx {
 
 application {
     // Define the main class for the application.
-    mainClass.set("PPS.scalopoly.App")
+    mainClass.set("PPS.scalopoly.Launcher")
 }
 
 tasks.named<JavaExec>("run") {

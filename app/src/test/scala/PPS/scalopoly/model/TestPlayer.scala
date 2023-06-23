@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 
 class TestPlayer:
-  val player: Player = Player("player", Token.CANE)
+
+  private val player: Player = Player("player", Token.CANE)
 
   @Test
   def testApply(): Unit =

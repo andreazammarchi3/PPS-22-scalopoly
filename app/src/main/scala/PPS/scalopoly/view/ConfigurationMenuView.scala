@@ -22,10 +22,13 @@ import scalafx.scene.control.ControlIncludes.jfxCellDataFeatures2sfx
 
 import java.net.URL
 import java.util
+import java.util.ResourceBundle
 
 /** View for the configuration menu.
   */
-class ConfigurationMenuView extends BaseView:
+class ConfigurationMenuView extends Initializable:
+
+  private val N_MENUS = 2
 
   @FXML
   @SuppressWarnings(
@@ -105,22 +108,18 @@ class ConfigurationMenuView extends BaseView:
   )
   private var removePlayerBtn: Button = _
 
-  override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    ConfigurationMenuController.setView(this)
-    super.initialize(url, rb)
-
-  override protected def initUIElements(): Unit =
-    FxmlUtils.setGameBoardImage(gameBoard)
-    pane.getStylesheets.add(
-      getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
+  override def initialize(location: URL, resources: ResourceBundle): Unit =
+    FxmlUtils.initUIElements(
+      pane,
+      gameBoard,
+      CssResources.GAME_STYLE,
+      FxmlUtils.DEFAULT_WIDTH_PERC,
+      FxmlUtils.DEFAULT_HEIGHT_PERC
     )
-    FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
-    FxmlUtils.setGameBoardSize(pane, gameBoard)
-    val gameBoardSize = pane.getPrefHeight
-    val (width, height) = FxmlUtils.getResolution
-    val menuWidth = width - gameBoardSize
-    rightBorderPaneVBox.setPrefWidth(menuWidth / 2)
-    leftBorderPaneVBox.setPrefWidth(menuWidth / 2)
+
+    val menuWidth = FxmlUtils.getResolution._1 - pane.getPrefHeight
+    rightBorderPaneVBox.setPrefWidth(menuWidth / N_MENUS)
+    leftBorderPaneVBox.setPrefWidth(menuWidth / N_MENUS)
     initTableView()
     updateAddPlayerCombobox()
     removePlayerBtn
@@ -150,13 +149,11 @@ class ConfigurationMenuView extends BaseView:
 
   /** Add a player to the table view, if the player name is not empty.
     */
-  @FXML
   def checkAndAddPlayerToTableView(): Unit =
     if (ConfigurationMenuController.canAddPlayer) addPlayerToTableView()
 
   /** Removes the selected player from the table view.
     */
-  @FXML
   def removePlayerFromTableView(): Unit =
     val selectedPlayer = tableView.getSelectionModel.getSelectedItem
     tableView.getItems.remove(selectedPlayer)

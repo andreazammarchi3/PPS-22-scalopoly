@@ -14,15 +14,6 @@ import java.util
   */
 object ConfigurationMenuController:
 
-  private var configurationMenuView: ConfigurationMenuView = _
-
-  /** Set the view of the controller.
-    * @param view
-    *   the view to set.
-    */
-  def setView(view: ConfigurationMenuView): Unit =
-    configurationMenuView = view
-
   /** Add a player to the game.
     * @param player
     *   the player to add.

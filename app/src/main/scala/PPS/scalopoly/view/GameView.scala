@@ -3,7 +3,6 @@ package PPS.scalopoly.view
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{DiceManager, Game, GameBoard, Player, Token}
-import PPS.scalopoly.utils.FxmlUtils.getResolution
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
@@ -29,7 +28,11 @@ import scala.collection.mutable.Map as MMap
 import java.net.URL
 import java.util
 
-class GameView extends BaseView:
+class GameView extends Initializable:
+
+  private val N_MENUS = 2
+  private val N_COLS_IN_CELL = 4
+  private val N_ROWS_IN_CELL = 3
 
   @FXML
   @SuppressWarnings(
@@ -104,8 +107,21 @@ class GameView extends BaseView:
   private val tokensImgView: MMap[Token, ImageView] = MMap.empty
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
-    GameController.setView(this)
-    super.initialize(url, rb)
+    FxmlUtils.initUIElements(
+      pane,
+      gameBoard,
+      CssResources.GAME_STYLE,
+      FxmlUtils.DEFAULT_WIDTH_PERC,
+      FxmlUtils.DEFAULT_HEIGHT_PERC
+    )
+
+    initCellGrids()
+    val menuWidth = FxmlUtils.getResolution._1 - pane.getPrefHeight
+    actionsMenu.setPrefWidth(menuWidth / N_MENUS)
+    playerListBox.setPrefWidth(menuWidth / N_MENUS)
+
+    setDiceImg(diceImageView1)
+    setDiceImg(diceImageView2)
 
     GameEngine.players.foreach(p =>
       createPlayerBox(p)
@@ -114,36 +130,16 @@ class GameView extends BaseView:
       )
       tokensImgView.addOne(p.token, tokenImg)
       tokenImg.setPreserveRatio(false)
-      tokenImg.setFitWidth(gameBoard.getFitWidth / 11 / 4)
-      tokenImg.setFitHeight(gameBoard.getFitHeight / 11 / 4)
+      tokenImg.setFitWidth(
+        gameBoard.getFitWidth / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
+      )
+      tokenImg.setFitHeight(
+        gameBoard.getFitHeight / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
+      )
       updateTokenPosition(p)
     )
 
-    pane.getStylesheets.add(
-      getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
-    )
     updateStyleForCurrentPLayer()
-
-  override protected def initUIElements(): Unit =
-    FxmlUtils.setGameBoardImage(gameBoard)
-    FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
-    FxmlUtils.setGameBoardSize(pane, gameBoard)
-    initCellGrids()
-    val gameBoardSize = pane.getPrefHeight
-    val (width, height) = getResolution
-    val menuWidth = width - gameBoardSize
-    actionsMenu.setPrefWidth(menuWidth / 2)
-    playerListBox.setPrefWidth(menuWidth / 2)
-
-    diceImageView1.setFitWidth(gameBoardSize / 11)
-    diceImageView2.setFitWidth(gameBoardSize / 11)
-
-  /** Update the style of the current player
-    */
-  def updateStyleForCurrentPLayer(): Unit =
-    playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.token).getStyleClass
-      .add("green-background")
 
   /** Remove current player from the game
     */
@@ -152,11 +148,14 @@ class GameView extends BaseView:
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
     canEndTurn(false)
+    updateStyleForCurrentPLayer()
 
   /** Throw dice
     */
   def throwDiceBtnClick(): Unit =
     val (dice1, dice2) = GameController.throwDice()
+    updateTokenPosition(GameEngine.currentPlayer)
+    updateDiceImg(dice1, dice2)
     if dice1 != dice2 then canEndTurn(true)
 
   /** End turn
@@ -164,55 +163,39 @@ class GameView extends BaseView:
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
     canEndTurn(false)
-
-  /** Update the position of the token in the game board
-    * @param player
-    *   the player who's token position has to be updated
-    */
-  def updateTokenPosition(player: Player): Unit =
-    val cellGrid = cellsGrids(
-      GameUtils.getCoordinateFromPosition(player.actualPosition)
-    )
-    val (col, row) = getFirstFreeCellForToken(cellGrid)
-    cellGrid.add(tokensImgView(player.token), col, row + 1)
-
-  /** Update the dice image to show the result of the dice throw
-    * @param dice1
-    *   the first dice result
-    * @param dice2
-    *   the second dice result
-    */
-  def updateDiceImg(dice1: Int, dice2: Int): Unit =
-    updateSingleDiceImg(dice1, diceImageView1)
-    updateSingleDiceImg(dice2, diceImageView2)
+    updateStyleForCurrentPLayer()
 
   private def initCellGrids(): Unit =
+    val RIGHT_ANGLE = 90
+    val CONSTRAINT_PERC = 50
     for
-      i <- 0 to 10
-      j <- 0 to 10
-      if ((i == 0 || i == 10) && (j >= 0 && j <= 10)) || ((j == 0 || j == 10) && (i >= 0 && i <= 10))
+      i <- 0 to GameUtils.CELLS_IN_SIDE
+      j <- 0 to GameUtils.CELLS_IN_SIDE
+      if ((i == 0 || i == GameUtils.CELLS_IN_SIDE) && (j >= 0 && j <= GameUtils.CELLS_IN_SIDE)) || ((j == 0 || j == GameUtils.CELLS_IN_SIDE) && (i >= 0 && i <= GameUtils.CELLS_IN_SIDE))
     do
       val tmpGrid = new GridPane()
-      spawnColumns(tmpGrid, 4)
-      spawnRows(tmpGrid, 3)
-      if i == 0 then tmpGrid.setRotate(90)
-      else if i == 10 && j < 10 then tmpGrid.setRotate(-90)
-      if j == 0 then tmpGrid.setRotate(180)
+      spawnColumns(tmpGrid, N_COLS_IN_CELL)
+      spawnRows(tmpGrid, N_ROWS_IN_CELL)
+      if i == 0 then tmpGrid.setRotate(RIGHT_ANGLE)
+      else if i == GameUtils.CELLS_IN_SIDE && j < GameUtils.CELLS_IN_SIDE then
+        tmpGrid.setRotate(-RIGHT_ANGLE)
+      if j == 0 then tmpGrid.setRotate(RIGHT_ANGLE * 2)
 
       mainGrid.add(tmpGrid, i, j)
       cellsGrids.addOne((i, j), tmpGrid)
 
       def spawnColumns(grid: GridPane, numCol: Int): Unit =
         val col = new ColumnConstraints()
-        col.setPercentWidth(50)
+        col.setPercentWidth(CONSTRAINT_PERC)
         for _ <- 0 until numCol do grid.getColumnConstraints.add(col)
 
       def spawnRows(grid: GridPane, numRow: Int): Unit =
         val row = new RowConstraints()
-        row.setPercentHeight(50)
+        row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
   private def createPlayerBox(player: Player): Unit =
+    val DEFAULT_SPACING = 10
     val playerHBox: HBox = new HBox()
     playerListBox.getChildren.add(playerHBox)
 
@@ -230,13 +213,17 @@ class GameView extends BaseView:
     playerHBox.getChildren.add(playerPropertiesBtn)
      */
 
-    playerHBox.setSpacing(10)
+    playerHBox.setSpacing(DEFAULT_SPACING)
     playerHBox.setAlignment(Pos.CENTER)
 
     playersHBox += (player.token -> playerHBox)
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getNthCellInGrid(gridPane.getChildren.size() + 1, (4, 3), (0, 0))
+    GameUtils.getNthCellInGrid(
+      gridPane.getChildren.size() + 1,
+      (N_COLS_IN_CELL, N_ROWS_IN_CELL),
+      (0, 0)
+    )
 
   private def canEndTurn(can: Boolean): Unit =
     endTurnBtn.setDisable(!can)
@@ -245,3 +232,24 @@ class GameView extends BaseView:
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
     diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))
+
+  private def updateStyleForCurrentPLayer(): Unit =
+    playersHBox.values.foreach(h => h.getStyleClass.clear())
+    playersHBox(GameEngine.currentPlayer.token).getStyleClass
+      .add("green-background")
+
+  private def updateTokenPosition(player: Player): Unit =
+    val cellGrid = cellsGrids(
+      GameUtils.getCoordinateFromPosition(player.actualPosition)
+    )
+    val (col, row) = getFirstFreeCellForToken(cellGrid)
+    cellGrid.add(tokensImgView(player.token), col, row + 1)
+
+  private def setDiceImg(diceImgView: ImageView): Unit =
+    diceImgView.setFitWidth(
+      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
+    )
+
+  private def updateDiceImg(dice1: Int, dice2: Int): Unit =
+    updateSingleDiceImg(dice1, diceImageView1)
+    updateSingleDiceImg(dice2, diceImageView2)

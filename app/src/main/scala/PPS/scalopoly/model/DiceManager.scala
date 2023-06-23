@@ -18,10 +18,15 @@ case class DiceManager(dice1: Int, dice2: Int):
 /** Companion object of the DiceManager class.
   */
 object DiceManager:
+
+  val MIN_DICE_VALUE = 1
+  val MAX_DICE_VALUE = 6
+
   /** Creates a new DiceManager with two random dice.
     * @return
     *   a new DiceManager
     */
   def apply(): DiceManager = new DiceManager(rollDice(), rollDice())
 
-  private def rollDice(): Int = Random.between(1, 7)
+  private def rollDice(): Int =
+    Random.between(MIN_DICE_VALUE, MAX_DICE_VALUE + 1)

@@ -5,10 +5,14 @@ import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestToken:
+
+  private val DITALE_POSITION = 0
+  private val CANE_POSITION = 7
+  private val NUM_TOKENS = 8
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(Token.DITALE, Token.fromOrdinal(0))
-    assertEquals(Token.CANE, Token.fromOrdinal(7))
+    assertEquals(Token.DITALE, Token.fromOrdinal(DITALE_POSITION))
+    assertEquals(Token.CANE, Token.fromOrdinal(CANE_POSITION))
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, Token](
         Token.fromOrdinal,
@@ -18,7 +22,7 @@ class TestToken:
 
   @Test
   def testValues(): Unit =
-    assertEquals(8, Token.values.length)
+    assertEquals(NUM_TOKENS, Token.values.length)
 
   @Test
   def testValueOf(): Unit =
