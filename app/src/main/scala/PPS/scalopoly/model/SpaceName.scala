@@ -1,5 +1,8 @@
 package PPS.scalopoly.model
 
+/**
+ * Represents the name of a space on the board.
+ */
 enum SpaceName(name: String):
   case VICOLO_CORTO extends SpaceName("Vicolo Corto")
   case VICOLO_STRETTO extends SpaceName("Vicolo Stretto")
@@ -50,4 +53,9 @@ enum SpaceName(name: String):
   case TASSA_PATRIMONIALE extends SpaceName("Tassa patrimoniale")
   case TASSA_DI_LUSSO extends SpaceName("Tassa di Lusso")
 
+  /**
+   * Checks if two SpaceNames are equal.
+   * @param obj the other SpaceName
+   * @return true if the two SpaceNames are equal, false otherwise
+   */
   override def equals(obj: Any): Boolean = super.equals(obj)

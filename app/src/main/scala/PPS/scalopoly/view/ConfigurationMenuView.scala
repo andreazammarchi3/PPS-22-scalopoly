@@ -22,6 +22,9 @@ import scalafx.scene.control.ControlIncludes.jfxCellDataFeatures2sfx
 import java.net.URL
 import java.util
 
+/**
+ * View for the configuration menu.
+ */
 class ConfigurationMenuView extends Initializable:
 
   @FXML
@@ -101,7 +104,7 @@ class ConfigurationMenuView extends Initializable:
     Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
   )
   private var removePlayerBtn: Button = _
-
+  
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     ConfigurationMenuController.setView(this)
     initUIElements()
@@ -138,11 +141,14 @@ class ConfigurationMenuView extends Initializable:
 //    playerTokenColumn.prefWidthProperty().bind(tableView.widthProperty().divide(2))
     tableView.setItems(FXCollections.observableArrayList[Player]())
 
+  /**
+   * Checks if the player name is not empty and adds the player to the table view.
+   */
   def playGameBtnClick(): Unit =
     if (ConfigurationMenuController.canStartGame)
       ConfigurationMenuController.playGame()
     else showCantStartAlert()
-
+  
   private def showCantStartAlert(): Unit =
     val alert = new Alert(AlertType.WARNING)
     alert.setTitle("Scalopoly")
@@ -157,9 +163,15 @@ class ConfigurationMenuView extends Initializable:
     alert.setContentText("Il nome del giocatore non può essere vuoto.")
     alert.showAndWait()
 
+  /**
+   * Exits the game.
+   */
   def exitGameBtnClick(): Unit =
     ConfigurationMenuController.exitGame()
 
+  /**
+   * Add a player to the table view, if the player name is not empty.
+   */
   @FXML
   def checkAndAddPlayerToTableView(): Unit =
     if (ConfigurationMenuController.canAddPlayer) addPlayerToTableView()
@@ -179,6 +191,9 @@ class ConfigurationMenuView extends Initializable:
         updateAddAndRemoveButton()
         addPlayerNameTextField.clear()
 
+  /**
+   * Removes the selected player from the table view.
+   */
   @FXML
   def removePlayerFromTableView(): Unit =
     val selectedPlayer = tableView.getSelectionModel.getSelectedItem

@@ -2,6 +2,9 @@ package PPS.scalopoly.model
 
 import PPS.scalopoly.model.SpaceName.*
 
+/**
+ * The game board is a map of the game spaces.
+ */
 object GameBoard:
   private val _gameBoardMap: Map[Int, SpaceName] = Map(
     0 -> VIA,
@@ -46,6 +49,14 @@ object GameBoard:
     39 -> PARCO_DELLA_VITTORIA
   )
 
+  /**
+   * Returns the game board map.
+   * @return the game board map.
+   */
   def gameBoardMap: Map[Int, SpaceName] = _gameBoardMap
 
+  /**
+   * Returns the size of the game board.
+   * @return the size of the game board.
+   */
   def size: Int = _gameBoardMap.size
