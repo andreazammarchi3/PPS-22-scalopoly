@@ -18,7 +18,7 @@ class TestFxmlResources:
   @Test
   def testFromOrdinal(): Unit =
     assertEquals(FxmlResources.START_MENU, FxmlResources.fromOrdinal(0))
-    assertEquals(FxmlResources.GAME_VIEW, FxmlResources.fromOrdinal(1))
+    assertEquals(FxmlResources.GAME_VIEW, FxmlResources.fromOrdinal(2))
     assertTrue(
       Utils.testCatchException[IllegalArgumentException, Int, FxmlResources](
         FxmlResources.fromOrdinal,
@@ -33,7 +33,7 @@ class TestFxmlResources:
 
   @Test
   def testValues(): Unit =
-    assertEquals(2, FxmlResources.values.length)
+    assertEquals(3, FxmlResources.values.length)
 
   @Test
   def testValueOf(): Unit =
@@ -52,4 +52,4 @@ class TestFxmlResources:
   @Test
   def testOrdinal(): Unit =
     assertEquals(0, FxmlResources.START_MENU.ordinal)
-    assertEquals(1, FxmlResources.GAME_VIEW.ordinal)
+    assertEquals(1, FxmlResources.CONFIGURATION_MENU.ordinal)

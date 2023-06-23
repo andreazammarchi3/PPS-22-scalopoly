@@ -47,7 +47,11 @@ object FxmlUtils:
     gameBoard.setFitWidth(gameBoardSize)
     gameBoard.setFitHeight(gameBoardSize)
 
-  def setPaneResolution(pane: BorderPane, widthPerc: Double, heightPerc: Double): Unit =
+  def setPaneResolution(
+      pane: BorderPane,
+      widthPerc: Double,
+      heightPerc: Double
+  ): Unit =
     val screenResolution = Screen.getPrimary.getBounds
     width = screenResolution.getWidth * widthPerc
     height = screenResolution.getHeight * heightPerc

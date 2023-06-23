@@ -2,7 +2,7 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{DiceManager,Game, GameBoard, Player, Token}
+import PPS.scalopoly.model.{DiceManager, Game, GameBoard, Player, Token}
 import PPS.scalopoly.utils.FxmlUtils.getResolution
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
@@ -106,7 +106,6 @@ class GameView extends Initializable:
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     GameController.setView(this)
     initUIElements()
-//    temp()
 
     GameEngine.players.foreach(p =>
       createPlayerBox(p)
@@ -126,7 +125,11 @@ class GameView extends Initializable:
     updateStyleForCurrentPLayer()
 
   private def initUIElements(): Unit =
-    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
+    gameBoard.setImage(
+      new Image(
+        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
+      )
+    )
     gameBoard.setPreserveRatio(false)
     FxmlUtils.setPaneResolution(pane, 0.9, 0.9)
     FxmlUtils.setGameBoardSize(pane, gameBoard)
@@ -165,21 +168,6 @@ class GameView extends Initializable:
         val row = new RowConstraints()
         row.setPercentHeight(50)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
-
-  private def temp(): Unit =
-    val p1: Player = Player("P1", Token.DITALE)
-    val p2: Player = Player("P2", Token.NAVE)
-    val p3: Player = Player("P3", Token.GATTO)
-    val p4: Player = Player("P4", Token.CANE)
-    val p5: Player = Player("P5", Token.STIVALE)
-    val p6: Player = Player("Massimiliano", Token.AUTOMOBILE)
-    GameEngine.addPlayer(p1)
-    GameEngine.addPlayer(p2)
-    GameEngine.addPlayer(p3)
-    GameEngine.addPlayer(p4)
-    GameEngine.addPlayer(p5)
-    GameEngine.addPlayer(p6)
-    GameEngine.startGame()
 
   private def createPlayerBox(player: Player): Unit =
     val playerHBox: HBox = new HBox()

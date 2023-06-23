@@ -15,7 +15,6 @@ import java.util
 
 class StartMenuView extends Initializable:
 
-
   @FXML
   @SuppressWarnings(
     Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
@@ -42,9 +41,15 @@ class StartMenuView extends Initializable:
 
   override def initialize(url: URL, rb: util.ResourceBundle): Unit =
     StartMenuController.setView(this)
-    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
+    gameBoard.setImage(
+      new Image(
+        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
+      )
+    )
     gameBoard.setPreserveRatio(false)
-    pane.getStylesheets.add(getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm)
+    pane.getStylesheets.add(
+      getClass.getResource(CssResources.GAME_STYLE.path).toExternalForm
+    )
     initUIElements()
 
   private def initUIElements(): Unit =
@@ -56,4 +61,3 @@ class StartMenuView extends Initializable:
 
   def exitGameBtnClick(): Unit =
     StartMenuController.exitGame()
-

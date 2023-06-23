@@ -17,26 +17,26 @@ object ConfigurationMenuController:
   def setView(view: ConfigurationMenuView): Unit =
     configurationMenuView = view
 
-  def addPayer(player: Player): Unit =
+  def addPlayer(player: Player): Unit =
     GameEngine.addPlayer(player)
 
-  def removePayer(player: Player): Unit =
+  def removePlayer(player: Player): Unit =
     GameEngine.removePlayer(player)
 
   def availableToken(): List[Token] =
-    GameEngine.availableTokens()
+    GameEngine.availableTokens
 
   def availablePlayer(): List[Player] =
     GameEngine.players
 
   def canAddPlayer: Boolean =
-    GameEngine.canAddPlayer()
+    GameEngine.canAddPlayer
 
   def canStartGame: Boolean =
-    GameEngine.canStartGame()
+    GameEngine.canStartGame
 
   def playGame(): Unit =
     GameEngine.startGame()
     FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
 
-  def exitGame(): Unit = sys.exit(0)
+  def exitGame(): Unit = GameEngine.exitGame()

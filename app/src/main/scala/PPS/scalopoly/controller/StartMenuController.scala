@@ -1,6 +1,5 @@
 package PPS.scalopoly.controller
 
-
 import PPS.scalopoly.view.StartMenuView
 import PPS.scalopoly.utils.resources.FxmlResources
 import PPS.scalopoly.utils.FxmlUtils
@@ -16,7 +15,6 @@ import java.net.URL
 import java.util
 
 object StartMenuController:
-
 
   private var startMenuView: StartMenuView = _
 

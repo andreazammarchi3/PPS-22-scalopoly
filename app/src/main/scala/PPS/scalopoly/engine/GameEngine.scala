@@ -10,7 +10,7 @@ object GameEngine:
 
   def currentPlayer: Player = players(Game.currentPlayer)
 
-  def availableTokens(): List[Token] =
+  def availableTokens: List[Token] =
     Game.availableTokens
 
   def addPlayer(player: Player): Unit =
@@ -19,15 +19,15 @@ object GameEngine:
   def removePlayer(player: Player): Unit =
     Game.removePlayer(player)
 
-  def canStartGame(): Boolean =
+  def canStartGame: Boolean =
     Game.players.length match
-      case i if i < 1 => false
-      case _ => true
+      case i if i < 2 => false
+      case _          => true
 
-  def canAddPlayer(): Boolean =
+  def canAddPlayer: Boolean =
     Game.players.length match
-      case i if i < 8 => true
-      case _ => false
+      case i if i < 6 => true
+      case _          => false
 
   def startGame(): Unit =
     Game.players = GameUtils.shufflePlayers(Game.players)
