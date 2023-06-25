@@ -13,6 +13,7 @@ object Game:
   private var _currentPlayer: Int = DEFAULT_CURRENT_PLAYER
   private var _players: List[Player] = List.empty
   private var _availableTokens: List[Token] = Token.values.toList
+  private var _realEstates: List[RealEstate] = SpaceName.values.map[RealEstate](x => RealEstate(x)).toList
 
   /** Returns the current player.
     * @return

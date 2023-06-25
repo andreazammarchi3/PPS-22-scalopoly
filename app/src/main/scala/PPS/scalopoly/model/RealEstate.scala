@@ -5,7 +5,7 @@ package PPS.scalopoly.model
  * @param spaceName
  *   the space name of the real estate
  */
-case class RealEstate(spaceName: SpaceName, sellingPrice: Int):
+case class RealEstate(spaceName: SpaceName):
 
   val RENT_SELLING_PRICE_PERC = 10
   private var _owner: Option[Player] = None
@@ -40,7 +40,7 @@ case class RealEstate(spaceName: SpaceName, sellingPrice: Int):
       case _ => false
 
   def calculateRent(): Int =
-    sellingPrice / RENT_SELLING_PRICE_PERC
+    spaceName.sellingPrice / RENT_SELLING_PRICE_PERC
 
 /** Companion object of the class RealEstate.
  */
@@ -53,5 +53,5 @@ object RealEstate:
    * @return
    * the new real estate
    */
-  def apply(spaceName: SpaceName, sellingPrice: Int): RealEstate = new RealEstate(spaceName, sellingPrice)
+  def apply(spaceName: SpaceName): RealEstate = new RealEstate(spaceName)
 
