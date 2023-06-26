@@ -126,5 +126,5 @@ tasks.withType(ScalaCompile::class.java) {
 tasks.jar {
     manifest.attributes["Main-Class"] = "PPS.scalopoly.Launcher"
     archiveBaseName.set("Scalopoly")
-    //archiveFileName.set("Scalopoly.jar")
+    // archiveFileName.set("Scalopoly.jar")
 }
