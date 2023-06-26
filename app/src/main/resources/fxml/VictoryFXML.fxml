@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.view.VictoryView">
+   <center>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="victoryLbl" textFill="#00ff11">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Button fx:id="backToMenuBtn" minWidth="100.0" mnemonicParsing="false" onAction="#backToMenuClick" styleClass="scalopoly-btn-actions" text="Torna al menù" />
+                  <Button fx:id="exitBtn" minWidth="100.0" mnemonicParsing="false" onAction="#exitGameBtnClick" styleClass="scalopoly-btn-actions" text="Esci" />
+               </children></HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
