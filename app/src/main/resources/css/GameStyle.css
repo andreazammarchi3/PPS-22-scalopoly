@@ -19,6 +19,11 @@ Label {
     -fx-font-size: 12pt;
 }
 
+.scalopoly-win-lbl {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20pt;
+}
+
 :disabled {
     /* Stili per i nodi disabilitati */
     -fx-opacity: 0.5; /* Opacità ridotta */

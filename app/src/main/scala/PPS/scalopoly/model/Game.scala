@@ -12,10 +12,12 @@ object Game:
 
   private var _currentPlayer: Int = DEFAULT_CURRENT_PLAYER
   private var _players: List[Player] = List.empty
+  private var _winner: Option[Player] = None
   private var _availableTokens: List[Token] = Token.values.toList
 
   /** Returns the current player.
-    * @return
+   *
+   * @return
     *   the current player.
     */
   def currentPlayer: Int = _currentPlayer
@@ -39,6 +41,19 @@ object Game:
     */
   def players_=(value: List[Player]): Unit =
     _players = value
+
+  /** Returns the winner of the game.
+   * @return
+    *   the winner of the game.
+    */
+  def winner: Option[Player] = _winner
+
+  /** Sets the winner of the game.
+    * @param value
+    *   the new winner of the game.
+    */
+  def winner_=(value: Option[Player]): Unit =
+    _winner = value
 
   /** Returns the list of available tokens.
     * @return
@@ -77,3 +92,4 @@ object Game:
     currentPlayer = DEFAULT_CURRENT_PLAYER
     players = List.empty
     availableTokens = Token.values.toList
+    winner = None

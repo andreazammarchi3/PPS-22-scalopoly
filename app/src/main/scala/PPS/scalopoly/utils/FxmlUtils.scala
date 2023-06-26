@@ -81,6 +81,15 @@ object FxmlUtils:
     setGameBoardSize(pane, gameBoard)
     setPaneStyle(pane, cssResources)
 
+  /** Initialize the style of the pane.
+   * @param pane the pane to initialize
+   * @param cssResources the css style to apply to the pane
+   */
+  def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
+    pane.getStylesheets.add(
+      getClass.getResource(cssResources.path).toExternalForm
+    )
+
   /** Gets the resolution of the screen.
     * @return
     *   the resolution of the screen.
@@ -140,8 +149,3 @@ object FxmlUtils:
     height = screenResolution.getHeight * heightPerc
     pane.setPrefWidth(width)
     pane.setPrefHeight(height)
-
-  private def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
-    pane.getStylesheets.add(
-      getClass.getResource(cssResources.path).toExternalForm
-    )
