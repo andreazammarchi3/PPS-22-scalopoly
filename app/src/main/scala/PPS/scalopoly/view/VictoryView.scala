@@ -1,5 +1,7 @@
 package PPS.scalopoly.view
 
+import PPS.scalopoly.controller.VictoryController
+import PPS.scalopoly.engine.GameEngine
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.control.{Button, Label}
 import javafx.scene.layout.BorderPane
@@ -7,6 +9,8 @@ import javafx.scene.layout.BorderPane
 import java.net.URL
 import java.util.ResourceBundle
 
+/** View for the victory screen.
+ */
 class VictoryView extends Initializable:
 
   @FXML
@@ -33,8 +37,13 @@ class VictoryView extends Initializable:
   )
   private var exitBtn: Button = _
 
-  override def initialize(location: URL, resources: ResourceBundle): Unit = ???
-  
-  def backToMenuClick(): Unit = ???
+  override def initialize(location: URL, resources: ResourceBundle): Unit =
+    victoryLbl.setText("")
 
-  def exitGameBtnClick(): Unit = ???
+  /** Changes the scene of the stage to the start menu scene.
+   */
+  def backToMenuClick(): Unit = VictoryController.backToMenu()
+
+  /** Exits the game.
+   */
+  def exitGameBtnClick(): Unit = VictoryController.exitGame()
