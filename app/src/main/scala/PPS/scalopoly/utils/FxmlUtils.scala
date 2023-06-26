@@ -82,9 +82,11 @@ object FxmlUtils:
     setPaneStyle(pane, cssResources)
 
   /** Initialize the style of the pane.
-   * @param pane the pane to initialize
-   * @param cssResources the css style to apply to the pane
-   */
+    * @param pane
+    *   the pane to initialize
+    * @param cssResources
+    *   the css style to apply to the pane
+    */
   def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
     pane.getStylesheets.add(
       getClass.getResource(cssResources.path).toExternalForm

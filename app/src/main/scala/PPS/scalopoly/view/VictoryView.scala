@@ -12,7 +12,7 @@ import java.net.URL
 import java.util.ResourceBundle
 
 /** View for the victory screen.
- */
+  */
 class VictoryView extends Initializable:
 
   @FXML
@@ -44,13 +44,12 @@ class VictoryView extends Initializable:
     val winner = GameEngine.winner
     if winner.isDefined then
       victoryLbl.setText("COMPLIMENTI " + winner.get.nickname + "\nHAI VINTO!")
-    else
-      VictoryController.backToMenu()
+    else VictoryController.backToMenu()
 
   /** Changes the scene of the stage to the start menu scene.
-   */
+    */
   def backToMenuClick(): Unit = VictoryController.backToMenu()
 
   /** Exits the game.
-   */
+    */
   def exitGameBtnClick(): Unit = VictoryController.exitGame()

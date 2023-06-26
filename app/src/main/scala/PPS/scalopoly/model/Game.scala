@@ -16,8 +16,8 @@ object Game:
   private var _availableTokens: List[Token] = Token.values.toList
 
   /** Returns the current player.
-   *
-   * @return
+    *
+    * @return
     *   the current player.
     */
   def currentPlayer: Int = _currentPlayer
@@ -43,7 +43,7 @@ object Game:
     _players = value
 
   /** Returns the winner of the game.
-   * @return
+    * @return
     *   the winner of the game.
     */
   def winner: Option[Player] = _winner
