@@ -13,7 +13,7 @@ case class RealEstate(spaceName: SpaceName):
   /** Returns the current player owner of the real estate.
    *
    * @return
-   * the owner if it is set.
+   * the owner if it's set.
    */
   def owner: Option[Player] = _owner
 
@@ -22,7 +22,7 @@ case class RealEstate(spaceName: SpaceName):
    * @return
    * true if the purchase is successful, false otherwise
    */
-  def buy(player: Player): Boolean =
+  def isBoughtBy(player: Player): Boolean =
     if canBuy then
       _owner = Some(player)
       true
@@ -41,17 +41,4 @@ case class RealEstate(spaceName: SpaceName):
 
   def calculateRent(): Int =
     spaceName.sellingPrice / RENT_SELLING_PRICE_PERC
-
-/** Companion object of the class RealEstate.
- */
-object RealEstate:
-
-  /** Creates a new real estate with the given space name.
-   *
-   * @param spaceName
-   * the spaceName of the RealEstate
-   * @return
-   * the new real estate
-   */
-  def apply(spaceName: SpaceName): RealEstate = new RealEstate(spaceName)
 

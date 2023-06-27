@@ -15,12 +15,12 @@ class TestRealEstate:
 
   @Test
   def testBuy(): Unit =
-    assertTrue(realEstateVia.buy(player1))
+    assertTrue(realEstateVia.isBoughtBy(player1))
 
   @Test
   def testBuyCantBuy(): Unit =
-    realEstateVia.buy(player1)
-    assertFalse(realEstateVia.buy(player2))
+    realEstateVia.isBoughtBy(player1)
+    assertFalse(realEstateVia.isBoughtBy(player2))
 
   @Test
   def testCalculateRent(): Unit =
