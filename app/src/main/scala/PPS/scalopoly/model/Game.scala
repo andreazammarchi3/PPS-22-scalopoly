@@ -13,6 +13,7 @@ object Game:
   private var _currentPlayer: Int = DEFAULT_CURRENT_PLAYER
   private var _players: List[Player] = List.empty
   private var _availableTokens: List[Token] = Token.values.toList
+  private var _realEstatesBySpaceName: Map[SpaceName, RealEstate] = SpaceName.values.map(x => (x, RealEstate(x))).toMap
 
   /** Returns the current player.
     * @return
@@ -52,6 +53,14 @@ object Game:
     */
   def availableTokens_=(value: List[Token]): Unit =
     _availableTokens = value
+
+  /** Get Real estate by space name
+   * @param spaceName
+   * @return
+   *    the real estate of the given Space name
+   */
+  def getRealEstateBySpaceName(spaceName: SpaceName): RealEstate =
+    _realEstatesBySpaceName(spaceName)
 
   /** Adds a player to the game and removes the token from the list of available
     * tokens.

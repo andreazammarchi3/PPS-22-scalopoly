@@ -1,5 +1,6 @@
 package PPS.scalopoly.engine
 
+import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 
@@ -93,7 +94,9 @@ object GameEngine:
       Game.currentPlayer,
       currentPlayer.move(dice1 + dice2)
     )
+    checkRealEstateForPlayer(currentPlayer)
     (dice1, dice2)
+
 
   /** Removes the current player from the game, if there is only one player left
     * the game ends.
@@ -116,3 +119,19 @@ object GameEngine:
     */
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     GameBoard.gameBoardList(player.actualPosition)
+
+  private def checkRealEstateForPlayer(player: Player): Unit =
+    Game.getRealEstateBySpaceName(getSpaceNameFromPlayerPosition(player)) match
+      case realEstate: RealEstate => realEstate.owner match
+        case Some(owner) => if !owner.eq(player) then playerPaysRent(player, realEstate)
+        case None => playerBuysRealEstate(player, realEstate)
+
+  private def playerBuysRealEstate(player: Player, realEstate: RealEstate) : Unit =
+    realEstate.isBoughtBy(player)
+    // TODO: trace in UI
+    Console.println(s"Player ${player.nickname} bought ${realEstate.spaceName}")
+
+  private def playerPaysRent(player: Player, realEstate: RealEstate): Unit =
+    realEstate.calculateRent()
+    // TODO: remove money from player / trace in UI
+    Console.println(s"Player ${player.nickname} pays ${realEstate.calculateRent()} rent to ${realEstate.owner}")
