@@ -24,7 +24,7 @@ class TestRealEstate:
 
   @Test
   def testCalculateRent(): Unit =
-    assertEquals(realEstateVia.spaceName.sellingPrice / realEstateVia.RENT_SELLING_PRICE_PERC, realEstateVia.calculateRent())
-
-
-
+    assertEquals(
+      realEstateVia.spaceName.sellingPrice / realEstateVia.RENT_SELLING_PRICE_PERC,
+      realEstateVia.calculateRent()
+    )
