@@ -69,13 +69,6 @@ class TestGameEngine extends BaseTest:
     )
 
   @Test
-  def testGetRealEstateBySpaceName(): Unit =
-    assertEquals(
-      SpaceName.VIA,
-      Game.getRealEstateBySpaceName(SpaceName.VIA).spaceName
-    )
-
-  @Test
   def testCanStartGame(): Unit =
     assertTrue(GameEngine.canStartGame)
     players.foreach(p => GameEngine.removePlayer(p))
