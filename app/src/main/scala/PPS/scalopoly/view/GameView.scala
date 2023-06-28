@@ -147,8 +147,9 @@ class GameView extends Initializable:
     playersHBox(GameEngine.currentPlayer.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    canEndTurn(false)
-    updateStyleForCurrentPLayer()
+    if (GameEngine.players.nonEmpty)
+      canEndTurn(false)
+      updateStyleForCurrentPLayer()
 
   /** Throw dice
     */

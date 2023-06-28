@@ -34,6 +34,12 @@ object GameEngine:
   def availableTokens: List[Token] =
     Game.availableTokens
 
+  /** Returns the winner of the game.
+    * @return
+    *   the winner of the game.
+    */
+  def winner: Option[Player] = Game.winner
+
   /** Adds a player to the game.
     * @param player
     *   the player to add.
@@ -106,11 +112,8 @@ object GameEngine:
     val playerToDelete = currentPlayer
     endTurn()
     val nextPlayer = currentPlayer
-    Game.players.length match
-      case players if players == MIN_PLAYERS - 1 => exitGame()
-      case _ =>
-        Game.removePlayer(playerToDelete)
-        Game.currentPlayer = Game.players.indexOf(nextPlayer)
+    Game.removePlayer(playerToDelete)
+    Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
   /** Returns the name of the space where the player is.
     * @param player

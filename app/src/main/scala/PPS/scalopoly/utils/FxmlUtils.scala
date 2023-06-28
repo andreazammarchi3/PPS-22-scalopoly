@@ -3,7 +3,7 @@ package PPS.scalopoly.utils
 import PPS.scalopoly.utils.resources.{CssResources, FxmlResources, ImgResources}
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.control.Alert
+import javafx.scene.control.{Alert, ButtonBar, ButtonType}
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{AnchorPane, BorderPane, Pane}
@@ -15,6 +15,7 @@ import scalafx.scene.Scene
 import scalafx.stage.Stage
 
 import java.io.IOException
+import java.util.Optional
 
 /** Utility object that provides methods to load FXML resources and change the
   * current scene.
@@ -23,6 +24,11 @@ object FxmlUtils:
 
   val DEFAULT_WIDTH_PERC: Double = 0.9
   val DEFAULT_HEIGHT_PERC: Double = 0.9
+
+  val exitBtnType: ButtonType =
+    new ButtonType("Esci", ButtonBar.ButtonData.CANCEL_CLOSE)
+  val newGameBtnType: ButtonType =
+    new ButtonType("Nuova partita", ButtonBar.ButtonData.OK_DONE)
 
   private var _stage: Stage = _
   private var width: Double = _
@@ -81,6 +87,17 @@ object FxmlUtils:
     setGameBoardSize(pane, gameBoard)
     setPaneStyle(pane, cssResources)
 
+  /** Initialize the style of the pane.
+    * @param pane
+    *   the pane to initialize
+    * @param cssResources
+    *   the css style to apply to the pane
+    */
+  def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
+    pane.getStylesheets.add(
+      getClass.getResource(cssResources.path).toExternalForm
+    )
+
   /** Gets the resolution of the screen.
     * @return
     *   the resolution of the screen.
@@ -89,6 +106,7 @@ object FxmlUtils:
     (width, height)
 
   /** Shows an alert.
+    *
     * @param alertType
     *   the type of the alert.
     * @param title
@@ -103,7 +121,7 @@ object FxmlUtils:
       title: String,
       headerText: String,
       contentText: String
-  ): Unit =
+  ): Optional[ButtonType] =
     val alert = new Alert(alertType)
     alert.setTitle(title)
     alert.setHeaderText(headerText)
@@ -140,8 +158,3 @@ object FxmlUtils:
     height = screenResolution.getHeight * heightPerc
     pane.setPrefWidth(width)
     pane.setPrefHeight(height)
-
-  private def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
-    pane.getStylesheets.add(
-      getClass.getResource(cssResources.path).toExternalForm
-    )

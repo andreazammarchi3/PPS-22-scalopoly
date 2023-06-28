@@ -138,7 +138,7 @@ class ConfigurationMenuView extends Initializable:
       FxmlUtils.showAlert(
         AlertType.WARNING,
         "Scalopoly",
-        "Non Ã¨ possibile avviare il gioco.",
+        "Non è possibile avviare il gioco.",
         "Aggiungere almeno due giocatori."
       )
 
@@ -174,8 +174,8 @@ class ConfigurationMenuView extends Initializable:
         FxmlUtils.showAlert(
           AlertType.WARNING,
           "Scalopoly",
-          "Non Ã¨ possibile aggiungere il giocatore.",
-          "Il nome del giocatore non puÃ² essere vuoto."
+          "Non è possibile aggiungere il giocatore.",
+          "Il nome del giocatore non può essere vuoto."
         )
       case _ =>
         val newPlayer =
