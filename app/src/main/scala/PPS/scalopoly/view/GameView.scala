@@ -2,7 +2,7 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{DiceManager, Game, GameBoard, Player, Token}
+import PPS.scalopoly.model.{DiceManager, GameBoard, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.fxml.{FXML, Initializable}
@@ -147,8 +147,9 @@ class GameView extends Initializable:
     playersHBox(GameEngine.currentPlayer.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    canEndTurn(false)
-    updateStyleForCurrentPLayer()
+    if (GameEngine.players.nonEmpty)
+      canEndTurn(false)
+      updateStyleForCurrentPLayer()
 
   /** Throw dice
     */

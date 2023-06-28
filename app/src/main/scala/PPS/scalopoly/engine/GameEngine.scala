@@ -110,9 +110,6 @@ object GameEngine:
     val nextPlayer = currentPlayer
     Game.removePlayer(playerToDelete)
     Game.currentPlayer = Game.players.indexOf(nextPlayer)
-    if EndgameLogicEngine.checkVictoryForSurrender(Game.players) then
-      Game.winner = Some(Game.players.head)
-      EndgameLogicEngine.showVictory()
 
   /** Returns the name of the space where the player is.
     * @param player

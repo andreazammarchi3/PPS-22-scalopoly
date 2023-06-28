@@ -7,7 +7,6 @@ enum FxmlResources(_path: String):
   case CONFIGURATION_MENU
       extends FxmlResources("/fxml/ConfigurationMenuFXML.fxml")
   case GAME_VIEW extends FxmlResources("/fxml/GameFXML.fxml")
-  case VICTORY_VIEW extends FxmlResources("/fxml/VictoryFXML.fxml")
 
   /** @return
     *   the path of the FXML resource.

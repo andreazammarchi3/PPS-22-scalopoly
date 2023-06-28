@@ -13,7 +13,7 @@ class TestFxmlResources:
   private val START_MENU_POSITION = 0
   private val CONFIGURATION_MENU_POSITION = 1
   private val GAME_VIEW_POSITION = 2
-  private val NUM_FXML_RESOURCES = 4
+  private val NUM_FXML_RESOURCES = 3
   @Test
   def testPath(): Unit =
     assertEquals("/fxml/StartMenuFXML.fxml", FxmlResources.START_MENU.path)
