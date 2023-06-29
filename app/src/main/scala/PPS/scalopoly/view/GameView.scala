@@ -3,34 +3,20 @@ package PPS.scalopoly.view
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.engine.GameEngine.currentPlayer
-import PPS.scalopoly.model.{
-  DiceManager,
-  GameBoard,
-  Player,
-  PurchasableSpace,
-  Token
-}
+import PPS.scalopoly.model.{DiceManager, GameBoard, Player, PurchasableSpace, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
-import javafx.scene.control.{Button, Label, ListView}
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{
-  Background,
-  BackgroundFill,
-  Border,
-  BorderPane,
-  ColumnConstraints,
-  GridPane,
-  HBox,
-  RowConstraints,
-  VBox
-}
+import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
 import javafx.scene.paint.Color
 import javafx.stage.Screen
 import scalafx.scene.shape.Path
+import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
 import scala.collection.mutable.Map as MMap
 import java.net.URL
@@ -46,7 +32,25 @@ class GameView extends Initializable:
   @SuppressWarnings(
     Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
   )
-  private var playerListBox: VBox = _
+  private var playersTable: TableView[Player] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerNameColumn: TableColumn[Player, String] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerTokenColumn: TableColumn[Player, String] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerMoneyColumn: TableColumn[Player, String] = _
 
   @FXML
   @SuppressWarnings(
@@ -120,8 +124,6 @@ class GameView extends Initializable:
   )
   private var propertiesList: ListView[String] = _
 
-  private val playersHBox: MMap[Token, HBox] = MMap.empty
-
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
 
   private val tokensImgView: MMap[Token, ImageView] = MMap.empty
@@ -138,13 +140,11 @@ class GameView extends Initializable:
     initCellGrids()
     val menuWidth = FxmlUtils.getResolution._1 - pane.getPrefHeight
     actionsMenu.setPrefWidth(menuWidth / N_MENUS)
-    playerListBox.setPrefWidth(menuWidth / N_MENUS)
 
     setDiceImg(diceImageView1)
     setDiceImg(diceImageView2)
 
     GameEngine.players.foreach(p =>
-      createPlayerBox(p)
       val tokenImg = new ImageView(
         new Image(getClass.getResource(p.token.img.path).toString)
       )
@@ -159,18 +159,21 @@ class GameView extends Initializable:
       updateTokenPosition(p)
     )
 
-    updateStyleForCurrentPLayer()
+    playersTable.setPrefWidth(menuWidth / N_MENUS)
+    playersTable.setOnMouseClicked(_ => updatePropertiesList())
+    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
+    playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
+    playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
+    updatePlayersTable()
 
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     log(GameEngine.currentPlayer.token.toString + " ha abbandonato la partita")
     GameController.currentPlayerQuit()
     if (GameEngine.players.nonEmpty)
       setBtnsForEndTurn(false)
-      updateStyleForCurrentPLayer()
 
   /** Throw dice
     */
@@ -182,15 +185,19 @@ class GameView extends Initializable:
       GameEngine.currentPlayer.token.toString + " ha tirato " + dice1 + " e " + dice2
     )
     GameController.checkPlayerActions()
-
+    updatePlayersTable()
+    updatePropertiesList()
     if dice1 != dice2 then setBtnsForEndTurn(true)
+
+  private def updatePlayersTable(): Unit =
+    playersTable.getItems.clear()
+    GameEngine.players.foreach(p => playersTable.getItems.add(p))
 
   /** End turn
     */
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
     setBtnsForEndTurn(false)
-    updateStyleForCurrentPLayer()
     log(GameEngine.currentPlayer.token.toString + " ha terminato il turno")
 
   def log(msg: String): Unit =
@@ -225,34 +232,12 @@ class GameView extends Initializable:
         row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
-  private def createPlayerBox(player: Player): Unit =
-    val DEFAULT_SPACING = 10
-    val playerHBox: HBox = new HBox()
-    playerListBox.getChildren.add(playerHBox)
-
-    val playerLbl: Label = new Label(
-      player.nickname + " - " + player.token.toString.toLowerCase()
-    )
-    playerHBox.getChildren.add(playerLbl)
-
-    val playerMoneyLbl: Label = new Label(player.money.toString)
-    playerHBox.getChildren.add(playerMoneyLbl)
-
-    val playerPropertiesBtn: Button = new Button("Proprietà")
-    playerPropertiesBtn.setOnAction(_ =>
-      highlightProperties(GameEngine.getOwnedPropertiesFromPlayer(player.token))
-    )
-    playerPropertiesBtn.getStyleClass.add("scalopoly-btn")
-    playerHBox.getChildren.add(playerPropertiesBtn)
-
-    playerHBox.setSpacing(DEFAULT_SPACING)
-    playerHBox.setAlignment(Pos.CENTER)
-
-    playersHBox += (player.token -> playerHBox)
-
-  private def highlightProperties(properties: List[PurchasableSpace]): Unit =
-    propertiesList.getItems.clear()
-    properties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
+  private def updatePropertiesList(): Unit =
+    playersTable.getSelectionModel.getSelectedItem match
+      case p =>
+        propertiesList.getItems.clear()
+        p.ownedProperties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
+      case _ =>
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(
@@ -268,11 +253,6 @@ class GameView extends Initializable:
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
     diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))
-
-  private def updateStyleForCurrentPLayer(): Unit =
-    playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.token).getStyleClass
-      .add("green-background")
 
   private def updateTokenPosition(player: Player): Unit =
     val cellGrid = cellsGrids(

@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -53,23 +55,36 @@
       </StackPane>
    </center>
    <left>
-      <VBox BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="playerListBox" alignment="CENTER" prefHeight="500.0" prefWidth="100.0" spacing="20.0">
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER">
                <children>
-                  <Label text="Proprietà:" />
+                  <Label text="Giocatori" />
+                  <TableView fx:id="playersTable" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="playerNameColumn" editable="false" prefWidth="75.0" sortable="false" text="Nome" />
+                      <TableColumn fx:id="playerTokenColumn" editable="false" prefWidth="75.0" sortable="false" text="Token" />
+                        <TableColumn fx:id="playerMoneyColumn" editable="false" prefWidth="75.0" sortable="false" text="Capitale" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <Label text="Proprietà" />
                   <ListView fx:id="propertiesList" prefHeight="200.0" prefWidth="200.0" />
                </children>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets />
                </VBox.margin>
             </VBox>
          </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </VBox>
    </left>
    <right>
