@@ -1,9 +1,9 @@
 package PPS.scalopoly.utils.resources
 
-import PPS.scalopoly.Utils
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertNotNull,
+  assertThrows,
   assertTrue
 }
 import org.junit.jupiter.api.Test
@@ -29,11 +29,9 @@ class TestFxmlResources:
       FxmlResources.GAME_VIEW,
       FxmlResources.fromOrdinal(GAME_VIEW_POSITION)
     )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, FxmlResources](
-        FxmlResources.fromOrdinal,
-        FxmlResources.values.length + 1
-      )
+    assertThrows(
+      classOf[NoSuchElementException],
+      () => FxmlResources.fromOrdinal(FxmlResources.values.length + 1)
     )
 
   @Test
@@ -52,11 +50,9 @@ class TestFxmlResources:
         FxmlResources.fromOrdinal(i),
         FxmlResources.valueOf(FxmlResources.fromOrdinal(i).toString)
       )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, String, FxmlResources](
-        FxmlResources.valueOf,
-        "NOT_EXIST"
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => FxmlResources.valueOf("NOT_EXIST")
     )
 
   @Test

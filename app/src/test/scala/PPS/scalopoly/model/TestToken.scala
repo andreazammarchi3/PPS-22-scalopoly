@@ -1,7 +1,6 @@
 package PPS.scalopoly.model
 
-import PPS.scalopoly.Utils
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestToken:
@@ -13,11 +12,9 @@ class TestToken:
   def testFromOrdinal(): Unit =
     assertEquals(Token.DITALE, Token.fromOrdinal(DITALE_POSITION))
     assertEquals(Token.CANE, Token.fromOrdinal(CANE_POSITION))
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, Token](
-        Token.fromOrdinal,
-        Token.values.length + 1
-      )
+    assertThrows(
+      classOf[NoSuchElementException],
+      () => Token.fromOrdinal(Token.values.length + 1)
     )
 
   @Test
@@ -31,9 +28,7 @@ class TestToken:
         Token.fromOrdinal(i),
         Token.valueOf(Token.fromOrdinal(i).toString)
       )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, String, Token](
-        Token.valueOf,
-        "NOT_EXIST"
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => Token.valueOf("NOT_EXIST")
     )

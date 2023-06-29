@@ -3,11 +3,10 @@ package PPS.scalopoly.utils.resources
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertNotNull,
+  assertThrows,
   assertTrue
 }
 import org.junit.jupiter.api.Test
-
-import PPS.scalopoly.Utils
 class TestImgResources:
 
   private val DICE_4_POSITION = 13
@@ -27,11 +26,9 @@ class TestImgResources:
       ImgResources.IMG_TOKEN_STIVALE,
       ImgResources.fromOrdinal(IMG_TOKEN_STIVALE_POSITION)
     )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, ImgResources](
-        ImgResources.fromOrdinal,
-        ImgResources.values.length + 1
-      )
+    assertThrows(
+      classOf[NoSuchElementException],
+      () => ImgResources.fromOrdinal(ImgResources.values.length + 1)
     )
 
   @Test
@@ -50,11 +47,9 @@ class TestImgResources:
         ImgResources.fromOrdinal(i),
         ImgResources.valueOf(ImgResources.fromOrdinal(i).toString)
       )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, String, ImgResources](
-        ImgResources.valueOf,
-        "NOT_EXIST"
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => ImgResources.valueOf("NOT_EXIST")
     )
 
   @Test
