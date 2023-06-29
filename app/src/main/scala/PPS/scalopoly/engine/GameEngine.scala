@@ -2,8 +2,12 @@ package PPS.scalopoly.engine
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.GameUtils
+import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
+import PPS.scalopoly.engine.Game
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.ButtonType
 
+import java.util.Optional
 import scala.util.Random
 
 /** Object that represents the game engine.
@@ -102,7 +106,6 @@ object GameEngine:
       Game.currentPlayer,
       currentPlayer.move(dice1 + dice2)
     )
-    checkRealEstateForPlayer(currentPlayer)
     (dice1, dice2)
 
   /** Removes the current player from the game, if there is only one player left
@@ -124,124 +127,73 @@ object GameEngine:
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     GameBoard.gameBoardList(player.actualPosition)
 
-  private def checkRealEstateForPlayer(player: Player): Unit =
-    Game.getRealEstateBySpaceName(getSpaceNameFromPlayerPosition(player)) match
-      case realEstate: RealEstate =>
-        realEstate.owner match
-          case Some(owner) =>
-            if !owner.eq(player) then playerPaysRent(player, realEstate)
-          case None => playerBuysRealEstate(player, realEstate)
+  def checkPlayerActions(): Unit =
+    checkSpaceStatus match
+      case SpaceStatus.OWNED_BY_ANOTHER_PLAYER =>
+        playerPaysRent()
+      case SpaceStatus.PURCHASABLE =>
+        val result = FxmlUtils.showAlert(
+          AlertType.CONFIRMATION,
+          "Attenzione",
+          "Acquista proprieta'",
+          "Vuoi acquistare la proprieta' " + getSpaceNameFromPlayerPosition(
+            currentPlayer
+          ).name + " libera?"
+        )
+        result.get match
+          case ButtonType.OK =>
+            val purchasableSpace = getPurchasableSpaceFromCurrentPlayer
+            if currentPlayer.canPayOrBuy(purchasableSpace.sellingPrice) then
+              val newPlayer = currentPlayer.buy(purchasableSpace)
+              Game.players = Game.players.updated(
+                Game.players.indexOf(currentPlayer),
+                newPlayer
+              )
+          case _ =>
+      case _ =>
 
-  private def playerBuysRealEstate(
-      player: Player,
-      realEstate: RealEstate
-  ): Unit =
-    realEstate.isBoughtBy(player)
-    // TODO: trace in UI
-    Console.println(s"Player ${player.nickname} bought ${realEstate.spaceName}")
+  private def checkSpaceStatus: SpaceStatus =
+    val currentSpaceName = getSpaceNameFromPlayerPosition(currentPlayer)
+    currentSpaceName match
+      case spaceName if !spaceName.isPurchasable => SpaceStatus.NOT_PURCHASABLE
+      case spaceName =>
+        GameUtils.getPurchasableSpaceFromSpaceName(spaceName) match
+          case purchasableSpace
+              if !GameUtils.checkIfPropertyIsAlreadyOwned(purchasableSpace) =>
+            SpaceStatus.PURCHASABLE
+          case purchasableSpace =>
+            purchasableSpace match
+              case ownedSpace
+                  if currentPlayer.ownedProperties.contains(purchasableSpace) =>
+                SpaceStatus.OWNED_BY_CURRENT_PLAYER
+              case ownedSpace => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
 
-  private def playerPaysRent(player: Player, realEstate: RealEstate): Unit =
-    realEstate.calculateRent()
-    // TODO: remove money from player / trace in UI
-    Console.println(
-      s"Player ${player.nickname} pays ${realEstate.calculateRent()} rent to ${realEstate.owner}"
+  private def getPurchasableSpaceFromCurrentPlayer: PurchasableSpace =
+    GameUtils.getPurchasableSpaceFromSpaceName(
+      getSpaceNameFromPlayerPosition(currentPlayer)
     )
 
-  protected[engine] object Game:
+  private def playerPaysRent(): Unit =
+    val rent = getPurchasableSpaceFromCurrentPlayer.calculateRent()
+    // TODO: trace in UI
+    if currentPlayer.canPayOrBuy(rent) then
+      Game.players = Game.players.updated(
+        Game.players.indexOf(currentPlayer),
+        currentPlayer.pay(rent)
+      )
+      println(
+        "Il giocatore " + currentPlayer.nickname + " paga " + rent + " di affitto al giocatore " + getOwnerFromPurchasableSpace(
+          getPurchasableSpaceFromCurrentPlayer
+        ).nickname
+      )
+    else Game.removePlayer(currentPlayer)
 
-    private val DEFAULT_CURRENT_PLAYER: Int = 0
+  def getOwnedPropertiesFromPlayer(token: Token): List[PurchasableSpace] =
+    Game.players.find(_.token == token).get.ownedProperties
 
-    private var _currentPlayer: Int = DEFAULT_CURRENT_PLAYER
-    private var _players: List[Player] = List.empty
-    private var _winner: Option[Player] = None
-    private var _availableTokens: List[Token] = Token.values.toList
-    private var _realEstatesBySpaceName: Map[SpaceName, RealEstate] =
-      SpaceName.values.map(x => (x, RealEstate(x))).toMap
-
-    /** Returns the current player.
-      *
-      * @return
-      *   the current player.
-      */
-    def currentPlayer: Int = _currentPlayer
-
-    /** Sets the current player.
-      * @param value
-      *   the new current player position in the players list.
-      */
-    def currentPlayer_=(value: Int): Unit =
-      _currentPlayer = value
-
-    /** Returns the list of players.
-      * @return
-      *   the list of players.
-      */
-    def players: List[Player] = _players
-
-    /** Sets the list of players.
-      * @param value
-      *   the new list of players.
-      */
-    def players_=(value: List[Player]): Unit =
-      _players = value
-
-    /** Returns the winner of the game.
-      * @return
-      *   the winner of the game.
-      */
-    def winner: Option[Player] = _winner
-
-    /** Sets the winner of the game.
-      * @param value
-      *   the new winner of the game.
-      */
-    def winner_=(value: Option[Player]): Unit =
-      _winner = value
-
-    /** Returns the list of available tokens.
-      * @return
-      *   the list of available tokens.
-      */
-    def availableTokens: List[Token] = _availableTokens
-
-    /** Sets the list of available tokens.
-      * @param value
-      *   the new list of available tokens.
-      */
-    def availableTokens_=(value: List[Token]): Unit =
-      _availableTokens = value
-
-    /** Adds a player to the game and removes the token from the list of
-      * available tokens.
-      * @param player
-      *   the player to add.
-      */
-    def addPlayer(player: Player): Unit =
-      players = player :: players
-      availableTokens = availableTokens.filter(_ != player.token)
-
-    /** Removes a player from the game and adds the token to the list of
-      * available tokens.
-      * @param player
-      *   the player to remove.
-      */
-    def removePlayer(player: Player): Unit =
-      availableTokens = player.token :: availableTokens
-      players = players.filter(_ != player)
-
-    /** Resets the game.
-      */
-    def reset(): Unit =
-      currentPlayer = DEFAULT_CURRENT_PLAYER
-      players = List.empty
-      availableTokens = Token.values.toList
-      winner = None
-
-    /** Get Real estate by space name
-      *
-      * @param spaceName
-      * @return
-      *   the real estate of the given Space name
-      */
-    def getRealEstateBySpaceName(spaceName: SpaceName): RealEstate =
-      _realEstatesBySpaceName(spaceName)
+  private def getOwnerFromPurchasableSpace(
+      purchasableSpace: PurchasableSpace
+  ): Player =
+    players
+      .find(_.ownedProperties.contains(purchasableSpace))
+      .getOrElse(throw new Exception("Proprieta' senza proprietario"))

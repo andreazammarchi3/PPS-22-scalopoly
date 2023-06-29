@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="PPS.scalopoly.view.GameView">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PPS.scalopoly.view.GameView">
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
@@ -51,10 +53,24 @@
       </StackPane>
    </center>
    <left>
-      <VBox fx:id="playerListBox" alignment="CENTER" prefHeight="500.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding></VBox>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="playerListBox" alignment="CENTER" prefHeight="500.0" prefWidth="100.0" spacing="20.0">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Proprietà:" />
+                  <ListView fx:id="propertiesList" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
    </left>
    <right>
       <VBox fx:id="actionsMenu" alignment="CENTER" prefHeight="500.0" prefWidth="100.0" spacing="50.0" BorderPane.alignment="CENTER">
@@ -63,6 +79,7 @@
             <Button fx:id="buildBtn" disable="true" mnemonicParsing="false" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Costruisci" />
             <Button fx:id="endTurnBtn" disable="true" mnemonicParsing="false" onAction="#endTurnBtnClick" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Fine turno" />
             <Button fx:id="quitBtn" mnemonicParsing="false" onAction="#quitBtnClick" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Abbandona" />
+            <Label fx:id="logLabel" alignment="CENTER" contentDisplay="CENTER" text="Lancia i dadi!" wrapText="true" />
          </children>
       </VBox>
    </right>

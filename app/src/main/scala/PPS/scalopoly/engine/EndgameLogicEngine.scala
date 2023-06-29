@@ -1,7 +1,8 @@
 package PPS.scalopoly.engine
 
 import PPS.scalopoly.model.Player
-import PPS.scalopoly.engine.GameEngine.{MIN_PLAYERS, Game}
+import PPS.scalopoly.engine.GameEngine.MIN_PLAYERS
+import PPS.scalopoly.engine.Game
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.FxmlResources
 

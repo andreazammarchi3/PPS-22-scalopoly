@@ -1,6 +1,7 @@
 package PPS.scalopoly.controller
 
-import PPS.scalopoly.engine.{GameEngine, EndgameLogicEngine}
+import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine, SpaceStatus}
+import PPS.scalopoly.model.Player
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.view.GameView
 import javafx.scene.control.Alert.AlertType
@@ -29,6 +30,9 @@ object GameController:
     */
   def endTurn(): Unit =
     GameEngine.endTurn()
+
+  def checkPlayerActions(): Unit =
+    GameEngine.checkPlayerActions()
 
   private def showVictory(): Unit =
     val result = FxmlUtils.showAlert(

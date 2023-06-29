@@ -2,12 +2,20 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{DiceManager, GameBoard, Player, Token}
+import PPS.scalopoly.engine.GameEngine.currentPlayer
+import PPS.scalopoly.model.{
+  DiceManager,
+  GameBoard,
+  Player,
+  PurchasableSpace,
+  Token
+}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
-import javafx.scene.control.{Button, Label}
+import javafx.scene.control.{Button, Label, ListView}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{
   Background,
@@ -100,6 +108,18 @@ class GameView extends Initializable:
   )
   private var diceImageView2: ImageView = _
 
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var logLabel: Label = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var propertiesList: ListView[String] = _
+
   private val playersHBox: MMap[Token, HBox] = MMap.empty
 
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
@@ -146,9 +166,10 @@ class GameView extends Initializable:
   def quitBtnClick(): Unit =
     playersHBox(GameEngine.currentPlayer.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
+    log(GameEngine.currentPlayer.token.toString + " ha abbandonato la partita")
     GameController.currentPlayerQuit()
     if (GameEngine.players.nonEmpty)
-      canEndTurn(false)
+      setBtnsForEndTurn(false)
       updateStyleForCurrentPLayer()
 
   /** Throw dice
@@ -157,14 +178,23 @@ class GameView extends Initializable:
     val (dice1, dice2) = GameController.throwDice()
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
-    if dice1 != dice2 then canEndTurn(true)
+    log(
+      GameEngine.currentPlayer.token.toString + " ha tirato " + dice1 + " e " + dice2
+    )
+    GameController.checkPlayerActions()
+
+    if dice1 != dice2 then setBtnsForEndTurn(true)
 
   /** End turn
     */
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
-    canEndTurn(false)
+    setBtnsForEndTurn(false)
     updateStyleForCurrentPLayer()
+    log(GameEngine.currentPlayer.token.toString + " ha terminato il turno")
+
+  def log(msg: String): Unit =
+    logLabel.setText(msg)
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -205,19 +235,24 @@ class GameView extends Initializable:
     )
     playerHBox.getChildren.add(playerLbl)
 
-    /*
-    val playerMoneyLbl: Label = new Label("99999$")
+    val playerMoneyLbl: Label = new Label(player.money.toString)
     playerHBox.getChildren.add(playerMoneyLbl)
 
     val playerPropertiesBtn: Button = new Button("Proprietà")
+    playerPropertiesBtn.setOnAction(_ =>
+      highlightProperties(GameEngine.getOwnedPropertiesFromPlayer(player.token))
+    )
     playerPropertiesBtn.getStyleClass.add("scalopoly-btn")
     playerHBox.getChildren.add(playerPropertiesBtn)
-     */
 
     playerHBox.setSpacing(DEFAULT_SPACING)
     playerHBox.setAlignment(Pos.CENTER)
 
     playersHBox += (player.token -> playerHBox)
+
+  private def highlightProperties(properties: List[PurchasableSpace]): Unit =
+    propertiesList.getItems.clear()
+    properties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
 
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(
@@ -226,7 +261,7 @@ class GameView extends Initializable:
       (0, 0)
     )
 
-  private def canEndTurn(can: Boolean): Unit =
+  private def setBtnsForEndTurn(can: Boolean): Unit =
     endTurnBtn.setDisable(!can)
     throwDiceBtn.setDisable(can)
 
