@@ -12,8 +12,18 @@ import scalafx.beans.property.ObjectProperty
   *   the token of the player
   * @param actualPosition
   *   the actual position of the player
+  * @param money
+  *   the money of the player
+  * @param ownedProperties
+  *   the properties owned by the player
   */
-case class Player(nickname: String, token: Token, actualPosition: Int):
+case class Player(
+    nickname: String,
+    token: Token,
+    actualPosition: Int,
+    money: Int,
+    ownedProperties: List[PurchasableSpace]
+):
 
   /** Moves the player of the given steps.
     * @param steps
@@ -23,13 +33,46 @@ case class Player(nickname: String, token: Token, actualPosition: Int):
     */
   def move(steps: Int): Player =
     val newPosition = GameUtils.addSumToPosition(steps, actualPosition)
-    Player(nickname, token, newPosition)
+    Player(nickname, token, newPosition, money, ownedProperties)
+
+  /** Checks if the player can pay or buy something.
+    * @param value
+    *   the value to check
+    * @return
+    *   true if the player can pay or buy something, false otherwise
+    */
+  def canPayOrBuy(value: Int): Boolean = money >= value
+
+  /** Pays the given money.
+    * @param money
+    *   the money to pay
+    * @return
+    *   the player with the new money
+    */
+  def pay(money: Int): Player =
+    Player(nickname, token, actualPosition, this.money - money, ownedProperties)
+
+  /** Buys the given purchasable space.
+    * @param purchasableSpace
+    *   the purchasable space to buy
+    * @return
+    *   the player with the new money and the new owned properties
+    */
+  def buy(purchasableSpace: PurchasableSpace): Player =
+    Player(
+      nickname,
+      token,
+      actualPosition,
+      this.money - purchasableSpace.sellingPrice,
+      ownedProperties :+ purchasableSpace
+    )
 
 /** Companion object of the class Player.
   */
 object Player:
 
-  val DEFAULT_STARTING_POSITION = 0
+  private val DEFAULT_STARTING_POSITION = 0
+  private val DEFAULT_STARTING_MONEY = 2000
 
   /** Creates a new player with the given nickname and token.
     * @param nickname
@@ -40,4 +83,10 @@ object Player:
     *   the new player
     */
   def apply(nickname: String, token: Token): Player =
-    Player(nickname, token, DEFAULT_STARTING_POSITION)
+    Player(
+      nickname,
+      token,
+      DEFAULT_STARTING_POSITION,
+      DEFAULT_STARTING_MONEY,
+      List.empty
+    )
