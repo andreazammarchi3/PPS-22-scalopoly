@@ -67,6 +67,22 @@ case class Player(
       ownedProperties :+ purchasableSpace
     )
 
+  /** Checks if the player owns the given purchasable space.
+    * @param purchasableSpace
+    *   the purchasable space to check
+    * @return
+    *   true if the player owns the given purchasable space, false otherwise
+    */
+  def owns(purchasableSpace: PurchasableSpace): Boolean =
+    ownedProperties.contains(purchasableSpace)
+
+  /** Takes the rent from another player.
+   * @param value the value of the rent
+   * @return the player with the new money
+   */
+  def takeRent(value: Int): Player =
+    Player(nickname, token, actualPosition, money + value, ownedProperties)
+
 /** Companion object of the class Player.
   */
 object Player:
