@@ -1,7 +1,7 @@
 package PPS.scalopoly.utils
 
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{GameBoard, Player}
+import PPS.scalopoly.model.{GameBoard, Player, PurchasableSpace, SpaceName}
 
 import scala.util.Random
 
@@ -83,3 +83,26 @@ object GameUtils:
       throw new IllegalArgumentException("N cannot be greater than grid size")
     case _ if n % gridSize._1 != 0 => (n % gridSize._1 - 1, n / gridSize._1)
     case _                         => (gridSize._1 - 1, n / gridSize._1 - 1)
+
+  /** Check if a property is already owned by a player.
+    * @param purchasableSpace
+    *   The property to check.
+    * @return
+    *   True if the property is already owned, false otherwise.
+    */
+  def checkIfPropertyIsAlreadyOwned(
+      purchasableSpace: PurchasableSpace
+  ): Boolean =
+    GameEngine.players.exists(_.ownedProperties.contains(purchasableSpace))
+
+  /** Return the purchasable space given its name.
+    *
+    * @param spaceName
+    *   The name of the purchasable space.
+    * @return
+    *   The purchasable space.
+    */
+  def getPurchasableSpaceFromSpaceName(spaceName: SpaceName): PurchasableSpace =
+    PurchasableSpace.values
+      .find(_.spaceName == spaceName)
+      .getOrElse(throw new Exception("Not a purchasable space"))
