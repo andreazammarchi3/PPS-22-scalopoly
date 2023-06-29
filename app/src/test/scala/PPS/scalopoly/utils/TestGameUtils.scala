@@ -149,19 +149,19 @@ class TestGameUtils:
     val player =
       new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
     GameEngine.addPlayer(player)
-    assertTrue(GameUtils.checkIfPropertyIsAlreadyOwned(purchasableSpace))
+    assertTrue(GameUtils.propertyIsAlreadyOwned(purchasableSpace))
     assertFalse(
-      GameUtils.checkIfPropertyIsAlreadyOwned(PurchasableSpace.VIA_ACCADEMIA)
+      GameUtils.propertyIsAlreadyOwned(PurchasableSpace.VIA_ACCADEMIA)
     )
 
   @Test
   def testGetPurchasableSpaceFromSpaceName(): Unit =
     val purchasableSpace = PurchasableSpace.VICOLO_CORTO
     assertEquals(
-      purchasableSpace,
+      Some(purchasableSpace),
       GameUtils.getPurchasableSpaceFromSpaceName(purchasableSpace.spaceName)
     )
-    assertThrows(
-      classOf[Exception],
-      () => GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
+    assertEquals(
+      None,
+      GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
     )

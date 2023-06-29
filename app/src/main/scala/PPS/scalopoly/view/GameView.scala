@@ -234,7 +234,7 @@ class GameView extends Initializable:
 
   private def updatePropertiesList(): Unit =
     playersTable.getSelectionModel.getSelectedItem match
-      case p =>
+      case p if p != null =>
         propertiesList.getItems.clear()
         p.ownedProperties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
       case _ =>

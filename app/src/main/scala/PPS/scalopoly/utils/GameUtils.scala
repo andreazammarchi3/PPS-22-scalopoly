@@ -90,7 +90,7 @@ object GameUtils:
     * @return
     *   True if the property is already owned, false otherwise.
     */
-  def checkIfPropertyIsAlreadyOwned(
+  def propertyIsAlreadyOwned(
       purchasableSpace: PurchasableSpace
   ): Boolean =
     GameEngine.players.exists(_.ownedProperties.contains(purchasableSpace))
@@ -100,9 +100,13 @@ object GameUtils:
     * @param spaceName
     *   The name of the purchasable space.
     * @return
-    *   The purchasable space.
+    *   The purchasable space if it exists, None otherwise.
     */
-  def getPurchasableSpaceFromSpaceName(spaceName: SpaceName): PurchasableSpace =
+  def getPurchasableSpaceFromSpaceName(
+      spaceName: SpaceName
+  ): Option[PurchasableSpace] =
     PurchasableSpace.values
       .find(_.spaceName == spaceName)
-      .getOrElse(throw new Exception("Not a purchasable space"))
+
+  def getOwnerFromPurchasableSpace(purchasableSpace: PurchasableSpace): Option[Player] =
+    GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
