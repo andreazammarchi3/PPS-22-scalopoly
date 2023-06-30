@@ -180,4 +180,3 @@ class TestGameUtils:
       None,
       GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
     )
-

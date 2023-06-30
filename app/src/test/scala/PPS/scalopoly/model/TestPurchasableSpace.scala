@@ -43,17 +43,25 @@ class TestPurchasableSpace:
 
   @Test
   def testCalculateRent(): Unit =
-    assertEquals(PurchasableSpace.VICOLO_CORTO.sellingPrice / RENT_SELLING_PRICE_PERC, PurchasableSpace.VICOLO_CORTO.calculateRent())
+    assertEquals(
+      PurchasableSpace.VICOLO_CORTO.sellingPrice / RENT_SELLING_PRICE_PERC,
+      PurchasableSpace.VICOLO_CORTO.calculateRent()
+    )
 
   @Test
   def testSpaceName(): Unit =
-    assertEquals(SpaceName.VICOLO_CORTO, PurchasableSpace.VICOLO_CORTO.spaceName)
+    assertEquals(
+      SpaceName.VICOLO_CORTO,
+      PurchasableSpace.VICOLO_CORTO.spaceName
+    )
 
   @Test
   def testSellingPrice(): Unit =
-    assertEquals(VICOLO_CORTO_SELLING_PRICE, PurchasableSpace.VICOLO_CORTO.sellingPrice)
+    assertEquals(
+      VICOLO_CORTO_SELLING_PRICE,
+      PurchasableSpace.VICOLO_CORTO.sellingPrice
+    )
 
   @Test
   def testSpaceGroup(): Unit =
     assertEquals(SpaceGroup.ROSA, PurchasableSpace.VICOLO_CORTO.spaceGroup)
-
