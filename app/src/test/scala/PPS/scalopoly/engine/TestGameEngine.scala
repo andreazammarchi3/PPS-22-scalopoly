@@ -88,3 +88,9 @@ class TestGameEngine extends BaseTest:
     assertTrue(GameEngine.canAddPlayer)
     GameEngine.addPlayer(player6)
     assertFalse(GameEngine.canAddPlayer)
+
+  @Test
+  def testWinner(): Unit =
+    assertEquals(None, GameEngine.winner)
+    Game.winner = Some(player1)
+    assertEquals(Some(player1), GameEngine.winner)
