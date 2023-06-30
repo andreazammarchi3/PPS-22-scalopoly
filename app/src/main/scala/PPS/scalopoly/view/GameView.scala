@@ -6,6 +6,7 @@ import PPS.scalopoly.engine.GameEngine.currentPlayer
 import PPS.scalopoly.model.{DiceManager, GameBoard, Player, PurchasableSpace, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import javafx.beans.binding.Bindings
 import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
@@ -24,7 +25,6 @@ import java.util
 
 class GameView extends Initializable:
 
-  private val N_MENUS = 2
   private val N_COLS_IN_CELL = 4
   private val N_ROWS_IN_CELL = 3
 
@@ -116,12 +116,6 @@ class GameView extends Initializable:
   @SuppressWarnings(
     Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
   )
-  private var logLabel: Label = _
-
-  @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
   private var propertiesList: ListView[String] = _
 
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
@@ -133,13 +127,15 @@ class GameView extends Initializable:
       pane,
       gameBoard,
       CssResources.GAME_STYLE,
-      FxmlUtils.DEFAULT_WIDTH_PERC,
+      FxmlUtils.GAME_WIDTH_PERC,
       FxmlUtils.DEFAULT_HEIGHT_PERC
     )
 
     initCellGrids()
     val menuWidth = FxmlUtils.getResolution._1 - pane.getPrefHeight
-    actionsMenu.setPrefWidth(menuWidth / N_MENUS)
+    gameBoard.setFitWidth(pane.getPrefHeight)
+    mainGrid.setPrefWidth(pane.getPrefHeight)
+    actionsMenu.setPrefWidth(menuWidth)
 
     setDiceImg(diceImageView1)
     setDiceImg(diceImageView2)
@@ -159,7 +155,7 @@ class GameView extends Initializable:
       updateTokenPosition(p)
     )
 
-    playersTable.setPrefWidth(menuWidth / N_MENUS)
+    playersTable.setPrefWidth(menuWidth)
     playersTable.setOnMouseClicked(_ => updatePropertiesList())
     playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
     playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
@@ -170,7 +166,6 @@ class GameView extends Initializable:
     */
   def quitBtnClick(): Unit =
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
-    log(GameEngine.currentPlayer.token.toString + " ha abbandonato la partita")
     GameController.currentPlayerQuit()
     if (GameEngine.players.nonEmpty)
       setBtnsForEndTurn(false)
@@ -181,9 +176,6 @@ class GameView extends Initializable:
     val (dice1, dice2) = GameController.throwDice()
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
-    log(
-      GameEngine.currentPlayer.token.toString + " ha tirato " + dice1 + " e " + dice2
-    )
     GameController.checkPlayerActions()
     updatePlayersTable()
     updatePropertiesList()
@@ -198,10 +190,6 @@ class GameView extends Initializable:
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
     setBtnsForEndTurn(false)
-    log(GameEngine.currentPlayer.token.toString + " ha terminato il turno")
-
-  def log(msg: String): Unit =
-    logLabel.setText(msg)
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
