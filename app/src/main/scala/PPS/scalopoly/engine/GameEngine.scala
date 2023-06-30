@@ -122,6 +122,22 @@ object GameEngine:
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
 
+  /** Player buys a purchasable space.
+    *
+    * @param player
+    *   the player who buys the purchasable space.
+    * @param purchasableSpace
+    *   the purchasable space to buy.
+    */
+  def playerBuysPurchasableSpace(
+      player: Player,
+      purchasableSpace: PurchasableSpace
+  ): Unit =
+    updatePlayerWith(
+      Game.players.indexOf(player),
+      player.buy(purchasableSpace)
+    )
+
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match
@@ -189,19 +205,4 @@ object GameEngine:
     Game.players = Game.players.updated(
       index,
       playerUpdated
-    )
-
-  /** Player buys a purchasable space.
-    * @param player
-    *   the player who buys the purchasable space.
-    * @param purchasableSpace
-    *   the purchasable space to buy.
-    */
-  def playerBuysPurchasableSpace(
-      player: Player,
-      purchasableSpace: PurchasableSpace
-  ): Unit =
-    updatePlayerWith(
-      Game.players.indexOf(player),
-      player.buy(purchasableSpace)
     )
