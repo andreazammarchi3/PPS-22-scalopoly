@@ -135,7 +135,7 @@ enum PurchasableSpace(
         SpaceGroup.SOCIETA
       )
 
-  val RENT_SELLING_PRICE_PERC = 10
+  private val RENT_SELLING_PRICE_PERC = 10
 
   def calculateRent(): Int =
     sellingPrice / RENT_SELLING_PRICE_PERC
