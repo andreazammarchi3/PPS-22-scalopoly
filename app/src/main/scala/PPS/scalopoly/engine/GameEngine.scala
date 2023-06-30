@@ -191,6 +191,12 @@ object GameEngine:
       playerUpdated
     )
 
+  /** Player buys a purchasable space.
+    * @param player
+    *   the player who buys the purchasable space.
+    * @param purchasableSpace
+    *   the purchasable space to buy.
+    */
   def playerBuysPurchasableSpace(
       player: Player,
       purchasableSpace: PurchasableSpace
