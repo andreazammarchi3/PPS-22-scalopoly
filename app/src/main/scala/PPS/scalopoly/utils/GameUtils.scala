@@ -10,7 +10,7 @@ import scala.util.Random
 object GameUtils:
 
   val GAMEBOARD_SIDES = 4
-  val CELLS_IN_SIDE = GameBoard.size / GAMEBOARD_SIDES
+  val CELLS_IN_SIDE: Int = GameBoard.size / GAMEBOARD_SIDES
 
   /** Shuffles a list of players.
     * @param players
@@ -108,7 +108,29 @@ object GameUtils:
     PurchasableSpace.values
       .find(_.spaceName == spaceName)
 
+  /** Returns the name of the space where the player is.
+    *
+    * @param player
+    *   the player.
+    * @return
+    *   the name of the space where the player is.
+    */
+  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
+    GameBoard.gameBoardList(player.actualPosition)
+
+  /** Returns the owner of a purchasable space.
+    *
+    * @param purchasableSpace
+    *   the purchasable space.
+    * @return
+    *   the owner of the purchasable space.
+    */
   def getOwnerFromPurchasableSpace(
       purchasableSpace: PurchasableSpace
   ): Option[Player] =
     GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
+
+  def getPurchasableSpaceFromPlayerPosition(
+      player: Player
+  ): Option[PurchasableSpace] =
+    getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))

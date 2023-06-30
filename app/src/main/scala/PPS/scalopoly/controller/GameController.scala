@@ -1,7 +1,7 @@
 package PPS.scalopoly.controller
 
-import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine, SpaceStatus}
-import PPS.scalopoly.model.Player
+import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
+import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
 import PPS.scalopoly.view.GameView
 import javafx.scene.control.Alert.AlertType
@@ -18,13 +18,15 @@ object GameController:
     GameEngine.currentPlayerQuit()
     if EndgameLogicEngine.checkVictory() then showVictory()
 
-  /** Throw the dice and update the view.
+  /** Throw the dice and move the current player.
+    *
     * @return
-    *   the result of the dice throw.
+    *   the result of the dice roll.
     */
   def throwDice(): (Int, Int) =
-    val (dice1, dice2) = GameEngine.moveCurrentPlayer()
-    (dice1, dice2)
+    val dicePair = DiceManager().roll()
+    GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
+    dicePair
 
   /** End the turn of the current player.
     */
@@ -32,7 +34,12 @@ object GameController:
     GameEngine.endTurn()
 
   def checkPlayerActions(): Unit =
-    GameEngine.checkPlayerActions()
+    GameEngine.checkSpaceStatus match
+      case SpaceStatus.OWNED_BY_ANOTHER_PLAYER =>
+        GameEngine.playerPaysRent()
+      case SpaceStatus.PURCHASABLE =>
+        GameEngine.askPlayerToBuySpace()
+      case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
   private def showVictory(): Unit = GameEngine.winner match

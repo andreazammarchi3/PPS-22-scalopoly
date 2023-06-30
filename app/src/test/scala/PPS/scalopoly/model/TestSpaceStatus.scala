@@ -1,6 +1,6 @@
-package PPS.scalopoly.engine
+package PPS.scalopoly.model
 
-import PPS.scalopoly.engine.SpaceStatus
+import PPS.scalopoly.model.SpaceStatus
 import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows}
 import org.junit.jupiter.api.Test
 

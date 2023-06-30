@@ -17,8 +17,6 @@ object GameEngine:
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
 
-  private val diceManager: DiceManager = DiceManager()
-
   /** Returns the list of players.
     * @return
     *   the list of players.
@@ -97,13 +95,11 @@ object GameEngine:
     Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
 
   /** Moves the current player.
-    * @return
-    *   the result of the dice roll.
+    * @param steps
+    *   the number of steps to move.
     */
-  def moveCurrentPlayer(): (Int, Int) =
-    val (dice1, dice2) = diceManager.roll()
-    updateCurrentPlayerWith(currentPlayer.move(dice1 + dice2))
-    (dice1, dice2)
+  def moveCurrentPlayer(steps: Int): Unit =
+    updatePlayerWith(Game.currentPlayer, currentPlayer.move(steps))
 
   /** Removes the current player from the game, if there is only one player left
     * the game ends.
@@ -115,31 +111,14 @@ object GameEngine:
     Game.removePlayer(playerToDelete)
     Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
-  /** Returns the name of the space where the player is.
-    *
-    * @param player
-    *   the player.
+  /** Check the status of the current space.
     * @return
-    *   the name of the space where the player is.
+    *   the status of the current space.
     */
-  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    GameBoard.gameBoardList(player.actualPosition)
-
-  /** Verifies if the current space is purchasable and if it is, asks the player
-    * if he wants to buy it. If the space is owned by another player, the
-    * current player pays the rent.
-    */
-  def checkPlayerActions(): Unit =
-    checkSpaceStatus match
-      case SpaceStatus.OWNED_BY_ANOTHER_PLAYER =>
-        playerPaysRent()
-      case SpaceStatus.PURCHASABLE =>
-        askPlayerToBuySpace()
-      case _ =>
-
-  private def checkSpaceStatus: SpaceStatus =
-    val currentSpaceName = getSpaceNameFromPlayerPosition(currentPlayer)
-    GameUtils.getPurchasableSpaceFromSpaceName(currentSpaceName) match
+  def checkSpaceStatus: SpaceStatus =
+    val purchasableSpace =
+      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
+    purchasableSpace match
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
 
@@ -155,10 +134,9 @@ object GameEngine:
     case _ =>
       SpaceStatus.PURCHASABLE
 
-  private def playerPaysRent(): Unit =
-    val purchasableSpace = GameUtils.getPurchasableSpaceFromSpaceName(
-      getSpaceNameFromPlayerPosition(currentPlayer)
-    )
+  def playerPaysRent(): Unit =
+    val purchasableSpace =
+      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
     purchasableSpace match
       case Some(purchasableSpace) =>
         val owner = GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
@@ -176,7 +154,8 @@ object GameEngine:
                 players.indexOf(owner),
                 owner.takeRent(rent)
               )
-              updateCurrentPlayerWith(
+              updatePlayerWith(
+                Game.currentPlayer,
                 currentPlayer.pay(rent)
               )
             else
@@ -189,10 +168,9 @@ object GameEngine:
           case _ =>
       case _ =>
 
-  private def askPlayerToBuySpace(): Unit =
-    val purchasableSpace = GameUtils.getPurchasableSpaceFromSpaceName(
-      getSpaceNameFromPlayerPosition(currentPlayer)
-    )
+  def askPlayerToBuySpace(): Unit =
+    val purchasableSpace =
+      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
     purchasableSpace match
       case Some(purchasableSpace) =>
         if currentPlayer.canPayOrBuy(purchasableSpace.sellingPrice) then
@@ -202,19 +180,22 @@ object GameEngine:
           )
           result.get match
             case ButtonType.OK =>
-              updateCurrentPlayerWith(currentPlayer.buy(purchasableSpace))
+              playerBuysPurchasableSpace(currentPlayer, purchasableSpace)
             case _ =>
         else AlertUtils.showNotPurchasableSpace(currentPlayer, purchasableSpace)
       case _ =>
-
-  private def updateCurrentPlayerWith(playerUpdated: Player): Unit =
-    Game.players = Game.players.updated(
-      Game.currentPlayer,
-      playerUpdated
-    )
 
   private def updatePlayerWith(index: Int, playerUpdated: Player): Unit =
     Game.players = Game.players.updated(
       index,
       playerUpdated
+    )
+
+  def playerBuysPurchasableSpace(
+      player: Player,
+      purchasableSpace: PurchasableSpace
+  ): Unit =
+    updatePlayerWith(
+      Game.players.indexOf(player),
+      player.buy(purchasableSpace)
     )

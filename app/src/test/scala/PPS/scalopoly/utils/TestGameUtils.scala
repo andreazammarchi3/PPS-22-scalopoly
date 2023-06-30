@@ -180,3 +180,10 @@ class TestGameUtils:
       None,
       GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
     )
+
+  @Test
+  def testGetSpaceNameFromPlayerPosition(): Unit =
+    assertEquals(
+      GameBoard.gameBoardList(0),
+      GameUtils.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
+    )

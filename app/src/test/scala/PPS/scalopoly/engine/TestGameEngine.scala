@@ -3,7 +3,8 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.*
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue, assertFalse}
+import PPS.scalopoly.utils.GameUtils
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 @Test
@@ -36,9 +37,12 @@ class TestGameEngine extends BaseTest:
     val DEFAULT_STARTING_POSITION = 0
     val startPosition = GameEngine.currentPlayer.actualPosition
     assertEquals(DEFAULT_STARTING_POSITION, startPosition)
-    val (dice1, dice2) = GameEngine.moveCurrentPlayer()
+    val dicePair = DiceManager().roll()
+    val sum = dicePair._1 + dicePair._2
+    GameEngine.moveCurrentPlayer(sum)
+    assertTrue(dicePair._1.isValidInt && dicePair._2.isValidInt)
     assertEquals(
-      startPosition + dice1 + dice2,
+      startPosition + sum,
       GameEngine.currentPlayer.actualPosition
     )
 
@@ -51,13 +55,6 @@ class TestGameEngine extends BaseTest:
       assertEquals(i, GameEngine.players.length)
       assertTrue(!GameEngine.players.contains(deletedPlayer))
     GameEngine.currentPlayerQuit()
-
-  @Test
-  def testGetSpaceNameFromPlayerPosition(): Unit =
-    assertEquals(
-      GameBoard.gameBoardList(0),
-      GameEngine.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
-    )
 
   @Test
   def testAvailableTokens(): Unit =
@@ -94,3 +91,33 @@ class TestGameEngine extends BaseTest:
     assertEquals(None, GameEngine.winner)
     Game.winner = Some(player1)
     assertEquals(Some(player1), GameEngine.winner)
+
+  @Test
+  def testCheckSpaceStatus(): Unit =
+    // VICOLO_CORTO must be PURCHASABLE
+    GameEngine.moveCurrentPlayer(1)
+    assertEquals(SpaceStatus.PURCHASABLE, GameEngine.checkSpaceStatus)
+    GameEngine.playerBuysPurchasableSpace(
+      GameEngine.currentPlayer,
+      PurchasableSpace.VICOLO_CORTO
+    )
+
+    // PROBABILITA' must be NOT_PURCHASABLE
+    GameEngine.moveCurrentPlayer(1)
+    assertEquals(SpaceStatus.NOT_PURCHASABLE, GameEngine.checkSpaceStatus)
+
+    // VICOLO_CORTO must be OWNED_BY_CURRENT_PLAYER
+    GameEngine.moveCurrentPlayer(39)
+    println(GameEngine.currentPlayer.actualPosition)
+    assertEquals(
+      SpaceStatus.OWNED_BY_CURRENT_PLAYER,
+      GameEngine.checkSpaceStatus
+    )
+
+    // VICOLO_CORTO must be OWNED_BY_ANOTHER_PLAYER
+    GameEngine.endTurn()
+    GameEngine.moveCurrentPlayer(1)
+    assertEquals(
+      SpaceStatus.OWNED_BY_ANOTHER_PLAYER,
+      GameEngine.checkSpaceStatus
+    )

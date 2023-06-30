@@ -1,6 +1,6 @@
-package PPS.scalopoly.engine
+package PPS.scalopoly.model
 
-private[engine] enum SpaceStatus:
+enum SpaceStatus:
   case NOT_PURCHASABLE
   case OWNED_BY_ANOTHER_PLAYER
   case OWNED_BY_CURRENT_PLAYER
