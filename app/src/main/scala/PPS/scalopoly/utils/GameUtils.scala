@@ -134,3 +134,9 @@ object GameUtils:
       player: Player
   ): Option[PurchasableSpace] =
     getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))
+
+  def canPlayerBuySpace(
+      player: Player,
+      purchasableSpace: PurchasableSpace
+  ): Boolean =
+    player.canPayOrBuy(purchasableSpace.sellingPrice)

@@ -138,6 +138,43 @@ object GameEngine:
       player.buy(purchasableSpace)
     )
 
+  /** Player pays rent to the owner of a purchasable space.
+    *
+    * @param player
+    *   the player who pays the rent.
+    * @param purchasableSpace
+    *   the purchasable space to pay the rent.
+    * @param owner
+    *   the owner of the purchasable space.
+    */
+  def playerPaysRent(
+      player: Player,
+      purchasableSpace: PurchasableSpace,
+      owner: Player
+  ): Unit =
+    val rent = purchasableSpace.calculateRent()
+    updatePlayerWith(
+      players.indexOf(owner),
+      owner.takeRent(rent)
+    )
+    updatePlayerWith(
+      players.indexOf(player),
+      player.pay(rent)
+    )
+
+  /** Player obtains a heritage from another player.
+    *
+    * @param giver
+    *   the player who obtains the heritage.
+    * @param receiver
+    *   the player who gives the heritage.
+    */
+  def playerObtainHeritage(giver: Player, receiver: Player): Unit =
+    updatePlayerWith(
+      players.indexOf(receiver),
+      receiver.obtainHeritageFrom(giver)
+    )
+
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match
@@ -147,59 +184,7 @@ object GameEngine:
         case _ if currentPlayer.owns(purchasableSpace) =>
           SpaceStatus.OWNED_BY_CURRENT_PLAYER
         case _ => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
-    case _ =>
-      SpaceStatus.PURCHASABLE
-
-  def playerPaysRent(): Unit =
-    val purchasableSpace =
-      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
-    purchasableSpace match
-      case Some(purchasableSpace) =>
-        val owner = GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
-        owner match
-          case Some(owner) =>
-            val rent = purchasableSpace.calculateRent()
-            if currentPlayer.canPayOrBuy(rent) then
-              AlertUtils.showRentPayment(
-                currentPlayer,
-                rent,
-                owner,
-                purchasableSpace
-              )
-              updatePlayerWith(
-                players.indexOf(owner),
-                owner.takeRent(rent)
-              )
-              updatePlayerWith(
-                Game.currentPlayer,
-                currentPlayer.pay(rent)
-              )
-            else
-              AlertUtils.showPlayerEliminated(currentPlayer, owner)
-              updatePlayerWith(
-                players.indexOf(owner),
-                owner.obtainHeritageFrom(currentPlayer)
-              )
-              currentPlayerQuit()
-          case _ =>
-      case _ =>
-
-  def askPlayerToBuySpace(): Unit =
-    val purchasableSpace =
-      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
-    purchasableSpace match
-      case Some(purchasableSpace) =>
-        if currentPlayer.canPayOrBuy(purchasableSpace.sellingPrice) then
-          val result = AlertUtils.showAskToBuyPurchasableSpace(
-            currentPlayer,
-            purchasableSpace
-          )
-          result.get match
-            case ButtonType.OK =>
-              playerBuysPurchasableSpace(currentPlayer, purchasableSpace)
-            case _ =>
-        else AlertUtils.showNotPurchasableSpace(currentPlayer, purchasableSpace)
-      case _ =>
+    case _ => SpaceStatus.PURCHASABLE
 
   private def updatePlayerWith(index: Int, playerUpdated: Player): Unit =
     Game.players = Game.players.updated(
