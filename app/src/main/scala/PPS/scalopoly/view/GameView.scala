@@ -3,7 +3,13 @@ package PPS.scalopoly.view
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.engine.GameEngine.currentPlayer
-import PPS.scalopoly.model.{DiceManager, GameBoard, Player, PurchasableSpace, Token}
+import PPS.scalopoly.model.{
+  DiceManager,
+  GameBoard,
+  Player,
+  PurchasableSpace,
+  Token
+}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.beans.binding.Bindings
@@ -11,9 +17,27 @@ import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.control.{Button, Label, ListView, TableColumn, TablePosition, TableRow, TableView}
+import javafx.scene.control.{
+  Button,
+  Label,
+  ListView,
+  TableColumn,
+  TablePosition,
+  TableRow,
+  TableView
+}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
+import javafx.scene.layout.{
+  Background,
+  BackgroundFill,
+  Border,
+  BorderPane,
+  ColumnConstraints,
+  GridPane,
+  HBox,
+  RowConstraints,
+  VBox
+}
 import javafx.scene.paint.Color
 import javafx.stage.Screen
 import scalafx.scene.shape.Path
@@ -163,9 +187,15 @@ class GameView extends Initializable:
 
     playersTable.setPrefWidth(menuWidth)
     playersTable.setOnMouseClicked(_ => updatePropertiesList())
-    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
-    playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
-    playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
+    playerNameColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.nickname)
+    )
+    playerTokenColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.token.toString)
+    )
+    playerMoneyColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.money.toString)
+    )
     updatePlayersTable()
 
     updateTurnLabel()
@@ -190,9 +220,11 @@ class GameView extends Initializable:
     updatePlayersTable()
     updatePropertiesList()
     updateTurnLabel()
-    tokensImgView.foreach(t => GameEngine.players.find(p => p.token == t._1) match
-      case None => t._2.setDisable(true)
-      case _ => )
+    tokensImgView.foreach(t =>
+      GameEngine.players.find(p => p.token == t._1) match
+        case None => t._2.setDisable(true)
+        case _    =>
+    )
     if dice1 != dice2 then setBtnsForEndTurn(true)
 
   /** End turn
@@ -267,11 +299,15 @@ class GameView extends Initializable:
     GameEngine.players.foreach(p => playersTable.getItems.add(p))
 
   private def updateTurnLabel(): Unit =
-    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
+    turnLabel.setText(
+      "Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")"
+    )
 
   private def updatePropertiesList(): Unit =
     playersTable.getSelectionModel.getSelectedItem match
       case p if p != null =>
         propertiesList.getItems.clear()
-        p.ownedProperties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
+        p.ownedProperties.foreach(p =>
+          propertiesList.getItems.add(p.spaceName.name)
+        )
       case _ =>

@@ -2,7 +2,7 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.model.{Player, Token}
 import PPS.scalopoly.controller.ConfigurationMenuController
-import PPS.scalopoly.utils.FxmlUtils
+import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.beans.binding.Bindings
 import javafx.scene.control.{Button, ComboBox, TableView, TextField}
@@ -135,12 +135,7 @@ class ConfigurationMenuView extends Initializable:
     if (ConfigurationMenuController.canStartGame)
       ConfigurationMenuController.playGame()
     else
-      FxmlUtils.showAlert(
-        AlertType.WARNING,
-        "Scalopoly",
-        "Non e' possibile avviare il gioco.",
-        "Aggiungere almeno due giocatori."
-      )
+      AlertUtils.showNotEnoughPlayersWarning()
 
   /** Exits the game.
     */
@@ -171,12 +166,7 @@ class ConfigurationMenuView extends Initializable:
   private def addPlayerToTableView(): Unit =
     addPlayerNameTextField.getText match
       case playerName if playerName.isEmpty =>
-        FxmlUtils.showAlert(
-          AlertType.WARNING,
-          "Scalopoly",
-          "Non e' possibile aggiungere il giocatore.",
-          "Il nome del giocatore non puo' essere vuoto."
-        )
+        AlertUtils.showEmptyPlayerNameWarning()
       case _ =>
         val newPlayer =
           Player(

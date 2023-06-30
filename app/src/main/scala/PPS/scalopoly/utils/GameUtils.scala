@@ -108,5 +108,7 @@ object GameUtils:
     PurchasableSpace.values
       .find(_.spaceName == spaceName)
 
-  def getOwnerFromPurchasableSpace(purchasableSpace: PurchasableSpace): Option[Player] =
+  def getOwnerFromPurchasableSpace(
+      purchasableSpace: PurchasableSpace
+  ): Option[Player] =
     GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))

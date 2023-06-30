@@ -2,7 +2,7 @@ package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine, SpaceStatus}
 import PPS.scalopoly.model.Player
-import PPS.scalopoly.utils.FxmlUtils
+import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
 import PPS.scalopoly.view.GameView
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonType
@@ -33,15 +33,10 @@ object GameController:
 
   def checkPlayerActions(): Unit =
     GameEngine.checkPlayerActions()
+    if EndgameLogicEngine.checkVictory() then showVictory()
 
-  private def showVictory(): Unit =
-    val result = FxmlUtils.showAlert(
-      AlertType.INFORMATION,
-      "VITTORIA",
-      "Vittoria",
-      "Complimenti " + GameEngine.winner.get.nickname + " hai vinto!"
-    )
-    result.get match
-      case ButtonType.OK =>
-        GameEngine.newGame()
-        FxmlUtils.changeScene(FxmlResources.START_MENU.path)
+  private def showVictory(): Unit = GameEngine.winner match
+    case Some(winner) =>
+      AlertUtils.showVictory(winner)
+      GameEngine.newGame()
+      FxmlUtils.changeScene(FxmlResources.START_MENU.path)

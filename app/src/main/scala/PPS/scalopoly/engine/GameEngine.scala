@@ -2,7 +2,7 @@ package PPS.scalopoly.engine
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
+import PPS.scalopoly.utils.{AlertUtils, GameUtils}
 import PPS.scalopoly.engine.Game
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonType
@@ -162,16 +162,31 @@ object GameEngine:
     purchasableSpace match
       case Some(purchasableSpace) =>
         val owner = GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
-        val rent = purchasableSpace.calculateRent()
-        if currentPlayer.canPayOrBuy(rent) && owner.isDefined then
-          updatePlayerWith(
-            players.indexOf(owner.get),
-            owner.get.takeRent(rent)
-          )
-          updateCurrentPlayerWith(
-            currentPlayer.pay(rent)
-          ) // TODO: log rent payment
-        else Game.removePlayer(currentPlayer) // TODO: handle player bankruptcy
+        owner match
+          case Some(owner) =>
+            val rent = purchasableSpace.calculateRent()
+            if currentPlayer.canPayOrBuy(rent) then
+              AlertUtils.showRentPayment(
+                currentPlayer,
+                rent,
+                owner,
+                purchasableSpace
+              )
+              updatePlayerWith(
+                players.indexOf(owner),
+                owner.takeRent(rent)
+              )
+              updateCurrentPlayerWith(
+                currentPlayer.pay(rent)
+              )
+            else
+              AlertUtils.showPlayerEliminated(currentPlayer, owner)
+              updatePlayerWith(
+                players.indexOf(owner),
+                owner.obtainHeritageFrom(currentPlayer)
+              )
+              currentPlayerQuit()
+          case _ =>
       case _ =>
 
   private def askPlayerToBuySpace(): Unit =
@@ -181,24 +196,15 @@ object GameEngine:
     purchasableSpace match
       case Some(purchasableSpace) =>
         if currentPlayer.canPayOrBuy(purchasableSpace.sellingPrice) then
-          val result = FxmlUtils.showAlert(
-            AlertType.CONFIRMATION,
-            "Attenzione",
-            "Acquista proprieta'",
-            "Vuoi acquistare la proprieta' " + purchasableSpace.spaceName.name + " libera, per "
-              + purchasableSpace.sellingPrice + "?"
+          val result = AlertUtils.showAskToBuyPurchasableSpace(
+            currentPlayer,
+            purchasableSpace
           )
           result.get match
             case ButtonType.OK =>
               updateCurrentPlayerWith(currentPlayer.buy(purchasableSpace))
             case _ =>
-        else
-          FxmlUtils.showAlert(
-            AlertType.INFORMATION,
-            "Attenzione",
-            "Proprieta' non acquistabile",
-            "Non hai abbastanza soldi per acquistare la proprieta' " + purchasableSpace.spaceName.name
-          )
+        else AlertUtils.showNotPurchasableSpace(currentPlayer, purchasableSpace)
       case _ =>
 
   private def updateCurrentPlayerWith(playerUpdated: Player): Unit =
