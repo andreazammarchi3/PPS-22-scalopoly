@@ -1,6 +1,6 @@
 package PPS.scalopoly
 
-import PPS.scalopoly.model.{Game, Player, Token}
+import PPS.scalopoly.model.{Player, Token}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 @Test

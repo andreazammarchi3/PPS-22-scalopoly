@@ -3,11 +3,10 @@ package PPS.scalopoly.utils.resources
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertNotNull,
+  assertThrows,
   assertTrue
 }
 import org.junit.jupiter.api.Test
-
-import PPS.scalopoly.Utils
 
 class TestCssResources:
 
@@ -23,11 +22,9 @@ class TestCssResources:
       CssResources.GAME_STYLE,
       CssResources.fromOrdinal(GAME_STYLE_POSITION)
     )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, CssResources](
-        CssResources.fromOrdinal,
-        CssResources.values.length + 1
-      )
+    assertThrows(
+      classOf[NoSuchElementException],
+      () => CssResources.fromOrdinal(CssResources.values.length + 1)
     )
 
   @Test
@@ -45,11 +42,9 @@ class TestCssResources:
         CssResources.fromOrdinal(i),
         CssResources.valueOf(CssResources.fromOrdinal(i).toString)
       )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, String, CssResources](
-        CssResources.valueOf,
-        "NOT_EXIST"
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => CssResources.valueOf("NOT_EXIST")
     )
 
   @Test

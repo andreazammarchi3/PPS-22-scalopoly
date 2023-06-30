@@ -1,7 +1,9 @@
-package PPS.scalopoly.model
+package PPS.scalopoly.engine
 
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.model.SpaceName.VIA
+import PPS.scalopoly.model.{SpaceName, Token}
+import PPS.scalopoly.engine.Game
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
@@ -33,3 +35,9 @@ class TestGame extends BaseTest:
   def testRemovePlayer(): Unit =
     Game.removePlayer(player1)
     assertEquals(List(player3, player2), Game.players)
+
+  @Test
+  def testWinner(): Unit =
+    assertEquals(None, Game.winner)
+    Game.winner = Some(player1)
+    assertEquals(Some(player1), Game.winner)

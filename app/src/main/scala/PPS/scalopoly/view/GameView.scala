@@ -2,12 +2,30 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{DiceManager, Game, GameBoard, Player, Token}
+import PPS.scalopoly.engine.GameEngine.currentPlayer
+import PPS.scalopoly.model.{
+  DiceManager,
+  GameBoard,
+  Player,
+  PurchasableSpace,
+  Token
+}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import javafx.beans.binding.Bindings
+import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
-import javafx.scene.control.{Button, Label}
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.control.{
+  Button,
+  Label,
+  ListView,
+  TableColumn,
+  TablePosition,
+  TableRow,
+  TableView
+}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{
   Background,
@@ -23,6 +41,7 @@ import javafx.scene.layout.{
 import javafx.scene.paint.Color
 import javafx.stage.Screen
 import scalafx.scene.shape.Path
+import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
 
 import scala.collection.mutable.Map as MMap
 import java.net.URL
@@ -30,7 +49,6 @@ import java.util
 
 class GameView extends Initializable:
 
-  private val N_MENUS = 2
   private val N_COLS_IN_CELL = 4
   private val N_ROWS_IN_CELL = 3
 
@@ -38,7 +56,25 @@ class GameView extends Initializable:
   @SuppressWarnings(
     Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
   )
-  private var playerListBox: VBox = _
+  private var playersTable: TableView[Player] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerNameColumn: TableColumn[Player, String] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerTokenColumn: TableColumn[Player, String] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var playerMoneyColumn: TableColumn[Player, String] = _
 
   @FXML
   @SuppressWarnings(
@@ -100,7 +136,17 @@ class GameView extends Initializable:
   )
   private var diceImageView2: ImageView = _
 
-  private val playersHBox: MMap[Token, HBox] = MMap.empty
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var propertiesList: ListView[String] = _
+
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var turnLabel: Label = _
 
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
 
@@ -111,20 +157,20 @@ class GameView extends Initializable:
       pane,
       gameBoard,
       CssResources.GAME_STYLE,
-      FxmlUtils.DEFAULT_WIDTH_PERC,
+      FxmlUtils.GAME_WIDTH_PERC,
       FxmlUtils.DEFAULT_HEIGHT_PERC
     )
 
     initCellGrids()
     val menuWidth = FxmlUtils.getResolution._1 - pane.getPrefHeight
-    actionsMenu.setPrefWidth(menuWidth / N_MENUS)
-    playerListBox.setPrefWidth(menuWidth / N_MENUS)
+    gameBoard.setFitWidth(pane.getPrefHeight)
+    mainGrid.setPrefWidth(pane.getPrefHeight)
+    actionsMenu.setPrefWidth(menuWidth)
 
     setDiceImg(diceImageView1)
     setDiceImg(diceImageView2)
 
     GameEngine.players.foreach(p =>
-      createPlayerBox(p)
       val tokenImg = new ImageView(
         new Image(getClass.getResource(p.token.img.path).toString)
       )
@@ -139,16 +185,30 @@ class GameView extends Initializable:
       updateTokenPosition(p)
     )
 
-    updateStyleForCurrentPLayer()
+    playersTable.setPrefWidth(menuWidth)
+    playersTable.setOnMouseClicked(_ => updatePropertiesList())
+    playerNameColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.nickname)
+    )
+    playerTokenColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.token.toString)
+    )
+    playerMoneyColumn.setCellValueFactory(p =>
+      StringProperty(p.getValue.money.toString)
+    )
+    updatePlayersTable()
+
+    updateTurnLabel()
 
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
-    playersHBox(GameEngine.currentPlayer.token).setDisable(true)
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    canEndTurn(false)
-    updateStyleForCurrentPLayer()
+    if (GameEngine.players.nonEmpty)
+      setBtnsForEndTurn(false)
+      updatePlayersTable()
+      updateTurnLabel()
 
   /** Throw dice
     */
@@ -156,14 +216,23 @@ class GameView extends Initializable:
     val (dice1, dice2) = GameController.throwDice()
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
-    if dice1 != dice2 then canEndTurn(true)
+    GameController.checkPlayerActions()
+    updatePlayersTable()
+    updatePropertiesList()
+    updateTurnLabel()
+    tokensImgView.foreach(t =>
+      GameEngine.players.find(p => p.token == t._1) match
+        case None => t._2.setDisable(true)
+        case _    =>
+    )
+    if dice1 != dice2 then setBtnsForEndTurn(true)
 
   /** End turn
     */
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
-    canEndTurn(false)
-    updateStyleForCurrentPLayer()
+    setBtnsForEndTurn(false)
+    updateTurnLabel()
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -194,30 +263,6 @@ class GameView extends Initializable:
         row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
-  private def createPlayerBox(player: Player): Unit =
-    val DEFAULT_SPACING = 10
-    val playerHBox: HBox = new HBox()
-    playerListBox.getChildren.add(playerHBox)
-
-    val playerLbl: Label = new Label(
-      player.nickname + " - " + player.token.toString.toLowerCase()
-    )
-    playerHBox.getChildren.add(playerLbl)
-
-    /*
-    val playerMoneyLbl: Label = new Label("99999$")
-    playerHBox.getChildren.add(playerMoneyLbl)
-
-    val playerPropertiesBtn: Button = new Button("Proprietà")
-    playerPropertiesBtn.getStyleClass.add("scalopoly-btn")
-    playerHBox.getChildren.add(playerPropertiesBtn)
-     */
-
-    playerHBox.setSpacing(DEFAULT_SPACING)
-    playerHBox.setAlignment(Pos.CENTER)
-
-    playersHBox += (player.token -> playerHBox)
-
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(
       gridPane.getChildren.size() + 1,
@@ -225,18 +270,18 @@ class GameView extends Initializable:
       (0, 0)
     )
 
-  private def canEndTurn(can: Boolean): Unit =
+  private def setBtnsForEndTurn(can: Boolean): Unit =
     endTurnBtn.setDisable(!can)
     throwDiceBtn.setDisable(can)
+
+  private def setDiceImg(diceImgView: ImageView): Unit =
+    diceImgView.setFitWidth(
+      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
+    )
 
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
     diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))
-
-  private def updateStyleForCurrentPLayer(): Unit =
-    playersHBox.values.foreach(h => h.getStyleClass.clear())
-    playersHBox(GameEngine.currentPlayer.token).getStyleClass
-      .add("green-background")
 
   private def updateTokenPosition(player: Player): Unit =
     val cellGrid = cellsGrids(
@@ -245,11 +290,24 @@ class GameView extends Initializable:
     val (col, row) = getFirstFreeCellForToken(cellGrid)
     cellGrid.add(tokensImgView(player.token), col, row + 1)
 
-  private def setDiceImg(diceImgView: ImageView): Unit =
-    diceImgView.setFitWidth(
-      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
-    )
-
   private def updateDiceImg(dice1: Int, dice2: Int): Unit =
     updateSingleDiceImg(dice1, diceImageView1)
     updateSingleDiceImg(dice2, diceImageView2)
+
+  private def updatePlayersTable(): Unit =
+    playersTable.getItems.clear()
+    GameEngine.players.foreach(p => playersTable.getItems.add(p))
+
+  private def updateTurnLabel(): Unit =
+    turnLabel.setText(
+      "Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")"
+    )
+
+  private def updatePropertiesList(): Unit =
+    playersTable.getSelectionModel.getSelectedItem match
+      case p if p != null =>
+        propertiesList.getItems.clear()
+        p.ownedProperties.foreach(p =>
+          propertiesList.getItems.add(p.spaceName.name)
+        )
+      case _ =>

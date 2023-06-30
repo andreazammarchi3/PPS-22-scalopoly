@@ -89,8 +89,11 @@
                                  <Button fx:id="exitBtn" mnemonicParsing="true" onAction="#exitGameBtnClick" styleClass="scalopoly-btn-actions" text="_Esci" />
                      </children>
                      <GridPane.margin>
-                        <Insets bottom="70.0" left="18.0" />
+                        <Insets bottom="70.0" left="17.0" />
                      </GridPane.margin>
+                     <padding>
+                        <Insets top="47.0" />
+                     </padding>
                   </HBox>
                </children>
             </GridPane>

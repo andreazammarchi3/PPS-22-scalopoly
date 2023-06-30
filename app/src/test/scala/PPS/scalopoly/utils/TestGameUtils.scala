@@ -1,10 +1,18 @@
 package PPS.scalopoly.utils
 
-import PPS.scalopoly.model.{DiceManager, GameBoard, Player}
+import PPS.scalopoly.model.{
+  DiceManager,
+  GameBoard,
+  Player,
+  PurchasableSpace,
+  SpaceName,
+  Token
+}
 import PPS.scalopoly.utils.GameUtils
-import PPS.scalopoly.Utils
+import PPS.scalopoly.engine.GameEngine
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
+  assertFalse,
   assertThrows,
   assertTrue,
   fail
@@ -16,6 +24,7 @@ import scala.util.Random
 class TestGameUtils:
   @Test
   def testAddSumToPosition(): Unit =
+    val DEFAULT_STARTING_POSITION = 0
     val RANDOM_POSITION = Random.between(0, GameBoard.size / 2)
     val RANDOM_STEPS = Random.between(1, DiceManager.MAX_DICE_VALUE * 2)
     assertEquals(
@@ -23,7 +32,7 @@ class TestGameUtils:
       GameUtils.addSumToPosition(RANDOM_STEPS, RANDOM_POSITION)
     )
     assertEquals(
-      Player.DEFAULT_STARTING_POSITION,
+      DEFAULT_STARTING_POSITION,
       GameUtils.addSumToPosition(1, GameBoard.size - 1)
     )
 
@@ -31,17 +40,13 @@ class TestGameUtils:
   def testGetCoordinateFromPosition(): Unit =
     val NEGATIVE_POSITION = -1
     val OVER_MAX_POSITION = GameBoard.size
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, (Int, Int)](
-        GameUtils.getCoordinateFromPosition,
-        NEGATIVE_POSITION
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => GameUtils.getCoordinateFromPosition(NEGATIVE_POSITION)
     )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, (Int, Int)](
-        GameUtils.getCoordinateFromPosition,
-        OVER_MAX_POSITION
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => GameUtils.getCoordinateFromPosition(OVER_MAX_POSITION)
     )
     val COORD_FIRST_SIDE = ((9, 10), 1)
     val COORD_SECOND_SIDE = ((0, 9), 11)
@@ -77,45 +82,41 @@ class TestGameUtils:
     val LAST_CELL_VALUE = 12
     val VALUE_OF_FIRST_CELL_OF_SECOND_ROW = 4
 
-    assertTrue(
-      Utils.testCatchException[
-        IllegalArgumentException,
-        (Int, (Int, Int), (Int, Int)),
-        (Int, Int)
-      ](
-        GameUtils.getNthCellInGrid,
-        (DEFAULT_STARTING_VALUE, ILLEGAL_GRID_SIZE, STARTING_CELL)
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () =>
+        GameUtils.getNthCellInGrid(
+          DEFAULT_STARTING_VALUE,
+          ILLEGAL_GRID_SIZE,
+          STARTING_CELL
+        )
     )
-    assertTrue(
-      Utils.testCatchException[
-        IllegalArgumentException,
-        (Int, (Int, Int), (Int, Int)),
-        (Int, Int)
-      ](
-        GameUtils.getNthCellInGrid,
-        (DEFAULT_STARTING_VALUE, ILLEGAL_GRID_SIZE.swap, STARTING_CELL)
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () =>
+        GameUtils.getNthCellInGrid(
+          DEFAULT_STARTING_VALUE,
+          ILLEGAL_GRID_SIZE.swap,
+          STARTING_CELL
+        )
     )
-    assertTrue(
-      Utils.testCatchException[
-        IllegalArgumentException,
-        (Int, (Int, Int), (Int, Int)),
-        (Int, Int)
-      ](
-        GameUtils.getNthCellInGrid,
-        (ILLEGAL_STARTING_VALUE, DEFAULT_GRID_SIZE, STARTING_CELL)
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () =>
+        GameUtils.getNthCellInGrid(
+          ILLEGAL_STARTING_VALUE,
+          DEFAULT_GRID_SIZE,
+          STARTING_CELL
+        )
     )
-    assertTrue(
-      Utils.testCatchException[
-        IllegalArgumentException,
-        (Int, (Int, Int), (Int, Int)),
-        (Int, Int)
-      ](
-        GameUtils.getNthCellInGrid,
-        (LAST_CELL_VALUE + 1, DEFAULT_GRID_SIZE, STARTING_CELL)
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () =>
+        GameUtils.getNthCellInGrid(
+          LAST_CELL_VALUE + 1,
+          DEFAULT_GRID_SIZE,
+          STARTING_CELL
+        )
     )
     assertEquals(
       STARTING_CELL,
@@ -140,4 +141,49 @@ class TestGameUtils:
         DEFAULT_GRID_SIZE,
         STARTING_CELL
       )
+    )
+
+  @Test
+  def testCheckIfPropertyIsAlreadyOwned(): Unit =
+    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
+    val player =
+      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
+    GameEngine.addPlayer(player)
+    assertTrue(GameUtils.propertyIsAlreadyOwned(purchasableSpace))
+    assertFalse(
+      GameUtils.propertyIsAlreadyOwned(PurchasableSpace.VIA_ACCADEMIA)
+    )
+
+  @Test
+  def testGetOwnerFromPurchasableSpace(): Unit =
+    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
+    val player =
+      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
+    GameEngine.addPlayer(player)
+    assertEquals(
+      Some(player),
+      GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
+    )
+    assertEquals(
+      None,
+      GameUtils.getOwnerFromPurchasableSpace(PurchasableSpace.VIA_ACCADEMIA)
+    )
+
+  @Test
+  def testGetPurchasableSpaceFromSpaceName(): Unit =
+    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
+    assertEquals(
+      Some(purchasableSpace),
+      GameUtils.getPurchasableSpaceFromSpaceName(purchasableSpace.spaceName)
+    )
+    assertEquals(
+      None,
+      GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
+    )
+
+  @Test
+  def testGetSpaceNameFromPlayerPosition(): Unit =
+    assertEquals(
+      GameBoard.gameBoardList(0),
+      GameUtils.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
     )

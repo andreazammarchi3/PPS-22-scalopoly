@@ -1,5 +1,6 @@
 package PPS.scalopoly.controller
 
+import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.view.StartMenuView
 import PPS.scalopoly.utils.resources.FxmlResources
 import PPS.scalopoly.utils.FxmlUtils
@@ -25,4 +26,4 @@ object StartMenuController:
 
   /** Exit the game.
     */
-  def exitGame(): Unit = sys.exit(0)
+  def exitGame(): Unit = GameEngine.exitGame()

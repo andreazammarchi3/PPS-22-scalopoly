@@ -2,7 +2,7 @@ package PPS.scalopoly.model
 
 /** Represents the name of a space on the board.
   */
-enum SpaceName(name: String):
+enum SpaceName(_name: String):
   case VICOLO_CORTO extends SpaceName("Vicolo Corto")
   case VICOLO_STRETTO extends SpaceName("Vicolo Stretto")
 
@@ -14,11 +14,11 @@ enum SpaceName(name: String):
   case CORSO_ATENEO extends SpaceName("Corso Ateneo")
   case PIAZZA_UNIVERSITA extends SpaceName("Piazza Universita'")
 
-  case VIA_VERDI extends SpaceName("Piazza Universita'")
-  case CORSO_RAFFAELLO extends SpaceName("Piazza Universita'")
-  case PIAZZA_DANTE extends SpaceName("Piazza Universita'")
+  case VIA_VERDI extends SpaceName("Via Verdi")
+  case CORSO_RAFFAELLO extends SpaceName("Corso Raffaello")
+  case PIAZZA_DANTE extends SpaceName("Piazza Dante")
 
-  case VIA_MARCO_POLO extends SpaceName("Via Marco Polo'")
+  case VIA_MARCO_POLO extends SpaceName("Via Marco Polo")
   case CORSO_MAGELLANO extends SpaceName("Corso Magellano")
   case LARGO_COLOMBO extends SpaceName("Largo Colombo")
 
@@ -59,3 +59,17 @@ enum SpaceName(name: String):
     *   true if the two SpaceNames are equal, false otherwise
     */
   override def equals(obj: Any): Boolean = super.equals(obj)
+
+  /** Returns the name of the SpaceName.
+    * @return
+    *   the name of the SpaceName
+    */
+  def name: String = _name
+
+  /** Checks if the SpaceName is purchasable.
+    * @return
+    *   true if the SpaceName is purchasable, false otherwise
+    */
+  def isPurchasable: Boolean = this match
+    case _ if PurchasableSpace.values.exists(_.spaceName == this) => true
+    case _                                                        => false

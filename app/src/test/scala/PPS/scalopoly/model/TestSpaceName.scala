@@ -1,7 +1,12 @@
 package PPS.scalopoly.model
 
-import PPS.scalopoly.Utils
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
+import PPS.scalopoly.utils.GameUtils
+import org.junit.jupiter.api.Assertions.{
+  assertEquals,
+  assertFalse,
+  assertThrows,
+  assertTrue
+}
 import org.junit.jupiter.api.Test
 
 class TestSpaceName:
@@ -19,11 +24,9 @@ class TestSpaceName:
       SpaceName.PIAZZA_UNIVERSITA,
       SpaceName.fromOrdinal(PIAZZA_UNIVERSITA_POSITION)
     )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, Int, SpaceName](
-        SpaceName.fromOrdinal,
-        SpaceName.values.length + 1
-      )
+    assertThrows(
+      classOf[NoSuchElementException],
+      () => SpaceName.fromOrdinal(SpaceName.values.length + 1)
     )
 
   @Test
@@ -37,9 +40,16 @@ class TestSpaceName:
         SpaceName.fromOrdinal(i),
         SpaceName.valueOf(SpaceName.fromOrdinal(i).toString)
       )
-    assertTrue(
-      Utils.testCatchException[IllegalArgumentException, String, SpaceName](
-        SpaceName.valueOf,
-        "NOT_EXIST"
-      )
+    assertThrows(
+      classOf[IllegalArgumentException],
+      () => SpaceName.valueOf("NOT_EXIST")
     )
+
+  @Test
+  def testName(): Unit =
+    assertEquals("Vicolo Corto", SpaceName.VICOLO_CORTO.name)
+
+  @Test
+  def testIsPurchasable(): Unit =
+    assertTrue(SpaceName.VICOLO_CORTO.isPurchasable)
+    assertFalse(SpaceName.PRIGIONE_TRANSITO.isPurchasable)

@@ -14,9 +14,14 @@
     -fx-font-family: "Comic Sans MS";
 }
 
-Label {
+Label, TableView, ListView {
     -fx-font-family: "Comic Sans MS";
     -fx-font-size: 12pt;
+}
+
+.scalopoly-win-lbl {
+    -fx-font-family: "Comic Sans MS";
+    -fx-font-size: 20pt;
 }
 
 :disabled {
@@ -24,8 +29,4 @@ Label {
     -fx-opacity: 0.5; /* Opacità ridotta */
     -fx-background-color: lightgray; /* Colore di sfondo */
     -fx-text-fill: black; /* Colore del testo */
-}
-
-HBox {
-    -fx-background-radius: 1em;
 }

@@ -1,7 +1,7 @@
 package PPS.scalopoly.utils
 
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{GameBoard, Player}
+import PPS.scalopoly.model.{GameBoard, Player, PurchasableSpace, SpaceName}
 
 import scala.util.Random
 
@@ -10,7 +10,7 @@ import scala.util.Random
 object GameUtils:
 
   val GAMEBOARD_SIDES = 4
-  val CELLS_IN_SIDE = GameBoard.size / GAMEBOARD_SIDES
+  val CELLS_IN_SIDE: Int = GameBoard.size / GAMEBOARD_SIDES
 
   /** Shuffles a list of players.
     * @param players
@@ -83,3 +83,60 @@ object GameUtils:
       throw new IllegalArgumentException("N cannot be greater than grid size")
     case _ if n % gridSize._1 != 0 => (n % gridSize._1 - 1, n / gridSize._1)
     case _                         => (gridSize._1 - 1, n / gridSize._1 - 1)
+
+  /** Check if a property is already owned by a player.
+    * @param purchasableSpace
+    *   The property to check.
+    * @return
+    *   True if the property is already owned, false otherwise.
+    */
+  def propertyIsAlreadyOwned(
+      purchasableSpace: PurchasableSpace
+  ): Boolean =
+    GameEngine.players.exists(_.ownedProperties.contains(purchasableSpace))
+
+  /** Return the purchasable space given its name.
+    *
+    * @param spaceName
+    *   The name of the purchasable space.
+    * @return
+    *   The purchasable space if it exists, None otherwise.
+    */
+  def getPurchasableSpaceFromSpaceName(
+      spaceName: SpaceName
+  ): Option[PurchasableSpace] =
+    PurchasableSpace.values
+      .find(_.spaceName == spaceName)
+
+  /** Returns the name of the space where the player is.
+    *
+    * @param player
+    *   the player.
+    * @return
+    *   the name of the space where the player is.
+    */
+  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
+    GameBoard.gameBoardList(player.actualPosition)
+
+  /** Returns the owner of a purchasable space.
+    *
+    * @param purchasableSpace
+    *   the purchasable space.
+    * @return
+    *   the owner of the purchasable space.
+    */
+  def getOwnerFromPurchasableSpace(
+      purchasableSpace: PurchasableSpace
+  ): Option[Player] =
+    GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
+
+  def getPurchasableSpaceFromPlayerPosition(
+      player: Player
+  ): Option[PurchasableSpace] =
+    getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))
+
+  def canPlayerBuySpace(
+      player: Player,
+      purchasableSpace: PurchasableSpace
+  ): Boolean =
+    player.canPayOrBuy(purchasableSpace.sellingPrice)

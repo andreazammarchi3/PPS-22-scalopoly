@@ -1,16 +1,21 @@
 package PPS.scalopoly.engine
 
+import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.GameUtils
+import PPS.scalopoly.utils.{AlertUtils, GameUtils}
+import PPS.scalopoly.engine.Game
+import javafx.scene.control.Alert.AlertType
+import javafx.scene.control.ButtonType
+
+import java.util.Optional
+import scala.util.Random
 
 /** Object that represents the game engine.
   */
 object GameEngine:
 
-  private val MIN_PLAYERS = 2
+  val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
-
-  private val diceManager: DiceManager = DiceManager()
 
   /** Returns the list of players.
     * @return
@@ -30,6 +35,12 @@ object GameEngine:
     */
   def availableTokens: List[Token] =
     Game.availableTokens
+
+  /** Returns the winner of the game.
+    * @return
+    *   the winner of the game.
+    */
+  def winner: Option[Player] = Game.winner
 
   /** Adds a player to the game.
     * @param player
@@ -84,16 +95,11 @@ object GameEngine:
     Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
 
   /** Moves the current player.
-    * @return
-    *   the result of the dice roll.
+    * @param steps
+    *   the number of steps to move.
     */
-  def moveCurrentPlayer(): (Int, Int) =
-    val (dice1, dice2) = diceManager.roll()
-    Game.players = Game.players.updated(
-      Game.currentPlayer,
-      currentPlayer.move(dice1 + dice2)
-    )
-    (dice1, dice2)
+  def moveCurrentPlayer(steps: Int): Unit =
+    updatePlayerWith(Game.currentPlayer, currentPlayer.move(steps))
 
   /** Removes the current player from the game, if there is only one player left
     * the game ends.
@@ -102,17 +108,86 @@ object GameEngine:
     val playerToDelete = currentPlayer
     endTurn()
     val nextPlayer = currentPlayer
-    Game.players.length match
-      case players if players == MIN_PLAYERS - 1 => exitGame()
-      case _ =>
-        Game.removePlayer(playerToDelete)
-        Game.currentPlayer = Game.players.indexOf(nextPlayer)
+    Game.removePlayer(playerToDelete)
+    Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
-  /** Returns the name of the space where the player is.
-    * @param player
-    *   the player.
+  /** Check the status of the current space.
     * @return
-    *   the name of the space where the player is.
+    *   the status of the current space.
     */
-  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    GameBoard.gameBoardList(player.actualPosition)
+  def checkSpaceStatus: SpaceStatus =
+    val purchasableSpace =
+      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
+    purchasableSpace match
+      case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
+      case _                      => SpaceStatus.NOT_PURCHASABLE
+
+  /** Player buys a purchasable space.
+    *
+    * @param player
+    *   the player who buys the purchasable space.
+    * @param purchasableSpace
+    *   the purchasable space to buy.
+    */
+  def playerBuysPurchasableSpace(
+      player: Player,
+      purchasableSpace: PurchasableSpace
+  ): Unit =
+    updatePlayerWith(
+      Game.players.indexOf(player),
+      player.buy(purchasableSpace)
+    )
+
+  /** Player pays rent to the owner of a purchasable space.
+    *
+    * @param player
+    *   the player who pays the rent.
+    * @param purchasableSpace
+    *   the purchasable space to pay the rent.
+    * @param owner
+    *   the owner of the purchasable space.
+    */
+  def playerPaysRent(
+      player: Player,
+      purchasableSpace: PurchasableSpace,
+      owner: Player
+  ): Unit =
+    val rent = purchasableSpace.calculateRent()
+    updatePlayerWith(
+      players.indexOf(owner),
+      owner.takeRent(rent)
+    )
+    updatePlayerWith(
+      players.indexOf(player),
+      player.pay(rent)
+    )
+
+  /** Player obtains a heritage from another player.
+    *
+    * @param giver
+    *   the player who obtains the heritage.
+    * @param receiver
+    *   the player who gives the heritage.
+    */
+  def playerObtainHeritage(giver: Player, receiver: Player): Unit =
+    updatePlayerWith(
+      players.indexOf(receiver),
+      receiver.obtainHeritageFrom(giver)
+    )
+
+  private def checkPropertyStatus(
+      purchasableSpace: PurchasableSpace
+  ): SpaceStatus = purchasableSpace match
+    case purchasableSpace
+        if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
+      purchasableSpace match
+        case _ if currentPlayer.owns(purchasableSpace) =>
+          SpaceStatus.OWNED_BY_CURRENT_PLAYER
+        case _ => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
+    case _ => SpaceStatus.PURCHASABLE
+
+  private def updatePlayerWith(index: Int, playerUpdated: Player): Unit =
+    Game.players = Game.players.updated(
+      index,
+      playerUpdated
+    )
