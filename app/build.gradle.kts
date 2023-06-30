@@ -60,10 +60,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 val jacocoIncludes = listOf("**/engine/**/*$.class", "**/model/**/*$.class", "**/utils/**/*$.class")
-val jacocoExcludes = listOf("**/FxmlUtils**")
+val jacocoExcludes = listOf("**/FxmlUtils**", "**/AlertUtils**")
 
 tasks.jacocoTestReport {
-    // Configurazione dei report di copertura
     reports {
         xml.required.set(false)
         csv.required.set(false)
@@ -126,5 +125,4 @@ tasks.withType(ScalaCompile::class.java) {
 tasks.jar {
     manifest.attributes["Main-Class"] = "PPS.scalopoly.Launcher"
     archiveBaseName.set("Scalopoly")
-    // archiveFileName.set("Scalopoly.jar")
 }
