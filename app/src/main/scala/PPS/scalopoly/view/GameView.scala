@@ -207,8 +207,8 @@ class GameView extends Initializable:
     GameController.currentPlayerQuit()
     if (GameEngine.players.nonEmpty)
       setBtnsForEndTurn(false)
-    updatePlayersTable()
-    updateTurnLabel()
+      updatePlayersTable()
+      updateTurnLabel()
 
   /** Throw dice
     */
