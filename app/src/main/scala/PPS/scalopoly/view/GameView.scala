@@ -11,7 +11,7 @@ import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
 import javafx.geometry.{Pos, Rectangle2D}
 import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
+import javafx.scene.control.{Button, Label, ListView, TableColumn, TablePosition, TableRow, TableView}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{Background, BackgroundFill, Border, BorderPane, ColumnConstraints, GridPane, HBox, RowConstraints, VBox}
 import javafx.scene.paint.Color
@@ -118,6 +118,12 @@ class GameView extends Initializable:
   )
   private var propertiesList: ListView[String] = _
 
+  @FXML
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
+  private var turnLabel: Label = _
+
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
 
   private val tokensImgView: MMap[Token, ImageView] = MMap.empty
@@ -162,6 +168,8 @@ class GameView extends Initializable:
     playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
     updatePlayersTable()
 
+    updateTurnLabel()
+
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
@@ -169,6 +177,8 @@ class GameView extends Initializable:
     GameController.currentPlayerQuit()
     if (GameEngine.players.nonEmpty)
       setBtnsForEndTurn(false)
+    updatePlayersTable()
+    updateTurnLabel()
 
   /** Throw dice
     */
@@ -179,17 +189,18 @@ class GameView extends Initializable:
     GameController.checkPlayerActions()
     updatePlayersTable()
     updatePropertiesList()
+    updateTurnLabel()
+    tokensImgView.foreach(t => GameEngine.players.find(p => p.token == t._1) match
+      case None => t._2.setDisable(true)
+      case _ => )
     if dice1 != dice2 then setBtnsForEndTurn(true)
-
-  private def updatePlayersTable(): Unit =
-    playersTable.getItems.clear()
-    GameEngine.players.foreach(p => playersTable.getItems.add(p))
 
   /** End turn
     */
   def endTurnBtnClick(): Unit =
     GameController.endTurn()
     setBtnsForEndTurn(false)
+    updateTurnLabel()
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -220,13 +231,6 @@ class GameView extends Initializable:
         row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
-  private def updatePropertiesList(): Unit =
-    playersTable.getSelectionModel.getSelectedItem match
-      case p if p != null =>
-        propertiesList.getItems.clear()
-        p.ownedProperties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
-      case _ =>
-
   private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
     GameUtils.getNthCellInGrid(
       gridPane.getChildren.size() + 1,
@@ -237,6 +241,11 @@ class GameView extends Initializable:
   private def setBtnsForEndTurn(can: Boolean): Unit =
     endTurnBtn.setDisable(!can)
     throwDiceBtn.setDisable(can)
+
+  private def setDiceImg(diceImgView: ImageView): Unit =
+    diceImgView.setFitWidth(
+      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
+    )
 
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
@@ -249,11 +258,20 @@ class GameView extends Initializable:
     val (col, row) = getFirstFreeCellForToken(cellGrid)
     cellGrid.add(tokensImgView(player.token), col, row + 1)
 
-  private def setDiceImg(diceImgView: ImageView): Unit =
-    diceImgView.setFitWidth(
-      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
-    )
-
   private def updateDiceImg(dice1: Int, dice2: Int): Unit =
     updateSingleDiceImg(dice1, diceImageView1)
     updateSingleDiceImg(dice2, diceImageView2)
+
+  private def updatePlayersTable(): Unit =
+    playersTable.getItems.clear()
+    GameEngine.players.foreach(p => playersTable.getItems.add(p))
+
+  private def updateTurnLabel(): Unit =
+    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
+
+  private def updatePropertiesList(): Unit =
+    playersTable.getSelectionModel.getSelectedItem match
+      case p if p != null =>
+        propertiesList.getItems.clear()
+        p.ownedProperties.foreach(p => propertiesList.getItems.add(p.spaceName.name))
+      case _ =>
