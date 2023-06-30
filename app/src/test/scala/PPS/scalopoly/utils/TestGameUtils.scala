@@ -155,6 +155,21 @@ class TestGameUtils:
     )
 
   @Test
+  def testGetOwnerFromPurchasableSpace(): Unit =
+    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
+    val player =
+      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
+    GameEngine.addPlayer(player)
+    assertEquals(
+      Some(player),
+      GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
+    )
+    assertEquals(
+      None,
+      GameUtils.getOwnerFromPurchasableSpace(PurchasableSpace.VIA_ACCADEMIA)
+    )
+
+  @Test
   def testGetPurchasableSpaceFromSpaceName(): Unit =
     val purchasableSpace = PurchasableSpace.VICOLO_CORTO
     assertEquals(
@@ -165,3 +180,4 @@ class TestGameUtils:
       None,
       GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
     )
+

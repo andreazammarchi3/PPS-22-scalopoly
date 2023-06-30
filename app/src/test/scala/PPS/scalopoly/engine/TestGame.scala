@@ -35,3 +35,9 @@ class TestGame extends BaseTest:
   def testRemovePlayer(): Unit =
     Game.removePlayer(player1)
     assertEquals(List(player3, player2), Game.players)
+
+  @Test
+  def testWinner(): Unit =
+    assertEquals(None, Game.winner)
+    Game.winner = Some(player1)
+    assertEquals(Some(player1), Game.winner)
