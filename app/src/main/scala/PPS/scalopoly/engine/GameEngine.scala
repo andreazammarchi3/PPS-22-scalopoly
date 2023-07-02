@@ -175,10 +175,10 @@ object GameEngine:
     )
 
   /** Player obtain the money from passing by Go.
-   *
-   * @param player
-   *  the player who obtains the money.
-   */
+    *
+    * @param player
+    *   the player who obtains the money.
+    */
   def playerPassByGo(player: Player): Unit =
     updatePlayerWith(
       players.indexOf(player),
