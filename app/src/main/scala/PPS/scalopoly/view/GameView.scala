@@ -216,6 +216,7 @@ class GameView extends Initializable:
     val (dice1, dice2) = GameController.throwDice()
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
+    updatePlayersTable()  //necessary to update the money in case the player has passed from the Go cell
     GameController.checkPlayerActions()
     updatePlayersTable()
     updatePropertiesList()

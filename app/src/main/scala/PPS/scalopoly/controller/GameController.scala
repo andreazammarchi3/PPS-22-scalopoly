@@ -25,7 +25,11 @@ object GameController:
     */
   def throwDice(): (Int, Int) =
     val dicePair = DiceManager().roll()
+    val oldPosition = GameEngine.currentPlayer.actualPosition
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
+    val newPosition = GameEngine.currentPlayer.actualPosition
+    if newPosition < oldPosition then
+      GameEngine.playerPassByGo(GameEngine.currentPlayer)
     dicePair
 
   /** End the turn of the current player.

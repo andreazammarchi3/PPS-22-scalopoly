@@ -2,10 +2,8 @@ package PPS.scalopoly.engine
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.{AlertUtils, GameUtils}
+import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
-import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.ButtonType
 
 import java.util.Optional
 import scala.util.Random
@@ -16,6 +14,7 @@ object GameEngine:
 
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
+  private val PASS_GO_MONEY = 500
 
   /** Returns the list of players.
     * @return
@@ -134,7 +133,7 @@ object GameEngine:
       purchasableSpace: PurchasableSpace
   ): Unit =
     updatePlayerWith(
-      Game.players.indexOf(player),
+      players.indexOf(player),
       player.buy(purchasableSpace)
     )
 
@@ -155,7 +154,7 @@ object GameEngine:
     val rent = purchasableSpace.calculateRent()
     updatePlayerWith(
       players.indexOf(owner),
-      owner.takeRent(rent)
+      owner.cashIn(rent)
     )
     updatePlayerWith(
       players.indexOf(player),
@@ -173,6 +172,17 @@ object GameEngine:
     updatePlayerWith(
       players.indexOf(receiver),
       receiver.obtainHeritageFrom(giver)
+    )
+
+  /** Player obtain the money from passing by Go.
+   *
+   * @param player
+   *  the player who obtains the money.
+   */
+  def playerPassByGo(player: Player): Unit =
+    updatePlayerWith(
+      players.indexOf(player),
+      player.cashIn(PASS_GO_MONEY)
     )
 
   private def checkPropertyStatus(

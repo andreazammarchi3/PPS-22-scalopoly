@@ -66,14 +66,14 @@ case class Player(
       ownedProperties :+ purchasableSpace
     )
 
-  /** Takes the rent from another player.
+  /** Obtains money from a rent or from passing from the Go space.
     *
     * @param value
-    *   the value of the rent
+    *   the value of the rent or the value of the start
     * @return
     *   the player with the new money
     */
-  def takeRent(value: Int): Player =
+  def cashIn(value: Int): Player =
     Player(nickname, token, actualPosition, money + value, ownedProperties)
 
   /** Obtains the heritage from another player.
