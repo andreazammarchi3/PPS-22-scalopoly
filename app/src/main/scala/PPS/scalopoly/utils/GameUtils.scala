@@ -118,25 +118,27 @@ object GameUtils:
   def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
     GameBoard.gameBoardList(player.actualPosition)
 
-  /** Returns the owner of a purchasable space.
+  /** Returns the owner of a purchasable space if it exists.
     *
     * @param purchasableSpace
     *   the purchasable space.
     * @return
-    *   the owner of the purchasable space.
+    *   the owner of the purchasable space or None otherwise.
     */
   def getOwnerFromPurchasableSpace(
       purchasableSpace: PurchasableSpace
   ): Option[Player] =
     GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
 
+  /** Returns the purchasable space where the player is if the player is on a
+    * purchasable space.
+    *
+    * @param player
+    *   the player.
+    * @return
+    *   the purchasable space where the player is or None otherwise.
+    */
   def getPurchasableSpaceFromPlayerPosition(
       player: Player
   ): Option[PurchasableSpace] =
     getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))
-
-  def canPlayerBuySpace(
-      player: Player,
-      purchasableSpace: PurchasableSpace
-  ): Boolean =
-    player.canPayOrBuy(purchasableSpace.sellingPrice)

@@ -164,7 +164,7 @@ class TestGameEngine extends BaseTest:
     GameEngine.players
       .find(p => p.token == player1.token)
       .foreach(
-        GameEngine.playerObtainHeritage(_, player2)
+        GameEngine.playerObtainHeritage(player2, _)
       )
     GameEngine.players
       .find(p => p.token == player2.token)

@@ -3,14 +3,16 @@ package PPS.scalopoly.controller
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
 import PPS.scalopoly.model.{DiceManager, Player, PurchasableSpace, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
-import PPS.scalopoly.view.GameView
-import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.ButtonType
 import PPS.scalopoly.utils.resources.FxmlResources
+
+import javafx.scene.control.ButtonType
 
 /** Controller for the game view.
   */
 object GameController:
+
+  private val didPlayerPassByGo: Int => Int => Boolean = oldPosition =>
+    newPosition => newPosition < oldPosition
 
   /** Remove current player from the game.
     */
@@ -25,10 +27,11 @@ object GameController:
     */
   def throwDice(): (Int, Int) =
     val dicePair = DiceManager().roll()
-    val oldPosition = GameEngine.currentPlayer.actualPosition
+    val checkPassByGo = didPlayerPassByGo(
+      GameEngine.currentPlayer.actualPosition
+    )
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
-    val newPosition = GameEngine.currentPlayer.actualPosition
-    if newPosition < oldPosition then
+    if checkPassByGo(GameEngine.currentPlayer.actualPosition) then
       GameEngine.playerPassByGo(GameEngine.currentPlayer)
     dicePair
 
@@ -66,19 +69,19 @@ object GameController:
       GameEngine.playerPaysRent(player, purchasableSpace, owner)
     else
       AlertUtils.showPlayerEliminated(player, owner)
-      GameEngine.playerObtainHeritage(player, owner)
+      GameEngine.playerObtainHeritage(owner, player)
       currentPlayerQuit()
 
   private def handlePurchase(
       player: Player,
       purchasableSpace: PurchasableSpace
   ): Unit =
-    if GameUtils.canPlayerBuySpace(player, purchasableSpace) then
-      if askPlayerToBuySpace(player, purchasableSpace) then
+    if player.canPayOrBuy(purchasableSpace.sellingPrice) then
+      if playerWantToBuySpace(player, purchasableSpace) then
         GameEngine.playerBuysPurchasableSpace(player, purchasableSpace)
     else AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
 
-  private def askPlayerToBuySpace(
+  private def playerWantToBuySpace(
       player: Player,
       purchasableSpace: PurchasableSpace
   ): Boolean =

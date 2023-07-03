@@ -110,9 +110,9 @@ object GameEngine:
     Game.removePlayer(playerToDelete)
     Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
-  /** Check the status of the current space.
+  /** Check the status of the space where the current player is.
     * @return
-    *   the status of the current space.
+    *   the status of the space where the current player is.
     */
   def checkSpaceStatus: SpaceStatus =
     val purchasableSpace =
@@ -163,12 +163,12 @@ object GameEngine:
 
   /** Player obtains a heritage from another player.
     *
-    * @param giver
-    *   the player who obtains the heritage.
     * @param receiver
     *   the player who gives the heritage.
+    * @param giver
+    *   the player who obtains the heritage.
     */
-  def playerObtainHeritage(giver: Player, receiver: Player): Unit =
+  def playerObtainHeritage(receiver: Player, giver: Player): Unit =
     updatePlayerWith(
       players.indexOf(receiver),
       receiver.obtainHeritageFrom(giver)

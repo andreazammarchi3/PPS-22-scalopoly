@@ -1,19 +1,8 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.view.StartMenuView
-import PPS.scalopoly.utils.resources.FxmlResources
 import PPS.scalopoly.utils.FxmlUtils
-import PPS.scalopoly.utils.resources.{CssResources, FxmlResources}
-import javafx.scene.control.Button
-import javafx.stage.{Screen, Stage, Window}
-import javafx.fxml.{FXML, FXMLLoader, Initializable}
-import javafx.scene.{Parent, Scene}
-import javafx.scene.layout.AnchorPane
-
-import java.io.IOException
-import java.net.URL
-import java.util
+import PPS.scalopoly.utils.resources.FxmlResources
 
 /** Controller for the start menu.
   */
