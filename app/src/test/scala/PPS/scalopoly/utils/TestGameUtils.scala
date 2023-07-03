@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertFalse,
   assertThrows,
-  assertTrue,
-  fail
+  assertTrue
 }
 import org.junit.jupiter.api.Test
 

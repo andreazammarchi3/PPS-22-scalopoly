@@ -1,9 +1,8 @@
 package PPS.scalopoly.engine
 
 import PPS.scalopoly.BaseTest
-import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.*
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue, assertFalse}
+import PPS.scalopoly.engine.{GameEngine, EndgameLogicEngine}
+import org.junit.jupiter.api.Assertions.{assertTrue, assertFalse}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 class TestEndGameLogicEngine extends BaseTest:

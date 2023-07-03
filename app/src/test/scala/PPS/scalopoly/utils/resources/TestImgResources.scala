@@ -3,10 +3,10 @@ package PPS.scalopoly.utils.resources
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertNotNull,
-  assertThrows,
-  assertTrue
+  assertThrows
 }
 import org.junit.jupiter.api.Test
+
 class TestImgResources:
 
   private val DICE_4_POSITION = 13

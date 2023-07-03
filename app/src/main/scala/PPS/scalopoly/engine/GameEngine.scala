@@ -1,14 +1,11 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
 
-import java.util.Optional
-import scala.util.Random
-
-/** Object that represents the game engine.
+/** Game engine that manages the [[Game]] and offers methods to interact with
+  * it.
   */
 object GameEngine:
 

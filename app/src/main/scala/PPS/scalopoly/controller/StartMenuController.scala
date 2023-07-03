@@ -4,7 +4,7 @@ import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.FxmlResources
 
-/** Controller for the start menu.
+/** Controller for the [[PPS.scalopoly.view.StartMenuView]]
   */
 object StartMenuController:
 

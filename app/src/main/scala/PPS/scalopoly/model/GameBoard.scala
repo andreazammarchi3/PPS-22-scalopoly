@@ -2,7 +2,8 @@ package PPS.scalopoly.model
 
 import PPS.scalopoly.model.SpaceName.*
 
-/** The game board is a map of the game spaces.
+/** The game board is a map of the game spaces represented by a list of
+  * [[SpaceName]].
   */
 object GameBoard:
 

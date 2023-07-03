@@ -2,9 +2,6 @@ package PPS.scalopoly.model
 
 import PPS.scalopoly.utils.GameUtils
 
-import scalafx.beans.property.StringProperty
-import scalafx.beans.property.ObjectProperty
-
 /** Represents a player of the game.
   * @param nickname
   *   the nickname of the player
@@ -15,7 +12,7 @@ import scalafx.beans.property.ObjectProperty
   * @param money
   *   the money of the player
   * @param ownedProperties
-  *   the properties owned by the player
+  *   the list of [[PPS.scalopoly.model.PurchasableSpace]] owned by the player
   */
 case class Player(
     nickname: String,
@@ -109,7 +106,7 @@ case class Player(
   def owns(purchasableSpace: PurchasableSpace): Boolean =
     ownedProperties.contains(purchasableSpace)
 
-/** Companion object of the class Player.
+/** Companion object of the class [[Player]].
   */
 object Player:
 

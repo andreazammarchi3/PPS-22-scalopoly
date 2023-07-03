@@ -3,25 +3,18 @@ package PPS.scalopoly.view
 import PPS.scalopoly.model.{Player, Token}
 import PPS.scalopoly.controller.ConfigurationMenuController
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
-import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import PPS.scalopoly.utils.resources.CssResources
 import javafx.beans.binding.Bindings
 import javafx.scene.control.{Button, ComboBox, TableView, TextField}
-import javafx.stage.{Screen, Stage, Window}
-import javafx.fxml.{FXML, FXMLLoader, Initializable}
-import javafx.scene.image.{Image, ImageView}
-import javafx.scene.{Parent, Scene}
-import javafx.scene.layout.{AnchorPane, BorderPane, VBox}
-import javafx.collections.{FXCollections, ObservableList}
-import javafx.scene.control.cell.PropertyValueFactory
+import javafx.stage.Stage
+import javafx.fxml.{FXML, Initializable}
+import javafx.scene.image.ImageView
+import javafx.scene.layout.{BorderPane, VBox}
+import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
-import javafx.scene.control.Alert
-import javafx.scene.control.Alert.AlertType
 import scalafx.beans.property.{ObjectProperty, StringProperty}
-import scalafx.scene.input.KeyCode.GameC
-import scalafx.scene.control.ControlIncludes.jfxCellDataFeatures2sfx
 
 import java.net.URL
-import java.util
 import java.util.ResourceBundle
 
 /** View for the configuration menu.

@@ -1,6 +1,5 @@
 package PPS.scalopoly.model
 
-import PPS.scalopoly.utils.GameUtils
 import org.junit.jupiter.api.Assertions.{
   assertEquals,
   assertFalse,

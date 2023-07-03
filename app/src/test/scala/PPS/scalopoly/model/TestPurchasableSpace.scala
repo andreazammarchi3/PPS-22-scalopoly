@@ -1,11 +1,6 @@
 package PPS.scalopoly.model
 
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertFalse,
-  assertThrows,
-  assertTrue
-}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestPurchasableSpace:

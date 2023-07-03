@@ -7,7 +7,7 @@ import PPS.scalopoly.utils.resources.FxmlResources
 
 import javafx.scene.control.ButtonType
 
-/** Controller for the game view.
+/** Controller for the [[PPS.scalopoly.view.GameView]].
   */
 object GameController:
 
@@ -97,5 +97,5 @@ object GameController:
     GameEngine.winner.foreach(w =>
       AlertUtils.showVictory(w)
       GameEngine.newGame()
-      FxmlUtils.changeScene(FxmlResources.START_MENU.path))
-
+      FxmlUtils.changeScene(FxmlResources.START_MENU.path)
+    )

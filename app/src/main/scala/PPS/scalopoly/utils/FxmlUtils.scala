@@ -3,10 +3,10 @@ package PPS.scalopoly.utils
 import PPS.scalopoly.utils.resources.{CssResources, FxmlResources, ImgResources}
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.control.{Alert, ButtonBar, ButtonType}
+import javafx.scene.control.{Alert, ButtonType}
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{AnchorPane, BorderPane, Pane}
+import javafx.scene.layout.{BorderPane, Pane}
 import javafx.stage.Screen
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
@@ -26,13 +26,17 @@ object FxmlUtils:
   val GAME_WIDTH_PERC: Double = 0.8
   val DEFAULT_HEIGHT_PERC: Double = 0.9
 
-  @SuppressWarnings(Array("org.wartremover.warts.Null", "org.wartremover.warts.Var"))
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var _stage: Stage = _
 
   @SuppressWarnings(Array("org.wartremover.warts.Var"))
   private var width: Double = _
 
-  @SuppressWarnings(Array("org.wartremover.warts.Null", "org.wartremover.warts.Var"))
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
+  )
   private var height: Double = _
 
   /** Returns the current stage.

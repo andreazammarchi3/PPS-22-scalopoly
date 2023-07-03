@@ -2,6 +2,9 @@ package PPS.scalopoly.engine
 
 import PPS.scalopoly.model.{Player, Token}
 
+/** Game object that contains the current player, the list of players, the
+  * winner and the list of available tokens.
+  */
 protected[engine] object Game:
 
   private val DEFAULT_CURRENT_PLAYER: Int = 0

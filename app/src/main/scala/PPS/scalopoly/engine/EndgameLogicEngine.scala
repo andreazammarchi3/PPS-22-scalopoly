@@ -3,9 +3,10 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.model.Player
 import PPS.scalopoly.engine.GameEngine.MIN_PLAYERS
 import PPS.scalopoly.engine.Game
-import PPS.scalopoly.utils.FxmlUtils
-import PPS.scalopoly.utils.resources.FxmlResources
 
+/** Object that contains the logic for the endgame. It checks if there is a
+  * winner and, if so, it sets the winner in the [[Game]] object.
+  */
 object EndgameLogicEngine:
 
   /** Checks if the current player has won the game.

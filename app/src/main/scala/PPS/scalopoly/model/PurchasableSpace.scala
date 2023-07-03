@@ -1,5 +1,7 @@
 package PPS.scalopoly.model
 
+/** Represents a purchasable space of the board.
+  */
 enum PurchasableSpace(
     _spaceName: SpaceName,
     _sellingPrice: Int,

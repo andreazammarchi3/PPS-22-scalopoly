@@ -3,7 +3,6 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.GameUtils
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 

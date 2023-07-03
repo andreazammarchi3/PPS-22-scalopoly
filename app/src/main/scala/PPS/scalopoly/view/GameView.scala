@@ -2,50 +2,26 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.engine.GameEngine.currentPlayer
-import PPS.scalopoly.model.{
-  DiceManager,
-  GameBoard,
-  Player,
-  PurchasableSpace,
-  Token
-}
+import PPS.scalopoly.model.{GameBoard, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
-import javafx.beans.binding.Bindings
-import javafx.beans.value.ChangeListener
 import javafx.fxml.{FXML, Initializable}
-import javafx.geometry.{Pos, Rectangle2D}
-import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.control.{
-  Button,
-  Label,
-  ListView,
-  TableColumn,
-  TablePosition,
-  TableRow,
-  TableView
-}
+import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
 import javafx.scene.layout.{
-  Background,
-  BackgroundFill,
-  Border,
   BorderPane,
   ColumnConstraints,
   GridPane,
-  HBox,
   RowConstraints,
   VBox
 }
-import javafx.scene.paint.Color
-import javafx.stage.Screen
 import scalafx.scene.shape.Path
-import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
+import scalafx.beans.property.StringProperty
 
 import scala.collection.mutable.Map as MMap
+
 import java.net.URL
-import java.util
+import java.util.ResourceBundle
 
 class GameView extends Initializable:
 
@@ -152,7 +128,7 @@ class GameView extends Initializable:
 
   private val tokensImgView: MMap[Token, ImageView] = MMap.empty
 
-  override def initialize(url: URL, rb: util.ResourceBundle): Unit =
+  override def initialize(url: URL, rb: ResourceBundle): Unit =
     FxmlUtils.initUIElements(
       pane,
       gameBoard,

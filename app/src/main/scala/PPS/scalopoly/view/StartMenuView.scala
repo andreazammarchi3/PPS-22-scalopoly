@@ -1,17 +1,15 @@
 package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.StartMenuController
-import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import PPS.scalopoly.utils.resources.CssResources
 import PPS.scalopoly.utils.FxmlUtils
 import javafx.scene.control.Button
-import javafx.stage.{Screen, Stage, Window}
-import javafx.fxml.{FXML, FXMLLoader, Initializable}
-import javafx.scene.image.{Image, ImageView}
-import javafx.scene.{Parent, Scene}
+import javafx.stage.Stage
+import javafx.fxml.{FXML, Initializable}
+import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 
 import java.net.URL
-import java.util
 import java.util.ResourceBundle
 
 /** View of the start menu.

@@ -5,7 +5,7 @@ import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.FxmlResources
 
-/** Controller for the configuration menu view.
+/** Controller for the [[PPS.scalopoly.view.ConfigurationMenuView]].
   */
 object ConfigurationMenuController:
 
