@@ -1,7 +1,7 @@
 package PPS.scalopoly.utils
 
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{GameBoard, Player, PurchasableSpace, SpaceName}
+import PPS.scalopoly.model.{GameBoard, Player, PurchasableSpace, SpaceGroup, SpaceName}
 
 import scala.util.Random
 
@@ -142,3 +142,20 @@ object GameUtils:
       player: Player
   ): Option[PurchasableSpace] =
     getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))
+
+  /** Checks if all the properties of a space group are owned by the same player.
+   *
+   * @param spaceGroup
+   *  the space group to check.
+   * @return
+   *  true if all the properties of the space group are owned by the same player, false otherwise.
+   */
+  def checkIfPlayerOwnsAllPropertiesOfSameGroup(spaceGroup: SpaceGroup): Boolean =
+    val propertiesOfSameGroup = PurchasableSpace.values
+      .filter(_.spaceGroup == spaceGroup)
+    GameEngine.players.count(_.ownedProperties.contains(propertiesOfSameGroup)) == 1
+
+// TODO: implement this method
+//  def temp(spaceGroup: SpaceGroup, purchasableSpace: PurchasableSpace): Int =
+//    val owner = getOwnerFromPurchasableSpace(purchasableSpace)
+//    owner.foreach(o =>GameEngine.players.find(_.token == o.token))
