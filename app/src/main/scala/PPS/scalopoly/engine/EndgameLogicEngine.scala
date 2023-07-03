@@ -14,11 +14,10 @@ object EndgameLogicEngine:
     *   true if the current player has won the game, false otherwise.
     */
   def checkVictory(): Boolean =
-    checkVictoryForSurrender(GameEngine.players) match
-      case true =>
-        Game.winner = Some(Game.players.head)
-        true
-      case _ => false
+    if (checkVictoryForSurrender(GameEngine.players))
+      Game.winner = Game.players.headOption
+      true
+    else false
 
   private def checkVictoryForSurrender(players: List[Player]): Boolean =
     players.length match

@@ -93,8 +93,9 @@ object GameController:
       case ButtonType.OK => true
       case _             => false
 
-  private def showVictory(): Unit = GameEngine.winner match
-    case Some(winner) =>
-      AlertUtils.showVictory(winner)
+  private def showVictory(): Unit =
+    GameEngine.winner.foreach(w =>
+      AlertUtils.showVictory(w)
       GameEngine.newGame()
-      FxmlUtils.changeScene(FxmlResources.START_MENU.path)
+      FxmlUtils.changeScene(FxmlResources.START_MENU.path))
+

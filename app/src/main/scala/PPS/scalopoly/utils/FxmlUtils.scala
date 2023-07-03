@@ -26,13 +26,13 @@ object FxmlUtils:
   val GAME_WIDTH_PERC: Double = 0.8
   val DEFAULT_HEIGHT_PERC: Double = 0.9
 
-  val exitBtnType: ButtonType =
-    new ButtonType("Esci", ButtonBar.ButtonData.CANCEL_CLOSE)
-  val newGameBtnType: ButtonType =
-    new ButtonType("Nuova partita", ButtonBar.ButtonData.OK_DONE)
-
+  @SuppressWarnings(Array("org.wartremover.warts.Null", "org.wartremover.warts.Var"))
   private var _stage: Stage = _
+
+  @SuppressWarnings(Array("org.wartremover.warts.Var"))
   private var width: Double = _
+
+  @SuppressWarnings(Array("org.wartremover.warts.Null", "org.wartremover.warts.Var"))
   private var height: Double = _
 
   /** Returns the current stage.
