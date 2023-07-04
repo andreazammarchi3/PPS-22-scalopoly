@@ -147,15 +147,17 @@ object GameUtils:
     )
     false
 
-  /** Returns the number of stations owned by the owner of the actual position of
-    * the player.
-   *
-   * @param stationSpaceGroup the space group of the stations.
-   * @return the number of stations owned by the owner of the actual position of the player.
-   */
-  def getNumStationFromOwnerOfActualPosition(stationSpaceGroup: SpaceGroup): Int =
-    getPurchasableSpaceFromPlayerPosition(GameEngine.currentPlayer).foreach(space =>
-      getOwnerFromPurchasableSpace(space).foreach(owner =>
-        owner.ownedProperties.count(_.spaceGroup == stationSpaceGroup)
-      )
-    )
+  /** Returns the number of stations owned by the owner of the actual position
+    * of the player.
+    *
+    * @param stationSpaceGroup
+    *   the space group of the stations.
+    * @return
+    *   the number of stations owned by the owner of the actual position of the
+    *   player.
+    */
+  def getNumStationFromOwner(
+      stationSpaceGroup: SpaceGroup,
+      owner: Player
+  ): Int =
+    owner.ownedProperties.count(_.spaceGroup == stationSpaceGroup)
