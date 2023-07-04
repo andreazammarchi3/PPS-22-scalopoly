@@ -11,8 +11,16 @@ class StationSpace(
     spaceGroup: SpaceGroup
 ) extends PurchasableSpace(name, sellingPrice, rents, spaceGroup):
 
-  override def calculateRent: Int = rents(1)
-  // TODO: implement calculateRent
+  override def calculateRent(): Int =
+    GameUtils.getOwnerFromPurchasableSpace(this) match
+      case Some(owner) =>
+        GameUtils.getNumStationFromOwner(spaceGroup, owner) match
+          case 1 => rents(0)
+          case 2 => rents(1)
+          case 3 => rents(2)
+          case 4 => rents(3)
+          case _ => 0
+      case _ => 0
 
 object StationSpace:
 

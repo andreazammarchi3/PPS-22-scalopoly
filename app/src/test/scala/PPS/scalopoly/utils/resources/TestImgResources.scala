@@ -13,7 +13,7 @@ class TestImgResources:
   private val DICE_6_POSITION = 15
   private val IMG_TOKEN_STIVALE_POSITION = 3
   private val IMG_TOKEN_GATTO_POSITION = 5
-  private val NUM_IMG_RESOURCES = 16
+  private val NUM_IMG_RESOURCES = 18
   @Test
   def testPath(): Unit =
     assertEquals("/img/Gameboard.png", ImgResources.GAMEBOARD.path)

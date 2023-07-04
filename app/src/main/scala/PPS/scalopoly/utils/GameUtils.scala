@@ -147,10 +147,26 @@ object GameUtils:
     )
     false
 
-// TODO: implement this method
-//  def temp(spaceGroup: SpaceGroup, purchasableSpace: PurchasableSpace): Int =
-//    val owner = getOwnerFromPurchasableSpace(purchasableSpace)
-//    owner.foreach(o =>GameEngine.players.find(_.token == o.token))
-
+  /** Return a buildable space given its name.
+    * @param name
+    *   the name of the buildable space.
+    * @return
+    *   the buildable space with the given name or None if it doesn't exist.
+    */
   def getBuildableSpaceFromName(name: String): Option[BuildableSpace] =
     GameEngine.gameBoard.buildableSpaces.find(_.name == name)
+
+  /** Returns the number of stations owned by the owner of the actual position
+    * of the player.
+    *
+    * @param stationSpaceGroup
+    *   the space group of the stations.
+    * @return
+    *   the number of stations owned by the owner of the actual position of the
+    *   player.
+    */
+  def getNumStationFromOwner(
+      stationSpaceGroup: SpaceGroup,
+      owner: Player
+  ): Int =
+    owner.ownedProperties.count(_.spaceGroup == stationSpaceGroup)
