@@ -1,9 +1,9 @@
-package PPS.scalopoly.model.space
+package PPS.scalopoly.model.space.purchasable
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-class TestBuildableSpace:
+class TestStationSpace:
 
   // TODO: implement tests
 
