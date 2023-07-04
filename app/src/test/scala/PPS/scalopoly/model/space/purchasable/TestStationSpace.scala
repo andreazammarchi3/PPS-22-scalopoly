@@ -2,7 +2,7 @@ package PPS.scalopoly.model.space.purchasable
 
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.engine.GameEngine
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 class TestStationSpace extends BaseTest:
