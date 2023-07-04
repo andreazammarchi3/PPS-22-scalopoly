@@ -1,7 +1,9 @@
 package PPS.scalopoly.utils
 
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.model.{GameBoard, Player, PurchasableSpace, SpaceGroup, SpaceName}
+import PPS.scalopoly.model.space.Space
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.{GameBoard, Player, SpaceGroup}
 
 import scala.util.Random
 
@@ -10,7 +12,7 @@ import scala.util.Random
 object GameUtils:
 
   val GAMEBOARD_SIDES = 4
-  val CELLS_IN_SIDE: Int = GameBoard.size / GAMEBOARD_SIDES
+  val CELLS_IN_SIDE: Int = GameEngine.gameBoard.size / GAMEBOARD_SIDES
 
   /** Shuffles a list of players.
     * @param players
@@ -32,8 +34,9 @@ object GameUtils:
     */
   def addSumToPosition(sum: Int, position: Int): Int =
     sum + position match
-      case result if result >= GameBoard.size => result - GameBoard.size
-      case result                             => result
+      case result if result >= GameEngine.gameBoard.size =>
+        result - GameEngine.gameBoard.size
+      case result => result
 
   /** Return the coordinates of a grid cell given the position of the player on
     * the game board.
@@ -46,7 +49,7 @@ object GameUtils:
     position match
       case _ if position < 0 =>
         throw new IllegalArgumentException("Position cannot be negative")
-      case _ if position >= GameBoard.size =>
+      case _ if position >= GameEngine.gameBoard.size =>
         throw new IllegalArgumentException(
           "Position cannot be greater than board size"
         )
@@ -95,29 +98,6 @@ object GameUtils:
   ): Boolean =
     GameEngine.players.exists(_.ownedProperties.contains(purchasableSpace))
 
-  /** Return the purchasable space given its name.
-    *
-    * @param spaceName
-    *   The name of the purchasable space.
-    * @return
-    *   The purchasable space if it exists, None otherwise.
-    */
-  def getPurchasableSpaceFromSpaceName(
-      spaceName: SpaceName
-  ): Option[PurchasableSpace] =
-    PurchasableSpace.values
-      .find(_.spaceName == spaceName)
-
-  /** Returns the name of the space where the player is.
-    *
-    * @param player
-    *   the player.
-    * @return
-    *   the name of the space where the player is.
-    */
-  def getSpaceNameFromPlayerPosition(player: Player): SpaceName =
-    GameBoard.gameBoardList(player.actualPosition)
-
   /** Returns the owner of a purchasable space if it exists.
     *
     * @param purchasableSpace
@@ -141,19 +121,31 @@ object GameUtils:
   def getPurchasableSpaceFromPlayerPosition(
       player: Player
   ): Option[PurchasableSpace] =
-    getPurchasableSpaceFromSpaceName(getSpaceNameFromPlayerPosition(player))
+    GameEngine.gameBoard.purchasableSpaces.find(
+      _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
+    )
 
-  /** Checks if all the properties of a space group are owned by the same player.
-   *
-   * @param spaceGroup
-   *  the space group to check.
-   * @return
-   *  true if all the properties of the space group are owned by the same player, false otherwise.
-   */
-  def checkIfPlayerOwnsAllPropertiesOfSameGroup(spaceGroup: SpaceGroup): Boolean =
-    val propertiesOfSameGroup = PurchasableSpace.values
-      .filter(_.spaceGroup == spaceGroup)
-    GameEngine.players.count(_.ownedProperties.contains(propertiesOfSameGroup)) == 1
+  /** Checks if all the properties of a space group are owned by the same
+    * player.
+    *
+    * @param spaceGroup
+    *   the space group to check.
+    * @return
+    *   true if all the properties of the space group are owned by the same
+    *   player, false otherwise.
+    */
+  def checkIfPlayerOwnsAllPropertiesOfSameGroup(
+      spaceGroup: SpaceGroup
+  ): Boolean =
+    val propertiesOfSameGroup =
+      GameEngine.gameBoard.purchasableSpaces.count(_.spaceGroup == spaceGroup)
+    GameEngine.players.foreach(p =>
+      if p.ownedProperties.count(
+          _.spaceGroup == spaceGroup
+        ) == propertiesOfSameGroup
+      then return true
+    )
+    false
 
 // TODO: implement this method
 //  def temp(spaceGroup: SpaceGroup, purchasableSpace: PurchasableSpace): Int =

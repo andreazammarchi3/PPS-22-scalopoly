@@ -1,6 +1,6 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.model.{Player, Token}
+import PPS.scalopoly.model.{GameBoard, Player, Token}
 
 /** Game object that contains the current player, the list of players, the
   * winner and the list of available tokens.
@@ -13,6 +13,12 @@ protected[engine] object Game:
   private var _players: List[Player] = List.empty
   private var _winner: Option[Player] = None
   private var _availableTokens: List[Token] = Token.values.toList
+  private var _gameBoard = GameBoard()
+
+  def gameBoard: GameBoard = _gameBoard
+
+  def gameBoard_=(value: GameBoard): Unit =
+    _gameBoard = value
 
   /** Returns the current player.
     *
@@ -101,3 +107,4 @@ protected[engine] object Game:
     players = List.empty
     availableTokens = Token.values.toList
     winner = None
+    gameBoard = GameBoard()

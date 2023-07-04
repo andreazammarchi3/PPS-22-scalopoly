@@ -1,10 +1,10 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
-import PPS.scalopoly.model.{DiceManager, Player, PurchasableSpace, SpaceStatus}
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.FxmlResources
-
 import javafx.scene.control.ButtonType
 
 /** Controller for the [[PPS.scalopoly.view.GameView]].

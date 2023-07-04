@@ -253,7 +253,7 @@ class GameView extends Initializable:
 
   private def setDiceImg(diceImgView: ImageView): Unit =
     diceImgView.setFitWidth(
-      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
+      pane.getPrefHeight / (GameEngine.gameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
     )
 
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
@@ -284,7 +284,5 @@ class GameView extends Initializable:
     playersTable.getSelectionModel.getSelectedItem match
       case p if p != null =>
         propertiesList.getItems.clear()
-        p.ownedProperties.foreach(p =>
-          propertiesList.getItems.add(p.spaceName.name)
-        )
+        p.ownedProperties.foreach(p => propertiesList.getItems.add(p.name))
       case _ =>

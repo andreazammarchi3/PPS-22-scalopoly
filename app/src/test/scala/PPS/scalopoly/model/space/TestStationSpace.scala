@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class TestStationSpace:
 
-  //TODO: implement tests
+  // TODO: implement tests
 
   @Test
   def dummy(): Unit = assertTrue(true)

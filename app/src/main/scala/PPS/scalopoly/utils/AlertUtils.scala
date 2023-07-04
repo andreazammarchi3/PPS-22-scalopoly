@@ -1,6 +1,7 @@
 package PPS.scalopoly.utils
 
-import PPS.scalopoly.model.{Player, PurchasableSpace}
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.Player
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonType
 
@@ -18,7 +19,7 @@ object AlertUtils:
       AlertType.INFORMATION,
       "Attenzione",
       "Pagamento di un affito",
-      s"${currentPlayer.nickname}(${currentPlayer.token}) ha pagato $rent a ${owner.nickname}(${owner.token}) per l'affitto di ${purchasableSpace.spaceName.name}"
+      s"${currentPlayer.nickname}(${currentPlayer.token}) ha pagato $rent a ${owner.nickname}(${owner.token}) per l'affitto di ${purchasableSpace.name}"
     )
 
   def showPlayerEliminated(
@@ -40,7 +41,7 @@ object AlertUtils:
       AlertType.CONFIRMATION,
       "Attenzione",
       "Acquista proprieta'",
-      s"${currentPlayer.nickname}(${currentPlayer.token}) vuoi acquistare la proprieta' ${purchasableSpace.spaceName.name} libera, per ${purchasableSpace.sellingPrice} ?"
+      s"${currentPlayer.nickname}(${currentPlayer.token}) vuoi acquistare la proprieta' ${purchasableSpace.name} libera, per ${purchasableSpace.sellingPrice} ?"
     )
 
   def showNotPurchasableSpace(
@@ -51,7 +52,7 @@ object AlertUtils:
       AlertType.INFORMATION,
       "Attenzione",
       "Proprieta' non acquistabile",
-      s"${currentPlayer.nickname}(${currentPlayer.token}) non ha abbastanza soldi per acquistare la proprieta' ${purchasableSpace.spaceName.name}"
+      s"${currentPlayer.nickname}(${currentPlayer.token}) non ha abbastanza soldi per acquistare la proprieta' ${purchasableSpace.name}"
     )
 
   def showVictory(winner: Player): Optional[ButtonType] =

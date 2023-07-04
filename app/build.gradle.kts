@@ -21,6 +21,7 @@ dependencies {
     implementation("org.scala-lang:scala3-library_3:3.2.2")
     implementation("org.scalafx:scalafx_3:20.0.0-R31")
     implementation("org.scalafx:scalafxml-core_2.11:0.2.1")
+    implementation("com.google.code.gson:gson:2.8.3")
     scalaCompilerPlugins("org.wartremover:wartremover_3.2.2:3.0.11")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }

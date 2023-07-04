@@ -1,5 +1,6 @@
 package PPS.scalopoly.model
 
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
 import PPS.scalopoly.utils.GameUtils
 
 /** Represents a player of the game.
@@ -12,7 +13,8 @@ import PPS.scalopoly.utils.GameUtils
   * @param money
   *   the money of the player
   * @param ownedProperties
-  *   the list of [[PPS.scalopoly.model.PurchasableSpace]] owned by the player
+  *   the list of [[PPS.scalopoly.model.space.purchasable.PurchasableSpace]]
+  *   owned by the player
   */
 case class Player(
     nickname: String,

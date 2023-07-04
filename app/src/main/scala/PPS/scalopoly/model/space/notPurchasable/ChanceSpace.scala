@@ -1,7 +1,8 @@
-package PPS.scalopoly.model.space
+package PPS.scalopoly.model.space.notPurchasable
+
+import PPS.scalopoly.model.Player
 
 import scala.util.Random
-import PPS.scalopoly.model.Player
 
 class ChanceSpace(
     name: String,

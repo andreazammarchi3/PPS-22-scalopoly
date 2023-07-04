@@ -3,6 +3,7 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.*
+import PPS.scalopoly.utils.GameUtils
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
@@ -96,10 +97,11 @@ class TestGameEngine extends BaseTest:
     // VICOLO_CORTO must be PURCHASABLE
     GameEngine.moveCurrentPlayer(1)
     assertEquals(SpaceStatus.PURCHASABLE, GameEngine.checkSpaceStatus)
-    GameEngine.playerBuysPurchasableSpace(
-      GameEngine.currentPlayer,
-      PurchasableSpace.VICOLO_CORTO
-    )
+    GameUtils
+      .getPurchasableSpaceFromPlayerPosition(GameEngine.currentPlayer)
+      .foreach(p =>
+        GameEngine.playerBuysPurchasableSpace(GameEngine.currentPlayer, p)
+      )
 
     // PROBABILITA' must be NOT_PURCHASABLE
     GameEngine.moveCurrentPlayer(1)
@@ -107,7 +109,6 @@ class TestGameEngine extends BaseTest:
 
     // VICOLO_CORTO must be OWNED_BY_CURRENT_PLAYER
     GameEngine.moveCurrentPlayer(39)
-    println(GameEngine.currentPlayer.actualPosition)
     assertEquals(
       SpaceStatus.OWNED_BY_CURRENT_PLAYER,
       GameEngine.checkSpaceStatus
@@ -123,7 +124,8 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testPlayerPaysRent(): Unit =
-    GameEngine.playerPaysRent(player1, PurchasableSpace.VICOLO_CORTO, player2)
+    val vicoloCorto = GameEngine.gameBoard.purchasableSpaces(0)
+    GameEngine.playerPaysRent(player1, vicoloCorto, player2)
     GameEngine.players
       .find(p => p.token == player1.token)
       .foreach(
@@ -132,7 +134,7 @@ class TestGameEngine extends BaseTest:
             player1.nickname,
             player1.token,
             player1.actualPosition,
-            player1.money - PurchasableSpace.VICOLO_CORTO.calculateRent(),
+            player1.money - vicoloCorto.calculateRent(),
             player1.ownedProperties
           ),
           _
@@ -146,7 +148,7 @@ class TestGameEngine extends BaseTest:
             player2.nickname,
             player2.token,
             player2.actualPosition,
-            player2.money + PurchasableSpace.VICOLO_CORTO.calculateRent(),
+            player2.money + vicoloCorto.calculateRent(),
             player2.ownedProperties
           ),
           _
@@ -155,10 +157,11 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testPlayerObtainHeritage(): Unit =
-    val MONEY_P1 = 2000 - PurchasableSpace.VICOLO_CORTO.sellingPrice
+    val vicoloCorto = GameEngine.gameBoard.purchasableSpaces(0)
+    val MONEY_P1 = 2000 - vicoloCorto.sellingPrice
     GameEngine.playerBuysPurchasableSpace(
       player1,
-      PurchasableSpace.VICOLO_CORTO
+      vicoloCorto
     )
     GameEngine.players
       .find(p => p.token == player1.token)
@@ -174,7 +177,7 @@ class TestGameEngine extends BaseTest:
             player2.token,
             player2.actualPosition,
             player2.money + MONEY_P1,
-            List(PurchasableSpace.VICOLO_CORTO)
+            List(vicoloCorto)
           ),
           _
         )

@@ -3,6 +3,7 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
 
 /** Game engine that manages the [[Game]] and offers methods to interact with
   * it.
@@ -12,6 +13,8 @@ object GameEngine:
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
   private val PASS_GO_MONEY = 500
+
+  def gameBoard: GameBoard = Game.gameBoard
 
   /** Returns the list of players.
     * @return

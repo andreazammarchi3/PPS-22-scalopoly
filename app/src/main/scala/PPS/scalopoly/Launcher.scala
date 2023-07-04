@@ -1,7 +1,7 @@
 package PPS.scalopoly
 
 import PPS.scalopoly.utils.FxmlUtils.createPrimaryStage
-import scalafx.Includes._
+import scalafx.Includes.*
 import scalafx.application.JFXApp3
 import scalafx.application.JFXApp3.PrimaryStage
 import scalafx.scene.Scene

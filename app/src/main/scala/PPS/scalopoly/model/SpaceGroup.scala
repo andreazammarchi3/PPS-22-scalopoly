@@ -11,6 +11,6 @@ enum SpaceGroup:
   case ROSSO
   case GIALLO
   case VERDE
-  case VIOLA
+  case BLU
   case SOCIETA
   case FERROVIARIO

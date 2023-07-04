@@ -8,4 +8,4 @@ class TestGameBoard:
   private val GAMEBOARD_SIZE = 40
   @Test
   def testGameBoard(): Unit =
-    assertEquals(GAMEBOARD_SIZE, GameBoard.size)
+    assertEquals(GAMEBOARD_SIZE, GameBoard().size)

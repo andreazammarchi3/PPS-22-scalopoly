@@ -1,13 +1,6 @@
 package PPS.scalopoly.utils
 
-import PPS.scalopoly.model.{
-  DiceManager,
-  GameBoard,
-  Player,
-  PurchasableSpace,
-  SpaceName,
-  Token
-}
+import PPS.scalopoly.model.{DiceManager, GameBoard, Player, Token}
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.GameEngine
 import org.junit.jupiter.api.Assertions.{
@@ -16,15 +9,18 @@ import org.junit.jupiter.api.Assertions.{
   assertThrows,
   assertTrue
 }
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.{BeforeAll, Test}
 
 import scala.util.Random
 
 class TestGameUtils:
+
+  private val PURCHASABLE_SPACE = GameEngine.gameBoard.purchasableSpaces(0)
+
   @Test
   def testAddSumToPosition(): Unit =
     val DEFAULT_STARTING_POSITION = 0
-    val RANDOM_POSITION = Random.between(0, GameBoard.size / 2)
+    val RANDOM_POSITION = Random.between(0, GameEngine.gameBoard.size / 2)
     val RANDOM_STEPS = Random.between(1, DiceManager.MAX_DICE_VALUE * 2)
     assertEquals(
       RANDOM_POSITION + RANDOM_STEPS,
@@ -32,13 +28,13 @@ class TestGameUtils:
     )
     assertEquals(
       DEFAULT_STARTING_POSITION,
-      GameUtils.addSumToPosition(1, GameBoard.size - 1)
+      GameUtils.addSumToPosition(1, GameEngine.gameBoard.size - 1)
     )
 
   @Test
   def testGetCoordinateFromPosition(): Unit =
     val NEGATIVE_POSITION = -1
-    val OVER_MAX_POSITION = GameBoard.size
+    val OVER_MAX_POSITION = GameEngine.gameBoard.size
     assertThrows(
       classOf[IllegalArgumentException],
       () => GameUtils.getCoordinateFromPosition(NEGATIVE_POSITION)
@@ -144,45 +140,28 @@ class TestGameUtils:
 
   @Test
   def testCheckIfPropertyIsAlreadyOwned(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
     val player =
-      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
+      new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
     GameEngine.addPlayer(player)
-    assertTrue(GameUtils.propertyIsAlreadyOwned(purchasableSpace))
+    assertTrue(GameUtils.propertyIsAlreadyOwned(PURCHASABLE_SPACE))
     assertFalse(
-      GameUtils.propertyIsAlreadyOwned(PurchasableSpace.VIA_ACCADEMIA)
+      GameUtils.propertyIsAlreadyOwned(
+        GameEngine.gameBoard.purchasableSpaces(1)
+      )
     )
 
   @Test
   def testGetOwnerFromPurchasableSpace(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
     val player =
-      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
+      new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
     GameEngine.addPlayer(player)
     assertEquals(
       Some(player),
-      GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
+      GameUtils.getOwnerFromPurchasableSpace(PURCHASABLE_SPACE)
     )
     assertEquals(
       None,
-      GameUtils.getOwnerFromPurchasableSpace(PurchasableSpace.VIA_ACCADEMIA)
-    )
-
-  @Test
-  def testGetPurchasableSpaceFromSpaceName(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
-    assertEquals(
-      Some(purchasableSpace),
-      GameUtils.getPurchasableSpaceFromSpaceName(purchasableSpace.spaceName)
-    )
-    assertEquals(
-      None,
-      GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
-    )
-
-  @Test
-  def testGetSpaceNameFromPlayerPosition(): Unit =
-    assertEquals(
-      GameBoard.gameBoardList(0),
-      GameUtils.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
+      GameUtils.getOwnerFromPurchasableSpace(
+        GameEngine.gameBoard.purchasableSpaces(1)
+      )
     )
