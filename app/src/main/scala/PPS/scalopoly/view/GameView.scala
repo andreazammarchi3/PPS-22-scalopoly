@@ -2,20 +2,16 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.model.space.purchasable.BuildableSpace
 import PPS.scalopoly.model.{GameBoard, Player, Token}
+import PPS.scalopoly.utils
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
 import javafx.beans.binding.{Bindings, BooleanBinding}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{
-  BorderPane,
-  ColumnConstraints,
-  GridPane,
-  RowConstraints,
-  VBox
-}
+import javafx.scene.layout.{BorderPane, ColumnConstraints, GridPane, RowConstraints, VBox}
 import scalafx.scene.shape.Path
 import scalafx.beans.property.StringProperty
 
@@ -151,13 +147,7 @@ class GameView extends Initializable:
         new Image(getClass.getResource(p.token.img.path).toString)
       )
       tokensImgView.addOne(p.token, tokenImg)
-      tokenImg.setPreserveRatio(false)
-      tokenImg.setFitWidth(
-        gameBoard.getFitWidth / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
-      )
-      tokenImg.setFitHeight(
-        gameBoard.getFitHeight / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
-      )
+      setImageViewDimensions(tokenImg)
       updateTokenPosition(p)
     )
 
@@ -216,10 +206,13 @@ class GameView extends Initializable:
     updateTurnLabel()
 
   def buildBtnClick(): Unit =
-    GameController.playerBuildsHouse(
-      propertiesList.getSelectionModel.getSelectedItem
-    )
-    updatePlayersTable()
+    GameUtils
+      .getBuildableSpaceFromName(propertiesList.getSelectionModel.getSelectedItem)
+      .foreach(buildableSpace =>
+        if GameController.playerBuildsHouse(buildableSpace) then
+          updatePlayersTable()
+          updateHouseImg(buildableSpace)
+      )
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -250,11 +243,11 @@ class GameView extends Initializable:
         row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
-  private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getNthCellInGrid(
-      gridPane.getChildren.size() + 1,
+  private def getFirstFreeCellStartingFrom(gridPane: GridPane, nthCell: Int, startingCell: (Int, Int)): (Int, Int) =
+    GameUtils.getNthCellInGridWithStartingPos(
+      nthCell + 1,
       (N_COLS_IN_CELL, N_ROWS_IN_CELL),
-      (0, 0)
+      startingCell
     )
 
   private def setBtnsForEndTurn(can: Boolean): Unit =
@@ -266,20 +259,54 @@ class GameView extends Initializable:
       pane.getPrefHeight / (GameEngine.gameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
     )
 
+  private def updateDiceImg(dice1: Int, dice2: Int): Unit =
+    updateSingleDiceImg(dice1, diceImageView1)
+    updateSingleDiceImg(dice2, diceImageView2)
+
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
     diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))
+
+  private def updateHouseImg(buildableSpace: BuildableSpace): Unit =
+    val cellGrid = cellsGrids(
+      GameUtils.getCoordinateFromPosition(GameEngine.gameBoard.gameBoardList.indexOf(buildableSpace))
+    )
+    val numHouse = buildableSpace.numHouse
+    numHouse match
+      case _ if numHouse < BuildableSpace.MAX_HOUSES - 1 =>
+        val (col, row) = getFirstFreeCellStartingFrom(cellGrid, numHouse, (0, 0))
+        val houseImg = new ImageView(new Image(getClass.getResource(ImgResources.IMG_HOUSE.path).toString))
+        setImageViewDimensions(houseImg)
+        cellGrid.add(houseImg, col, row)
+      case _ if numHouse == BuildableSpace.MAX_HOUSES - 1 =>
+        cellGrid.getChildren.remove(0, N_COLS_IN_CELL)
+        val (col, row) = getFirstFreeCellStartingFrom(cellGrid, 0, (0, 0))
+        val hotelImg = new ImageView(new Image(getClass.getResource(ImgResources.IMG_HOTEL.path).toString))
+        setImageViewDimensions(hotelImg)
+        cellGrid.add(hotelImg, col, row)
+      case _ =>
+
+
+  private def setImageViewDimensions(imgView: ImageView): Unit =
+    imgView.setPreserveRatio(false)
+    imgView.setFitWidth(
+      gameBoard.getFitWidth / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
+    )
+    imgView.setFitHeight(
+      gameBoard.getFitHeight / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
+    )
 
   private def updateTokenPosition(player: Player): Unit =
     val cellGrid = cellsGrids(
       GameUtils.getCoordinateFromPosition(player.actualPosition)
     )
-    val (col, row) = getFirstFreeCellForToken(cellGrid)
-    cellGrid.add(tokensImgView(player.token), col, row + 1)
-
-  private def updateDiceImg(dice1: Int, dice2: Int): Unit =
-    updateSingleDiceImg(dice1, diceImageView1)
-    updateSingleDiceImg(dice2, diceImageView2)
+    val numHouse = GameUtils.getPurchasableSpaceFromPlayerPosition(player) match
+      case Some(p) => GameUtils.getBuildableSpaceFromName(p.name) match
+        case Some(b) => b.numHouse
+        case _       => 0
+      case _ => 0
+    val (col, row) = getFirstFreeCellStartingFrom(cellGrid, cellGrid.getChildren.size() - numHouse, (0, 1))
+    cellGrid.add(tokensImgView(player.token), col, row)
 
   private def updatePlayersTable(): Unit =
     playersTable.getItems.clear()

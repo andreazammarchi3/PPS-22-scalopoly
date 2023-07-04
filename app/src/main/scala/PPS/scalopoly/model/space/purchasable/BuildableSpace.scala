@@ -40,7 +40,7 @@ class BuildableSpace(
 
 object BuildableSpace:
 
-  private val MAX_HOUSES = 5
+  val MAX_HOUSES = 5
 
   def apply(
       name: String,

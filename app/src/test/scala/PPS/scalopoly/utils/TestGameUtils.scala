@@ -65,7 +65,7 @@ class TestGameUtils:
     )
 
   @Test
-  def testGetNthCellInGrid(): Unit =
+  def getNthCellInGridWithStartingPos(): Unit =
     val DEFAULT_GRID_SIZE = (4, 3)
     val FIRST_CELL_OF_SECOND_ROW = (3, 0)
     val ILLEGAL_GRID_SIZE = (0, 1)
@@ -80,7 +80,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           DEFAULT_STARTING_VALUE,
           ILLEGAL_GRID_SIZE,
           STARTING_CELL
@@ -89,7 +89,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           DEFAULT_STARTING_VALUE,
           ILLEGAL_GRID_SIZE.swap,
           STARTING_CELL
@@ -98,7 +98,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           ILLEGAL_STARTING_VALUE,
           DEFAULT_GRID_SIZE,
           STARTING_CELL
@@ -107,7 +107,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           LAST_CELL_VALUE + 1,
           DEFAULT_GRID_SIZE,
           STARTING_CELL
@@ -115,7 +115,7 @@ class TestGameUtils:
     )
     assertEquals(
       STARTING_CELL,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         DEFAULT_STARTING_VALUE,
         DEFAULT_GRID_SIZE,
         STARTING_CELL
@@ -123,7 +123,7 @@ class TestGameUtils:
     )
     assertEquals(
       FIRST_CELL_OF_SECOND_ROW,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         VALUE_OF_FIRST_CELL_OF_SECOND_ROW,
         DEFAULT_GRID_SIZE,
         STARTING_CELL
@@ -131,7 +131,7 @@ class TestGameUtils:
     )
     assertEquals(
       LAST_CELL,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         LAST_CELL_VALUE,
         DEFAULT_GRID_SIZE,
         STARTING_CELL

@@ -1,7 +1,7 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
-import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.FxmlResources
@@ -58,16 +58,14 @@ object GameController:
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
-  def playerBuildsHouse(space: String): Unit =
-    GameUtils
-      .getBuildableSpaceFromName(space)
-      .foreach(b =>
-        if GameEngine.currentPlayer.canPayOrBuy(
-            b.buildingCost
-          ) && GameEngine.currentPlayer.owns(b) && GameUtils
-            .checkIfPlayerOwnsAllPropertiesOfSameGroup(b.spaceGroup)
-        then GameEngine.playerBuildsHouse(GameEngine.currentPlayer, b)
-      )
+  def playerBuildsHouse(buildableSpace: BuildableSpace): Boolean =
+    if GameEngine.currentPlayer.canPayOrBuy(buildableSpace.buildingCost)
+      && GameEngine.currentPlayer.owns(buildableSpace)
+//      && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(buildableSpace.spaceGroup)
+    then
+      GameEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
+      true
+    else false
 
   private def handleRent(
       player: Player,
