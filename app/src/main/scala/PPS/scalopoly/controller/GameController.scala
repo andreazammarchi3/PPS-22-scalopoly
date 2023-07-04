@@ -98,7 +98,8 @@ object GameController:
       player: Player,
       notPurchasableSpace: NotPurchasableSpace
   ): Unit =
-    notPurchasableSpace.action(player)
+    AlertUtils.showNotPurchasableSpaceActionAllert(player, notPurchasableSpace)
+    GameEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(
       player: Player,

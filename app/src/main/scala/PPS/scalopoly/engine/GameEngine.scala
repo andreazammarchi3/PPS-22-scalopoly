@@ -3,6 +3,7 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
+import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 
 /** Game engine that manages the [[Game]] and offers methods to interact with
@@ -192,6 +193,21 @@ object GameEngine:
       player.pay(buildableSpace.buildingCost)
     )
 
+  /** Player is on a not purchasable space.
+   *
+   * @param player
+   * the player ont the not purchasable space.
+   * @param notPurchasableSpace
+   * the not purchasable space.
+   */
+  def playerOnNotPurchasableSpace(
+    player: Player,
+    notPurchasableSpace: NotPurchasableSpace
+  ): Unit =
+    updatePlayerWith(
+      players.indexOf(player),
+      notPurchasableSpace.action(player)
+    )
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match

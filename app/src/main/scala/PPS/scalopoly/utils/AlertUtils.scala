@@ -2,6 +2,7 @@ package PPS.scalopoly.utils
 
 import PPS.scalopoly.model.space.purchasable.PurchasableSpace
 import PPS.scalopoly.model.Player
+import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.control.ButtonType
 
@@ -55,6 +56,16 @@ object AlertUtils:
       s"${currentPlayer.nickname}(${currentPlayer.token}) non ha abbastanza soldi per acquistare la proprieta' ${purchasableSpace.name}"
     )
 
+  def showNotPurchasableSpaceActionAllert(
+     currentPlayer: Player,
+     notPurchasableSpace: NotPurchasableSpace
+  ): Optional[ButtonType] =
+    FxmlUtils.showAlert(
+      AlertType.INFORMATION,
+      "Scalopoly",
+      "Casella speciale",
+      s"${currentPlayer.nickname}(${currentPlayer.token}) è finito sulla casella' ${notPurchasableSpace.name} e ne subisce le conseguenze"
+    )
   def showVictory(winner: Player): Optional[ButtonType] =
     FxmlUtils.showAlert(
       AlertType.INFORMATION,
