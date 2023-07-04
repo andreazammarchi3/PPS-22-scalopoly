@@ -19,13 +19,13 @@ class TestStationSpace extends BaseTest:
 
   @Test
   def testCalculateRent(): Unit =
-    assertEquals(0, stazioneNord.calculateRent())
+    assertEquals(0, stazioneNord.calculateRent)
     GameEngine.playerBuysPurchasableSpace(player1, stazioneNord)
-    assertEquals(rents(0), stazioneNord.calculateRent())
+    assertEquals(rents(0), stazioneNord.calculateRent)
     GameEngine.players
       .find(p => p.token == player1.token)
       .foreach(
         GameEngine.playerBuysPurchasableSpace(_, stazioneSud)
       )
-    assertEquals(rents(1), stazioneNord.calculateRent())
-    assertEquals(rents(1), stazioneSud.calculateRent())
+    assertEquals(rents(1), stazioneNord.calculateRent)
+    assertEquals(rents(1), stazioneSud.calculateRent)
