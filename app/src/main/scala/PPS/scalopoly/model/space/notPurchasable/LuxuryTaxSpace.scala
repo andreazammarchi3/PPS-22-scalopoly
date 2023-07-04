@@ -6,13 +6,13 @@ import scala.util.Random
 
 class LuxuryTaxSpace(
     name: String,
-    action: (Player, Int) => Player
+    action: Player => Player
 ) extends NotPurchasableSpace(name, action)
 
 object LuxuryTaxSpace:
 
   private val LUXURY_TAX = 200
-  private def action(player: Player, position: Int): Player =
+  private def action(player: Player): Player =
     player.pay(LUXURY_TAX)
   def apply(
       name: String

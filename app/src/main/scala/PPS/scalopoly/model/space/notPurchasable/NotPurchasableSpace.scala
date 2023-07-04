@@ -4,5 +4,5 @@ import PPS.scalopoly.model.Player
 import PPS.scalopoly.model.space.Space
 trait NotPurchasableSpace(
     override val name: String,
-    val action: (Player, Int) => Player
+    val action: Player => Player
 ) extends Space
