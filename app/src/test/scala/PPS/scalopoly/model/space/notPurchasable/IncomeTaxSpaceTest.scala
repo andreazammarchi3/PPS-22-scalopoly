@@ -1,6 +1,6 @@
 package PPS.scalopoly.model.space.notPurchasable
 
-import PPS.scalopoly.model.{Player, PurchasableSpace, Token}
+import PPS.scalopoly.model.{Player, Token}
 import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
