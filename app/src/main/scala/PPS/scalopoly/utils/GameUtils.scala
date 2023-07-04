@@ -147,7 +147,15 @@ object GameUtils:
     )
     false
 
-// TODO: implement this method
-//  def temp(spaceGroup: SpaceGroup, purchasableSpace: PurchasableSpace): Int =
-//    val owner = getOwnerFromPurchasableSpace(purchasableSpace)
-//    owner.foreach(o =>GameEngine.players.find(_.token == o.token))
+  /** Returns the number of stations owned by the owner of the actual position of
+    * the player.
+   *
+   * @param stationSpaceGroup the space group of the stations.
+   * @return the number of stations owned by the owner of the actual position of the player.
+   */
+  def getNumStationFromOwnerOfActualPosition(stationSpaceGroup: SpaceGroup): Int =
+    getPurchasableSpaceFromPlayerPosition(GameEngine.currentPlayer).foreach(space =>
+      getOwnerFromPurchasableSpace(space).foreach(owner =>
+        owner.ownedProperties.count(_.spaceGroup == stationSpaceGroup)
+      )
+    )
