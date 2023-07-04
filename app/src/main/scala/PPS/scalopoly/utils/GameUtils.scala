@@ -77,18 +77,23 @@ object GameUtils:
       gridSize: (Int, Int),
       startingCell: (Int, Int)
   ): (Int, Int) =
-    getNthCellInGrid(n + (startingCell._1 * gridSize._2 + startingCell._2 * gridSize._1), gridSize)
+    getNthCellInGrid(
+      n + (startingCell._1 * gridSize._2 + startingCell._2 * gridSize._1),
+      gridSize
+    )
 
-  private def getNthCellInGrid(n: Int,gridSize: (Int, Int)): (Int, Int) = n match
-    case _ if gridSize._1 <= 0 =>
-      throw new IllegalArgumentException("Grid columns must be positive")
-    case _ if gridSize._2 <= 0 =>
-      throw new IllegalArgumentException("Grid rows must be positive")
-    case _ if n <= 0 => throw new IllegalArgumentException("N must be positive")
-    case _ if n > gridSize._1 * gridSize._2 =>
-      throw new IllegalArgumentException("N cannot be greater than grid size")
-    case _ if n % gridSize._1 != 0 => (n % gridSize._1 - 1, n / gridSize._1)
-    case _ => (gridSize._1 - 1, n / gridSize._1 - 1)
+  private def getNthCellInGrid(n: Int, gridSize: (Int, Int)): (Int, Int) =
+    n match
+      case _ if gridSize._1 <= 0 =>
+        throw new IllegalArgumentException("Grid columns must be positive")
+      case _ if gridSize._2 <= 0 =>
+        throw new IllegalArgumentException("Grid rows must be positive")
+      case _ if n <= 0 =>
+        throw new IllegalArgumentException("N must be positive")
+      case _ if n > gridSize._1 * gridSize._2 =>
+        throw new IllegalArgumentException("N cannot be greater than grid size")
+      case _ if n % gridSize._1 != 0 => (n % gridSize._1 - 1, n / gridSize._1)
+      case _                         => (gridSize._1 - 1, n / gridSize._1 - 1)
 
   /** Check if a property is already owned by a player.
     * @param purchasableSpace
