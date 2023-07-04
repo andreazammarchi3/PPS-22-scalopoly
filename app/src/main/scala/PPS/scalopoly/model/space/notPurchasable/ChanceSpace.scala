@@ -6,15 +6,16 @@ import scala.util.Random
 
 class ChanceSpace(
     name: String,
-    action: Player => Player
-) extends NotPurchasableSpace(name, action)
+    spaceValue: Int
+) extends NotPurchasableSpace(name, spaceValue):
+
+  override def action(player: Player): Player =
+    if (Random.nextBoolean()) player.pay(spaceValue)
+    else player.cashIn(spaceValue)
 
 object ChanceSpace:
 
-  private val CHANGE_MONEY_FOR_ACTION = 100
-  private def action(player: Player): Player =
-    if (Random.nextBoolean()) player.pay(CHANGE_MONEY_FOR_ACTION)
-    else player.cashIn(CHANGE_MONEY_FOR_ACTION)
   def apply(
-      name: String
-  ): ChanceSpace = new ChanceSpace(name, action)
+      name: String,
+      spaceValue: Int
+  ): ChanceSpace = new ChanceSpace(name, spaceValue)

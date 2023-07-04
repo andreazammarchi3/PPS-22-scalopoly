@@ -1,10 +1,42 @@
 [
-  {"name": "Via"},
-  {"name": "Probabilita'"},
-  {"name": "Imprevisti"},
-  {"name": "Prigione/Transito"},
-  {"name": "Parcheggio Gratuito"},
-  {"name": "In Prigione"},
-  {"name": "Tassa Patrimoniale"},
-  {"name": "Tassa di Lusso"}
+  {
+    "name": "Via",
+    "spaceType": "Start",
+    "spaceValue": 200
+  },
+  {
+    "name": "Probabilita'",
+    "spaceType": "Chance",
+    "spaceValue": 200
+  },
+  {
+    "name": "Imprevisti",
+    "spaceType": "CommunityChest",
+    "spaceValue": 200
+  },
+  {
+    "name": "Prigione/Transito",
+    "spaceType": "Jail",
+    "spaceValue": 0
+  },
+  {
+    "name": "Parcheggio Gratuito",
+    "spaceType": "FreeParking",
+    "spaceValue": 0
+  },
+  {
+    "name": "In Prigione",
+    "spaceType": "GoToJail",
+    "spaceValue": 0
+  },
+  {
+    "name": "Tassa Patrimoniale",
+    "spaceType": "IncomeTax",
+    "spaceValue": 200
+  },
+  {
+    "name": "Tassa di Lusso",
+    "spaceType": "LuxuryTax",
+    "spaceValue": 200
+  }
 ]

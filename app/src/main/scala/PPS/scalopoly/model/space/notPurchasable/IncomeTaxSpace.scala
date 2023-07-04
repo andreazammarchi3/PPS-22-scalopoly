@@ -6,14 +6,15 @@ import scala.util.Random
 
 class IncomeTaxSpace(
     name: String,
-    action: Player => Player
-) extends NotPurchasableSpace(name, action)
+    spaceValue: Int
+) extends NotPurchasableSpace(name, spaceValue):
+
+  override def action(player: Player): Player =
+    player.pay(spaceValue)
 
 object IncomeTaxSpace:
 
-  private val INCOME_TAX_PERC = 10
-  private def action(player: Player): Player =
-    player.pay(player.ownedProperties.map(_.sellingPrice / INCOME_TAX_PERC).sum)
   def apply(
-      name: String
-  ): IncomeTaxSpace = new IncomeTaxSpace(name, action)
+      name: String,
+      spaceValue: Int
+  ): IncomeTaxSpace = new IncomeTaxSpace(name, spaceValue)

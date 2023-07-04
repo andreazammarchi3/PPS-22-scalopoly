@@ -7,14 +7,15 @@ import scala.util.Random
 
 class CommunityChestSpace(
     name: String,
-    action: Player => Player
-) extends NotPurchasableSpace(name, action)
+    spaceValue: Int
+) extends NotPurchasableSpace(name, spaceValue):
+
+  override def action(player: Player): Player =
+    player.pay(spaceValue)
 
 object CommunityChestSpace:
 
-  private val COMMUNITY_CHEST_MONEY_FOR_ACTION = 100
-  private def action(player: Player): Player =
-    player.cashIn(COMMUNITY_CHEST_MONEY_FOR_ACTION)
   def apply(
-      name: String
-  ): ChanceSpace = new ChanceSpace(name, action)
+      name: String,
+      spaceValue: Int
+  ): ChanceSpace = new ChanceSpace(name, spaceValue)

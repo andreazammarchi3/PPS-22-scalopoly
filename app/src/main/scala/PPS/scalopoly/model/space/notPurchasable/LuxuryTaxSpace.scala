@@ -6,14 +6,15 @@ import scala.util.Random
 
 class LuxuryTaxSpace(
     name: String,
-    action: Player => Player
-) extends NotPurchasableSpace(name, action)
+    spaceValue: Int
+) extends NotPurchasableSpace(name, spaceValue):
+
+  override def action(player: Player): Player =
+    player.pay(spaceValue)
 
 object LuxuryTaxSpace:
 
-  private val LUXURY_TAX = 200
-  private def action(player: Player): Player =
-    player.pay(LUXURY_TAX)
   def apply(
-      name: String
-  ): LuxuryTaxSpace = new LuxuryTaxSpace(name, action)
+      name: String,
+      spaceValue:Int
+  ): LuxuryTaxSpace = new LuxuryTaxSpace(name, spaceValue)

@@ -6,6 +6,7 @@ import PPS.scalopoly.deserialization.{
   SpacesJsonReader,
   StationSpaceJsonReader
 }
+import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{
   BuildableSpace,
   CompanySpace,
@@ -20,7 +21,8 @@ class GameBoard(
     spaces: List[Space],
     _buildableSpaces: List[BuildableSpace],
     _companySpaces: List[CompanySpace],
-    _stationSpaces: List[StationSpace]
+    _stationSpaces: List[StationSpace],
+    _notPurchasableSpace: List[NotPurchasableSpace]
 ):
 
   def companySpaces: List[CompanySpace] = _companySpaces
@@ -28,6 +30,8 @@ class GameBoard(
   def stationSpaces: List[StationSpace] = _stationSpaces
 
   def buildableSpaces: List[BuildableSpace] = _buildableSpaces
+
+  def notPurchasableSpace: List[NotPurchasableSpace] = _notPurchasableSpace
 
   def purchasableSpaces: List[PurchasableSpace] =
     _companySpaces ++ _stationSpaces ++ _buildableSpaces
@@ -43,7 +47,8 @@ class GameBoard(
           spaces.updated(spaceIndex, buildableSpace),
           buildableSpaces.updated(buildIndex, buildableSpace),
           _companySpaces,
-          _stationSpaces
+          _stationSpaces,
+          _notPurchasableSpace
         )
       case _ => this
 
@@ -69,12 +74,14 @@ object GameBoard:
     JsonUtils.readSpaces,
     JsonUtils.readBuildableSpaces,
     JsonUtils.readCompanySpaces,
-    JsonUtils.readStationSpaces
+    JsonUtils.readStationSpaces,
+    JsonUtils.readNotPurchasableSpaces
   )
   def apply(
       spaces: List[Space],
       buildableSpaces: List[BuildableSpace],
       companySpaces: List[CompanySpace],
-      stationSpaces: List[StationSpace]
+      stationSpaces: List[StationSpace],
+      notPurchasableSpace: List[NotPurchasableSpace]
   ): GameBoard =
-    new GameBoard(spaces, buildableSpaces, companySpaces, stationSpaces)
+    new GameBoard(spaces, buildableSpaces, companySpaces, stationSpaces, notPurchasableSpace)

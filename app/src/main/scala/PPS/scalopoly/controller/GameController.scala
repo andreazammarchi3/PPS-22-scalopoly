@@ -1,6 +1,7 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
+import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
@@ -55,6 +56,9 @@ object GameController:
         )
       case SpaceStatus.PURCHASABLE =>
         purchasableSpace.foreach(handlePurchase(player, _))
+      case SpaceStatus.NOT_PURCHASABLE =>
+        val notPurchasableSpace = GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
+        notPurchasableSpace.foreach(handleNotPurchasableAction(player, _))
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
@@ -89,6 +93,12 @@ object GameController:
       if playerWantToBuySpace(player, purchasableSpace) then
         GameEngine.playerBuysPurchasableSpace(player, purchasableSpace)
     else AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
+
+  private def handleNotPurchasableAction(
+      player: Player,
+      notPurchasableSpace: NotPurchasableSpace
+  ): Unit =
+    notPurchasableSpace.action(player)
 
   private def playerWantToBuySpace(
       player: Player,
