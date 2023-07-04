@@ -5,21 +5,15 @@ import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.{GameBoard, Player, Token}
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import javafx.beans.binding.{Bindings, BooleanBinding}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{
-  BorderPane,
-  ColumnConstraints,
-  GridPane,
-  RowConstraints,
-  VBox
-}
+import javafx.scene.layout.{BorderPane, ColumnConstraints, GridPane, RowConstraints, VBox}
 import scalafx.scene.shape.Path
 import scalafx.beans.property.StringProperty
 
 import scala.collection.mutable.Map as MMap
-
 import java.net.URL
 import java.util.ResourceBundle
 
@@ -176,6 +170,8 @@ class GameView extends Initializable:
 
     updateTurnLabel()
 
+    buildBtn.disableProperty().bind(Bindings.isEmpty(propertiesList.getSelectionModel.getSelectedItems))
+
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
@@ -210,6 +206,10 @@ class GameView extends Initializable:
     GameController.endTurn()
     setBtnsForEndTurn(false)
     updateTurnLabel()
+
+  def buildBtnClick(): Unit =
+    GameController.playerBuildsHouse(propertiesList.getSelectionModel.getSelectedItem)
+    updatePlayersTable()
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90

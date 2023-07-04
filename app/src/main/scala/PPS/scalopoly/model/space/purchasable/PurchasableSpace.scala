@@ -10,7 +10,7 @@ trait PurchasableSpace(
     val spaceGroup: SpaceGroup
 ) extends Space:
 
-  def calculateRent(): Int
+  def calculateRent: Int
 
   override def equals(obj: Any): Boolean = obj match
     case space: PurchasableSpace => space.name == this.name

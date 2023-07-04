@@ -14,7 +14,7 @@ class CompanySpace(
     spaceGroup: SpaceGroup
 ) extends PurchasableSpace(name, sellingPrice, rents, spaceGroup):
 
-  override def calculateRent(): Int =
+  override def calculateRent: Int =
     GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(spaceGroup) match
       case true => DOUBLE_MULTIPLIER * rents(0)
       case _    => SINGLE_MULTIPLIER * rents(0)

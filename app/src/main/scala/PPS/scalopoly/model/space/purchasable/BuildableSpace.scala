@@ -9,11 +9,15 @@ class BuildableSpace(
     sellingPrice: Int,
     rents: List[Int],
     spaceGroup: SpaceGroup,
-    numHouse: Int,
-    buildingCost: Int
+    _numHouse: Int,
+    _buildingCost: Int
 ) extends PurchasableSpace(name, sellingPrice, rents, spaceGroup):
 
-  def buildHouse(): BuildableSpace =
+  def numHouse: Int = _numHouse
+
+  def buildingCost: Int = _buildingCost
+
+  def buildHouse: BuildableSpace =
     if numHouse < MAX_HOUSES then
       BuildableSpace(
         name,
@@ -25,7 +29,7 @@ class BuildableSpace(
       )
     else this
 
-  override def calculateRent(): Int = numHouse match
+  override def calculateRent: Int = numHouse match
     case _
         if numHouse == 0 && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(
           spaceGroup
@@ -33,16 +37,6 @@ class BuildableSpace(
       rents(0) * 2
     case _ if numHouse == 0 => rents(0)
     case _                  => rents(numHouse)
-
-  override def toString: String =
-    s"""
-       |Name: $name
-       |Selling price: $sellingPrice
-       |Rents: $rents
-       |Space group: $spaceGroup
-       |Number of houses: $numHouse
-       |Building cost: $buildingCost
-       |""".stripMargin
 
 object BuildableSpace:
 

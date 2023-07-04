@@ -134,7 +134,7 @@ class TestGameEngine extends BaseTest:
             player1.nickname,
             player1.token,
             player1.actualPosition,
-            player1.money - vicoloCorto.calculateRent(),
+            player1.money - vicoloCorto.calculateRent,
             player1.ownedProperties
           ),
           _
@@ -148,7 +148,7 @@ class TestGameEngine extends BaseTest:
             player2.nickname,
             player2.token,
             player2.actualPosition,
-            player2.money + vicoloCorto.calculateRent(),
+            player2.money + vicoloCorto.calculateRent,
             player2.ownedProperties
           ),
           _

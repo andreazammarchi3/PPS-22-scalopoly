@@ -11,7 +11,7 @@ class StationSpace(
     spaceGroup: SpaceGroup
 ) extends PurchasableSpace(name, sellingPrice, rents, spaceGroup):
 
-  override def calculateRent(): Int = rents(1)
+  override def calculateRent: Int = rents(1)
   // TODO: implement calculateRent
 
 object StationSpace:

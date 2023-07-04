@@ -58,12 +58,18 @@ object GameController:
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
+  def playerBuildsHouse(space: String): Unit =
+    GameUtils.getBuildableSpaceFromName(space).foreach(b =>
+      if GameEngine.currentPlayer.canPayOrBuy(b.buildingCost) && GameEngine.currentPlayer.owns(b) && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(b.spaceGroup) then
+        GameEngine.playerBuildsHouse(GameEngine.currentPlayer, b)
+    )
+
   private def handleRent(
       player: Player,
       purchasableSpace: PurchasableSpace,
       owner: Player
   ): Unit =
-    val rent = purchasableSpace.calculateRent()
+    val rent = purchasableSpace.calculateRent
     if player.canPayOrBuy(rent) then
       AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
       GameEngine.playerPaysRent(player, purchasableSpace, owner)

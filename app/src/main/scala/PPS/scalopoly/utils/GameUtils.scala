@@ -2,7 +2,7 @@ package PPS.scalopoly.utils
 
 import PPS.scalopoly.engine.GameEngine
 import PPS.scalopoly.model.space.Space
-import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{GameBoard, Player, SpaceGroup}
 
 import scala.util.Random
@@ -151,3 +151,6 @@ object GameUtils:
 //  def temp(spaceGroup: SpaceGroup, purchasableSpace: PurchasableSpace): Int =
 //    val owner = getOwnerFromPurchasableSpace(purchasableSpace)
 //    owner.foreach(o =>GameEngine.players.find(_.token == o.token))
+
+  def getBuildableSpaceFromName(name: String): Option[BuildableSpace] =
+    GameEngine.gameBoard.buildableSpaces.find(_.name == name)

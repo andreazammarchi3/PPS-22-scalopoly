@@ -3,7 +3,7 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.model.*
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
-import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 
 /** Game engine that manages the [[Game]] and offers methods to interact with
   * it.
@@ -151,7 +151,7 @@ object GameEngine:
       purchasableSpace: PurchasableSpace,
       owner: Player
   ): Unit =
-    val rent = purchasableSpace.calculateRent()
+    val rent = purchasableSpace.calculateRent
     updatePlayerWith(
       players.indexOf(owner),
       owner.cashIn(rent)
@@ -185,6 +185,14 @@ object GameEngine:
       player.cashIn(PASS_GO_MONEY)
     )
 
+  def playerBuildsHouse(player: Player, buildableSpace: BuildableSpace): Unit =
+    updateBuildableSpacesWith(buildableSpace.buildHouse)
+    updatePlayerWith(
+      players.indexOf(player),
+      player.pay(buildableSpace.buildingCost)
+    )
+    println("NumHouses: " + GameEngine.gameBoard.buildableSpaces.find(_.name == buildableSpace.name).get.numHouse)
+
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match
@@ -201,3 +209,6 @@ object GameEngine:
       index,
       playerUpdated
     )
+
+  private def updateBuildableSpacesWith(updatedSpace: BuildableSpace): Unit =
+    Game.gameBoard = gameBoard.updateBuildableSpace(updatedSpace)
