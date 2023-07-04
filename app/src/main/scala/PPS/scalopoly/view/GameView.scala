@@ -9,7 +9,13 @@ import javafx.beans.binding.{Bindings, BooleanBinding}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{BorderPane, ColumnConstraints, GridPane, RowConstraints, VBox}
+import javafx.scene.layout.{
+  BorderPane,
+  ColumnConstraints,
+  GridPane,
+  RowConstraints,
+  VBox
+}
 import scalafx.scene.shape.Path
 import scalafx.beans.property.StringProperty
 
@@ -170,7 +176,9 @@ class GameView extends Initializable:
 
     updateTurnLabel()
 
-    buildBtn.disableProperty().bind(Bindings.isEmpty(propertiesList.getSelectionModel.getSelectedItems))
+    buildBtn
+      .disableProperty()
+      .bind(Bindings.isEmpty(propertiesList.getSelectionModel.getSelectedItems))
 
   /** Remove current player from the game
     */
@@ -208,7 +216,9 @@ class GameView extends Initializable:
     updateTurnLabel()
 
   def buildBtnClick(): Unit =
-    GameController.playerBuildsHouse(propertiesList.getSelectionModel.getSelectedItem)
+    GameController.playerBuildsHouse(
+      propertiesList.getSelectionModel.getSelectedItem
+    )
     updatePlayersTable()
 
   private def initCellGrids(): Unit =

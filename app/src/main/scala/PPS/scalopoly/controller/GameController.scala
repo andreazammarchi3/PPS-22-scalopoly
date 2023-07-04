@@ -59,10 +59,15 @@ object GameController:
     if EndgameLogicEngine.checkVictory() then showVictory()
 
   def playerBuildsHouse(space: String): Unit =
-    GameUtils.getBuildableSpaceFromName(space).foreach(b =>
-      if GameEngine.currentPlayer.canPayOrBuy(b.buildingCost) && GameEngine.currentPlayer.owns(b) && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(b.spaceGroup) then
-        GameEngine.playerBuildsHouse(GameEngine.currentPlayer, b)
-    )
+    GameUtils
+      .getBuildableSpaceFromName(space)
+      .foreach(b =>
+        if GameEngine.currentPlayer.canPayOrBuy(
+            b.buildingCost
+          ) && GameEngine.currentPlayer.owns(b) && GameUtils
+            .checkIfPlayerOwnsAllPropertiesOfSameGroup(b.spaceGroup)
+        then GameEngine.playerBuildsHouse(GameEngine.currentPlayer, b)
+      )
 
   private def handleRent(
       player: Player,

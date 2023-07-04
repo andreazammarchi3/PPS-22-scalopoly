@@ -191,7 +191,12 @@ object GameEngine:
       players.indexOf(player),
       player.pay(buildableSpace.buildingCost)
     )
-    println("NumHouses: " + GameEngine.gameBoard.buildableSpaces.find(_.name == buildableSpace.name).get.numHouse)
+    println(
+      "NumHouses: " + GameEngine.gameBoard.buildableSpaces
+        .find(_.name == buildableSpace.name)
+        .get
+        .numHouse
+    )
 
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
