@@ -20,4 +20,4 @@ object CommunityChestSpace:
   def apply(
       name: String,
       spaceValue: Int
-  ): ChanceSpace = new ChanceSpace(name, spaceValue)
+  ): CommunityChestSpace = new CommunityChestSpace(name, spaceValue)
