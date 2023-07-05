@@ -123,10 +123,4 @@ object Player:
     *   the new player
     */
   def apply(nickname: String, token: Token): Player =
-    Player(
-      nickname,
-      token,
-      DEFAULT_STARTING_POSITION,
-      DEFAULT_STARTING_MONEY,
-      List.empty
-    )
+    Player(nickname, token, DEFAULT_STARTING_POSITION, DEFAULT_STARTING_MONEY, List.empty)

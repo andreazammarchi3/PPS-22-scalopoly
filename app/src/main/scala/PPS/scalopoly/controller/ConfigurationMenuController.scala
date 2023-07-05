@@ -59,4 +59,5 @@ object ConfigurationMenuController:
 
   /** Exit the game.
     */
-  def exitGame(): Unit = GameEngine.exitGame()
+  def exitGame(): Unit =
+    GameEngine.exitGame()

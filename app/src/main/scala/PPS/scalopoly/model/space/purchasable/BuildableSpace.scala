@@ -44,15 +44,7 @@ class BuildableSpace(
     *   the space with a house built on it
     */
   def buildHouse: BuildableSpace =
-    if numHouse < MAX_HOUSES then
-      BuildableSpace(
-        name,
-        sellingPrice,
-        rents,
-        spaceGroup,
-        numHouse + 1,
-        buildingCost
-      )
+    if numHouse < MAX_HOUSES then BuildableSpace(name, sellingPrice, rents, spaceGroup, numHouse + 1, buildingCost)
     else this
 
   /** Checks if a house can be built on the space
@@ -62,13 +54,9 @@ class BuildableSpace(
   def canBuildHouse: Boolean = numHouse < MAX_HOUSES
 
   override def calculateRent: Int = numHouse match
-    case _
-        if numHouse == 0 && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(
-          spaceGroup
-        ) =>
-      rents(0) * 2
-    case _ if numHouse == 0 => rents(0)
-    case _                  => rents(numHouse)
+    case _ if numHouse == 0 && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(spaceGroup) => rents(0) * 2
+    case _ if numHouse == 0                                                                    => rents(0)
+    case _                                                                                     => rents(numHouse)
 
 /** Companion object for the BuildableSpace class
   */
@@ -101,11 +89,4 @@ object BuildableSpace:
       spaceGroup: SpaceGroup,
       numHouse: Int,
       buildingCost: Int
-  ): BuildableSpace = new BuildableSpace(
-    name,
-    sellingPrice,
-    rents,
-    spaceGroup,
-    numHouse,
-    buildingCost
-  )
+  ): BuildableSpace = new BuildableSpace(name, sellingPrice, rents, spaceGroup, numHouse, buildingCost)

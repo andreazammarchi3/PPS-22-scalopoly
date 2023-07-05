@@ -114,8 +114,7 @@ object GameEngine:
     *   the status of the space where the current player is.
     */
   def checkSpaceStatus: SpaceStatus =
-    val purchasableSpace =
-      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
+    val purchasableSpace = GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
     purchasableSpace match
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
@@ -127,14 +126,8 @@ object GameEngine:
     * @param purchasableSpace
     *   the purchasable space to buy.
     */
-  def playerBuysPurchasableSpace(
-      player: Player,
-      purchasableSpace: PurchasableSpace
-  ): Unit =
-    updatePlayerWith(
-      players.indexOf(player),
-      player.buy(purchasableSpace)
-    )
+  def playerBuysPurchasableSpace(player: Player, purchasableSpace: PurchasableSpace): Unit =
+    updatePlayerWith(players.indexOf(player), player.buy(purchasableSpace))
 
   /** Player pays rent to the owner of a purchasable space.
     *
@@ -145,20 +138,10 @@ object GameEngine:
     * @param owner
     *   the owner of the purchasable space.
     */
-  def playerPaysRent(
-      player: Player,
-      purchasableSpace: PurchasableSpace,
-      owner: Player
-  ): Unit =
+  def playerPaysRent(player: Player, purchasableSpace: PurchasableSpace, owner: Player): Unit =
     val rent = purchasableSpace.calculateRent
-    updatePlayerWith(
-      players.indexOf(owner),
-      owner.cashIn(rent)
-    )
-    updatePlayerWith(
-      players.indexOf(player),
-      player.pay(rent)
-    )
+    updatePlayerWith(players.indexOf(owner), owner.cashIn(rent))
+    updatePlayerWith(players.indexOf(player), player.pay(rent))
 
   /** Player obtains a heritage from another player.
     *
@@ -168,10 +151,7 @@ object GameEngine:
     *   the player who obtains the heritage.
     */
   def playerObtainHeritage(receiver: Player, giver: Player): Unit =
-    updatePlayerWith(
-      players.indexOf(receiver),
-      receiver.obtainHeritageFrom(giver)
-    )
+    updatePlayerWith(players.indexOf(receiver), receiver.obtainHeritageFrom(giver))
 
   /** Player obtain the money from passing by Go.
     *
@@ -179,10 +159,7 @@ object GameEngine:
     *   the player who obtains the money.
     */
   def playerPassByGo(player: Player): Unit =
-    updatePlayerWith(
-      players.indexOf(player),
-      player.cashIn(PASS_GO_MONEY)
-    )
+    updatePlayerWith(players.indexOf(player), player.cashIn(PASS_GO_MONEY))
 
   /** Player builds a house on a buildable space.
     *
@@ -193,10 +170,7 @@ object GameEngine:
     */
   def playerBuildsHouse(player: Player, buildableSpace: BuildableSpace): Unit =
     updateBuildableSpacesWith(buildableSpace.buildHouse)
-    updatePlayerWith(
-      players.indexOf(player),
-      player.pay(buildableSpace.buildingCost)
-    )
+    updatePlayerWith(players.indexOf(player), player.pay(buildableSpace.buildingCost))
 
   /** Player is on a not purchasable space.
     *
@@ -205,30 +179,18 @@ object GameEngine:
     * @param notPurchasableSpace
     *   the not purchasable space.
     */
-  def playerOnNotPurchasableSpace(
-      player: Player,
-      notPurchasableSpace: NotPurchasableSpace
-  ): Unit =
-    updatePlayerWith(
-      players.indexOf(player),
-      notPurchasableSpace.action(player)
-    )
+  def playerOnNotPurchasableSpace(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
+    updatePlayerWith(players.indexOf(player), notPurchasableSpace.action(player))
 
-  private def checkPropertyStatus(
-      purchasableSpace: PurchasableSpace
-  ): SpaceStatus = purchasableSpace match
+  private def checkPropertyStatus(purchasableSpace: PurchasableSpace): SpaceStatus = purchasableSpace match
     case purchasableSpace if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
       purchasableSpace match
-        case _ if currentPlayer.owns(purchasableSpace) =>
-          SpaceStatus.OWNED_BY_CURRENT_PLAYER
-        case _ => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
+        case _ if currentPlayer.owns(purchasableSpace) => SpaceStatus.OWNED_BY_CURRENT_PLAYER
+        case _                                         => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
     case _ => SpaceStatus.PURCHASABLE
 
   private def updatePlayerWith(index: Int, playerUpdated: Player): Unit =
-    Game.players = Game.players.updated(
-      index,
-      playerUpdated
-    )
+    Game.players = Game.players.updated(index, playerUpdated)
 
   private def updateBuildableSpacesWith(updatedSpace: BuildableSpace): Unit =
     Game.gameBoard = gameBoard.updateBuildableSpace(updatedSpace)
