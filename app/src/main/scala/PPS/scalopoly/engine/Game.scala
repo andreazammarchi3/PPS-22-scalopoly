@@ -2,8 +2,7 @@ package PPS.scalopoly.engine
 
 import PPS.scalopoly.model.{GameBoard, Player, Token}
 
-/** Game object that contains the current player, the list of players, the
-  * winner and the list of available tokens.
+/** Game object that contains the current player, the list of players, the winner and the list of available tokens.
   */
 protected[engine] object Game:
 
@@ -80,8 +79,7 @@ protected[engine] object Game:
   def availableTokens_=(value: List[Token]): Unit =
     _availableTokens = value
 
-  /** Adds a player to the game and removes the token from the list of available
-    * tokens.
+  /** Adds a player to the game and removes the token from the list of available tokens.
     *
     * @param player
     *   the player to add.
@@ -90,8 +88,7 @@ protected[engine] object Game:
     players = player :: players
     availableTokens = availableTokens.filter(_ != player.token)
 
-  /** Removes a player from the game and adds the token to the list of available
-    * tokens.
+  /** Removes a player from the game and adds the token to the list of available tokens.
     *
     * @param player
     *   the player to remove.

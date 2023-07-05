@@ -8,8 +8,7 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
-/** Json reader for [[PPS.scalopoly.model.space.purchasable.BuildableSpace]]. It
-  * reads a json file and returns a list of
+/** Json reader for [[PPS.scalopoly.model.space.purchasable.BuildableSpace]]. It reads a json file and returns a list of
   * [[PPS.scalopoly.model.space.purchasable.BuildableSpace]].
   */
 object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
@@ -28,17 +27,9 @@ object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
         case "name"         => name = reader.nextString()
         case "sellingPrice" => sellingPrice = reader.nextInt()
         case "rents"        => rents = JsonUtils.readRents(reader)
-        case "spaceGroup" =>
-          spaceGroup = SpaceGroup.valueOf(reader.nextString())
+        case "spaceGroup"   => spaceGroup = SpaceGroup.valueOf(reader.nextString())
         case "numHouse"     => numHouse = reader.nextInt()
         case "buildingCost" => buildingCost = reader.nextInt()
         case _              => reader.skipValue()
     reader.endObject()
-    BuildableSpace(
-      name,
-      sellingPrice,
-      rents,
-      spaceGroup,
-      numHouse,
-      buildingCost
-    )
+    BuildableSpace(name, sellingPrice, rents, spaceGroup, numHouse, buildingCost)

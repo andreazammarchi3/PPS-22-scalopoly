@@ -1,7 +1,6 @@
 package PPS.scalopoly.model
 
-/** Represents a color of one of the groups in which the [[PurchasableSpace]]
-  * are divided.
+/** Represents a color of one of the groups in which the [[PurchasableSpace]] are divided.
   */
 enum SpaceGroup:
   case ROSA

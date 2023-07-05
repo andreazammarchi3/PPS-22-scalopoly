@@ -39,8 +39,7 @@ object GameUtils:
         result - GameEngine.gameBoard.size
       case result => result
 
-  /** Return the coordinates of a grid cell given the position of the player on
-    * the game board.
+  /** Return the coordinates of a grid cell given the position of the player on the game board.
     * @param position
     *   The position of the player on the game board.
     * @return
@@ -62,8 +61,7 @@ object GameUtils:
         (position - CELLS_IN_SIDE * 2, 0)
       case _ => (CELLS_IN_SIDE, position - CELLS_IN_SIDE * 3)
 
-  /** Return the coordinate of the nth cell in a grid of gridSize dimensions,
-    * starting from startingCell.
+  /** Return the coordinate of the nth cell in a grid of gridSize dimensions, starting from startingCell.
     * @param n
     *   The number of the cell which coordinates are to be returned.
     * @param gridSize
@@ -119,8 +117,7 @@ object GameUtils:
   ): Option[Player] =
     GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
 
-  /** Returns the purchasable space where the player is if the player is on a
-    * purchasable space.
+  /** Returns the purchasable space where the player is if the player is on a purchasable space.
     *
     * @param player
     *   the player.
@@ -134,8 +131,7 @@ object GameUtils:
       _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
     )
 
-  /** Returns the not purchasable space where the player is if the player is on
-    * a not purchasable space.
+  /** Returns the not purchasable space where the player is if the player is on a not purchasable space.
     *
     * @param player
     *   the player.
@@ -149,14 +145,12 @@ object GameUtils:
       _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
     )
 
-  /** Checks if all the properties of a space group are owned by the same
-    * player.
+  /** Checks if all the properties of a space group are owned by the same player.
     *
     * @param spaceGroup
     *   the space group to check.
     * @return
-    *   true if all the properties of the space group are owned by the same
-    *   player, false otherwise.
+    *   true if all the properties of the space group are owned by the same player, false otherwise.
     */
   def checkIfPlayerOwnsAllPropertiesOfSameGroup(
       spaceGroup: SpaceGroup
@@ -180,14 +174,12 @@ object GameUtils:
   def getBuildableSpaceFromName(name: String): Option[BuildableSpace] =
     GameEngine.gameBoard.buildableSpaces.find(_.name == name)
 
-  /** Returns the number of stations owned by the owner of the actual position
-    * of the player.
+  /** Returns the number of stations owned by the owner of the actual position of the player.
     *
     * @param stationSpaceGroup
     *   the space group of the stations.
     * @return
-    *   the number of stations owned by the owner of the actual position of the
-    *   player.
+    *   the number of stations owned by the owner of the actual position of the player.
     */
   def getNumStationFromOwner(
       stationSpaceGroup: SpaceGroup,

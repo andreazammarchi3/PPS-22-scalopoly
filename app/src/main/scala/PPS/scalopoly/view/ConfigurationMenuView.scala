@@ -95,8 +95,7 @@ class ConfigurationMenuView extends Initializable:
         Bindings.isEmpty(tableView.getSelectionModel.getSelectedItems)
       )
 
-  /** Checks if the player name is not empty and adds the player to the table
-    * view.
+  /** Checks if the player name is not empty and adds the player to the table view.
     */
   def playGameBtnClick(): Unit =
     if (ConfigurationMenuController.canStartGame)
@@ -124,9 +123,7 @@ class ConfigurationMenuView extends Initializable:
     updateAddAndRemoveButton()
 
   private def initTableView(): Unit =
-    playerNameColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.nickname)
-    )
+    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
     playerTokenColumn.setCellValueFactory(p => ObjectProperty(p.getValue.token))
     tableView.setItems(FXCollections.observableArrayList[Player]())
 
@@ -155,6 +152,5 @@ class ConfigurationMenuView extends Initializable:
     addPlayerTokenCombobox.getSelectionModel.selectFirst()
 
   private def updateAddAndRemoveButton(): Unit =
-    if ConfigurationMenuController.canAddPlayer then
-      addPlayerBtn.setDisable(false)
+    if ConfigurationMenuController.canAddPlayer then addPlayerBtn.setDisable(false)
     else addPlayerBtn.setDisable(true)

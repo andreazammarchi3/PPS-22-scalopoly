@@ -11,13 +11,7 @@ import javafx.beans.binding.{Bindings, BooleanBinding}
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{
-  BorderPane,
-  ColumnConstraints,
-  GridPane,
-  RowConstraints,
-  VBox
-}
+import javafx.scene.layout.{BorderPane, ColumnConstraints, GridPane, RowConstraints, VBox}
 import scalafx.scene.shape.Path
 import scalafx.beans.property.StringProperty
 
@@ -127,15 +121,9 @@ class GameView extends Initializable:
 
     playersTable.setPrefWidth(menuWidth)
     playersTable.setOnMouseClicked(_ => updatePropertiesList())
-    playerNameColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.nickname)
-    )
-    playerTokenColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.token.toString)
-    )
-    playerMoneyColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.money.toString)
-    )
+    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
+    playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
+    playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
     updatePlayersTable()
 
     updateTurnLabel()
@@ -204,8 +192,7 @@ class GameView extends Initializable:
       spawnColumns(tmpGrid, N_COLS_IN_CELL)
       spawnRows(tmpGrid, N_ROWS_IN_CELL)
       if i == 0 then tmpGrid.setRotate(RIGHT_ANGLE)
-      else if i == GameUtils.CELLS_IN_SIDE && j < GameUtils.CELLS_IN_SIDE then
-        tmpGrid.setRotate(-RIGHT_ANGLE)
+      else if i == GameUtils.CELLS_IN_SIDE && j < GameUtils.CELLS_IN_SIDE then tmpGrid.setRotate(-RIGHT_ANGLE)
       if j == 0 then tmpGrid.setRotate(RIGHT_ANGLE * 2)
 
       mainGrid.add(tmpGrid, i, j)
@@ -266,9 +253,7 @@ class GameView extends Initializable:
         setImageViewDimensions(houseImg)
         cellGrid.add(houseImg, col, row)
       case _ if numHouse == BuildableSpace.MAX_HOUSES - 1 =>
-        val houseImgs = cellGrid.getChildren.filtered(i =>
-          !tokensImgView.values.toList.contains(i)
-        )
+        val houseImgs = cellGrid.getChildren.filtered(i => !tokensImgView.values.toList.contains(i))
         cellGrid.getChildren.removeAll(houseImgs)
         val (col, row) = getFirstFreeCellStartingFrom(cellGrid, 0, (0, 0))
         val hotelImg = new ImageView(
