@@ -213,17 +213,17 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testPlayerOnNotPurchasableSpace(): Unit =
-    val NOT_PURCHASABLE_SPACE = GameEngine.gameBoard.notPurchasableSpace
+    GameEngine.gameBoard.notPurchasableSpace
       .find(
         _.name == "Tassa di Lusso"
-      )
-      .get
-    GameEngine.playerOnNotPurchasableSpace(player1, NOT_PURCHASABLE_SPACE)
-    GameEngine.players
-      .find(p => p.token == player1.token)
-      .foreach(p =>
-        assertEquals(
-          NOT_PURCHASABLE_SPACE.action(player1).money,
-          p.money
+      ).foreach(notPurchasableSpace =>
+      GameEngine.playerOnNotPurchasableSpace(player1, notPurchasableSpace)
+      GameEngine.players
+        .find(p => p.token == player1.token)
+        .foreach(p =>
+          assertEquals(
+            notPurchasableSpace.action(player1).money,
+            p.money
+          )
         )
-      )
+    )
