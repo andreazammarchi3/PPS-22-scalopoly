@@ -2,6 +2,7 @@ package PPS.scalopoly.model.space.purchasable
 
 import PPS.scalopoly.model.SpaceGroup
 import PPS.scalopoly.model.space.purchasable.PurchasableSpace
+import PPS.scalopoly.model.space.purchasable.StationSpace.MAX_NUM_STATIONS
 import PPS.scalopoly.utils.GameUtils
 
 /** Represents a purchasable space of type Station.
@@ -25,16 +26,15 @@ class StationSpace(
     GameUtils.getOwnerFromPurchasableSpace(this) match
       case Some(owner) =>
         GameUtils.getNumStationFromOwner(spaceGroup, owner) match
-          case 1 => rents(0)
-          case 2 => rents(1)
-          case 3 => rents(2)
-          case 4 => rents(3)
+          case i if i <= MAX_NUM_STATIONS && i > 0 => rents(i-1)
           case _ => 0
       case _ => 0
 
 /** Companion object for StationSpace class
   */
 object StationSpace:
+
+  val MAX_NUM_STATIONS = 4
 
   /** Factory method for StationSpace class
     * @param name
