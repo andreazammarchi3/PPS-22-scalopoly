@@ -1,5 +1,7 @@
 package PPS.scalopoly.utils.resources
 
+/** Enumeration of the JSON resources used in the game.
+  */
 enum JsonResources(_path: String):
   case BUILDABLE_SPACES extends JsonResources("/json/buildableSpaces.json")
   case COMPANY_SPACES extends JsonResources("/json/companySpaces.json")

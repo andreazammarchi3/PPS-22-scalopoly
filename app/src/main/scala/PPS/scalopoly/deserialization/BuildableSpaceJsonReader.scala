@@ -8,6 +8,10 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
+/** Json reader for [[PPS.scalopoly.model.space.purchasable.BuildableSpace]]. It
+  * reads a json file and returns a list of
+  * [[PPS.scalopoly.model.space.purchasable.BuildableSpace]].
+  */
 object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
   override def read(reader: JsonReader): BuildableSpace =
     var name = ""

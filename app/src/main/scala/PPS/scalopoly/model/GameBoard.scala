@@ -18,6 +18,18 @@ import PPS.scalopoly.model.space.{Space, SpaceImpl}
 import PPS.scalopoly.utils.JsonUtils
 import PPS.scalopoly.utils.resources.JsonResources
 
+/** Represents the game board.
+  * @param spaces
+  *   the list of spaces.
+  * @param _buildableSpaces
+  *   the list of buildable spaces.
+  * @param _companySpaces
+  *   the list of company spaces.
+  * @param _stationSpaces
+  *   the list of station spaces.
+  * @param _notPurchasableSpace
+  *   the list of not purchasable spaces.
+  */
 class GameBoard(
     spaces: List[Space],
     _buildableSpaces: List[BuildableSpace],
@@ -26,17 +38,43 @@ class GameBoard(
     _notPurchasableSpace: List[NotPurchasableSpace]
 ):
 
+  /** Returns the list of [[CompanySpace]].
+    * @return
+    *   the list of [[CompanySpace]]
+    */
   def companySpaces: List[CompanySpace] = _companySpaces
 
+  /** Returns the list of [[StationSpace]].
+    * @return
+    *   the list of [[StationSpace]]
+    */
   def stationSpaces: List[StationSpace] = _stationSpaces
 
+  /** Returns the list of [[BuildableSpace]].
+    * @return
+    *   the list of [[BuildableSpace]]
+    */
   def buildableSpaces: List[BuildableSpace] = _buildableSpaces
 
+  /** Returns the list of [[NotPurchasableSpace]].
+    * @return
+    *   the list of [[NotPurchasableSpace]]
+    */
   def notPurchasableSpace: List[NotPurchasableSpace] = _notPurchasableSpace
 
+  /** Returns the list of [[PurchasableSpace]].
+    * @return
+    *   the list of [[PurchasableSpace]]
+    */
   def purchasableSpaces: List[PurchasableSpace] =
     _companySpaces ++ _stationSpaces ++ _buildableSpaces
 
+  /** Creates a new [[GameBoard]] with the updated [[BuildableSpace]].
+    * @param buildableSpace
+    *   the updated [[BuildableSpace]].
+    * @return
+    *   the new [[GameBoard]].
+    */
   def updateBuildableSpace(buildableSpace: BuildableSpace): GameBoard =
     val space = spaces.find(_.name == buildableSpace.name)
     val build = buildableSpaces.find(_.name == buildableSpace.name)
@@ -54,14 +92,12 @@ class GameBoard(
       case _ => this
 
   /** Returns the game board map.
-    *
     * @return
     *   the game board map.
     */
   def gameBoardList: List[Space] = spaces
 
   /** Returns the size of the game board.
-    *
     * @return
     *   the size of the game board.
     */
@@ -71,6 +107,10 @@ class GameBoard(
   * [[SpaceName]].
   */
 object GameBoard:
+  /** Creates a new [[GameBoard]].
+    * @return
+    *   the new [[GameBoard]].
+    */
   def apply(): GameBoard = new GameBoard(
     JsonUtils.readTypeSpaces[Space](JsonResources.SPACES, SpacesJsonReader),
     JsonUtils.readTypeSpaces[BuildableSpace](
@@ -90,6 +130,21 @@ object GameBoard:
       NotPurchasableSpaceJsonReader
     )
   )
+
+  /** Creates a new [[GameBoard]].
+    * @param spaces
+    *   the list of spaces.
+    * @param buildableSpaces
+    *   the list of buildable spaces.
+    * @param companySpaces
+    *   the list of company spaces.
+    * @param stationSpaces
+    *   the list of station spaces.
+    * @param notPurchasableSpace
+    *   the list of not purchasable spaces.
+    * @return
+    *   the new [[GameBoard]].
+    */
   def apply(
       spaces: List[Space],
       buildableSpaces: List[BuildableSpace],

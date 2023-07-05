@@ -66,6 +66,17 @@ object GameController:
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
+  /** Check if the current player can build a house on the given
+    * [[PPS.scalopoly.model.space.purchasable.BuildableSpace]].
+    *
+    * @param buildableSpace
+    *   the [[PPS.scalopoly.model.space.purchasable.BuildableSpace]] on which
+    *   the player wants to build a house.
+    * @return
+    *   true if the player can build a house on the given
+    *   [[PPS.scalopoly.model.space.purchasable.BuildableSpace]], false
+    *   otherwise.
+    */
   def playerBuildsHouse(buildableSpace: BuildableSpace): Boolean =
     if GameEngine.currentPlayer.owns(
         buildableSpace

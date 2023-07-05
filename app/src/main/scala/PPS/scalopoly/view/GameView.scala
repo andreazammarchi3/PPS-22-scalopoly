@@ -211,6 +211,8 @@ class GameView extends Initializable:
     setBtnsForEndTurn(false)
     updateTurnLabel()
 
+  /** Build a house on the selected property
+    */
   def buildBtnClick(): Unit =
     GameUtils
       .getBuildableSpaceFromName(
