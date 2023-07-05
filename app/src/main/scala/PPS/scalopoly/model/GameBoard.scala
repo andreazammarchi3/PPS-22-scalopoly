@@ -75,8 +75,7 @@ class GameBoard(
     val build = buildableSpaces.find(_.name == buildableSpace.name)
     (space, build) match
       case (Some(space), Some(build)) =>
-        val (spaceIndex, buildIndex) =
-          (spaces.indexOf(space), buildableSpaces.indexOf(build))
+        val (spaceIndex, buildIndex) = (spaces.indexOf(space), buildableSpaces.indexOf(build))
         GameBoard(
           spaces.updated(spaceIndex, buildableSpace),
           buildableSpaces.updated(buildIndex, buildableSpace),
@@ -107,22 +106,10 @@ object GameBoard:
     */
   def apply(): GameBoard = new GameBoard(
     JsonUtils.readTypeSpaces[Space](JsonResources.SPACES, SpacesJsonReader),
-    JsonUtils.readTypeSpaces[BuildableSpace](
-      JsonResources.BUILDABLE_SPACES,
-      BuildableSpaceJsonReader
-    ),
-    JsonUtils.readTypeSpaces[CompanySpace](
-      JsonResources.COMPANY_SPACES,
-      CompanySpaceJsonReader
-    ),
-    JsonUtils.readTypeSpaces[StationSpace](
-      JsonResources.STATION_SPACES,
-      StationSpaceJsonReader
-    ),
-    JsonUtils.readTypeSpaces[NotPurchasableSpace](
-      JsonResources.NOT_PURCHASABLE_SPACES,
-      NotPurchasableSpaceJsonReader
-    )
+    JsonUtils.readTypeSpaces[BuildableSpace](JsonResources.BUILDABLE_SPACES, BuildableSpaceJsonReader),
+    JsonUtils.readTypeSpaces[CompanySpace](JsonResources.COMPANY_SPACES, CompanySpaceJsonReader),
+    JsonUtils.readTypeSpaces[StationSpace](JsonResources.STATION_SPACES, StationSpaceJsonReader),
+    JsonUtils.readTypeSpaces[NotPurchasableSpace](JsonResources.NOT_PURCHASABLE_SPACES, NotPurchasableSpaceJsonReader)
   )
 
   /** Creates a new [[GameBoard]].
@@ -146,10 +133,4 @@ object GameBoard:
       stationSpaces: List[StationSpace],
       notPurchasableSpace: List[NotPurchasableSpace]
   ): GameBoard =
-    new GameBoard(
-      spaces,
-      buildableSpaces,
-      companySpaces,
-      stationSpaces,
-      notPurchasableSpace
-    )
+    new GameBoard(spaces, buildableSpaces, companySpaces, stationSpaces, notPurchasableSpace)
