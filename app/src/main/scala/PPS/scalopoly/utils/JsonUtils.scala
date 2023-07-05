@@ -1,8 +1,10 @@
 package PPS.scalopoly.utils
 
 import PPS.scalopoly.Launcher.getClass
+import PPS.scalopoly.deserialization.MyJsonReader
 import PPS.scalopoly.utils.resources.JsonResources
 import com.google.gson.stream.JsonReader
+
 import java.io.{Reader, StringReader}
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
