@@ -1,6 +1,6 @@
 package PPS.scalopoly.controller
 
-import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
+import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine, PlayerActionsEngine}
 import PPS.scalopoly.model.space.notPurchasable.{BlankSpace, NotPurchasableSpace}
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
@@ -31,7 +31,8 @@ object GameController:
       GameEngine.currentPlayer.actualPosition
     )
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
-    if checkPassByGo(GameEngine.currentPlayer.actualPosition) then GameEngine.playerPassByGo(GameEngine.currentPlayer)
+    if checkPassByGo(GameEngine.currentPlayer.actualPosition) then
+      PlayerActionsEngine.playerPassByGo(GameEngine.currentPlayer)
     dicePair
 
   /** End the turn of the current player.
@@ -68,7 +69,7 @@ object GameController:
     then
       if GameEngine.currentPlayer.canAfford(buildableSpace.buildingCost) then
         if GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(buildableSpace.spaceGroup) then
-          GameEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
+          PlayerActionsEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
           true
         else
           AlertUtils.showPlayerDonNotOwnAllPropertiesOfSameGroup(GameEngine.currentPlayer, buildableSpace.spaceGroup)
@@ -82,16 +83,16 @@ object GameController:
     val rent = purchasableSpace.calculateRent
     if player.canAfford(rent) then
       AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
-      GameEngine.playerPaysRent(player, purchasableSpace, owner)
+      PlayerActionsEngine.playerPaysRent(player, purchasableSpace, owner)
     else
       AlertUtils.showPlayerEliminated(player, owner)
-      GameEngine.playerObtainHeritage(owner, player)
+      PlayerActionsEngine.playerObtainHeritage(owner, player)
       currentPlayerQuit()
 
   private def handlePurchase(player: Player, purchasableSpace: PurchasableSpace): Unit =
     if player.canAfford(purchasableSpace.sellingPrice) then
       if playerWantToBuySpace(player, purchasableSpace) then
-        GameEngine.playerBuysPurchasableSpace(player, purchasableSpace)
+        PlayerActionsEngine.playerBuysPurchasableSpace(player, purchasableSpace)
     else AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
 
   private def handleNotPurchasableAction(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
@@ -99,7 +100,7 @@ object GameController:
       case _: BlankSpace =>
       case _ =>
         AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
-        GameEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+        PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =
     val result = AlertUtils.showAskToBuyPurchasableSpace(player, purchasableSpace)
