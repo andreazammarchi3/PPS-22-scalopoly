@@ -54,8 +54,8 @@ object ConfigurationMenuController:
   /** Start the game.
     */
   def playGame(): Unit =
-    GameEngine.startGame()
     FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
+    GameEngine.startGame()
 
   /** Exit the game.
     */

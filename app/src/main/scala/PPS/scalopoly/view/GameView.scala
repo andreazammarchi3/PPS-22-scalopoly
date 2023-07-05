@@ -42,6 +42,10 @@ class GameView extends Initializable:
 
   @FXML
   @SuppressWarnings(Array("org.wartremover.warts.Null"))
+  private var botColumn: TableColumn[Player, String] = _
+
+  @FXML
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var actionsMenu: VBox = _
 
   @FXML
@@ -122,6 +126,7 @@ class GameView extends Initializable:
     playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
     playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
     playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
+    botColumn.setCellValueFactory(p => StringProperty(if p.getValue.isBot then "Bot" else ""))
     updatePlayersTable()
 
     updateTurnLabel()
@@ -129,6 +134,8 @@ class GameView extends Initializable:
     buildBtn
       .disableProperty()
       .bind(Bindings.isEmpty(propertiesList.getSelectionModel.getSelectedItems))
+
+    GameController.view = this
 
   /** Remove current player from the game
     */
@@ -140,10 +147,7 @@ class GameView extends Initializable:
       updatePlayersTable()
       updateTurnLabel()
 
-  /** Throw dice
-    */
-  def throwDiceBtnClick(): Unit =
-    val (dice1, dice2) = GameController.throwDice()
+  def diceThrown(dice1: Int, dice2: Int): Unit =
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
     updatePlayersTable() // necessary to update the money in case the player has passed from the Go cell
@@ -154,9 +158,15 @@ class GameView extends Initializable:
     tokensImgView.foreach(t =>
       GameEngine.players.find(p => p.token == t._1) match
         case None => t._2.setDisable(true)
-        case _    =>
+        case _ =>
     )
-    if dice1 != dice2 then setBtnsForEndTurn(true)
+    if dice1 != dice2 && !GameEngine.currentPlayer.isBot then setBtnsForEndTurn(true)
+
+  /** Throw dice
+    */
+  def throwDiceBtnClick(): Unit =
+    val (dice1, dice2) = GameController.throwDice()
+    diceThrown(dice1, dice2)
 
   /** End turn
     */

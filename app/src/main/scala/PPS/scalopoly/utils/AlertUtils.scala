@@ -13,14 +13,6 @@ import java.util.Optional
 object AlertUtils:
 
   /** Shows an alert to the user, with the rent payment information.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -39,14 +31,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, with the player eliminated information.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -63,14 +47,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, asking if he wants to buy a purchasable space.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -87,14 +63,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, if he doesn't have enough money to buy a purchasable space.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -111,14 +79,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, when player cannot buy houses.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -136,14 +96,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, when player doesn't own all the properties of the same group.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -160,14 +112,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, with the action of a not purchasable space.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -184,14 +128,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, if he wins the game.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -204,14 +140,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, if there are not enough players to start the game.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */
@@ -224,14 +152,6 @@ object AlertUtils:
     )
 
   /** Shows an alert to the user, if the player name is empty.
-    * @param alertType
-    *   Type of the alert.
-    * @param title
-    *   Title of the alert.
-    * @param headerText
-    *   Header text of the alert.
-    * @param contentText
-    *   Content text of the alert.
     * @return
     *   The button pressed by the user.
     */

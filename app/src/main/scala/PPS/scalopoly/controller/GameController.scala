@@ -1,11 +1,12 @@
 package PPS.scalopoly.controller
 
-import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine, PlayerActionsEngine}
+import PPS.scalopoly.engine.{BotEngine, EndgameLogicEngine, GameEngine, PlayerActionsEngine}
 import PPS.scalopoly.model.space.notPurchasable.{BlankSpace, NotPurchasableSpace}
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.FxmlResources
+import PPS.scalopoly.view.GameView
 import javafx.scene.control.ButtonType
 
 /** Controller for the [[PPS.scalopoly.view.GameView]].
@@ -13,6 +14,13 @@ import javafx.scene.control.ButtonType
 object GameController:
 
   private val didPlayerPassByGo: Int => Int => Boolean = oldPosition => newPosition => newPosition < oldPosition
+  private var _view: GameView = _
+
+  def view: GameView = _view
+
+  def view_=(value: GameView): Unit =
+    _view = value
+
 
   /** Remove current player from the game.
     */
@@ -33,6 +41,7 @@ object GameController:
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
     if checkPassByGo(GameEngine.currentPlayer.actualPosition) then
       PlayerActionsEngine.playerPassByGo(GameEngine.currentPlayer)
+    if GameEngine.botIsPlaying then view.diceThrown(dicePair._1, dicePair._2)
     dicePair
 
   /** End the turn of the current player.
@@ -86,7 +95,7 @@ object GameController:
       if !GameEngine.botIsPlaying then AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
       PlayerActionsEngine.playerPaysRent(player, purchasableSpace, owner)
     else
-      if !GameEngine.botIsPlaying then AlertUtils.showPlayerEliminated(player, owner)
+      AlertUtils.showPlayerEliminated(player, owner)
       PlayerActionsEngine.playerObtainHeritage(owner, player)
       currentPlayerQuit()
 
@@ -109,7 +118,7 @@ object GameController:
       result.get match
         case ButtonType.OK => true
         case _             => false
-    else true
+    else BotEngine.decideToBuySpace(purchasableSpace)
 
   private def showVictory(): Unit =
     GameEngine.winner.foreach(w =>
