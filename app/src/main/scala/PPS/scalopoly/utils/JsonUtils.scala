@@ -42,7 +42,10 @@ object JsonUtils:
     js.close()
     spaces
 
-  private def readSpaces[T](in: Reader, myJsonReader: MyJsonReader[T]): List[T] =
+  private def readSpaces[T](
+      in: Reader,
+      myJsonReader: MyJsonReader[T]
+  ): List[T] =
     val reader = new JsonReader(in)
     val spaces = new ListBuffer[T]
     reader.beginArray()

@@ -9,13 +9,20 @@ import org.junit.jupiter.api.Assertions.{
   assertThrows,
   assertTrue
 }
-import org.junit.jupiter.api.{BeforeAll, Test}
+import org.junit.jupiter.api.{BeforeEach, Test}
 
 import scala.util.Random
 
 class TestGameUtils:
 
   private val PURCHASABLE_SPACE = GameEngine.gameBoard.purchasableSpaces(0)
+  private val player =
+    new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
+
+  @BeforeEach
+  def setup: Unit =
+    GameEngine.newGame()
+    GameEngine.addPlayer(player)
 
   @Test
   def testAddSumToPosition(): Unit =
@@ -139,10 +146,7 @@ class TestGameUtils:
     )
 
   @Test
-  def testCheckIfPropertyIsAlreadyOwned(): Unit =
-    val player =
-      new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
-    GameEngine.addPlayer(player)
+  def testPropertyIsAlreadyOwned(): Unit =
     assertTrue(GameUtils.propertyIsAlreadyOwned(PURCHASABLE_SPACE))
     assertFalse(
       GameUtils.propertyIsAlreadyOwned(
@@ -152,9 +156,6 @@ class TestGameUtils:
 
   @Test
   def testGetOwnerFromPurchasableSpace(): Unit =
-    val player =
-      new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
-    GameEngine.addPlayer(player)
     assertEquals(
       Some(player),
       GameUtils.getOwnerFromPurchasableSpace(PURCHASABLE_SPACE)
@@ -164,4 +165,23 @@ class TestGameUtils:
       GameUtils.getOwnerFromPurchasableSpace(
         GameEngine.gameBoard.purchasableSpaces(1)
       )
+    )
+
+  @Test
+  def testGetNotPurchasableSpaceFromPlayerPosition(): Unit =
+    assertEquals(
+      Some(GameEngine.gameBoard.gameBoardList(player.actualPosition)),
+      GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
+    )
+
+  @Test
+  def testGetBuildableSpaceFromName(): Unit =
+    val BUILDABLE_SPACE = GameEngine.gameBoard.buildableSpaces(1)
+    assertEquals(
+      Some(BUILDABLE_SPACE),
+      GameUtils.getBuildableSpaceFromName(BUILDABLE_SPACE.name)
+    )
+    assertEquals(
+      None,
+      GameUtils.getBuildableSpaceFromName("NOT_EXIST")
     )
