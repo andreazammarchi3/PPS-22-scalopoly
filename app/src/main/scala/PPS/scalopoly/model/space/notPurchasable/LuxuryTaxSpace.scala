@@ -9,8 +9,10 @@ class LuxuryTaxSpace(
     spaceValue: Int
 ) extends NotPurchasableSpace(name, spaceValue):
 
-  override def action(player: Player): Player =
-    player.pay(spaceValue)
+  override def action(player: Player): (Player, Int) =
+    val playerMoney = player.money
+    val updatePlayer = player.pay(spaceValue)
+    (updatePlayer, updatePlayer.money - playerMoney)
 
 object LuxuryTaxSpace:
 

@@ -114,7 +114,7 @@ class TestPlayerActionsEngine extends BaseTest:
           .find(p => p.token == player1.token)
           .foreach(p =>
             assertEquals(
-              notPurchasableSpace.action(player1).money,
+              notPurchasableSpace.action(player1)._1.money,
               p.money
             )
           )

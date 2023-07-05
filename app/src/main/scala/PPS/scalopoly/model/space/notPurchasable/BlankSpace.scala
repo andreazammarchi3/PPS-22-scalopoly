@@ -7,7 +7,9 @@ class BlankSpace(
     spaceValue: Int
 ) extends NotPurchasableSpace(name, spaceValue):
 
-  override def action(player: Player): Player = player
+  override def action(player: Player): (Player, Int) =
+    val playerMoney = player.money
+    (player, 0)
 
 object BlankSpace:
 

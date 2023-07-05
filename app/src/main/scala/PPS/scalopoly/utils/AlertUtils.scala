@@ -173,14 +173,19 @@ object AlertUtils:
     */
   def showNotPurchasableSpaceAction(
       currentPlayer: Player,
-      notPurchasableSpace: NotPurchasableSpace
+      notPurchasableSpace: NotPurchasableSpace,
+      moneyOperationResult: Int
   ): Optional[ButtonType] =
+    val actionResultMessage = moneyOperationResult match
+      case i if i > 0 => s" e ha guadagnato " + moneyOperationResult + "M"
+      case i if i < 0 => s" e ha perso " + -1 * moneyOperationResult + "M"
+      case _ => " e non ha subito nessuna conseguenza"
     FxmlUtils.showAlert(
       AlertType.INFORMATION,
       "Scalopoly",
       "Casella speciale",
       s"${currentPlayer.nickname}(${currentPlayer.token}) e' finito sulla casella'" +
-        s" ${notPurchasableSpace.name} e ne subisce le conseguenze"
+        s" ${notPurchasableSpace.name}${actionResultMessage}."
     )
 
   /** Shows an alert to the user, if he wins the game.
