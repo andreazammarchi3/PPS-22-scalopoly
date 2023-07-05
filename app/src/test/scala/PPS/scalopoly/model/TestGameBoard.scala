@@ -9,3 +9,10 @@ class TestGameBoard:
   @Test
   def testGameBoard(): Unit =
     assertEquals(GAMEBOARD_SIZE, GameBoard().size)
+
+  @Test
+  def testApply(): Unit =
+    assertEquals(
+      0,
+      GameBoard(List.empty, List.empty, List.empty, List.empty, List.empty).size
+    )

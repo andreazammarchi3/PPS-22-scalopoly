@@ -186,6 +186,13 @@ object GameEngine:
       player.cashIn(PASS_GO_MONEY)
     )
 
+  /** Player builds a house on a buildable space.
+    *
+    * @param player
+    *   the player who builds the house.
+    * @param buildableSpace
+    *   the buildable space where the house is built.
+    */
   def playerBuildsHouse(player: Player, buildableSpace: BuildableSpace): Unit =
     updateBuildableSpacesWith(buildableSpace.buildHouse)
     updatePlayerWith(
@@ -208,6 +215,7 @@ object GameEngine:
       players.indexOf(player),
       notPurchasableSpace.action(player)
     )
+
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match

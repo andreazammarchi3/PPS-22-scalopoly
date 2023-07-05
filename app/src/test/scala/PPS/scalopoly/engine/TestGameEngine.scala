@@ -190,3 +190,40 @@ class TestGameEngine extends BaseTest:
     assertEquals(STARTING_MONEY, GameEngine.currentPlayer.money)
     GameEngine.playerPassByGo(GameEngine.currentPlayer)
     assertEquals(STARTING_MONEY + PASS_GO_MONEY, GameEngine.currentPlayer.money)
+
+  @Test
+  def testPlayerBuildsHouse(): Unit =
+    val BUILDABLE_SPACE = GameEngine.gameBoard.buildableSpaces(1)
+    GameEngine.playerBuildsHouse(player1, BUILDABLE_SPACE)
+    GameEngine.players
+      .find(p => p.token == player1.token)
+      .foreach(p =>
+        assertEquals(player1.money - BUILDABLE_SPACE.buildingCost, p.money)
+        p.ownedProperties
+          .find(_.name == BUILDABLE_SPACE.name)
+          .foreach(property =>
+            property match
+              case b: PPS.scalopoly.model.space.purchasable.BuildableSpace =>
+                assertEquals(
+                  BUILDABLE_SPACE.numHouse + 1,
+                  b.numHouse
+                )
+          )
+      )
+
+  @Test
+  def testPlayerOnNotPurchasableSpace(): Unit =
+    val NOT_PURCHASABLE_SPACE = GameEngine.gameBoard.notPurchasableSpace
+      .find(
+        _.name == "Tassa di Lusso"
+      )
+      .get
+    GameEngine.playerOnNotPurchasableSpace(player1, NOT_PURCHASABLE_SPACE)
+    GameEngine.players
+      .find(p => p.token == player1.token)
+      .foreach(p =>
+        assertEquals(
+          NOT_PURCHASABLE_SPACE.action(player1).money,
+          p.money
+        )
+      )
