@@ -1,9 +1,13 @@
 package PPS.scalopoly.utils.resources
 
-import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull, assertThrows}
+import org.junit.jupiter.api.Assertions.{
+  assertEquals,
+  assertNotNull,
+  assertThrows
+}
 import org.junit.jupiter.api.Test
 
-class TestJsonResources :
+class TestJsonResources:
 
   private val BUILDABLE_SPACES_POSITION = 0
   private val STATION_SPACES_POSITION = 2
@@ -12,11 +16,17 @@ class TestJsonResources :
   @Test
   def testPath(): Unit =
     assertEquals("/json/spaces.json", JsonResources.SPACES.path)
-    assertEquals("/json/buildableSpaces.json", JsonResources.BUILDABLE_SPACES.path)
+    assertEquals(
+      "/json/buildableSpaces.json",
+      JsonResources.BUILDABLE_SPACES.path
+    )
 
   @Test
   def testFromOrdinal(): Unit =
-    assertEquals(JsonResources.BUILDABLE_SPACES, JsonResources.fromOrdinal(BUILDABLE_SPACES_POSITION))
+    assertEquals(
+      JsonResources.BUILDABLE_SPACES,
+      JsonResources.fromOrdinal(BUILDABLE_SPACES_POSITION)
+    )
     assertEquals(
       JsonResources.STATION_SPACES,
       JsonResources.fromOrdinal(STATION_SPACES_POSITION)
@@ -49,5 +59,8 @@ class TestJsonResources :
 
   @Test
   def testOrdinal(): Unit =
-    assertEquals(BUILDABLE_SPACES_POSITION, JsonResources.BUILDABLE_SPACES.ordinal)
+    assertEquals(
+      BUILDABLE_SPACES_POSITION,
+      JsonResources.BUILDABLE_SPACES.ordinal
+    )
     assertEquals(STATION_SPACES_POSITION, JsonResources.STATION_SPACES.ordinal)

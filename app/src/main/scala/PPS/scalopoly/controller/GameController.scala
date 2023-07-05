@@ -1,7 +1,10 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
-import PPS.scalopoly.model.space.notPurchasable.{BlankSpace, NotPurchasableSpace}
+import PPS.scalopoly.model.space.notPurchasable.{
+  BlankSpace,
+  NotPurchasableSpace
+}
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
