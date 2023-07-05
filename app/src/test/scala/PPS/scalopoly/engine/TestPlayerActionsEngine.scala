@@ -26,7 +26,8 @@ class TestPlayerActionsEngine extends BaseTest:
             player1.token,
             player1.actualPosition,
             player1.money - vicoloCorto.calculateRent,
-            player1.ownedProperties
+            player1.ownedProperties,
+            player1.isBot
           ),
           _
         )
@@ -40,7 +41,8 @@ class TestPlayerActionsEngine extends BaseTest:
             player2.token,
             player2.actualPosition,
             player2.money + vicoloCorto.calculateRent,
-            player2.ownedProperties
+            player2.ownedProperties,
+            player2.isBot
           ),
           _
         )
@@ -68,7 +70,8 @@ class TestPlayerActionsEngine extends BaseTest:
             player2.token,
             player2.actualPosition,
             player2.money + MONEY_P1,
-            List(vicoloCorto)
+            List(vicoloCorto),
+            player2.isBot
           ),
           _
         )

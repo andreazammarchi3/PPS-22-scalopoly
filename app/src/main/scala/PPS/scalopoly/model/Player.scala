@@ -14,13 +14,16 @@ import PPS.scalopoly.utils.GameUtils
   *   the money of the player
   * @param ownedProperties
   *   the list of [[PPS.scalopoly.model.space.purchasable.PurchasableSpace]] owned by the player
+  * @param isBot
+  *   true if the player is a bot, false otherwise
   */
 case class Player(
     nickname: String,
     token: Token,
     actualPosition: Int,
     money: Int,
-    ownedProperties: List[PurchasableSpace]
+    ownedProperties: List[PurchasableSpace],
+    isBot: Boolean
 ):
 
   /** Moves the player of the given steps.
@@ -30,13 +33,7 @@ case class Player(
     *   the player with the new position
     */
   def move(steps: Int): Player =
-    Player(
-      nickname,
-      token,
-      GameUtils.addSumToPosition(steps, actualPosition),
-      money,
-      ownedProperties
-    )
+    Player(nickname, token, GameUtils.addSumToPosition(steps, actualPosition), money, ownedProperties, isBot)
 
   /** Pays the given money.
     *
@@ -46,7 +43,7 @@ case class Player(
     *   the player with the new money
     */
   def pay(money: Int): Player =
-    Player(nickname, token, actualPosition, this.money - money, ownedProperties)
+    Player(nickname, token, actualPosition, this.money - money, ownedProperties, isBot)
 
   /** Buys the given purchasable space.
     *
@@ -61,7 +58,8 @@ case class Player(
       token,
       actualPosition,
       this.money - purchasableSpace.sellingPrice,
-      ownedProperties :+ purchasableSpace
+      ownedProperties :+ purchasableSpace,
+      isBot
     )
 
   /** Obtains money from a rent or from passing from the Go space.
@@ -72,7 +70,7 @@ case class Player(
     *   the player with the new money
     */
   def cashIn(value: Int): Player =
-    Player(nickname, token, actualPosition, money + value, ownedProperties)
+    Player(nickname, token, actualPosition, money + value, ownedProperties, isBot)
 
   /** Obtains the heritage from another player.
     *
@@ -87,7 +85,8 @@ case class Player(
       token,
       actualPosition,
       money + otherPlayer.money,
-      ownedProperties ++ otherPlayer.ownedProperties
+      ownedProperties ++ otherPlayer.ownedProperties,
+      isBot
     )
 
   /** Checks if the player can pay or buy something.
@@ -123,4 +122,15 @@ object Player:
     *   the new player
     */
   def apply(nickname: String, token: Token): Player =
-    Player(nickname, token, DEFAULT_STARTING_POSITION, DEFAULT_STARTING_MONEY, List.empty)
+    Player(nickname, token, DEFAULT_STARTING_POSITION, DEFAULT_STARTING_MONEY, List.empty, false)
+
+  /** Creates a new player with the given nickname, token and isBot.
+    * @param nickname
+    *   the nickname of the player
+    * @param token
+    *   the token of the player
+    * @param isBot
+    *   true if the player is a bot, false otherwise
+    */
+  def apply(nickname: String, token: Token, isBot: Boolean): Player =
+    Player(nickname, token, DEFAULT_STARTING_POSITION, DEFAULT_STARTING_MONEY, List.empty, isBot)

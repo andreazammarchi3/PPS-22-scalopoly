@@ -12,7 +12,7 @@ class TestGameUtils:
 
   private val PURCHASABLE_SPACE = GameEngine.gameBoard.purchasableSpaces(0)
   private val player =
-    new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
+    new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE), false)
 
   @BeforeEach
   def setup: Unit =

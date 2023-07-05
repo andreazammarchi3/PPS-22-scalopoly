@@ -33,7 +33,8 @@ class TestPlayer:
         player.token,
         player.actualPosition,
         player.money - MONEY_TO_PAY,
-        player.ownedProperties
+        player.ownedProperties,
+        false
       ),
       player.pay(MONEY_TO_PAY)
     )
@@ -47,7 +48,8 @@ class TestPlayer:
         player.token,
         player.actualPosition,
         player.money - PROPERTY_TO_BUY.sellingPrice,
-        player.ownedProperties :+ PROPERTY_TO_BUY
+        player.ownedProperties :+ PROPERTY_TO_BUY,
+        false
       ),
       player.buy(PROPERTY_TO_BUY)
     )
@@ -61,6 +63,7 @@ class TestPlayer:
       player.token,
       player.actualPosition,
       STARTING_MONEY,
-      STARTING_OWNED_PROPERTIES
+      STARTING_OWNED_PROPERTIES,
+      false
     )
     assertEquals(player, Player.fromProduct(playerData))

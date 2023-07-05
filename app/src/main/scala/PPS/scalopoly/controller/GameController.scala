@@ -72,20 +72,21 @@ object GameController:
           PlayerActionsEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
           true
         else
-          AlertUtils.showPlayerDonNotOwnAllPropertiesOfSameGroup(GameEngine.currentPlayer, buildableSpace.spaceGroup)
+          if !GameEngine.botIsPlaying then
+            AlertUtils.showPlayerDonNotOwnAllPropertiesOfSameGroup(GameEngine.currentPlayer, buildableSpace.spaceGroup)
           false
       else
-        AlertUtils.showPlayerCannotBuyHouses(GameEngine.currentPlayer, buildableSpace)
+        if !GameEngine.botIsPlaying then AlertUtils.showPlayerCannotBuyHouses(GameEngine.currentPlayer, buildableSpace)
         false
     else false
 
   private def handleRent(player: Player, purchasableSpace: PurchasableSpace, owner: Player): Unit =
     val rent = purchasableSpace.calculateRent
     if player.canAfford(rent) then
-      AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
+      if !GameEngine.botIsPlaying then AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
       PlayerActionsEngine.playerPaysRent(player, purchasableSpace, owner)
     else
-      AlertUtils.showPlayerEliminated(player, owner)
+      if !GameEngine.botIsPlaying then AlertUtils.showPlayerEliminated(player, owner)
       PlayerActionsEngine.playerObtainHeritage(owner, player)
       currentPlayerQuit()
 
@@ -93,20 +94,22 @@ object GameController:
     if player.canAfford(purchasableSpace.sellingPrice) then
       if playerWantToBuySpace(player, purchasableSpace) then
         PlayerActionsEngine.playerBuysPurchasableSpace(player, purchasableSpace)
-    else AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
+    else if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
 
   private def handleNotPurchasableAction(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
     notPurchasableSpace match
       case _: BlankSpace =>
       case _ =>
-        AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
+        if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
         PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =
-    val result = AlertUtils.showAskToBuyPurchasableSpace(player, purchasableSpace)
-    result.get match
-      case ButtonType.OK => true
-      case _             => false
+    if !GameEngine.botIsPlaying then
+      val result = AlertUtils.showAskToBuyPurchasableSpace(player, purchasableSpace)
+      result.get match
+        case ButtonType.OK => true
+        case _             => false
+    else true
 
   private def showVictory(): Unit =
     GameEngine.winner.foreach(w =>

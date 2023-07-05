@@ -5,13 +5,12 @@ import PPS.scalopoly.controller.ConfigurationMenuController
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
 import PPS.scalopoly.utils.resources.CssResources
 import javafx.beans.binding.Bindings
-import javafx.scene.control.{Button, ComboBox, TableView, TextField}
+import javafx.scene.control.{Button, CheckBox, ComboBox, TableColumn, TableView, TextField}
 import javafx.stage.Stage
 import javafx.fxml.{FXML, Initializable}
 import javafx.scene.image.ImageView
 import javafx.scene.layout.{BorderPane, VBox}
 import javafx.collections.FXCollections
-import javafx.scene.control.TableColumn
 import scalafx.beans.property.{ObjectProperty, StringProperty}
 
 import java.net.URL
@@ -75,6 +74,10 @@ class ConfigurationMenuView extends Initializable:
   @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var removePlayerBtn: Button = _
 
+  @FXML
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
+  private var botCheckBox: CheckBox = _
+
   override def initialize(location: URL, resources: ResourceBundle): Unit =
     FxmlUtils.initUIElements(
       pane,
@@ -125,7 +128,7 @@ class ConfigurationMenuView extends Initializable:
     case playerName if playerName.isEmpty =>
       AlertUtils.showEmptyPlayerNameWarning()
     case _ =>
-      val newPlayer = Player(addPlayerNameTextField.getText, addPlayerTokenCombobox.getValue)
+      val newPlayer = Player(addPlayerNameTextField.getText, addPlayerTokenCombobox.getValue, botCheckBox.isSelected)
       tableView.getItems.add(newPlayer)
       ConfigurationMenuController.addPlayer(newPlayer)
       updateAddPlayerCombobox()

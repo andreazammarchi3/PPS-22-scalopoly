@@ -13,6 +13,8 @@ object GameEngine:
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
 
+  def botIsPlaying: Boolean = Game.botIsPlaying
+
   def gameBoard: GameBoard = Game.gameBoard
 
   /** Returns the list of players.
@@ -76,6 +78,7 @@ object GameEngine:
     */
   def startGame(): Unit =
     Game.players = GameUtils.shufflePlayers(Game.players)
+    if currentPlayer.isBot then botPlays()
 
   /** Resets the game.
     */
@@ -91,6 +94,7 @@ object GameEngine:
     */
   def endTurn(): Unit =
     Game.currentPlayer = (Game.currentPlayer + 1) % Game.players.length
+    if currentPlayer.isBot then botPlays()
 
   /** Moves the current player.
     * @param steps
@@ -124,3 +128,8 @@ object GameEngine:
         case _ if currentPlayer.owns(purchasableSpace) => SpaceStatus.OWNED_BY_CURRENT_PLAYER
         case _                                         => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
     case _ => SpaceStatus.PURCHASABLE
+
+  private def botPlays(): Unit =
+    Game.botIsPlaying = true
+    BotEngine.play()
+    Game.botIsPlaying = false
