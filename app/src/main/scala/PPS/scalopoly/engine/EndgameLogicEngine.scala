@@ -9,18 +9,15 @@ import PPS.scalopoly.engine.Game
   */
 object EndgameLogicEngine:
 
-  /** Checks if the current player has won the game.
+  /** Checks if the current player has won the game (i.e. if there is only one
+    * player left).
     *
     * @return
     *   true if the current player has won the game, false otherwise.
     */
   def checkVictory(): Boolean =
-    if (checkVictoryForSurrender(GameEngine.players))
-      Game.winner = Game.players.headOption
-      true
-    else false
-
-  private def checkVictoryForSurrender(players: List[Player]): Boolean =
-    players.length match
-      case players if players == MIN_PLAYERS - 1 => true
-      case _                                     => false
+    GameEngine.players.length match
+      case players if players == MIN_PLAYERS - 1 =>
+        Game.winner = Game.players.headOption
+        true
+      case _ => false
