@@ -84,4 +84,10 @@ object GameBoard:
       stationSpaces: List[StationSpace],
       notPurchasableSpace: List[NotPurchasableSpace]
   ): GameBoard =
-    new GameBoard(spaces, buildableSpaces, companySpaces, stationSpaces, notPurchasableSpace)
+    new GameBoard(
+      spaces,
+      buildableSpaces,
+      companySpaces,
+      stationSpaces,
+      notPurchasableSpace
+    )

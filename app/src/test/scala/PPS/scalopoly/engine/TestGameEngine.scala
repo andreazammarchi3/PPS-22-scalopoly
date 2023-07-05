@@ -185,7 +185,7 @@ class TestGameEngine extends BaseTest:
 
   @Test
   def testPlayerPassByGo(): Unit =
-    val PASS_GO_MONEY = 500
+    val PASS_GO_MONEY = 200
     val STARTING_MONEY = 2000
     assertEquals(STARTING_MONEY, GameEngine.currentPlayer.money)
     GameEngine.playerPassByGo(GameEngine.currentPlayer)

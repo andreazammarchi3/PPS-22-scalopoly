@@ -16,5 +16,5 @@ object LuxuryTaxSpace:
 
   def apply(
       name: String,
-      spaceValue:Int
+      spaceValue: Int
   ): LuxuryTaxSpace = new LuxuryTaxSpace(name, spaceValue)

@@ -13,7 +13,7 @@ object GameEngine:
 
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
-  private val PASS_GO_MONEY = 500
+  private val PASS_GO_MONEY = 200
 
   def gameBoard: GameBoard = Game.gameBoard
 
@@ -194,15 +194,15 @@ object GameEngine:
     )
 
   /** Player is on a not purchasable space.
-   *
-   * @param player
-   * the player ont the not purchasable space.
-   * @param notPurchasableSpace
-   * the not purchasable space.
-   */
+    *
+    * @param player
+    *   the player ont the not purchasable space.
+    * @param notPurchasableSpace
+    *   the not purchasable space.
+    */
   def playerOnNotPurchasableSpace(
-    player: Player,
-    notPurchasableSpace: NotPurchasableSpace
+      player: Player,
+      notPurchasableSpace: NotPurchasableSpace
   ): Unit =
     updatePlayerWith(
       players.indexOf(player),

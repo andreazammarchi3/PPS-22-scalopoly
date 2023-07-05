@@ -29,6 +29,8 @@ class BuildableSpace(
       )
     else this
 
+  def canBuildHouse: Boolean = numHouse < MAX_HOUSES
+
   override def calculateRent: Int = numHouse match
     case _
         if numHouse == 0 && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(

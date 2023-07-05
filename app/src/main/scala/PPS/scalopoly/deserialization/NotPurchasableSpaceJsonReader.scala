@@ -1,7 +1,13 @@
 package PPS.scalopoly.deserialization
 
 import PPS.scalopoly.model.SpaceGroup
-import PPS.scalopoly.model.space.notPurchasable.{ChanceSpace, CommunityChestSpace, IncomeTaxSpace, LuxuryTaxSpace, NotPurchasableSpace}
+import PPS.scalopoly.model.space.notPurchasable.{
+  ChanceSpace,
+  CommunityChestSpace,
+  IncomeTaxSpace,
+  LuxuryTaxSpace,
+  NotPurchasableSpace
+}
 import PPS.scalopoly.utils.JsonUtils
 import com.google.gson.stream.JsonReader
 
@@ -13,7 +19,9 @@ object NotPurchasableSpaceJsonReader:
     new JsonReader(in)
   )
 
-  private def readNotBuildableSpaces(reader: JsonReader): List[NotPurchasableSpace] =
+  private def readNotBuildableSpaces(
+      reader: JsonReader
+  ): List[NotPurchasableSpace] =
     val notBuildableSpaces = new ListBuffer[NotPurchasableSpace]
     reader.beginArray()
     while (reader.hasNext)
@@ -22,7 +30,9 @@ object NotPurchasableSpaceJsonReader:
     reader.endArray()
     notBuildableSpaces.toList
 
-  private def readNotBuildableSpace(reader: JsonReader): Option[NotPurchasableSpace] =
+  private def readNotBuildableSpace(
+      reader: JsonReader
+  ): Option[NotPurchasableSpace] =
     var name = ""
     var spaceType = ""
     var spaceValue = 0
@@ -31,16 +41,15 @@ object NotPurchasableSpaceJsonReader:
     while (reader.hasNext)
       val currentName = reader.nextName()
       currentName match
-        case "name"         => name = reader.nextString()
-        case "spaceType" => spaceType = reader.nextString()
+        case "name"       => name = reader.nextString()
+        case "spaceType"  => spaceType = reader.nextString()
         case "spaceValue" => spaceValue = reader.nextInt()
-        case _              => reader.skipValue()
+        case _            => reader.skipValue()
     reader.endObject()
 
     spaceType match
-      case "Chance" => Some(ChanceSpace(name, spaceValue))
+      case "Chance"         => Some(ChanceSpace(name, spaceValue))
       case "CommunityChest" => Some(CommunityChestSpace(name, spaceValue))
-      case "IncomeTax" => Some(IncomeTaxSpace(name, spaceValue))
-      case "LuxuryTax" => Some(LuxuryTaxSpace(name, spaceValue))
-      case _ => None
-
+      case "IncomeTax"      => Some(IncomeTaxSpace(name, spaceValue))
+      case "LuxuryTax"      => Some(LuxuryTaxSpace(name, spaceValue))
+      case _                => None

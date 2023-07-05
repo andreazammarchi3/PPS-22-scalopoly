@@ -97,7 +97,7 @@ case class Player(
     * @return
     *   true if the player can pay or buy something, false otherwise
     */
-  def canPayOrBuy(value: Int): Boolean = money >= value
+  def canAfford(value: Int): Boolean = money >= value
 
   /** Checks if the player owns the given purchasable space.
     * @param purchasableSpace

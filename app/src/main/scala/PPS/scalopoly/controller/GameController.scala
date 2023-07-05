@@ -57,18 +57,36 @@ object GameController:
       case SpaceStatus.PURCHASABLE =>
         purchasableSpace.foreach(handlePurchase(player, _))
       case SpaceStatus.NOT_PURCHASABLE =>
-        val notPurchasableSpace = GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
+        val notPurchasableSpace =
+          GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
         notPurchasableSpace.foreach(handleNotPurchasableAction(player, _))
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()
 
   def playerBuildsHouse(buildableSpace: BuildableSpace): Boolean =
-    if GameEngine.currentPlayer.canPayOrBuy(buildableSpace.buildingCost)
-      && GameEngine.currentPlayer.owns(buildableSpace)
-//      && GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(buildableSpace.spaceGroup)
+    if GameEngine.currentPlayer.owns(
+        buildableSpace
+      ) && buildableSpace.canBuildHouse
     then
-      GameEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
-      true
+      if GameEngine.currentPlayer.canAfford(buildableSpace.buildingCost) then
+        if GameUtils.checkIfPlayerOwnsAllPropertiesOfSameGroup(
+            buildableSpace.spaceGroup
+          )
+        then
+          GameEngine.playerBuildsHouse(GameEngine.currentPlayer, buildableSpace)
+          true
+        else
+          AlertUtils.showPlayerDonNotOwnAllPropertiesOfSameGroup(
+            GameEngine.currentPlayer,
+            buildableSpace.spaceGroup
+          )
+          false
+      else
+        AlertUtils.showPlayerCannotBuyHouses(
+          GameEngine.currentPlayer,
+          buildableSpace
+        )
+        false
     else false
 
   private def handleRent(
@@ -77,7 +95,7 @@ object GameController:
       owner: Player
   ): Unit =
     val rent = purchasableSpace.calculateRent
-    if player.canPayOrBuy(rent) then
+    if player.canAfford(rent) then
       AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
       GameEngine.playerPaysRent(player, purchasableSpace, owner)
     else
@@ -89,7 +107,7 @@ object GameController:
       player: Player,
       purchasableSpace: PurchasableSpace
   ): Unit =
-    if player.canPayOrBuy(purchasableSpace.sellingPrice) then
+    if player.canAfford(purchasableSpace.sellingPrice) then
       if playerWantToBuySpace(player, purchasableSpace) then
         GameEngine.playerBuysPurchasableSpace(player, purchasableSpace)
     else AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
@@ -98,7 +116,7 @@ object GameController:
       player: Player,
       notPurchasableSpace: NotPurchasableSpace
   ): Unit =
-    AlertUtils.showNotPurchasableSpaceActionAllert(player, notPurchasableSpace)
+    AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
     GameEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(
