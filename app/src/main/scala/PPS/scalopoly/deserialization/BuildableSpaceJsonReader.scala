@@ -8,20 +8,8 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
-object BuildableSpaceJsonReader:
-  def read(in: Reader): List[BuildableSpace] = readBuildableSpaces(
-    new JsonReader(in)
-  )
-
-  private def readBuildableSpaces(reader: JsonReader): List[BuildableSpace] =
-    val buildableSpaces = new ListBuffer[BuildableSpace]
-    reader.beginArray()
-    while (reader.hasNext)
-      buildableSpaces += readBuildableSpace(reader)
-    reader.endArray()
-    buildableSpaces.toList
-
-  private def readBuildableSpace(reader: JsonReader): BuildableSpace =
+object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
+  override def read(reader: JsonReader): BuildableSpace =
     var name = ""
     var sellingPrice = 0
     var rents = List.empty[Int]

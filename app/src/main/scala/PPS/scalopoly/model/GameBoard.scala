@@ -3,6 +3,7 @@ package PPS.scalopoly.model
 import PPS.scalopoly.deserialization.{
   BuildableSpaceJsonReader,
   CompanySpaceJsonReader,
+  NotPurchasableSpaceJsonReader,
   SpacesJsonReader,
   StationSpaceJsonReader
 }
@@ -71,11 +72,23 @@ class GameBoard(
   */
 object GameBoard:
   def apply(): GameBoard = new GameBoard(
-    JsonUtils.readSpaces,
-    JsonUtils.readBuildableSpaces,
-    JsonUtils.readCompanySpaces,
-    JsonUtils.readStationSpaces,
-    JsonUtils.readNotPurchasableSpaces
+    JsonUtils.readTypeSpaces[Space](JsonResources.SPACES, SpacesJsonReader),
+    JsonUtils.readTypeSpaces[BuildableSpace](
+      JsonResources.BUILDABLE_SPACES,
+      BuildableSpaceJsonReader
+    ),
+    JsonUtils.readTypeSpaces[CompanySpace](
+      JsonResources.COMPANY_SPACES,
+      CompanySpaceJsonReader
+    ),
+    JsonUtils.readTypeSpaces[StationSpace](
+      JsonResources.STATION_SPACES,
+      StationSpaceJsonReader
+    ),
+    JsonUtils.readTypeSpaces[NotPurchasableSpace](
+      JsonResources.NOT_PURCHASABLE_SPACES,
+      NotPurchasableSpaceJsonReader
+    )
   )
   def apply(
       spaces: List[Space],
@@ -84,4 +97,10 @@ object GameBoard:
       stationSpaces: List[StationSpace],
       notPurchasableSpace: List[NotPurchasableSpace]
   ): GameBoard =
-    new GameBoard(spaces, buildableSpaces, companySpaces, stationSpaces, notPurchasableSpace)
+    new GameBoard(
+      spaces,
+      buildableSpaces,
+      companySpaces,
+      stationSpaces,
+      notPurchasableSpace
+    )

@@ -8,20 +8,8 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
-object StationSpaceJsonReader:
-  def read(in: Reader): List[StationSpace] = readStationSpaces(
-    new JsonReader(in)
-  )
-
-  private def readStationSpaces(reader: JsonReader): List[StationSpace] =
-    val stationSpaces = new ListBuffer[StationSpace]
-    reader.beginArray()
-    while (reader.hasNext)
-      stationSpaces += readStationSpace(reader)
-    reader.endArray()
-    stationSpaces.toList
-
-  private def readStationSpace(reader: JsonReader): StationSpace =
+object StationSpaceJsonReader extends MyJsonReader[StationSpace]:
+  override def read(reader: JsonReader): StationSpace =
     var name = ""
     var sellingPrice = 0
     var rents = List.empty[Int]

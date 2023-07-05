@@ -134,20 +134,21 @@ object GameUtils:
       _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
     )
 
-  /** Returns the not purchasable space where the player is if the player is on a
-   * not purchasable space.
-   *
-   * @param player
-   * the player.
-   * @return
-   * the not purchasable space where the player is or None otherwise.
-   */
+  /** Returns the not purchasable space where the player is if the player is on
+    * a not purchasable space.
+    *
+    * @param player
+    *   the player.
+    * @return
+    *   the not purchasable space where the player is or None otherwise.
+    */
   def getNotPurchasableSpaceFromPlayerPosition(
       player: Player
   ): Option[NotPurchasableSpace] =
     GameEngine.gameBoard.notPurchasableSpace.find(
       _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
     )
+
   /** Checks if all the properties of a space group are owned by the same
     * player.
     *

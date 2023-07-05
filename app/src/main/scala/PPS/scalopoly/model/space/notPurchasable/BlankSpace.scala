@@ -2,19 +2,16 @@ package PPS.scalopoly.model.space.notPurchasable
 
 import PPS.scalopoly.model.Player
 
-import scala.util.Random
-
-class LuxuryTaxSpace(
+class BlankSpace(
     name: String,
     spaceValue: Int
 ) extends NotPurchasableSpace(name, spaceValue):
 
-  override def action(player: Player): Player =
-    player.pay(spaceValue)
+  override def action(player: Player): Player = player
 
-object LuxuryTaxSpace:
+object BlankSpace:
 
   def apply(
       name: String,
       spaceValue: Int
-  ): LuxuryTaxSpace = new LuxuryTaxSpace(name, spaceValue)
+  ): BlankSpace = new BlankSpace(name, spaceValue)

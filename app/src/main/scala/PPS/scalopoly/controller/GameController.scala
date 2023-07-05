@@ -57,7 +57,8 @@ object GameController:
       case SpaceStatus.PURCHASABLE =>
         purchasableSpace.foreach(handlePurchase(player, _))
       case SpaceStatus.NOT_PURCHASABLE =>
-        val notPurchasableSpace = GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
+        val notPurchasableSpace =
+          GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
         notPurchasableSpace.foreach(handleNotPurchasableAction(player, _))
       case _ =>
     if EndgameLogicEngine.checkVictory() then showVictory()

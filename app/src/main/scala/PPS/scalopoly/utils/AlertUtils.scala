@@ -57,14 +57,14 @@ object AlertUtils:
     )
 
   def showNotPurchasableSpaceActionAllert(
-     currentPlayer: Player,
-     notPurchasableSpace: NotPurchasableSpace
+      currentPlayer: Player,
+      notPurchasableSpace: NotPurchasableSpace
   ): Optional[ButtonType] =
     FxmlUtils.showAlert(
       AlertType.INFORMATION,
       "Scalopoly",
       "Casella speciale",
-      s"${currentPlayer.nickname}(${currentPlayer.token}) Ã¨ finito sulla casella' ${notPurchasableSpace.name} e ne subisce le conseguenze"
+      s"${currentPlayer.nickname}(${currentPlayer.token}) è finito sulla casella' ${notPurchasableSpace.name} e ne subisce le conseguenze"
     )
   def showVictory(winner: Player): Optional[ButtonType] =
     FxmlUtils.showAlert(

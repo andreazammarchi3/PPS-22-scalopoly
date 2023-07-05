@@ -194,15 +194,15 @@ object GameEngine:
     )
 
   /** Player is on a not purchasable space.
-   *
-   * @param player
-   * the player ont the not purchasable space.
-   * @param notPurchasableSpace
-   * the not purchasable space.
-   */
+    *
+    * @param player
+    *   the player ont the not purchasable space.
+    * @param notPurchasableSpace
+    *   the not purchasable space.
+    */
   def playerOnNotPurchasableSpace(
-    player: Player,
-    notPurchasableSpace: NotPurchasableSpace
+      player: Player,
+      notPurchasableSpace: NotPurchasableSpace
   ): Unit =
     updatePlayerWith(
       players.indexOf(player),
