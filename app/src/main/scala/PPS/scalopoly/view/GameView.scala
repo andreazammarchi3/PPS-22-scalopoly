@@ -324,8 +324,9 @@ class GameView extends Initializable:
     val numHouse = GameUtils.getPurchasableSpaceFromPlayerPosition(player) match
       case Some(p) =>
         GameUtils.getBuildableSpaceFromName(p.name) match
-          case Some(b) => b.numHouse
-          case _       => 0
+          case Some(b) if b.numHouse < BuildableSpace.MAX_HOUSES => b.numHouse
+          case Some(_)                                           => 1
+          case _                                                 => 0
       case _ => 0
     val (col, row) = getFirstFreeCellStartingFrom(
       cellGrid,

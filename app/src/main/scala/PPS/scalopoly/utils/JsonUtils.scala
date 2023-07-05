@@ -38,11 +38,11 @@ object JsonUtils:
   ): List[T] =
     val js = Source.fromFile(getClass.getResource(jsonResources.path).toURI)
     val spaces: List[T] =
-      read[T](new StringReader(js.mkString), myJsonReader)
+      readSpaces[T](new StringReader(js.mkString), myJsonReader)
     js.close()
     spaces
 
-  private def read[T](in: Reader, myJsonReader: MyJsonReader[T]): List[T] =
+  private def readSpaces[T](in: Reader, myJsonReader: MyJsonReader[T]): List[T] =
     val reader = new JsonReader(in)
     val spaces = new ListBuffer[T]
     reader.beginArray()

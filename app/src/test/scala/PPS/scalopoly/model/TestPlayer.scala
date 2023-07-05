@@ -21,8 +21,8 @@ class TestPlayer:
   def testCanPayOrBuy(): Unit =
     val AFFORDABLE_PRICE = 1000
     val NOT_AFFORDABLE_PRICE = 3000
-    assertTrue(player.canPayOrBuy(AFFORDABLE_PRICE))
-    assertFalse(player.canPayOrBuy(NOT_AFFORDABLE_PRICE))
+    assertTrue(player.canAfford(AFFORDABLE_PRICE))
+    assertFalse(player.canAfford(NOT_AFFORDABLE_PRICE))
 
   @Test
   def testPay(): Unit =
