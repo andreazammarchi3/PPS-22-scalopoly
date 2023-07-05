@@ -12,6 +12,8 @@ import java.util.Optional
   */
 object AlertUtils:
 
+  private val MONEY_CURRENCY = "M"
+
   /** Shows an alert to the user, with the rent payment information.
     * @param alertType
     *   Type of the alert.
@@ -83,7 +85,7 @@ object AlertUtils:
       "Attenzione",
       "Acquista proprieta'",
       s"${currentPlayer.nickname}(${currentPlayer.token}) vuoi acquistare la proprieta'" +
-        s" ${purchasableSpace.name} libera, per ${purchasableSpace.sellingPrice}M ?"
+        s" ${purchasableSpace.name} libera, per ${purchasableSpace.sellingPrice}${MONEY_CURRENCY} ?"
     )
 
   /** Shows an alert to the user, if he doesn't have enough money to buy a purchasable space.
@@ -132,7 +134,7 @@ object AlertUtils:
       "Casa/Albergo non acquistabile",
       s"${currentPlayer.nickname}(${currentPlayer.token}) " +
         s"non ha abbastanza soldi per acquistare una nuova casa/albergo' sulla proprieta' " +
-        s"${buildableSpace.name} (costo: ${buildableSpace.buildingCost}M)"
+        s"${buildableSpace.name} (costo: ${buildableSpace.buildingCost}${MONEY_CURRENCY})"
     )
 
   /** Shows an alert to the user, when player doesn't own all the properties of the same group.
@@ -177,8 +179,8 @@ object AlertUtils:
       moneyOperationResult: Int
   ): Optional[ButtonType] =
     val actionResultMessage = moneyOperationResult match
-      case i if i > 0 => s" e ha guadagnato " + moneyOperationResult + "M"
-      case i if i < 0 => s" e ha perso " + -1 * moneyOperationResult + "M"
+      case i if i > 0 => s" e ha guadagnato " + moneyOperationResult + MONEY_CURRENCY
+      case i if i < 0 => s" e ha perso " + -1 * moneyOperationResult + MONEY_CURRENCY
       case _ => " e non ha subito nessuna conseguenza"
     FxmlUtils.showAlert(
       AlertType.INFORMATION,
