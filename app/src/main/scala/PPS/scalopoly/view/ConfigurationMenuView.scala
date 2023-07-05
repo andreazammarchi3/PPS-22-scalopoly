@@ -89,19 +89,13 @@ class ConfigurationMenuView extends Initializable:
     leftBorderPaneVBox.setPrefWidth(menuWidth / N_MENUS)
     initTableView()
     updateAddPlayerCombobox()
-    removePlayerBtn
-      .disableProperty()
-      .bind(
-        Bindings.isEmpty(tableView.getSelectionModel.getSelectedItems)
-      )
+    removePlayerBtn.disableProperty().bind(Bindings.isEmpty(tableView.getSelectionModel.getSelectedItems))
 
   /** Checks if the player name is not empty and adds the player to the table view.
     */
   def playGameBtnClick(): Unit =
-    if (ConfigurationMenuController.canStartGame)
-      ConfigurationMenuController.playGame()
-    else
-      AlertUtils.showNotEnoughPlayersWarning()
+    if ConfigurationMenuController.canStartGame then ConfigurationMenuController.playGame()
+    else AlertUtils.showNotEnoughPlayersWarning()
 
   /** Exits the game.
     */
@@ -111,7 +105,7 @@ class ConfigurationMenuView extends Initializable:
   /** Add a player to the table view, if the player name is not empty.
     */
   def checkAndAddPlayerToTableView(): Unit =
-    if (ConfigurationMenuController.canAddPlayer) addPlayerToTableView()
+    if ConfigurationMenuController.canAddPlayer then addPlayerToTableView()
 
   /** Removes the selected player from the table view.
     */
@@ -127,28 +121,20 @@ class ConfigurationMenuView extends Initializable:
     playerTokenColumn.setCellValueFactory(p => ObjectProperty(p.getValue.token))
     tableView.setItems(FXCollections.observableArrayList[Player]())
 
-  private def addPlayerToTableView(): Unit =
-    addPlayerNameTextField.getText match
-      case playerName if playerName.isEmpty =>
-        AlertUtils.showEmptyPlayerNameWarning()
-      case _ =>
-        val newPlayer =
-          Player(
-            addPlayerNameTextField.getText,
-            addPlayerTokenCombobox.getValue
-          )
-        tableView.getItems.add(newPlayer)
-        ConfigurationMenuController.addPlayer(newPlayer)
-        updateAddPlayerCombobox()
-        updateAddAndRemoveButton()
-        addPlayerNameTextField.clear()
+  private def addPlayerToTableView(): Unit = addPlayerNameTextField.getText match
+    case playerName if playerName.isEmpty =>
+      AlertUtils.showEmptyPlayerNameWarning()
+    case _ =>
+      val newPlayer = Player(addPlayerNameTextField.getText, addPlayerTokenCombobox.getValue)
+      tableView.getItems.add(newPlayer)
+      ConfigurationMenuController.addPlayer(newPlayer)
+      updateAddPlayerCombobox()
+      updateAddAndRemoveButton()
+      addPlayerNameTextField.clear()
 
   private def updateAddPlayerCombobox(): Unit =
-    addPlayerTokenCombobox.getItems.setAll(
-      FXCollections.observableArrayList(
-        ConfigurationMenuController.availableToken(): _*
-      )
-    )
+    addPlayerTokenCombobox.getItems
+      .setAll(FXCollections.observableArrayList(ConfigurationMenuController.availableToken(): _*))
     addPlayerTokenCombobox.getSelectionModel.selectFirst()
 
   private def updateAddAndRemoveButton(): Unit =

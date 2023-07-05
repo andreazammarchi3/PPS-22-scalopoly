@@ -36,20 +36,13 @@ object JsonUtils:
     * @return
     *   the list of spaces
     */
-  def readTypeSpaces[T](
-      jsonResources: JsonResources,
-      myJsonReader: MyJsonReader[T]
-  ): List[T] =
+  def readTypeSpaces[T](jsonResources: JsonResources, myJsonReader: MyJsonReader[T]): List[T] =
     val js = Source.fromFile(getClass.getResource(jsonResources.path).toURI)
-    val spaces: List[T] =
-      readSpaces[T](new StringReader(js.mkString), myJsonReader)
+    val spaces: List[T] = readSpaces[T](new StringReader(js.mkString), myJsonReader)
     js.close()
     spaces
 
-  private def readSpaces[T](
-      in: Reader,
-      myJsonReader: MyJsonReader[T]
-  ): List[T] =
+  private def readSpaces[T](in: Reader, myJsonReader: MyJsonReader[T]): List[T] =
     val reader = new JsonReader(in)
     val spaces = new ListBuffer[T]
     reader.beginArray()
