@@ -31,99 +31,67 @@ class GameView extends Initializable:
   private val N_ROWS_IN_CELL = 3
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playersTable: TableView[Player] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerNameColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerTokenColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerMoneyColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var actionsMenu: VBox = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var throwDiceBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var buildBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var endTurnBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var quitBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var gameBoard: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var pane: BorderPane = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var mainGrid: GridPane = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var diceImageView1: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var diceImageView2: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var propertiesList: ListView[String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var turnLabel: Label = _
 
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
