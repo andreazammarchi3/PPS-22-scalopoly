@@ -15,10 +15,8 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
-/** Json reader for
-  * [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]] objects. It
-  * reads a json file and returns a list of
-  * [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
+/** Json reader for [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]] objects. It reads a json file and
+  * returns a list of [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
   */
 object NotPurchasableSpaceJsonReader extends MyJsonReader[NotPurchasableSpace]:
   override def read(reader: JsonReader): NotPurchasableSpace =

@@ -83,8 +83,7 @@ object AlertUtils:
       s"${currentPlayer.nickname}(${currentPlayer.token}) vuoi acquistare la proprieta' ${purchasableSpace.name} libera, per ${purchasableSpace.sellingPrice}M ?"
     )
 
-  /** Shows an alert to the user, if he doesn't have enough money to buy a
-    * purchasable space.
+  /** Shows an alert to the user, if he doesn't have enough money to buy a purchasable space.
     * @param alertType
     *   Type of the alert.
     * @param title
@@ -130,8 +129,7 @@ object AlertUtils:
       s"${currentPlayer.nickname}(${currentPlayer.token}) non ha abbastanza soldi per acquistare una nuova casa/albergo' sulla proprieta' ${buildableSpace.name} (costo: ${buildableSpace.buildingCost}M)"
     )
 
-  /** Shows an alert to the user, when player doesn't own all the properties of
-    * the same group.
+  /** Shows an alert to the user, when player doesn't own all the properties of the same group.
     * @param alertType
     *   Type of the alert.
     * @param title
@@ -197,8 +195,7 @@ object AlertUtils:
       s"Complimenti ${winner.nickname}(${winner.token}) hai vinto!"
     )
 
-  /** Shows an alert to the user, if there are not enough players to start the
-    * game.
+  /** Shows an alert to the user, if there are not enough players to start the game.
     * @param alertType
     *   Type of the alert.
     * @param title

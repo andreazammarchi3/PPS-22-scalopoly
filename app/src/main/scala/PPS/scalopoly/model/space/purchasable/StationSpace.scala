@@ -26,8 +26,8 @@ class StationSpace(
     GameUtils.getOwnerFromPurchasableSpace(this) match
       case Some(owner) =>
         GameUtils.getNumStationFromOwner(spaceGroup, owner) match
-          case i if i <= MAX_NUM_STATIONS && i > 0 => rents(i-1)
-          case _ => 0
+          case i if i <= MAX_NUM_STATIONS && i > 0 => rents(i - 1)
+          case _                                   => 0
       case _ => 0
 
 /** Companion object for StationSpace class

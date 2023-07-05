@@ -1,10 +1,7 @@
 package PPS.scalopoly.model.space.purchasable
 
 import PPS.scalopoly.model.SpaceGroup
-import PPS.scalopoly.model.space.purchasable.CompanySpace.{
-  DOUBLE_MULTIPLIER,
-  SINGLE_MULTIPLIER
-}
+import PPS.scalopoly.model.space.purchasable.CompanySpace.{DOUBLE_MULTIPLIER, SINGLE_MULTIPLIER}
 import PPS.scalopoly.utils.GameUtils
 
 /** Represents a type of purchasable space that can be bought by a player.

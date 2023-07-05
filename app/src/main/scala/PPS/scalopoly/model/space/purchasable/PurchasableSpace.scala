@@ -3,8 +3,7 @@ package PPS.scalopoly.model.space.purchasable
 import PPS.scalopoly.model.SpaceGroup
 import PPS.scalopoly.model.space.Space
 
-/** Trait that represents a purchasable space. A purchasable space is a space
-  * that can be bought by a player.
+/** Trait that represents a purchasable space. A purchasable space is a space that can be bought by a player.
   * @param name
   *   the name of the space
   * @param sellingPrice

@@ -17,8 +17,7 @@ import scalafx.stage.Stage
 import java.io.IOException
 import java.util.Optional
 
-/** Utility object that provides methods to load FXML resources and change the
-  * current scene.
+/** Utility object that provides methods to load FXML resources and change the current scene.
   */
 object FxmlUtils:
 

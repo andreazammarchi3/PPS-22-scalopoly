@@ -8,12 +8,7 @@ import PPS.scalopoly.deserialization.{
   StationSpaceJsonReader
 }
 import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
-import PPS.scalopoly.model.space.purchasable.{
-  BuildableSpace,
-  CompanySpace,
-  PurchasableSpace,
-  StationSpace
-}
+import PPS.scalopoly.model.space.purchasable.{BuildableSpace, CompanySpace, PurchasableSpace, StationSpace}
 import PPS.scalopoly.model.space.{Space, SpaceImpl}
 import PPS.scalopoly.utils.JsonUtils
 import PPS.scalopoly.utils.resources.JsonResources
@@ -103,8 +98,7 @@ class GameBoard(
     */
   def size: Int = spaces.length
 
-/** The game board is a map of the game spaces represented by a list of
-  * [[SpaceName]].
+/** The game board is a map of the game spaces represented by a list of [[SpaceName]].
   */
 object GameBoard:
   /** Creates a new [[GameBoard]].

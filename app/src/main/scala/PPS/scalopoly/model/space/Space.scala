@@ -1,7 +1,6 @@
 package PPS.scalopoly.model.space
 
-/** A trait that represents a space of the board. A space is a position on the
-  * board that can be occupied by a player.
+/** A trait that represents a space of the board. A space is a position on the board that can be occupied by a player.
   * @see
   *   [[PPS.scalopoly.model.board.Board]]
   */

@@ -6,8 +6,7 @@ import PPS.scalopoly.engine.Game
 import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 
-/** Game engine that manages the [[Game]] and offers methods to interact with
-  * it.
+/** Game engine that manages the [[Game]] and offers methods to interact with it.
   */
 object GameEngine:
 
@@ -101,8 +100,7 @@ object GameEngine:
   def moveCurrentPlayer(steps: Int): Unit =
     updatePlayerWith(Game.currentPlayer, currentPlayer.move(steps))
 
-  /** Removes the current player from the game, if there is only one player left
-    * the game ends.
+  /** Removes the current player from the game, if there is only one player left the game ends.
     */
   def currentPlayerQuit(): Unit =
     val playerToDelete = currentPlayer
@@ -219,8 +217,7 @@ object GameEngine:
   private def checkPropertyStatus(
       purchasableSpace: PurchasableSpace
   ): SpaceStatus = purchasableSpace match
-    case purchasableSpace
-        if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
+    case purchasableSpace if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
       purchasableSpace match
         case _ if currentPlayer.owns(purchasableSpace) =>
           SpaceStatus.OWNED_BY_CURRENT_PLAYER

@@ -8,8 +8,8 @@ import com.google.gson.stream.JsonReader
 import java.io.Reader
 import scala.collection.mutable.ListBuffer
 
-/** JsonReader for [[PPS.scalopoly.model.space.Space]] objects. It reads a json
-  * file and returns a list of [[PPS.scalopoly.model.space.Space]].
+/** JsonReader for [[PPS.scalopoly.model.space.Space]] objects. It reads a json file and returns a list of
+  * [[PPS.scalopoly.model.space.Space]].
   */
 object SpacesJsonReader extends MyJsonReader[Space]:
   override def read(reader: JsonReader): SpaceImpl =
