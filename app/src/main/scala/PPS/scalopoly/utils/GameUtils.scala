@@ -157,9 +157,11 @@ object GameUtils:
   ): Boolean =
     val propertiesOfSameGroup =
       GameEngine.gameBoard.purchasableSpaces.count(_.spaceGroup == spaceGroup)
-    GameEngine.players.exists(p => p.ownedProperties.count(
-      _.spaceGroup == spaceGroup
-    ) == propertiesOfSameGroup)
+    GameEngine.players.exists(p =>
+      p.ownedProperties.count(
+        _.spaceGroup == spaceGroup
+      ) == propertiesOfSameGroup
+    )
 
   /** Return a buildable space given its name.
     * @param name

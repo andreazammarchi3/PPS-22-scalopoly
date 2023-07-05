@@ -3,12 +3,7 @@ package PPS.scalopoly.utils
 import PPS.scalopoly.model.{DiceManager, GameBoard, Player, Token}
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.GameEngine
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertFalse,
-  assertThrows,
-  assertTrue
-}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertThrows, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 import scala.util.Random

@@ -62,9 +62,7 @@ class TestGameEngine extends BaseTest:
       Token.values.length - players.length,
       GameEngine.availableTokens.length
     )
-    players.foreach(p =>
-      assertFalse(GameEngine.availableTokens.contains(p.token))
-    )
+    players.foreach(p => assertFalse(GameEngine.availableTokens.contains(p.token)))
 
   @Test
   def testCanStartGame(): Unit =
@@ -99,9 +97,7 @@ class TestGameEngine extends BaseTest:
     assertEquals(SpaceStatus.PURCHASABLE, GameEngine.checkSpaceStatus)
     GameUtils
       .getPurchasableSpaceFromPlayerPosition(GameEngine.currentPlayer)
-      .foreach(p =>
-        GameEngine.playerBuysPurchasableSpace(GameEngine.currentPlayer, p)
-      )
+      .foreach(p => GameEngine.playerBuysPurchasableSpace(GameEngine.currentPlayer, p))
 
     // PROBABILITA' must be NOT_PURCHASABLE
     GameEngine.moveCurrentPlayer(1)
@@ -216,14 +212,15 @@ class TestGameEngine extends BaseTest:
     GameEngine.gameBoard.notPurchasableSpace
       .find(
         _.name == "Tassa di Lusso"
-      ).foreach(notPurchasableSpace =>
-      GameEngine.playerOnNotPurchasableSpace(player1, notPurchasableSpace)
-      GameEngine.players
-        .find(p => p.token == player1.token)
-        .foreach(p =>
-          assertEquals(
-            notPurchasableSpace.action(player1).money,
-            p.money
+      )
+      .foreach(notPurchasableSpace =>
+        GameEngine.playerOnNotPurchasableSpace(player1, notPurchasableSpace)
+        GameEngine.players
+          .find(p => p.token == player1.token)
+          .foreach(p =>
+            assertEquals(
+              notPurchasableSpace.action(player1).money,
+              p.money
+            )
           )
-        )
-    )
+      )
