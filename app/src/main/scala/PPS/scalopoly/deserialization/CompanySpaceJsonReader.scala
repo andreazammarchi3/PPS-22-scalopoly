@@ -25,7 +25,7 @@ object CompanySpaceJsonReader extends MyJsonReader[CompanySpace]:
       currentName match
         case "name"         => name = reader.nextString()
         case "sellingPrice" => sellingPrice = reader.nextInt()
-        case "baseRent"        => baseRent = reader.nextInt()
+        case "baseRent"     => baseRent = reader.nextInt()
         case "spaceGroup" =>
           spaceGroup = SpaceGroup.valueOf(reader.nextString())
         case _ => reader.skipValue()
