@@ -23,6 +23,6 @@ class TestBuildableSpace:
 
   @Test
   def calculateRent(): Unit =
-    val VICOLO_CORTO_RENTS = List(2, 10, 30, 90, 160, 250)
+    val VICOLO_CORTO_RENTS = List(2, 52, 102, 152, 202, 252)
     assertEquals(VICOLO_CORTO_RENTS(0), vicoloCorto.calculateRent)
     assertEquals(VICOLO_CORTO_RENTS(1), vicoloCorto.buildHouse.calculateRent)

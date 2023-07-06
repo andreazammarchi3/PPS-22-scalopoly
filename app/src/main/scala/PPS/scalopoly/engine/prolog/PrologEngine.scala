@@ -47,17 +47,17 @@ object PrologEngine:
     val goal = s"getCoordinateFromPosition($position, $cellsInSide, $SolY, $SolX)"
     resolveGameUtilsGoal(goal, SolY, SolX)
 
-  private def resolveGameUtilsGoal(goal: String, sol1: String, sol2: String): (Int, Int) =
-    val theory = Source
-      .fromInputStream(getClass.getResourceAsStream(PrologResources.GAMEUTILS_PROLOG.path))
-      .getLines()
-      .filter(l => l.nonEmpty && !isComment(l))
-      .mkString(" ")
-    engine.setTheory(Theory.parseWithStandardOperators(theory))
-    val solution = engine.solve(goal)
-    if solution.isSuccess then (termToInt(solution.getTerm(sol1)), termToInt(solution.getTerm(sol2)))
-    else throw new RuntimeException(s"Prolog error while solving goal: $goal")
-
+  /** Return the rents list of a property given the multiplier and the number of buildable houses.
+    *
+    * @param baseRent
+    *   The base rent of the property.
+    * @param houseMultiplier
+    *   The multiplier of the property.
+    * @param nHouses
+    *   The number of buildable houses.
+    * @return
+    *   The rents list of the property.
+    */
   def calculateRents(baseRent: Int, houseMultiplier: Int, nHouses: Int): List[Int] =
     val rents = "R"
     val goal = s"rents($baseRent, $houseMultiplier, $nHouses, $rents)"
@@ -69,4 +69,15 @@ object PrologEngine:
     engine.setTheory(Theory.parseWithStandardOperators(theory))
     val solution = engine.solve(goal)
     if solution.isSuccess then termToListOfInt(solution.getTerm(rents)).reverse
+    else throw new RuntimeException(s"Prolog error while solving goal: $goal")
+
+  private def resolveGameUtilsGoal(goal: String, sol1: String, sol2: String): (Int, Int) =
+    val theory = Source
+      .fromInputStream(getClass.getResourceAsStream(PrologResources.GAMEUTILS_PROLOG.path))
+      .getLines()
+      .filter(l => l.nonEmpty && !isComment(l))
+      .mkString(" ")
+    engine.setTheory(Theory.parseWithStandardOperators(theory))
+    val solution = engine.solve(goal)
+    if solution.isSuccess then (termToInt(solution.getTerm(sol1)), termToInt(solution.getTerm(sol2)))
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")
