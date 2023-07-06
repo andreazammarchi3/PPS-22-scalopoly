@@ -24,7 +24,7 @@ object FxmlUtils:
   val DEFAULT_WIDTH_PERC: Double = 0.9
   val GAME_WIDTH_PERC: Double = 0.8
   val DEFAULT_HEIGHT_PERC: Double = 0.9
-  
+
   @SuppressWarnings(
     Array("org.wartremover.warts.Null")
   )
