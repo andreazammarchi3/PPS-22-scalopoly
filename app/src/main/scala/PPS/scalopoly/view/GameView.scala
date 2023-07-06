@@ -1,7 +1,7 @@
 package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
-import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
 import PPS.scalopoly.model.space.purchasable.BuildableSpace
 import PPS.scalopoly.model.{GameBoard, Player, Token}
 import PPS.scalopoly.utils
@@ -142,7 +142,7 @@ class GameView extends Initializable:
   def quitBtnClick(): Unit =
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    if GameEngine.players.nonEmpty then
+    if GameEngine.players.nonEmpty && !EndgameLogicEngine.checkOnlyBotsRemaining then
       setBtnsForEndTurn(false)
       updatePlayersTable()
       updateTurnLabel()
@@ -274,7 +274,7 @@ class GameView extends Initializable:
     playersTable.getItems.clear()
     GameEngine.players.foreach(p => playersTable.getItems.add(p))
 
-  private def updateTurnLabel(): Unit =
+  def updateTurnLabel(): Unit =
     turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
 
   private def updatePropertiesList(): Unit = playersTable.getSelectionModel.getSelectedItem match

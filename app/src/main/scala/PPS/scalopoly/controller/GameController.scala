@@ -1,7 +1,7 @@
 package PPS.scalopoly.controller
 
 import PPS.scalopoly.engine.{BotEngine, EndgameLogicEngine, GameEngine, PlayerActionsEngine}
-import PPS.scalopoly.model.space.notPurchasable.{BlankSpace, NotPurchasableSpace}
+import PPS.scalopoly.model.space.notPurchasable.{NotPurchasableSpace, NotPurchasableSpaceType}
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 import PPS.scalopoly.model.{DiceManager, Player, SpaceStatus}
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils, GameUtils}
@@ -41,13 +41,16 @@ object GameController:
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
     if checkPassByGo(GameEngine.currentPlayer.actualPosition) then
       PlayerActionsEngine.playerPassByGo(GameEngine.currentPlayer)
-    if GameEngine.botIsPlaying then view.diceThrown(dicePair._1, dicePair._2)
+    if GameEngine.botIsPlaying && view != null then
+      view.diceThrown(dicePair._1, dicePair._2)
     dicePair
 
   /** End the turn of the current player.
     */
   def endTurn(): Unit =
     GameEngine.endTurn()
+    if GameEngine.botIsPlaying && view != null then
+      view.updateTurnLabel()
 
   /** Check which actions the current player can perform.
     */
@@ -109,7 +112,8 @@ object GameController:
     notPurchasableSpace.spaceType match
       case NotPurchasableSpaceType.BLANK =>
       case _ =>
-        if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
+        if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace, PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace))
+        else
         PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =

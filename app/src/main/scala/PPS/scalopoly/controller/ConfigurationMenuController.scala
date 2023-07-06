@@ -54,8 +54,9 @@ object ConfigurationMenuController:
   /** Start the game.
     */
   def playGame(): Unit =
-    FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
     GameEngine.startGame()
+    FxmlUtils.changeScene(FxmlResources.GAME_VIEW.path)
+    if GameEngine.currentPlayer.isBot then GameEngine.botPlays()
 
   /** Exit the game.
     */

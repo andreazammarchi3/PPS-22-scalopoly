@@ -19,4 +19,10 @@ object EndgameLogicEngine:
       case players if players == MIN_PLAYERS - 1 =>
         Game.winner = Game.players.headOption
         true
+      case _ if checkOnlyBotsRemaining =>
+        Game.winner = Game.players.headOption
+        true
       case _ => false
+
+  def checkOnlyBotsRemaining: Boolean =
+    GameEngine.players.forall(_.isBot)

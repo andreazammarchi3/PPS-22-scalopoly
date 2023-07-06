@@ -9,7 +9,7 @@ object BotEngine:
   def play(): Unit =
     println(s"${GameEngine.currentPlayer.nickname} plays")
     checkOptions()
-    GameEngine.endTurn()
+    GameController.endTurn()
 
   def decideToBuySpace(purchasableSpace: PurchasableSpace): Boolean =
     println(s"${GameEngine.currentPlayer.nickname} decides to buy ${purchasableSpace.name}")
@@ -20,9 +20,9 @@ object BotEngine:
     println(s"${GameEngine.currentPlayer.nickname} checks options")
     if canThrowDice(GameEngine.currentPlayer.actualPosition) then
       val (dice1, dice2) = GameController.throwDice()
-      println(s"Bot throws dice: $dice1, $dice2")
+      println(s"${GameEngine.currentPlayer.nickname} throws dice: $dice1, $dice2")
       if dice1 == dice2 then checkOptions()
-    else GameEngine.endTurn()
+    else GameController.endTurn()
 
   private def canThrowDice(startingPosition: Int): Boolean =
     GameEngine.currentPlayer.actualPosition == startingPosition

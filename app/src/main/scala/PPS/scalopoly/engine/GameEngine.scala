@@ -78,7 +78,6 @@ object GameEngine:
     */
   def startGame(): Unit =
     Game.players = GameUtils.shufflePlayers(Game.players)
-    if currentPlayer.isBot then botPlays()
 
   /** Resets the game.
     */
@@ -122,14 +121,14 @@ object GameEngine:
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
 
+  def botPlays(): Unit =
+    Game.botIsPlaying = true
+    BotEngine.play()
+    Game.botIsPlaying = false
+
   private def checkPropertyStatus(purchasableSpace: PurchasableSpace): SpaceStatus = purchasableSpace match
     case purchasableSpace if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
       purchasableSpace match
         case _ if currentPlayer.owns(purchasableSpace) => SpaceStatus.OWNED_BY_CURRENT_PLAYER
         case _                                         => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
     case _ => SpaceStatus.PURCHASABLE
-
-  private def botPlays(): Unit =
-    Game.botIsPlaying = true
-    BotEngine.play()
-    Game.botIsPlaying = false
