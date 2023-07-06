@@ -2,50 +2,22 @@ package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.engine.GameEngine.currentPlayer
-import PPS.scalopoly.model.{
-  DiceManager,
-  GameBoard,
-  Player,
-  PurchasableSpace,
-  Token
-}
+import PPS.scalopoly.model.space.purchasable.BuildableSpace
+import PPS.scalopoly.model.{GameBoard, Player, Token}
+import PPS.scalopoly.utils
 import PPS.scalopoly.utils.{FxmlUtils, GameUtils}
 import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
-import javafx.beans.binding.Bindings
-import javafx.beans.value.ChangeListener
+import javafx.beans.binding.{Bindings, BooleanBinding}
 import javafx.fxml.{FXML, Initializable}
-import javafx.geometry.{Pos, Rectangle2D}
-import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.control.{
-  Button,
-  Label,
-  ListView,
-  TableColumn,
-  TablePosition,
-  TableRow,
-  TableView
-}
+import javafx.scene.control.{Button, Label, ListView, TableColumn, TableView}
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{
-  Background,
-  BackgroundFill,
-  Border,
-  BorderPane,
-  ColumnConstraints,
-  GridPane,
-  HBox,
-  RowConstraints,
-  VBox
-}
-import javafx.scene.paint.Color
-import javafx.stage.Screen
+import javafx.scene.layout.{BorderPane, ColumnConstraints, GridPane, RowConstraints, VBox}
 import scalafx.scene.shape.Path
-import scalafx.beans.property.{IntegerProperty, ObjectProperty, StringProperty}
+import scalafx.beans.property.StringProperty
 
 import scala.collection.mutable.Map as MMap
 import java.net.URL
-import java.util
+import java.util.ResourceBundle
 
 class GameView extends Initializable:
 
@@ -53,106 +25,74 @@ class GameView extends Initializable:
   private val N_ROWS_IN_CELL = 3
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playersTable: TableView[Player] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerNameColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerTokenColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerMoneyColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var actionsMenu: VBox = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var throwDiceBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var buildBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var endTurnBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var quitBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var gameBoard: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var pane: BorderPane = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var mainGrid: GridPane = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var diceImageView1: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var diceImageView2: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var propertiesList: ListView[String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var turnLabel: Label = _
 
   private val cellsGrids: MMap[(Int, Int), GridPane] = MMap.empty
 
   private val tokensImgView: MMap[Token, ImageView] = MMap.empty
 
-  override def initialize(url: URL, rb: util.ResourceBundle): Unit =
+  override def initialize(url: URL, rb: ResourceBundle): Unit =
     FxmlUtils.initUIElements(
       pane,
       gameBoard,
@@ -171,41 +111,31 @@ class GameView extends Initializable:
     setDiceImg(diceImageView2)
 
     GameEngine.players.foreach(p =>
-      val tokenImg = new ImageView(
-        new Image(getClass.getResource(p.token.img.path).toString)
-      )
+      val tokenImg = new ImageView(new Image(getClass.getResource(p.token.img.path).toString))
       tokensImgView.addOne(p.token, tokenImg)
-      tokenImg.setPreserveRatio(false)
-      tokenImg.setFitWidth(
-        gameBoard.getFitWidth / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
-      )
-      tokenImg.setFitHeight(
-        gameBoard.getFitHeight / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL
-      )
+      setImageViewDimensions(tokenImg)
       updateTokenPosition(p)
     )
 
     playersTable.setPrefWidth(menuWidth)
     playersTable.setOnMouseClicked(_ => updatePropertiesList())
-    playerNameColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.nickname)
-    )
-    playerTokenColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.token.toString)
-    )
-    playerMoneyColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.money.toString)
-    )
+    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
+    playerTokenColumn.setCellValueFactory(p => StringProperty(p.getValue.token.toString))
+    playerMoneyColumn.setCellValueFactory(p => StringProperty(p.getValue.money.toString))
     updatePlayersTable()
 
     updateTurnLabel()
+
+    buildBtn
+      .disableProperty()
+      .bind(Bindings.isEmpty(propertiesList.getSelectionModel.getSelectedItems))
 
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
     tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    if (GameEngine.players.nonEmpty)
+    if GameEngine.players.nonEmpty then
       setBtnsForEndTurn(false)
       updatePlayersTable()
       updateTurnLabel()
@@ -216,6 +146,7 @@ class GameView extends Initializable:
     val (dice1, dice2) = GameController.throwDice()
     updateTokenPosition(GameEngine.currentPlayer)
     updateDiceImg(dice1, dice2)
+    updatePlayersTable() // necessary to update the money in case the player has passed from the Go cell
     GameController.checkPlayerActions()
     updatePlayersTable()
     updatePropertiesList()
@@ -234,20 +165,31 @@ class GameView extends Initializable:
     setBtnsForEndTurn(false)
     updateTurnLabel()
 
+  /** Build a house on the selected property
+    */
+  def buildBtnClick(): Unit =
+    GameUtils
+      .getBuildableSpaceFromName(propertiesList.getSelectionModel.getSelectedItem)
+      .foreach(buildableSpace =>
+        if GameController.playerBuildsHouse(buildableSpace) then
+          updatePlayersTable()
+          updateHouseImg(buildableSpace)
+      )
+
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
     val CONSTRAINT_PERC = 50
     for
       i <- 0 to GameUtils.CELLS_IN_SIDE
       j <- 0 to GameUtils.CELLS_IN_SIDE
-      if ((i == 0 || i == GameUtils.CELLS_IN_SIDE) && (j >= 0 && j <= GameUtils.CELLS_IN_SIDE)) || ((j == 0 || j == GameUtils.CELLS_IN_SIDE) && (i >= 0 && i <= GameUtils.CELLS_IN_SIDE))
+      if ((i == 0 || i == GameUtils.CELLS_IN_SIDE) && (j >= 0 && j <= GameUtils.CELLS_IN_SIDE))
+        || ((j == 0 || j == GameUtils.CELLS_IN_SIDE) && (i >= 0 && i <= GameUtils.CELLS_IN_SIDE))
     do
       val tmpGrid = new GridPane()
       spawnColumns(tmpGrid, N_COLS_IN_CELL)
       spawnRows(tmpGrid, N_ROWS_IN_CELL)
       if i == 0 then tmpGrid.setRotate(RIGHT_ANGLE)
-      else if i == GameUtils.CELLS_IN_SIDE && j < GameUtils.CELLS_IN_SIDE then
-        tmpGrid.setRotate(-RIGHT_ANGLE)
+      else if i == GameUtils.CELLS_IN_SIDE && j < GameUtils.CELLS_IN_SIDE then tmpGrid.setRotate(-RIGHT_ANGLE)
       if j == 0 then tmpGrid.setRotate(RIGHT_ANGLE * 2)
 
       mainGrid.add(tmpGrid, i, j)
@@ -263,51 +205,70 @@ class GameView extends Initializable:
         row.setPercentHeight(CONSTRAINT_PERC)
         for _ <- 0 until numRow do grid.getRowConstraints.add(row)
 
-  private def getFirstFreeCellForToken(gridPane: GridPane): (Int, Int) =
-    GameUtils.getNthCellInGrid(
-      gridPane.getChildren.size() + 1,
-      (N_COLS_IN_CELL, N_ROWS_IN_CELL),
-      (0, 0)
-    )
+  private def getFirstFreeCellStartingFrom(gridPane: GridPane, nthCell: Int, startingCell: (Int, Int)): (Int, Int) =
+    GameUtils.getNthCellInGridWithStartingPos(nthCell + 1, (N_COLS_IN_CELL, N_ROWS_IN_CELL), startingCell)
 
   private def setBtnsForEndTurn(can: Boolean): Unit =
     endTurnBtn.setDisable(!can)
     throwDiceBtn.setDisable(can)
 
   private def setDiceImg(diceImgView: ImageView): Unit =
-    diceImgView.setFitWidth(
-      pane.getPrefHeight / (GameBoard.size / GameUtils.GAMEBOARD_SIDES + 1)
-    )
+    diceImgView.setFitWidth(pane.getPrefHeight / (GameEngine.gameBoard.size / GameUtils.GAMEBOARD_SIDES + 1))
+
+  private def updateDiceImg(dice1: Int, dice2: Int): Unit =
+    updateSingleDiceImg(dice1, diceImageView1)
+    updateSingleDiceImg(dice2, diceImageView2)
 
   private def updateSingleDiceImg(dice: Int, diceImageView: ImageView): Unit =
     val dicePath: String = ImgResources.valueOf("DICE_" + dice.toString).path
     diceImageView.setImage(new Image(getClass.getResource(dicePath).toString))
 
-  private def updateTokenPosition(player: Player): Unit =
+  private def updateHouseImg(buildableSpace: BuildableSpace): Unit =
     val cellGrid = cellsGrids(
-      GameUtils.getCoordinateFromPosition(player.actualPosition)
+      GameUtils
+        .getCoordinateFromPosition(GameEngine.gameBoard.gameBoardList.indexOf(buildableSpace))
     )
-    val (col, row) = getFirstFreeCellForToken(cellGrid)
-    cellGrid.add(tokensImgView(player.token), col, row + 1)
+    buildableSpace.numHouse match
+      case numHouse if numHouse < BuildableSpace.MAX_HOUSES - 1 =>
+        val (col, row) = getFirstFreeCellStartingFrom(cellGrid, numHouse, (0, 0))
+        val houseImg = new ImageView(new Image(getClass.getResource(ImgResources.IMG_HOUSE.path).toString))
+        setImageViewDimensions(houseImg)
+        cellGrid.add(houseImg, col, row)
+      case numHouse if numHouse == BuildableSpace.MAX_HOUSES - 1 =>
+        val houseImgs = cellGrid.getChildren.filtered(i => !tokensImgView.values.toList.contains(i))
+        cellGrid.getChildren.removeAll(houseImgs)
+        val (col, row) = getFirstFreeCellStartingFrom(cellGrid, 0, (0, 0))
+        val hotelImg = new ImageView(new Image(getClass.getResource(ImgResources.IMG_HOTEL.path).toString))
+        setImageViewDimensions(hotelImg)
+        cellGrid.add(hotelImg, col, row)
+      case _ =>
 
-  private def updateDiceImg(dice1: Int, dice2: Int): Unit =
-    updateSingleDiceImg(dice1, diceImageView1)
-    updateSingleDiceImg(dice2, diceImageView2)
+  private def setImageViewDimensions(imgView: ImageView): Unit =
+    imgView.setPreserveRatio(false)
+    imgView.setFitWidth(gameBoard.getFitWidth / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL)
+    imgView.setFitHeight(gameBoard.getFitHeight / (GameUtils.CELLS_IN_SIDE + 1) / N_COLS_IN_CELL)
+
+  private def updateTokenPosition(player: Player): Unit =
+    val cellGrid = cellsGrids(GameUtils.getCoordinateFromPosition(player.actualPosition))
+    val numHouse = GameUtils.getPurchasableSpaceFromPlayerPosition(player) match
+      case Some(p) =>
+        GameUtils.getBuildableSpaceFromName(p.name) match
+          case Some(b) if b.numHouse < BuildableSpace.MAX_HOUSES => b.numHouse
+          case Some(_)                                           => 1
+          case _                                                 => 0
+      case _ => 0
+    val (col, row) = getFirstFreeCellStartingFrom(cellGrid, cellGrid.getChildren.size() - numHouse, (0, 1))
+    cellGrid.add(tokensImgView(player.token), col, row)
 
   private def updatePlayersTable(): Unit =
     playersTable.getItems.clear()
     GameEngine.players.foreach(p => playersTable.getItems.add(p))
 
   private def updateTurnLabel(): Unit =
-    turnLabel.setText(
-      "Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")"
-    )
+    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
 
-  private def updatePropertiesList(): Unit =
-    playersTable.getSelectionModel.getSelectedItem match
-      case p if p != null =>
-        propertiesList.getItems.clear()
-        p.ownedProperties.foreach(p =>
-          propertiesList.getItems.add(p.spaceName.name)
-        )
-      case _ =>
+  private def updatePropertiesList(): Unit = playersTable.getSelectionModel.getSelectedItem match
+    case p if p != null =>
+      propertiesList.getItems.clear()
+      p.ownedProperties.foreach(p => propertiesList.getItems.add(p.name))
+    case _ =>

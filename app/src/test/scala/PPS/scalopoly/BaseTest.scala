@@ -1,7 +1,7 @@
 package PPS.scalopoly
 
 import PPS.scalopoly.model.{Player, Token}
-import org.junit.jupiter.api.{BeforeEach, Test}
+import org.junit.jupiter.api.Test
 
 @Test
 abstract class BaseTest:

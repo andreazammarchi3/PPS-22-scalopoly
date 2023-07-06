@@ -1,8 +1,7 @@
 package PPS.scalopoly.engine
 
 import PPS.scalopoly.BaseTest
-import PPS.scalopoly.model.SpaceName.VIA
-import PPS.scalopoly.model.{SpaceName, Token}
+import PPS.scalopoly.model.Token
 import PPS.scalopoly.engine.Game
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.{BeforeEach, Test}

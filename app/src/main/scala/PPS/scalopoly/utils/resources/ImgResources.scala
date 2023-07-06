@@ -19,6 +19,8 @@ enum ImgResources(_path: String):
   case DICE_4 extends ImgResources("/img/dice/4.png")
   case DICE_5 extends ImgResources("/img/dice/5.png")
   case DICE_6 extends ImgResources("/img/dice/6.png")
+  case IMG_HOUSE extends ImgResources("/img/house/Casa.png")
+  case IMG_HOTEL extends ImgResources("/img/house/Albergo.png")
 
   /** @return
     *   the path of the image.

@@ -3,10 +3,10 @@ package PPS.scalopoly.utils
 import PPS.scalopoly.utils.resources.{CssResources, FxmlResources, ImgResources}
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
-import javafx.scene.control.{Alert, ButtonBar, ButtonType}
+import javafx.scene.control.{Alert, ButtonType}
 import javafx.scene.control.Alert.AlertType
 import javafx.scene.image.{Image, ImageView}
-import javafx.scene.layout.{AnchorPane, BorderPane, Pane}
+import javafx.scene.layout.{BorderPane, Pane}
 import javafx.stage.Screen
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
@@ -17,22 +17,25 @@ import scalafx.stage.Stage
 import java.io.IOException
 import java.util.Optional
 
-/** Utility object that provides methods to load FXML resources and change the
-  * current scene.
+/** Utility object that provides methods to load FXML resources and change the current scene.
   */
 object FxmlUtils:
 
   val DEFAULT_WIDTH_PERC: Double = 0.9
   val GAME_WIDTH_PERC: Double = 0.8
   val DEFAULT_HEIGHT_PERC: Double = 0.9
-
-  val exitBtnType: ButtonType =
-    new ButtonType("Esci", ButtonBar.ButtonData.CANCEL_CLOSE)
-  val newGameBtnType: ButtonType =
-    new ButtonType("Nuova partita", ButtonBar.ButtonData.OK_DONE)
-
+  
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null")
+  )
   private var _stage: Stage = _
+
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var width: Double = _
+
+  @SuppressWarnings(
+    Array("org.wartremover.warts.Null")
+  )
   private var height: Double = _
 
   /** Returns the current stage.
@@ -120,8 +123,7 @@ object FxmlUtils:
 
   private def loadFXMLResource(fxmlPath: String): Scene =
     val fxmlFile = getClass.getResource(fxmlPath)
-    if (fxmlFile == null)
-      throw new IOException("Cannot load resource: " + fxmlPath)
+    if fxmlFile == null then throw new IOException("Cannot load resource: " + fxmlPath)
     val root: Parent = FXMLLoader.load(fxmlFile)
     new Scene(root)
 
@@ -131,18 +133,10 @@ object FxmlUtils:
     gameBoard.setFitHeight(gameBoardSize)
 
   private def setGameBoardImage(gameBoard: ImageView): Unit =
-    gameBoard.setImage(
-      new Image(
-        getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString
-      )
-    )
+    gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
     gameBoard.setPreserveRatio(false)
 
-  private def setPaneResolution(
-      pane: BorderPane,
-      widthPerc: Double,
-      heightPerc: Double
-  ): Unit =
+  private def setPaneResolution(pane: BorderPane, widthPerc: Double, heightPerc: Double): Unit =
     val screenResolution = Screen.getPrimary.getBounds
     width = screenResolution.getWidth * widthPerc
     height = screenResolution.getHeight * heightPerc
@@ -150,6 +144,4 @@ object FxmlUtils:
     pane.setPrefHeight(height)
 
   private def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
-    pane.getStylesheets.add(
-      getClass.getResource(cssResources.path).toExternalForm
-    )
+    pane.getStylesheets.add(getClass.getResource(cssResources.path).toExternalForm)

@@ -1,31 +1,28 @@
 package PPS.scalopoly.utils
 
-import PPS.scalopoly.model.{
-  DiceManager,
-  GameBoard,
-  Player,
-  PurchasableSpace,
-  SpaceName,
-  Token
-}
+import PPS.scalopoly.model.{DiceManager, GameBoard, Player, Token}
 import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.GameEngine
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertFalse,
-  assertThrows,
-  assertTrue,
-  fail
-}
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertThrows, assertTrue}
+import org.junit.jupiter.api.{BeforeEach, Test}
 
 import scala.util.Random
 
 class TestGameUtils:
+
+  private val PURCHASABLE_SPACE = GameEngine.gameBoard.purchasableSpaces(0)
+  private val player =
+    new Player("player", Token.DITALE, 0, 0, List(PURCHASABLE_SPACE))
+
+  @BeforeEach
+  def setup: Unit =
+    GameEngine.newGame()
+    GameEngine.addPlayer(player)
+
   @Test
   def testAddSumToPosition(): Unit =
     val DEFAULT_STARTING_POSITION = 0
-    val RANDOM_POSITION = Random.between(0, GameBoard.size / 2)
+    val RANDOM_POSITION = Random.between(0, GameEngine.gameBoard.size / 2)
     val RANDOM_STEPS = Random.between(1, DiceManager.MAX_DICE_VALUE * 2)
     assertEquals(
       RANDOM_POSITION + RANDOM_STEPS,
@@ -33,13 +30,13 @@ class TestGameUtils:
     )
     assertEquals(
       DEFAULT_STARTING_POSITION,
-      GameUtils.addSumToPosition(1, GameBoard.size - 1)
+      GameUtils.addSumToPosition(1, GameEngine.gameBoard.size - 1)
     )
 
   @Test
   def testGetCoordinateFromPosition(): Unit =
     val NEGATIVE_POSITION = -1
-    val OVER_MAX_POSITION = GameBoard.size
+    val OVER_MAX_POSITION = GameEngine.gameBoard.size
     assertThrows(
       classOf[IllegalArgumentException],
       () => GameUtils.getCoordinateFromPosition(NEGATIVE_POSITION)
@@ -70,7 +67,7 @@ class TestGameUtils:
     )
 
   @Test
-  def testGetNthCellInGrid(): Unit =
+  def getNthCellInGridWithStartingPos(): Unit =
     val DEFAULT_GRID_SIZE = (4, 3)
     val FIRST_CELL_OF_SECOND_ROW = (3, 0)
     val ILLEGAL_GRID_SIZE = (0, 1)
@@ -85,7 +82,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           DEFAULT_STARTING_VALUE,
           ILLEGAL_GRID_SIZE,
           STARTING_CELL
@@ -94,7 +91,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           DEFAULT_STARTING_VALUE,
           ILLEGAL_GRID_SIZE.swap,
           STARTING_CELL
@@ -103,7 +100,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           ILLEGAL_STARTING_VALUE,
           DEFAULT_GRID_SIZE,
           STARTING_CELL
@@ -112,7 +109,7 @@ class TestGameUtils:
     assertThrows(
       classOf[IllegalArgumentException],
       () =>
-        GameUtils.getNthCellInGrid(
+        GameUtils.getNthCellInGridWithStartingPos(
           LAST_CELL_VALUE + 1,
           DEFAULT_GRID_SIZE,
           STARTING_CELL
@@ -120,7 +117,7 @@ class TestGameUtils:
     )
     assertEquals(
       STARTING_CELL,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         DEFAULT_STARTING_VALUE,
         DEFAULT_GRID_SIZE,
         STARTING_CELL
@@ -128,7 +125,7 @@ class TestGameUtils:
     )
     assertEquals(
       FIRST_CELL_OF_SECOND_ROW,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         VALUE_OF_FIRST_CELL_OF_SECOND_ROW,
         DEFAULT_GRID_SIZE,
         STARTING_CELL
@@ -136,7 +133,7 @@ class TestGameUtils:
     )
     assertEquals(
       LAST_CELL,
-      GameUtils.getNthCellInGrid(
+      GameUtils.getNthCellInGridWithStartingPos(
         LAST_CELL_VALUE,
         DEFAULT_GRID_SIZE,
         STARTING_CELL
@@ -144,46 +141,42 @@ class TestGameUtils:
     )
 
   @Test
-  def testCheckIfPropertyIsAlreadyOwned(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
-    val player =
-      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
-    GameEngine.addPlayer(player)
-    assertTrue(GameUtils.propertyIsAlreadyOwned(purchasableSpace))
+  def testPropertyIsAlreadyOwned(): Unit =
+    assertTrue(GameUtils.propertyIsAlreadyOwned(PURCHASABLE_SPACE))
     assertFalse(
-      GameUtils.propertyIsAlreadyOwned(PurchasableSpace.VIA_ACCADEMIA)
+      GameUtils.propertyIsAlreadyOwned(
+        GameEngine.gameBoard.purchasableSpaces(1)
+      )
     )
 
   @Test
   def testGetOwnerFromPurchasableSpace(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
-    val player =
-      new Player("player", Token.DITALE, 0, 0, List(purchasableSpace))
-    GameEngine.addPlayer(player)
     assertEquals(
       Some(player),
-      GameUtils.getOwnerFromPurchasableSpace(purchasableSpace)
+      GameUtils.getOwnerFromPurchasableSpace(PURCHASABLE_SPACE)
     )
     assertEquals(
       None,
-      GameUtils.getOwnerFromPurchasableSpace(PurchasableSpace.VIA_ACCADEMIA)
+      GameUtils.getOwnerFromPurchasableSpace(
+        GameEngine.gameBoard.purchasableSpaces(1)
+      )
     )
 
   @Test
-  def testGetPurchasableSpaceFromSpaceName(): Unit =
-    val purchasableSpace = PurchasableSpace.VICOLO_CORTO
+  def testGetNotPurchasableSpaceFromPlayerPosition(): Unit =
     assertEquals(
-      Some(purchasableSpace),
-      GameUtils.getPurchasableSpaceFromSpaceName(purchasableSpace.spaceName)
+      Some(GameEngine.gameBoard.gameBoardList(player.actualPosition)),
+      GameUtils.getNotPurchasableSpaceFromPlayerPosition(player)
+    )
+
+  @Test
+  def testGetBuildableSpaceFromName(): Unit =
+    val BUILDABLE_SPACE = GameEngine.gameBoard.buildableSpaces(1)
+    assertEquals(
+      Some(BUILDABLE_SPACE),
+      GameUtils.getBuildableSpaceFromName(BUILDABLE_SPACE.name)
     )
     assertEquals(
       None,
-      GameUtils.getPurchasableSpaceFromSpaceName(SpaceName.VIA)
-    )
-
-  @Test
-  def testGetSpaceNameFromPlayerPosition(): Unit =
-    assertEquals(
-      GameBoard.gameBoardList(0),
-      GameUtils.getSpaceNameFromPlayerPosition(GameEngine.currentPlayer)
+      GameUtils.getBuildableSpaceFromName("NOT_EXIST")
     )

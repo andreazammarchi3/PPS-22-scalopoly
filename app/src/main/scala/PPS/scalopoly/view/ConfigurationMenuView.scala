@@ -3,25 +3,18 @@ package PPS.scalopoly.view
 import PPS.scalopoly.model.{Player, Token}
 import PPS.scalopoly.controller.ConfigurationMenuController
 import PPS.scalopoly.utils.{AlertUtils, FxmlUtils}
-import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import PPS.scalopoly.utils.resources.CssResources
 import javafx.beans.binding.Bindings
 import javafx.scene.control.{Button, ComboBox, TableView, TextField}
-import javafx.stage.{Screen, Stage, Window}
-import javafx.fxml.{FXML, FXMLLoader, Initializable}
-import javafx.scene.image.{Image, ImageView}
-import javafx.scene.{Parent, Scene}
-import javafx.scene.layout.{AnchorPane, BorderPane, VBox}
-import javafx.collections.{FXCollections, ObservableList}
-import javafx.scene.control.cell.PropertyValueFactory
+import javafx.stage.Stage
+import javafx.fxml.{FXML, Initializable}
+import javafx.scene.image.ImageView
+import javafx.scene.layout.{BorderPane, VBox}
+import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
-import javafx.scene.control.Alert
-import javafx.scene.control.Alert.AlertType
 import scalafx.beans.property.{ObjectProperty, StringProperty}
-import scalafx.scene.input.KeyCode.GameC
-import scalafx.scene.control.ControlIncludes.jfxCellDataFeatures2sfx
 
 import java.net.URL
-import java.util
 import java.util.ResourceBundle
 
 /** View for the configuration menu.
@@ -31,81 +24,55 @@ class ConfigurationMenuView extends Initializable:
   private val N_MENUS = 2
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var startBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var exitBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var pane: BorderPane = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var gameBoard: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var leftBorderPaneVBox: VBox = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var rightBorderPaneVBox: VBox = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var tableView: TableView[Player] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerNameColumn: TableColumn[Player, String] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var playerTokenColumn: TableColumn[Player, Token] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var addPlayerNameTextField: TextField = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var addPlayerTokenCombobox: ComboBox[Token] = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var addPlayerBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var removePlayerBtn: Button = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit =
@@ -122,20 +89,13 @@ class ConfigurationMenuView extends Initializable:
     leftBorderPaneVBox.setPrefWidth(menuWidth / N_MENUS)
     initTableView()
     updateAddPlayerCombobox()
-    removePlayerBtn
-      .disableProperty()
-      .bind(
-        Bindings.isEmpty(tableView.getSelectionModel.getSelectedItems)
-      )
+    removePlayerBtn.disableProperty().bind(Bindings.isEmpty(tableView.getSelectionModel.getSelectedItems))
 
-  /** Checks if the player name is not empty and adds the player to the table
-    * view.
+  /** Checks if the player name is not empty and adds the player to the table view.
     */
   def playGameBtnClick(): Unit =
-    if (ConfigurationMenuController.canStartGame)
-      ConfigurationMenuController.playGame()
-    else
-      AlertUtils.showNotEnoughPlayersWarning()
+    if ConfigurationMenuController.canStartGame then ConfigurationMenuController.playGame()
+    else AlertUtils.showNotEnoughPlayersWarning()
 
   /** Exits the game.
     */
@@ -145,7 +105,7 @@ class ConfigurationMenuView extends Initializable:
   /** Add a player to the table view, if the player name is not empty.
     */
   def checkAndAddPlayerToTableView(): Unit =
-    if (ConfigurationMenuController.canAddPlayer) addPlayerToTableView()
+    if ConfigurationMenuController.canAddPlayer then addPlayerToTableView()
 
   /** Removes the selected player from the table view.
     */
@@ -157,37 +117,26 @@ class ConfigurationMenuView extends Initializable:
     updateAddAndRemoveButton()
 
   private def initTableView(): Unit =
-    playerNameColumn.setCellValueFactory(p =>
-      StringProperty(p.getValue.nickname)
-    )
+    playerNameColumn.setCellValueFactory(p => StringProperty(p.getValue.nickname))
     playerTokenColumn.setCellValueFactory(p => ObjectProperty(p.getValue.token))
     tableView.setItems(FXCollections.observableArrayList[Player]())
 
-  private def addPlayerToTableView(): Unit =
-    addPlayerNameTextField.getText match
-      case playerName if playerName.isEmpty =>
-        AlertUtils.showEmptyPlayerNameWarning()
-      case _ =>
-        val newPlayer =
-          Player(
-            addPlayerNameTextField.getText,
-            addPlayerTokenCombobox.getValue
-          )
-        tableView.getItems.add(newPlayer)
-        ConfigurationMenuController.addPlayer(newPlayer)
-        updateAddPlayerCombobox()
-        updateAddAndRemoveButton()
-        addPlayerNameTextField.clear()
+  private def addPlayerToTableView(): Unit = addPlayerNameTextField.getText match
+    case playerName if playerName.isEmpty =>
+      AlertUtils.showEmptyPlayerNameWarning()
+    case _ =>
+      val newPlayer = Player(addPlayerNameTextField.getText, addPlayerTokenCombobox.getValue)
+      tableView.getItems.add(newPlayer)
+      ConfigurationMenuController.addPlayer(newPlayer)
+      updateAddPlayerCombobox()
+      updateAddAndRemoveButton()
+      addPlayerNameTextField.clear()
 
   private def updateAddPlayerCombobox(): Unit =
-    addPlayerTokenCombobox.getItems.setAll(
-      FXCollections.observableArrayList(
-        ConfigurationMenuController.availableToken(): _*
-      )
-    )
+    addPlayerTokenCombobox.getItems
+      .setAll(FXCollections.observableArrayList(ConfigurationMenuController.availableToken(): _*))
     addPlayerTokenCombobox.getSelectionModel.selectFirst()
 
   private def updateAddAndRemoveButton(): Unit =
-    if ConfigurationMenuController.canAddPlayer then
-      addPlayerBtn.setDisable(false)
+    if ConfigurationMenuController.canAddPlayer then addPlayerBtn.setDisable(false)
     else addPlayerBtn.setDisable(true)

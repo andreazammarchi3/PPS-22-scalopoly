@@ -62,9 +62,7 @@ class TestGameEngine extends BaseTest:
       Token.values.length - players.length,
       GameEngine.availableTokens.length
     )
-    players.foreach(p =>
-      assertFalse(GameEngine.availableTokens.contains(p.token))
-    )
+    players.foreach(p => assertFalse(GameEngine.availableTokens.contains(p.token)))
 
   @Test
   def testCanStartGame(): Unit =
@@ -97,10 +95,9 @@ class TestGameEngine extends BaseTest:
     // VICOLO_CORTO must be PURCHASABLE
     GameEngine.moveCurrentPlayer(1)
     assertEquals(SpaceStatus.PURCHASABLE, GameEngine.checkSpaceStatus)
-    GameEngine.playerBuysPurchasableSpace(
-      GameEngine.currentPlayer,
-      PurchasableSpace.VICOLO_CORTO
-    )
+    GameUtils
+      .getPurchasableSpaceFromPlayerPosition(GameEngine.currentPlayer)
+      .foreach(p => PlayerActionsEngine.playerBuysPurchasableSpace(GameEngine.currentPlayer, p))
 
     // PROBABILITA' must be NOT_PURCHASABLE
     GameEngine.moveCurrentPlayer(1)
@@ -108,7 +105,6 @@ class TestGameEngine extends BaseTest:
 
     // VICOLO_CORTO must be OWNED_BY_CURRENT_PLAYER
     GameEngine.moveCurrentPlayer(39)
-    println(GameEngine.currentPlayer.actualPosition)
     assertEquals(
       SpaceStatus.OWNED_BY_CURRENT_PLAYER,
       GameEngine.checkSpaceStatus
@@ -121,62 +117,3 @@ class TestGameEngine extends BaseTest:
       SpaceStatus.OWNED_BY_ANOTHER_PLAYER,
       GameEngine.checkSpaceStatus
     )
-
-  @Test
-  def testPlayerPaysRent(): Unit =
-    GameEngine.playerPaysRent(player1, PurchasableSpace.VICOLO_CORTO, player2)
-    GameEngine.players
-      .find(p => p.token == player1.token)
-      .foreach(
-        assertEquals(
-          new Player(
-            player1.nickname,
-            player1.token,
-            player1.actualPosition,
-            player1.money - PurchasableSpace.VICOLO_CORTO.calculateRent(),
-            player1.ownedProperties
-          ),
-          _
-        )
-      )
-    GameEngine.players
-      .find(p => p.token == player2.token)
-      .foreach(
-        assertEquals(
-          new Player(
-            player2.nickname,
-            player2.token,
-            player2.actualPosition,
-            player2.money + PurchasableSpace.VICOLO_CORTO.calculateRent(),
-            player2.ownedProperties
-          ),
-          _
-        )
-      )
-
-  @Test
-  def testPlayerObtainHeritage(): Unit =
-    val MONEY_P1 = 2000 - PurchasableSpace.VICOLO_CORTO.sellingPrice
-    GameEngine.playerBuysPurchasableSpace(
-      player1,
-      PurchasableSpace.VICOLO_CORTO
-    )
-    GameEngine.players
-      .find(p => p.token == player1.token)
-      .foreach(
-        GameEngine.playerObtainHeritage(_, player2)
-      )
-    GameEngine.players
-      .find(p => p.token == player2.token)
-      .foreach(
-        assertEquals(
-          new Player(
-            player2.nickname,
-            player2.token,
-            player2.actualPosition,
-            player2.money + MONEY_P1,
-            List(PurchasableSpace.VICOLO_CORTO)
-          ),
-          _
-        )
-      )

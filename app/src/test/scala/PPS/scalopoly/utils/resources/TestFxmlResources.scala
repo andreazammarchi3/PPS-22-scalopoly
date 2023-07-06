@@ -1,11 +1,6 @@
 package PPS.scalopoly.utils.resources
 
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertNotNull,
-  assertThrows,
-  assertTrue
-}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull, assertThrows}
 import org.junit.jupiter.api.Test
 
 class TestFxmlResources:

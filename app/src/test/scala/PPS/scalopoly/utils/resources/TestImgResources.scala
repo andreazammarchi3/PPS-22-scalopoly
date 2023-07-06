@@ -1,19 +1,15 @@
 package PPS.scalopoly.utils.resources
 
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertNotNull,
-  assertThrows,
-  assertTrue
-}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertNotNull, assertThrows}
 import org.junit.jupiter.api.Test
+
 class TestImgResources:
 
   private val DICE_4_POSITION = 13
   private val DICE_6_POSITION = 15
   private val IMG_TOKEN_STIVALE_POSITION = 3
   private val IMG_TOKEN_GATTO_POSITION = 5
-  private val NUM_IMG_RESOURCES = 16
+  private val NUM_IMG_RESOURCES = 18
   @Test
   def testPath(): Unit =
     assertEquals("/img/Gameboard.png", ImgResources.GAMEBOARD.path)

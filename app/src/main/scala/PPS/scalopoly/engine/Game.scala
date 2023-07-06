@@ -1,7 +1,9 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.model.{Player, Token}
+import PPS.scalopoly.model.{GameBoard, Player, Token}
 
+/** Game object that contains the current player, the list of players, the winner and the list of available tokens.
+  */
 protected[engine] object Game:
 
   private val DEFAULT_CURRENT_PLAYER: Int = 0
@@ -10,6 +12,12 @@ protected[engine] object Game:
   private var _players: List[Player] = List.empty
   private var _winner: Option[Player] = None
   private var _availableTokens: List[Token] = Token.values.toList
+  private var _gameBoard = GameBoard()
+
+  def gameBoard: GameBoard = _gameBoard
+
+  def gameBoard_=(value: GameBoard): Unit =
+    _gameBoard = value
 
   /** Returns the current player.
     *
@@ -71,8 +79,7 @@ protected[engine] object Game:
   def availableTokens_=(value: List[Token]): Unit =
     _availableTokens = value
 
-  /** Adds a player to the game and removes the token from the list of available
-    * tokens.
+  /** Adds a player to the game and removes the token from the list of available tokens.
     *
     * @param player
     *   the player to add.
@@ -81,8 +88,7 @@ protected[engine] object Game:
     players = player :: players
     availableTokens = availableTokens.filter(_ != player.token)
 
-  /** Removes a player from the game and adds the token to the list of available
-    * tokens.
+  /** Removes a player from the game and adds the token to the list of available tokens.
     *
     * @param player
     *   the player to remove.
@@ -98,3 +104,4 @@ protected[engine] object Game:
     players = List.empty
     availableTokens = Token.values.toList
     winner = None
+    gameBoard = GameBoard()

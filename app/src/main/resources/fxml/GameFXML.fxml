@@ -64,7 +64,7 @@
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                      <children>
                         <Button fx:id="throwDiceBtn" mnemonicParsing="false" onAction="#throwDiceBtnClick" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Lancia dadi" />
-                        <Button fx:id="buildBtn" disable="true" mnemonicParsing="false" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Costruisci" />
+                        <Button fx:id="buildBtn" mnemonicParsing="false" onAction="#buildBtnClick" prefWidth="80.0" styleClass="scalopoly-btn-actions" text="Costruisci" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">

@@ -1,12 +1,7 @@
 package PPS.scalopoly.model
 
 import PPS.scalopoly.model.SpaceGroup
-import org.junit.jupiter.api.Assertions.{
-  assertEquals,
-  assertFalse,
-  assertThrows,
-  assertTrue
-}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows}
 import org.junit.jupiter.api.Test
 
 class TestSpaceGroup:

@@ -1,17 +1,15 @@
 package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.StartMenuController
-import PPS.scalopoly.utils.resources.{CssResources, ImgResources}
+import PPS.scalopoly.utils.resources.CssResources
 import PPS.scalopoly.utils.FxmlUtils
 import javafx.scene.control.Button
-import javafx.stage.{Screen, Stage, Window}
-import javafx.fxml.{FXML, FXMLLoader, Initializable}
-import javafx.scene.image.{Image, ImageView}
-import javafx.scene.{Parent, Scene}
+import javafx.stage.Stage
+import javafx.fxml.{FXML, Initializable}
+import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 
 import java.net.URL
-import java.util
 import java.util.ResourceBundle
 
 /** View of the start menu.
@@ -19,27 +17,19 @@ import java.util.ResourceBundle
 class StartMenuView extends Initializable:
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var startBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var exitBtn: Button = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var gameBoard: ImageView = _
 
   @FXML
-  @SuppressWarnings(
-    Array("org.wartremover.warts.Null", "org.wartremover.warts.Var")
-  )
+  @SuppressWarnings(Array("org.wartremover.warts.Null"))
   private var pane: BorderPane = _
 
   override def initialize(location: URL, resources: ResourceBundle): Unit =

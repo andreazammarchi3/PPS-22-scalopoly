@@ -3,24 +3,20 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.model.Player
 import PPS.scalopoly.engine.GameEngine.MIN_PLAYERS
 import PPS.scalopoly.engine.Game
-import PPS.scalopoly.utils.FxmlUtils
-import PPS.scalopoly.utils.resources.FxmlResources
 
+/** Object that contains the logic for the endgame. It checks if there is a winner and, if so, it sets the winner in the
+  * [[Game]] object.
+  */
 object EndgameLogicEngine:
 
-  /** Checks if the current player has won the game.
+  /** Checks if the current player has won the game (i.e. if there is only one player left).
     *
     * @return
     *   true if the current player has won the game, false otherwise.
     */
   def checkVictory(): Boolean =
-    checkVictoryForSurrender(GameEngine.players) match
-      case true =>
-        Game.winner = Some(Game.players.head)
+    GameEngine.players.length match
+      case players if players == MIN_PLAYERS - 1 =>
+        Game.winner = Game.players.headOption
         true
       case _ => false
-
-  private def checkVictoryForSurrender(players: List[Player]): Boolean =
-    players.length match
-      case players if players == MIN_PLAYERS - 1 => true
-      case _                                     => false

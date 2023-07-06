@@ -1,16 +1,11 @@
 package PPS.scalopoly.controller
 
-import PPS.scalopoly.model.Token
-import PPS.scalopoly.model.Player
+import PPS.scalopoly.model.{Player, Token}
 import PPS.scalopoly.engine.GameEngine
-import PPS.scalopoly.view.ConfigurationMenuView
 import PPS.scalopoly.utils.FxmlUtils
 import PPS.scalopoly.utils.resources.FxmlResources
 
-import java.net.URL
-import java.util
-
-/** Controller for the configuration menu view.
+/** Controller for the [[PPS.scalopoly.view.ConfigurationMenuView]].
   */
 object ConfigurationMenuController:
 
@@ -64,4 +59,5 @@ object ConfigurationMenuController:
 
   /** Exit the game.
     */
-  def exitGame(): Unit = GameEngine.exitGame()
+  def exitGame(): Unit =
+    GameEngine.exitGame()

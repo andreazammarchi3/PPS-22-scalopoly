@@ -1,21 +1,19 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.controller.GameController
 import PPS.scalopoly.model.*
-import PPS.scalopoly.utils.{AlertUtils, GameUtils}
+import PPS.scalopoly.utils.GameUtils
 import PPS.scalopoly.engine.Game
-import javafx.scene.control.Alert.AlertType
-import javafx.scene.control.ButtonType
+import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
+import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
 
-import java.util.Optional
-import scala.util.Random
-
-/** Object that represents the game engine.
+/** Game engine that manages the [[Game]] and offers methods to interact with it.
   */
 object GameEngine:
 
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
+
+  def gameBoard: GameBoard = Game.gameBoard
 
   /** Returns the list of players.
     * @return
@@ -99,10 +97,9 @@ object GameEngine:
     *   the number of steps to move.
     */
   def moveCurrentPlayer(steps: Int): Unit =
-    updatePlayerWith(Game.currentPlayer, currentPlayer.move(steps))
+    EngineUtils.updatePlayerWith(Game.currentPlayer, currentPlayer.move(steps))
 
-  /** Removes the current player from the game, if there is only one player left
-    * the game ends.
+  /** Removes the current player from the game, if there is only one player left the game ends.
     */
   def currentPlayerQuit(): Unit =
     val playerToDelete = currentPlayer
@@ -111,83 +108,19 @@ object GameEngine:
     Game.removePlayer(playerToDelete)
     Game.currentPlayer = Game.players.indexOf(nextPlayer)
 
-  /** Check the status of the current space.
+  /** Check the status of the space where the current player is.
     * @return
-    *   the status of the current space.
+    *   the status of the space where the current player is.
     */
   def checkSpaceStatus: SpaceStatus =
-    val purchasableSpace =
-      GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
+    val purchasableSpace = GameUtils.getPurchasableSpaceFromPlayerPosition(currentPlayer)
     purchasableSpace match
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
 
-  /** Player buys a purchasable space.
-    *
-    * @param player
-    *   the player who buys the purchasable space.
-    * @param purchasableSpace
-    *   the purchasable space to buy.
-    */
-  def playerBuysPurchasableSpace(
-      player: Player,
-      purchasableSpace: PurchasableSpace
-  ): Unit =
-    updatePlayerWith(
-      Game.players.indexOf(player),
-      player.buy(purchasableSpace)
-    )
-
-  /** Player pays rent to the owner of a purchasable space.
-    *
-    * @param player
-    *   the player who pays the rent.
-    * @param purchasableSpace
-    *   the purchasable space to pay the rent.
-    * @param owner
-    *   the owner of the purchasable space.
-    */
-  def playerPaysRent(
-      player: Player,
-      purchasableSpace: PurchasableSpace,
-      owner: Player
-  ): Unit =
-    val rent = purchasableSpace.calculateRent()
-    updatePlayerWith(
-      players.indexOf(owner),
-      owner.takeRent(rent)
-    )
-    updatePlayerWith(
-      players.indexOf(player),
-      player.pay(rent)
-    )
-
-  /** Player obtains a heritage from another player.
-    *
-    * @param giver
-    *   the player who obtains the heritage.
-    * @param receiver
-    *   the player who gives the heritage.
-    */
-  def playerObtainHeritage(giver: Player, receiver: Player): Unit =
-    updatePlayerWith(
-      players.indexOf(receiver),
-      receiver.obtainHeritageFrom(giver)
-    )
-
-  private def checkPropertyStatus(
-      purchasableSpace: PurchasableSpace
-  ): SpaceStatus = purchasableSpace match
-    case purchasableSpace
-        if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
+  private def checkPropertyStatus(purchasableSpace: PurchasableSpace): SpaceStatus = purchasableSpace match
+    case purchasableSpace if GameUtils.propertyIsAlreadyOwned(purchasableSpace) =>
       purchasableSpace match
-        case _ if currentPlayer.owns(purchasableSpace) =>
-          SpaceStatus.OWNED_BY_CURRENT_PLAYER
-        case _ => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
+        case _ if currentPlayer.owns(purchasableSpace) => SpaceStatus.OWNED_BY_CURRENT_PLAYER
+        case _                                         => SpaceStatus.OWNED_BY_ANOTHER_PLAYER
     case _ => SpaceStatus.PURCHASABLE
-
-  private def updatePlayerWith(index: Int, playerUpdated: Player): Unit =
-    Game.players = Game.players.updated(
-      index,
-      playerUpdated
-    )

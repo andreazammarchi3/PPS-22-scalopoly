@@ -1,7 +1,8 @@
 package PPS.scalopoly.model
 
-import org.junit.jupiter.api.Test
+import PPS.scalopoly.engine.GameEngine
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
+import org.junit.jupiter.api.Test
 
 class TestPlayer:
 
@@ -20,8 +21,8 @@ class TestPlayer:
   def testCanPayOrBuy(): Unit =
     val AFFORDABLE_PRICE = 1000
     val NOT_AFFORDABLE_PRICE = 3000
-    assertTrue(player.canPayOrBuy(AFFORDABLE_PRICE))
-    assertFalse(player.canPayOrBuy(NOT_AFFORDABLE_PRICE))
+    assertTrue(player.canAfford(AFFORDABLE_PRICE))
+    assertFalse(player.canAfford(NOT_AFFORDABLE_PRICE))
 
   @Test
   def testPay(): Unit =
@@ -39,7 +40,7 @@ class TestPlayer:
 
   @Test
   def testBuy(): Unit =
-    val PROPERTY_TO_BUY = PurchasableSpace.VICOLO_CORTO
+    val PROPERTY_TO_BUY = GameEngine.gameBoard.purchasableSpaces(0)
     assertEquals(
       new Player(
         player.nickname,

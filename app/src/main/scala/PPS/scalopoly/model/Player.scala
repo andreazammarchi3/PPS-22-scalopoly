@@ -1,9 +1,7 @@
 package PPS.scalopoly.model
 
+import PPS.scalopoly.model.space.purchasable.PurchasableSpace
 import PPS.scalopoly.utils.GameUtils
-
-import scalafx.beans.property.StringProperty
-import scalafx.beans.property.ObjectProperty
 
 /** Represents a player of the game.
   * @param nickname
@@ -15,7 +13,7 @@ import scalafx.beans.property.ObjectProperty
   * @param money
   *   the money of the player
   * @param ownedProperties
-  *   the properties owned by the player
+  *   the list of [[PPS.scalopoly.model.space.purchasable.PurchasableSpace]] owned by the player
   */
 case class Player(
     nickname: String,
@@ -66,14 +64,14 @@ case class Player(
       ownedProperties :+ purchasableSpace
     )
 
-  /** Takes the rent from another player.
+  /** Obtains money from a rent or from passing from the Go space.
     *
     * @param value
-    *   the value of the rent
+    *   the value of the rent or the value of the start
     * @return
     *   the player with the new money
     */
-  def takeRent(value: Int): Player =
+  def cashIn(value: Int): Player =
     Player(nickname, token, actualPosition, money + value, ownedProperties)
 
   /** Obtains the heritage from another player.
@@ -98,7 +96,7 @@ case class Player(
     * @return
     *   true if the player can pay or buy something, false otherwise
     */
-  def canPayOrBuy(value: Int): Boolean = money >= value
+  def canAfford(value: Int): Boolean = money >= value
 
   /** Checks if the player owns the given purchasable space.
     * @param purchasableSpace
@@ -109,7 +107,7 @@ case class Player(
   def owns(purchasableSpace: PurchasableSpace): Boolean =
     ownedProperties.contains(purchasableSpace)
 
-/** Companion object of the class Player.
+/** Companion object of the class [[Player]].
   */
 object Player:
 
@@ -125,10 +123,4 @@ object Player:
     *   the new player
     */
   def apply(nickname: String, token: Token): Player =
-    Player(
-      nickname,
-      token,
-      DEFAULT_STARTING_POSITION,
-      DEFAULT_STARTING_MONEY,
-      List.empty
-    )
+    Player(nickname, token, DEFAULT_STARTING_POSITION, DEFAULT_STARTING_MONEY, List.empty)
