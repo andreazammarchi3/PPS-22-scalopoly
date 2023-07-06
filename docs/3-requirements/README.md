@@ -65,4 +65,4 @@ Utilizzo di:
   - se finisce su una proprietà acquistabile e libera la compra se può permettersela;
   - se non può fare altro termina il turno.
 
-[Torna alla Home](../README.md) | [Vai a Requisiti di sistema](../3-requirements/README.md)
+[Torna alla Home](../README.md) | [Vai a Design architetturale](../4-architectural-design/README.md)
