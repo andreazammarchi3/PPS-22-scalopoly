@@ -15,16 +15,43 @@ object PrologEngine:
 
   private val isComment: String => Boolean = _(0) == "%" (0)
 
+  /** Return the coordinate of the nth cell in a grid of gridSize dimensions.
+    *
+    * @param n
+    *   The number of the cell which coordinates are to be returned.
+    * @param gridSize
+    *   The dimensions of the grid.
+    * @return
+    *   The coordinates of the nth cell.
+    */
   def getNthCellInGrid(n: Int, gridSize: (Int, Int)): (Int, Int) =
     val SolX = "SolX"
     val SolY = "SolY"
     val goal = s"getNthCellInGrid($n, ${gridSize._1}, ${gridSize._1}, $SolY, $SolX)"
+    resolveGameUtilsGoal(goal, SolY, SolX)
+
+  /** Return the coordinates of a grid cell given the position of the player on the game board.
+    *
+    * @param position
+    *   The position of the player on the game board.
+    * @param cellsInSide
+    *   The number of cells in a side of the grid.
+    * @return
+    *   The coordinates of the grid cell.
+    */
+  def getCoordinateFromPosition(position: Int, cellsInSide: Int): (Int, Int) =
+    val SolX = "SolX"
+    val SolY = "SolY"
+    val goal = s"getCoordinateFromPosition($position, $cellsInSide, $SolY, $SolX)"
+    resolveGameUtilsGoal(goal, SolY, SolX)
+
+  private def resolveGameUtilsGoal(goal: String, sol1: String, sol2: String): (Int, Int) =
     val theory = Source
       .fromInputStream(getClass.getResourceAsStream(PrologResources.GAMEUTILS_PROLOG.path))
       .getLines()
       .filter(l => l.nonEmpty && !isComment(l))
       .mkString(" ")
-    engine.setTheory(Theory.of(theory))
+    engine.setTheory(Theory.parseWithStandardOperators(theory))
     val solution = engine.solve(goal)
-    if solution.isSuccess then (termToInt(solution.getTerm(SolY)), termToInt(solution.getTerm(SolX)))
+    if solution.isSuccess then (termToInt(solution.getTerm(sol1)), termToInt(solution.getTerm(sol2)))
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")

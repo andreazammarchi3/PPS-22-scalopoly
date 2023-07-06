@@ -48,10 +48,7 @@ object GameUtils:
     case _ if position < 0 => throw new IllegalArgumentException("Position cannot be negative")
     case _ if position >= GameEngine.gameBoard.size =>
       throw new IllegalArgumentException("Position cannot be greater than board size")
-    case _ if position < CELLS_IN_SIDE     => (CELLS_IN_SIDE - position, CELLS_IN_SIDE)
-    case _ if position < CELLS_IN_SIDE * 2 => (0, CELLS_IN_SIDE * 2 - position)
-    case _ if position < CELLS_IN_SIDE * 3 => (position - CELLS_IN_SIDE * 2, 0)
-    case _                                 => (CELLS_IN_SIDE, position - CELLS_IN_SIDE * 3)
+    case _ => PrologEngine.getCoordinateFromPosition(position, CELLS_IN_SIDE)
 
   /** Return the coordinate of the nth cell in a grid of gridSize dimensions, starting from startingCell.
     * @param n
