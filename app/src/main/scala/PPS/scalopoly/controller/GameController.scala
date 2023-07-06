@@ -95,7 +95,7 @@ object GameController:
       if !GameEngine.botIsPlaying then AlertUtils.showRentPayment(player, rent, owner, purchasableSpace)
       PlayerActionsEngine.playerPaysRent(player, purchasableSpace, owner)
     else
-      AlertUtils.showPlayerEliminated(player, owner)
+      AlertUtils.showPlayerEliminatedByRent(player, owner)
       PlayerActionsEngine.playerObtainHeritage(owner, player)
       currentPlayerQuit()
 
@@ -108,14 +108,29 @@ object GameController:
   private def handleNotPurchasableAction(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
     notPurchasableSpace.spaceType match
       case NotPurchasableSpaceType.BLANK =>
-      case _ =>
-        if !GameEngine.botIsPlaying then
+      case NotPurchasableSpaceType.CHANCE =>
+        val actionResult = PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+        if actionResult < 0 then
+          AlertUtils.showPlayerEliminatedByTax(player, notPurchasableSpace.spaceValue)
+          currentPlayerQuit()
+        else if !GameEngine.botIsPlaying then
           AlertUtils.showNotPurchasableSpaceAction(
             player,
             notPurchasableSpace,
-            PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+            actionResult
           )
-        else PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+      case _ =>
+        if player.canAfford(notPurchasableSpace.spaceValue) then
+          val actionResult = PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+          if !GameEngine.botIsPlaying then
+            AlertUtils.showNotPurchasableSpaceAction(
+              player,
+              notPurchasableSpace,
+              actionResult
+            )
+        else
+          AlertUtils.showPlayerEliminatedByTax(player, notPurchasableSpace.spaceValue)
+          currentPlayerQuit()
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =
     if !GameEngine.botIsPlaying then

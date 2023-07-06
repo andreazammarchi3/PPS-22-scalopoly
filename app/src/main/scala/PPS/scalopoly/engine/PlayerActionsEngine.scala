@@ -68,6 +68,8 @@ object PlayerActionsEngine:
     *   the player ont the not purchasable space.
     * @param notPurchasableSpace
     *   the not purchasable space.
+    * @return
+    *   new value of the player's money.
     */
   def playerOnNotPurchasableSpace(player: Player, notPurchasableSpace: NotPurchasableSpace): Int =
     val (resultPlayer: Player, moneyOperationResult: Int) = notPurchasableSpace.action(player)
