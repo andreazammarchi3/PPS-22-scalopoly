@@ -69,5 +69,7 @@ object PlayerActionsEngine:
     * @param notPurchasableSpace
     *   the not purchasable space.
     */
-  def playerOnNotPurchasableSpace(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
-    EngineUtils.updatePlayerWith(players.indexOf(player), notPurchasableSpace.action(player))
+  def playerOnNotPurchasableSpace(player: Player, notPurchasableSpace: NotPurchasableSpace): Int =
+    val (resultPlayer: Player, moneyOperationResult: Int) = notPurchasableSpace.action(player)
+    EngineUtils.updatePlayerWith(players.indexOf(player), resultPlayer)
+    moneyOperationResult

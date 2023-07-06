@@ -106,8 +106,8 @@ object GameController:
     else if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpace(player, purchasableSpace)
 
   private def handleNotPurchasableAction(player: Player, notPurchasableSpace: NotPurchasableSpace): Unit =
-    notPurchasableSpace match
-      case _: BlankSpace =>
+    notPurchasableSpace.spaceType match
+      case NotPurchasableSpaceType.BLANK =>
       case _ =>
         if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace)
         PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)

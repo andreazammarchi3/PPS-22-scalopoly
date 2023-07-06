@@ -37,7 +37,7 @@ object JsonUtils:
     *   the list of spaces
     */
   def readTypeSpaces[T](jsonResources: JsonResources, myJsonReader: MyJsonReader[T]): List[T] =
-    val js = Source.fromFile(getClass.getResource(jsonResources.path).toURI)
+    val js = Source.fromInputStream(getClass.getResourceAsStream(jsonResources.path))
     val spaces: List[T] = readSpaces[T](new StringReader(js.mkString), myJsonReader)
     js.close()
     spaces
