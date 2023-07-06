@@ -1,5 +1,6 @@
 package PPS.scalopoly.deserialization
 
+import PPS.scalopoly.engine.prolog.PrologEngine
 import PPS.scalopoly.model.SpaceGroup
 import PPS.scalopoly.model.space.purchasable.BuildableSpace
 import PPS.scalopoly.utils.JsonUtils
@@ -15,7 +16,7 @@ object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
   override def read(reader: JsonReader): BuildableSpace =
     var name = ""
     var sellingPrice = 0
-    var rents = List.empty[Int]
+    var baseRent = 0
     var spaceGroup = SpaceGroup.ARANCIONE
     var numHouse = 0
     var buildingCost = 0
@@ -26,10 +27,10 @@ object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
       currentName match
         case "name"         => name = reader.nextString()
         case "sellingPrice" => sellingPrice = reader.nextInt()
-        case "rents"        => rents = JsonUtils.readRents(reader)
+        case "baseRent"        => baseRent = reader.nextInt()
         case "spaceGroup"   => spaceGroup = SpaceGroup.valueOf(reader.nextString())
         case "numHouse"     => numHouse = reader.nextInt()
         case "buildingCost" => buildingCost = reader.nextInt()
         case _              => reader.skipValue()
     reader.endObject()
-    BuildableSpace(name, sellingPrice, rents, spaceGroup, numHouse, buildingCost)
+    BuildableSpace(name, sellingPrice, PrologEngine.calculateRents(baseRent, buildingCost, BuildableSpace.MAX_HOUSES), spaceGroup, numHouse, buildingCost)

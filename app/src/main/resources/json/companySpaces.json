@@ -2,13 +2,13 @@
   {
     "name": "Societa' Elettrica",
     "sellingPrice": 150,
-    "rents": [25],
+    "baseRent": 25,
     "spaceGroup": "SOCIETA"
   },
   {
     "name": "Societa' Acqua Potabile",
     "sellingPrice": 150,
-    "rents": [25],
+    "baseRent": 25,
     "spaceGroup": "SOCIETA"
   }
 ]
