@@ -21,7 +21,6 @@ object GameController:
   def view_=(value: GameView): Unit =
     _view = value
 
-
   /** Remove current player from the game.
     */
   def currentPlayerQuit(): Unit =
@@ -41,16 +40,14 @@ object GameController:
     GameEngine.moveCurrentPlayer(dicePair._1 + dicePair._2)
     if checkPassByGo(GameEngine.currentPlayer.actualPosition) then
       PlayerActionsEngine.playerPassByGo(GameEngine.currentPlayer)
-    if GameEngine.botIsPlaying && view != null then
-      view.diceThrown(dicePair._1, dicePair._2)
+    if GameEngine.botIsPlaying && view != null then view.diceThrown(dicePair._1, dicePair._2)
     dicePair
 
   /** End the turn of the current player.
     */
   def endTurn(): Unit =
     GameEngine.endTurn()
-    if GameEngine.botIsPlaying && view != null then
-      view.updateTurnLabel()
+    if GameEngine.botIsPlaying && view != null then view.updateTurnLabel()
 
   /** Check which actions the current player can perform.
     */
@@ -112,9 +109,13 @@ object GameController:
     notPurchasableSpace.spaceType match
       case NotPurchasableSpaceType.BLANK =>
       case _ =>
-        if !GameEngine.botIsPlaying then AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace, PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace))
-        else
-        PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+        if !GameEngine.botIsPlaying then
+          AlertUtils.showNotPurchasableSpaceAction(
+            player,
+            notPurchasableSpace,
+            PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+          )
+        else PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =
     if !GameEngine.botIsPlaying then

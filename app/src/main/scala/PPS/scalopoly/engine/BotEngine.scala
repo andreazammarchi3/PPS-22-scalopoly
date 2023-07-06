@@ -5,12 +5,22 @@ import PPS.scalopoly.model.space.purchasable.PurchasableSpace
 
 import scala.annotation.tailrec
 
+/** Object that represents the bot engine. It is responsible for the bot's actions.
+  */
 object BotEngine:
+  /** Method that starts the bot's turn.
+    */
   def play(): Unit =
     println(s"${GameEngine.currentPlayer.nickname} plays")
     checkOptions()
     GameController.endTurn()
 
+  /** Method that decides whether to buy a purchasable space or not.
+    * @param purchasableSpace
+    *   the purchasable space to buy
+    * @return
+    *   true if the bot decides to buy the space, false otherwise
+    */
   def decideToBuySpace(purchasableSpace: PurchasableSpace): Boolean =
     println(s"${GameEngine.currentPlayer.nickname} decides to buy ${purchasableSpace.name}")
     true

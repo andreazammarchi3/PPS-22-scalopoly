@@ -121,6 +121,8 @@ object GameEngine:
       case Some(purchasableSpace) => checkPropertyStatus(purchasableSpace)
       case _                      => SpaceStatus.NOT_PURCHASABLE
 
+  /** The current bot plays.
+    */
   def botPlays(): Unit =
     Game.botIsPlaying = true
     BotEngine.play()

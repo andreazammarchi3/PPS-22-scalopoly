@@ -5,47 +5,56 @@ import alice.tuprolog.*
 /** Represents an engine based on multiple theories designed to solve goals. */
 trait PrologEngine:
 
-  /**
-   * Processes a goal with the registered theories and sees whether it is accepted or not.
-   * @param goal goal to solve
-   * @return true if the goal is accepted, false otherwise
-   */
+  /** Processes a goal with the registered theories and sees whether it is accepted or not.
+    * @param goal
+    *   goal to solve
+    * @return
+    *   true if the goal is accepted, false otherwise
+    */
   def solveWithSuccess(goal: Term): Boolean
 
-  /**
-   * Processes a goal with the registered theories and, if a solution is found, gives the accepted value
-   * of the specified term.
-   * @param goal goal to solve
-   * @param term name of the [[Term]] that should be found
-   * @return the value of the [[Term]] that makes the goal acceptable
-   */
+  /** Processes a goal with the registered theories and, if a solution is found, gives the accepted value of the
+    * specified term.
+    * @param goal
+    *   goal to solve
+    * @param term
+    *   name of the [[Term]] that should be found
+    * @return
+    *   the value of the [[Term]] that makes the goal acceptable
+    */
   def solveOneAndGetTerm(goal: Term, term: String): Term
 
-  /**
-   * Processes a goal with the registered theories and, if a solution is found, gives the accepted values
-   * of the specified terms.
-   * @param goal goal to solve
-   * @param terms list of the names of the [[Term]]s that should be found
-   * @return the map of the values of [[Term]]s that make the goal acceptable
-   */
+  /** Processes a goal with the registered theories and, if a solution is found, gives the accepted values of the
+    * specified terms.
+    * @param goal
+    *   goal to solve
+    * @param terms
+    *   list of the names of the [[Term]]s that should be found
+    * @return
+    *   the map of the values of [[Term]]s that make the goal acceptable
+    */
   def solveOneAndGetTerms(goal: Term, terms: String*): Map[String, Term]
 
-  /**
-   * Processes a goal with the registered theories and, if at least one solution is found, gives the accepted values
-   * of the specified terms of each of the found solutions.
-   * @param goal goal to solve
-   * @param terms list of the names of the [[Term]]s that should be found
-   * @return the list of the map of the values of [[Term]]s that make the goal acceptable
-   */
+  /** Processes a goal with the registered theories and, if at least one solution is found, gives the accepted values of
+    * the specified terms of each of the found solutions.
+    * @param goal
+    *   goal to solve
+    * @param terms
+    *   list of the names of the [[Term]]s that should be found
+    * @return
+    *   the list of the map of the values of [[Term]]s that make the goal acceptable
+    */
   def solveAll(goal: Term, terms: String*): LazyList[Map[String, Term]]
 
-  /**
-   * Processes a goal with the registered theories and, if at least one solution is found, gives the accepted value
-   * of the specified term of each of the found solutions.
-   * @param goal goal to solve
-   * @param term name of the [[Term]] that should be found
-   * @return the list of the values of the [[Term]] that make the goal acceptable
-   */
+  /** Processes a goal with the registered theories and, if at least one solution is found, gives the accepted value of
+    * the specified term of each of the found solutions.
+    * @param goal
+    *   goal to solve
+    * @param term
+    *   name of the [[Term]] that should be found
+    * @return
+    *   the list of the values of the [[Term]] that make the goal acceptable
+    */
   def solveAll(goal: Term, term: String): LazyList[Term]
 
 /** Object helper for [[PrologEngine]]. */
@@ -61,11 +70,12 @@ object PrologEngine:
   given Conversion[String, Theory] = fileName =>
     Theory.parseLazilyWithStandardOperators(getClass.getResourceAsStream(fileName))
 
-  /**
-   * Creates a new [[PrologEngine]] using one or more [[Theory]].
-   * @param theories one or more [[Theory]]
-   * @return a new fresh [[PrologEngine]]
-   */
+  /** Creates a new [[PrologEngine]] using one or more [[Theory]].
+    * @param theories
+    *   one or more [[Theory]]
+    * @return
+    *   a new fresh [[PrologEngine]]
+    */
   def apply(theories: Theory*): PrologEngine = PrologEngineImpl(theories*)
 
   private case class PrologEngineImpl(theories: Theory*) extends PrologEngine:

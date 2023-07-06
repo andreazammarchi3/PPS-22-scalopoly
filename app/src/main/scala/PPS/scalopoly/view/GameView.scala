@@ -158,7 +158,7 @@ class GameView extends Initializable:
     tokensImgView.foreach(t =>
       GameEngine.players.find(p => p.token == t._1) match
         case None => t._2.setDisable(true)
-        case _ =>
+        case _    =>
     )
     if dice1 != dice2 && !GameEngine.currentPlayer.isBot then setBtnsForEndTurn(true)
 
@@ -185,6 +185,11 @@ class GameView extends Initializable:
           updatePlayersTable()
           updateHouseImg(buildableSpace)
       )
+
+  /** Update the turn label with the current player
+    */
+  def updateTurnLabel(): Unit =
+    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -273,9 +278,6 @@ class GameView extends Initializable:
   private def updatePlayersTable(): Unit =
     playersTable.getItems.clear()
     GameEngine.players.foreach(p => playersTable.getItems.add(p))
-
-  def updateTurnLabel(): Unit =
-    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
 
   private def updatePropertiesList(): Unit = playersTable.getSelectionModel.getSelectedItem match
     case p if p != null =>
