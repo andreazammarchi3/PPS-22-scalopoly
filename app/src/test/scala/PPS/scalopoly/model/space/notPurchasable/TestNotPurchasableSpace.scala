@@ -32,19 +32,18 @@ class TestNotPurchasableSpace:
     val (resultPlayer: Player, moneyOperationResult: Int) = runAction(NotPurchasableSpaceType.CHANCE)
     assert(resultPlayer.money == 1900 || resultPlayer.money == 2100)
 
-  private def runAction(spaceType: NotPurchasableSpaceType):  (Player, Int) =
+  private def runAction(spaceType: NotPurchasableSpaceType): (Player, Int) =
     val player: Player = Player("player", Token.CANE)
     val spaceValue = 100
     val chanceSpace = NotPurchasableSpaceBuilder("", spaceType, spaceValue).build()
     chanceSpace.action(player)
-
 
 object TestNotPurchasableSpace:
   def inputDataProvider(): java.util.stream.Stream[Array[Matchable]] =
     java.util.stream.Stream.of(
       Array(InputData(NotPurchasableSpaceType.LUXURY_TAX, 1900)),
       Array(InputData(NotPurchasableSpaceType.INCOME_TAX, 1900)),
-      Array(InputData(NotPurchasableSpaceType.BLANK, 2000)),
+      Array(InputData(NotPurchasableSpaceType.BLANK, 2000))
     )
 
 case class InputData(spaceType: NotPurchasableSpaceType, expectedParameterResult: Int)

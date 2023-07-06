@@ -181,7 +181,7 @@ object AlertUtils:
     val actionResultMessage = moneyOperationResult match
       case i if i > 0 => s" e ha guadagnato " + moneyOperationResult + MONEY_CURRENCY
       case i if i < 0 => s" e ha perso " + -1 * moneyOperationResult + MONEY_CURRENCY
-      case _ => " e non ha subito nessuna conseguenza"
+      case _          => " e non ha subito nessuna conseguenza"
     FxmlUtils.showAlert(
       AlertType.INFORMATION,
       "Scalopoly",

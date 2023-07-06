@@ -1,7 +1,11 @@
 package PPS.scalopoly.deserialization
 
 import PPS.scalopoly.model.SpaceGroup
-import PPS.scalopoly.model.space.notPurchasable.{NotPurchasableSpace, NotPurchasableSpaceBuilder, NotPurchasableSpaceType}
+import PPS.scalopoly.model.space.notPurchasable.{
+  NotPurchasableSpace,
+  NotPurchasableSpaceBuilder,
+  NotPurchasableSpaceType
+}
 import PPS.scalopoly.utils.JsonUtils
 import com.google.gson.stream.JsonReader
 
@@ -28,8 +32,9 @@ object NotPurchasableSpaceJsonReader extends MyJsonReader[NotPurchasableSpace]:
     reader.endObject()
 
     spaceType match
-      case "Chance"         => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.CHANCE, spaceValue).build()
-      case "CommunityChest" => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.COMMUNITY_CHEST, spaceValue).build()
-      case "IncomeTax"      => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.INCOME_TAX, spaceValue).build()
-      case "LuxuryTax"      => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.LUXURY_TAX, spaceValue).build()
-      case _                => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.BLANK, spaceValue).build()
+      case "Chance" => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.CHANCE, spaceValue).build()
+      case "CommunityChest" =>
+        NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.COMMUNITY_CHEST, spaceValue).build()
+      case "IncomeTax" => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.INCOME_TAX, spaceValue).build()
+      case "LuxuryTax" => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.LUXURY_TAX, spaceValue).build()
+      case _           => NotPurchasableSpaceBuilder(name, NotPurchasableSpaceType.BLANK, spaceValue).build()

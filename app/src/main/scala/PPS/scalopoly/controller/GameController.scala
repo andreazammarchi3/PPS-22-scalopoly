@@ -99,7 +99,11 @@ object GameController:
     notPurchasableSpace.spaceType match
       case NotPurchasableSpaceType.BLANK =>
       case _ =>
-        AlertUtils.showNotPurchasableSpaceAction(player, notPurchasableSpace, PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace))
+        AlertUtils.showNotPurchasableSpaceAction(
+          player,
+          notPurchasableSpace,
+          PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
+        )
 
   private def playerWantToBuySpace(player: Player, purchasableSpace: PurchasableSpace): Boolean =
     val result = AlertUtils.showAskToBuyPurchasableSpace(player, purchasableSpace)
