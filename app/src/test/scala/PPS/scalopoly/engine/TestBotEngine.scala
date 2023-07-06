@@ -3,7 +3,7 @@ package PPS.scalopoly.engine
 import PPS.scalopoly.BaseTest
 import PPS.scalopoly.model.{Player, Token}
 import org.junit.jupiter.api.{BeforeEach, Test}
-import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 
 class TestBotEngine:
   private val p1: Player = Player("p1", Token.DITALE)
@@ -16,11 +16,12 @@ class TestBotEngine:
 
   @Test
   def testPlay(): Unit =
-    GameEngine.currentPlayer match
-      case bot if bot == bot1 =>
-        Game.botIsPlaying = true
-        BotEngine.play()
-        Game.botIsPlaying = false
-      case _ => GameEngine.endTurn()
+    Game.botIsPlaying = true
+    BotEngine.play()
+    Game.botIsPlaying = false
     assertEquals(p1.token, GameEngine.currentPlayer.token)
     GameEngine.players.find(p => p.token == bot1.token).foreach(b => assertFalse(b.actualPosition == 0))
+
+  @Test
+  def testDecideToBuySpace(): Unit =
+    assertTrue(BotEngine.decideToBuySpace(GameEngine.gameBoard.purchasableSpaces(0)))
