@@ -1,10 +1,10 @@
 # Processo di sviluppo
-Viene ora descritto il processo di sviluppo adottato per la realizzazione del progetto.
 
 ## Agile
-Lo sviluppo del progetto è avvenuto seguendo i prinicipi della metodologia Agile, in particolare:
-- processo incrementale e iterativo: lo sviluppo avverà in diverse iterazioni, ognuna delle quali aggiungerà funzionalità nuove a quanto già implementato o lo raffinerà;
-- 
+Lo sviluppo del progetto è avvenuto seguendo i prinicipi della metodologia Agile, adottando alcuni aspetti del framework **Scrum**, in particolare è stato utilizzato un processo incrementale e iterativo: lo sviluppo è stato diviso in diverse iterazioni (Sprint), ognuna delle quali ha aggiunto nuove funzionalità a quanto già implementato o ha raffinato quanto già presente.
+
+Per prima cosa è stato redatto il *Product Backlog*, cioè l'insieme degli item da realizzare
+
 
 ### Divisione dei task
 
