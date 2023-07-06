@@ -10,7 +10,8 @@ import scala.io.Source
 object PrologEngine:
   implicit def stringToTerm(s: String): Term = Term.createTerm(s)
   implicit def termToInt(t: Term): Int = t.toString.toInt
-  implicit def termToListOfInt(t: Term): List[Int] = t.toString.replace("[", "").replace("]", "").split(",").map(_.toInt).toList
+  implicit def termToListOfInt(t: Term): List[Int] =
+    t.toString.replace("[", "").replace("]", "").split(",").map(_.toInt).toList
 
   private val engine = new Prolog
 
@@ -40,6 +41,5 @@ object PrologEngine:
       .mkString(" ")
     engine.setTheory(Theory.parseWithStandardOperators(theory))
     val solution = engine.solve(goal)
-    if solution.isSuccess then
-      termToListOfInt(solution.getTerm(rents)).reverse
+    if solution.isSuccess then termToListOfInt(solution.getTerm(rents)).reverse
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")

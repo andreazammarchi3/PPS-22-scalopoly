@@ -27,10 +27,17 @@ object BuildableSpaceJsonReader extends MyJsonReader[BuildableSpace]:
       currentName match
         case "name"         => name = reader.nextString()
         case "sellingPrice" => sellingPrice = reader.nextInt()
-        case "baseRent"        => baseRent = reader.nextInt()
+        case "baseRent"     => baseRent = reader.nextInt()
         case "spaceGroup"   => spaceGroup = SpaceGroup.valueOf(reader.nextString())
         case "numHouse"     => numHouse = reader.nextInt()
         case "buildingCost" => buildingCost = reader.nextInt()
         case _              => reader.skipValue()
     reader.endObject()
-    BuildableSpace(name, sellingPrice, PrologEngine.calculateRents(baseRent, buildingCost, BuildableSpace.MAX_HOUSES), spaceGroup, numHouse, buildingCost)
+    BuildableSpace(
+      name,
+      sellingPrice,
+      PrologEngine.calculateRents(baseRent, buildingCost, BuildableSpace.MAX_HOUSES),
+      spaceGroup,
+      numHouse,
+      buildingCost
+    )

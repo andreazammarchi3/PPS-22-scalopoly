@@ -25,9 +25,14 @@ object StationSpaceJsonReader extends MyJsonReader[StationSpace]:
       currentName match
         case "name"         => name = reader.nextString()
         case "sellingPrice" => sellingPrice = reader.nextInt()
-        case "baseRent"        => baseRent = reader.nextInt()
+        case "baseRent"     => baseRent = reader.nextInt()
         case "spaceGroup" =>
           spaceGroup = SpaceGroup.valueOf(reader.nextString())
         case _ => reader.skipValue()
     reader.endObject()
-    StationSpace(name, sellingPrice, PrologEngine.calculateRents(baseRent, baseRent, StationSpace.MAX_NUM_STATIONS - 1), spaceGroup)
+    StationSpace(
+      name,
+      sellingPrice,
+      PrologEngine.calculateRents(baseRent, baseRent, StationSpace.MAX_NUM_STATIONS - 1),
+      spaceGroup
+    )
