@@ -37,6 +37,7 @@ Queste celle sono poi differenziante in base al tipo NotPurcasableSpaceType nel 
 * COMMUNITY_CHEST: Imprevisti
 * INCOME_TAX: Tassa patrimoniale
 * LUXURY_TAX: Tassa di lusso
+  
 La classe NotPurchasableSpace è uno Space che rappresenta una casella non acquistabile dai giocatori ed composta da:
 * un parametro spaceValue che rappresenta il valore utilizzato nell'azione della casella
 * un parametro spaceType di tipo NotPurcasableSpaceType
