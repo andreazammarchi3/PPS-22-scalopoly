@@ -57,4 +57,4 @@ Per il *versioning* del sistema, è stato scelto di adottare lo standard *Semant
 ## Licensing
 La licenza del progetto adottata è **MIT**. In generale, la scelta della licenza MIT riflette un approccio aperto e collaborativo per il progetto, consentendo agli sviluppatori e agli utenti di beneficiare delle funzionalità del software in modo flessibile e senza restrizioni, promuovendo la condivisione della conoscenza e il contributo comunitario.
 
-[Torna alla Home](../README.md) | [Vai a Requisiti di sistema](../3-requirements/README.md)
+[Indietro](../1-introduction/README.md) | [Torna alla Home](../README.md) | [Vai a Requisiti di sistema](../3-requirements/README.md)
