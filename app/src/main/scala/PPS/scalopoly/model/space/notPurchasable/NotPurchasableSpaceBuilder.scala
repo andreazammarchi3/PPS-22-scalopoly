@@ -1,6 +1,9 @@
 package PPS.scalopoly.model.space.notPurchasable
 
-import PPS.scalopoly.model.Player
+import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.engine.prolog.PrologEngine
+import PPS.scalopoly.model.{DiceManager, Player}
+
 import scala.util.Random
 
 /** Represents a not purchasable space builder. It's used to build a [[NotPurchasableSpace]]
@@ -22,8 +25,9 @@ case class NotPurchasableSpaceBuilder(name: String, notPurchasableSpaceType: Not
   private def chanceAction(player: Player): (Player, Int) =
     val playerMoney = player.money
     val updatedPlayer =
-      if Random.nextBoolean() then player.pay(spaceValue)
-      else player.cashIn(spaceValue)
+      PrologEngine.calculateChanceValue(GameEngine.players.length, player.ownedProperties.length, player.actualPosition) match
+        case 0 => player.pay(spaceValue)
+        case 1 => player.cashIn(spaceValue)
     (updatedPlayer, updatedPlayer.money - playerMoney)
 
   private def noAction(player: Player): (Player, Int) = (player, 0)
