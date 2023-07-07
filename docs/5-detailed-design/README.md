@@ -18,6 +18,13 @@ Nella figura sottostante è riportato il diagramma delle classi. I rettangoli bl
 Viene ora analizzato ogni singolo modulo.
 
 ## Model
+In figura viene mostrato il modulo `Model` con i relativi sotto-moduli, `Space`, `NotPurchasable` e `Purchasable`.
+
+<p align="center">
+  <img src="../images/Model.png" alt="Diagramma del package Model"/>
+</p>
+
+
 
 ### Space
 
@@ -27,12 +34,32 @@ Viene ora analizzato ogni singolo modulo.
 
 ## View
 
+<p align="center">
+  <img src="../images/View.png" alt="Diagramma del package View"/>
+</p>
+
 ## Controller
+
+<p align="center">
+  <img src="../images/Controller.png" alt="Diagramma del package Controller"/>
+</p>
 
 ## Engine
 
+<p align="center">
+  <img src="../images/Engine.png" alt="Diagramma del package Engine"/>
+</p>
+
 ## Utils
 
+<p align="center">
+  <img src="../images/Utils.png" alt="Diagramma del package Utils"/>
+</p>
+
 ## Deserialization
+
+<p align="center">
+  <img src="../images/Deserialization.png" alt="Diagramma del package Deserialization"/>
+</p>
 
 [Indietro](../4-architectural-design/README.md) | [Torna alla Home](../README.md) | [Vai a Implementazione](../6-implementation/README.md)
