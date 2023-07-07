@@ -12,7 +12,7 @@ Durante ogni fase di Sprint Planning, viene stabilito un obiettivo specifico che
 Inoltre, durante ogni Sprint Planning, vengono affrontati gli aspetti legati alla modellazione del dominio, al fine di garantire una comprensione chiara a tutti i membri del gruppo e prevenire possibili fraintendimenti.
 
 ## Flow
-All'interno del repository su GitHub si è deciso di adottare il flusso di lavoro noto come *Git Flow*. Questo flusso prevede che i commit per il rilascio di una versione vengano effettuati sul branch principale denominato "main". Il branch principale per lo sviluppo delle nuove funzionalità, invece, è denominato "develop".
+All'interno del repository su GitHub si è deciso di adottare il flusso di lavoro noto come **Git Flow**. Questo flusso prevede che i commit per il rilascio di una versione vengano effettuati sul branch principale denominato "main". Il branch principale per lo sviluppo delle nuove funzionalità, invece, è denominato "develop".
 
 A partire dal branch "develop", ogni sviluppatore crea il proprio branch personale, il cui nome segue un pattern definito come "feature/*nome_feature*". All'interno di questo branch, gli sviluppatori lavorano sul codice per completare i task assegnati a loro.
 
@@ -26,7 +26,7 @@ La scelta di preferire *Gradle* rispetto a *Sbt* si è basata su diversi fattori
 Inoltre, gli sviluppatori del nostro team hanno più esperienza con Gradle rispetto a Sbt. Conoscono la sintassi e le funzionalità di Gradle e si sentono più a loro agio nell'utilizzarlo per gestire i processi di compilazione, testing ed esecuzione. Scegliere uno strumento con cui gli sviluppatori sono già familiari e che offre un ecosistema solido può contribuire a ridurre il tempo di apprendimento, migliorare l'efficienza e facilitare la risoluzione dei problemi durante lo sviluppo del progetto.
 
 ## Test Driven Development
-Durante lo sviluppo del sistema, abbiamo scelto di applicare il **Test-Driven Development* (TDD) il più possibile. L'obiettivo principale del TDD è quello di anticipare la fase di testing il più presto possibile, al fine di ridurre i costi di manutenzione e il rischio di incorrere in bug o failures.
+Durante lo sviluppo del sistema, abbiamo scelto di applicare il **Test-Driven Development** (TDD) il più possibile. L'obiettivo principale del TDD è quello di anticipare la fase di testing il più presto possibile, al fine di ridurre i costi di manutenzione e il rischio di incorrere in bug o failures.
 
 Il processo seguito nel TDD è un ciclo iterativo noto come **Red-Green-Refactor** (RGR), che comprende le seguenti fasi in ogni iterazione:
 1. *Red*: si scrive un test che fallisce per una determinata funzionalità che deve essere implementata;
@@ -49,7 +49,7 @@ Per garantire la continua integrità e correttezza del codice durante lo svilupp
 Nel nostro caso, abbiamo impostato il flusso di lavoro in modo che, ogni volta che viene effettuato un aggiornamento nel progetto (come un *push* o una *pull request*), i test del progetto vengano eseguiti automaticamente su diverse configurazioni di sistemi operativi (Windows, Ubuntu, MacOS). Questo ci consente di verificare che il codice funzioni correttamente su diverse piattaforme e di individuare eventuali problemi o incompatibilità in modo tempestivo. Vengono inoltre eseguiti anche i task di verifica della *coverage* e della *quality assurance*.
 
 ## Versioning
-Per il *versioning* del sistema, è stato scelto di adottare lo standard *Semantic Versioning*. Secondo questo standard, ogni versione del sistema è caratterizzata da tre numeri identificativi: 
+Per il *versioning* del sistema, è stato scelto di adottare lo standard **Semantic Versioning**. Secondo questo standard, ogni versione del sistema è caratterizzata da tre numeri identificativi: 
 1. *Major*: incrementato quando vengono apportati cambiamenti non retrocompatibili nel sistema. Questo significa che le modifiche effettuate potrebbero richiedere aggiornamenti significativi e potrebbero non essere compatibili con le versioni precedenti del sistema.
 2. *Minor*: incrementato quando vengono aggiunte nuove funzionalità o apportate modifiche retrocompatibili al sistema. Ciò indica che il sistema è stato migliorato o ampliato, ma le modifiche non interferiscono con il funzionamento delle funzionalità esistenti.
 3. *Patch*: incrementato quando vengono effettuate correzioni di difetti o bug nel sistema, senza apportare modifiche significative alle funzionalità esistenti.
