@@ -27,10 +27,35 @@ In figura viene mostrato il modulo `Model` con i relativi sotto-moduli, `Space`,
 
 
 ### Space
+Il trait Space rappresenta genericamente una cella della GameBoard poi specializzato da SpaceImpl, NotPurchasableSpace e da PurchasableSpace.
 
 #### NotPurchasable
+In questo sotto modulo sono state implementate le caselle non acquistabili nel gioco.
+Queste celle sono poi differenziante in base al tipo NotPurcasableSpaceType nel seguente modo:
+* BLANK: cella non definita
+* CHANCE: Possibilità
+* COMMUNITY_CHEST: Imprevisti
+* INCOME_TAX: Tassa patrimoniale
+* LUXURY_TAX: Tassa di lusso
+La classe NotPurchasableSpace è uno Space che rappresenta una casella non acquistabile dai giocatori ed composta da:
+* un parametro spaceValue che rappresenta il valore utilizzato nell'azione della casella
+* un parametro spaceType di tipo NotPurcasableSpaceType
+* un parametro action che rappresenta un metodo che dato un Player esegue un'azione su di esso
+
+La classe NotPurchasableSpaceBuilder si occupa infine di instanziare questi tipi di classe in base al name e allo spaceType il quale va a pilotare anche la action definita.
 
 #### Purchasable
+In questo sotto modulo sono state implementate le caselle acquistabili nel gioco.
+Il trait PurchableSpace è uno Space che rappresenta una casella acquistabile dai giocatori ed è compsta da:
+* un parametro sellingPrice che indica il prezzo di vendita della casella
+* un parametro rents che inidica gli affitti che i giocatorri pagheranno al passaggio della casella in base al numero di case presenti in essa, questo se la cella appartiene ad un altro giocatore
+* un parametro spaceGroup che indica il gruppo di appartenenza della cella
+
+Il trait PurchableSpace è implementato dalle classi:
+* CompanySpace e StationSpace in cui è definita una specifica logica di calcolo del pedaggio (implementata nel calculateRent)
+* BuildableSpace che rappresenta il restto delle caselle acquistabili dove è possibile costruire case (definite da numHouse) e alberghi pagando il buildingCost.
+
+
 
 ## View
 
