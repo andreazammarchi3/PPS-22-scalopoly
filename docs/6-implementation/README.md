@@ -1,4 +1,5 @@
 # Implementazione
+Ogni componente fornirà una descrizione delle parti di cui è responsabile.
 
 ## Laddaga
 
