@@ -5,7 +5,7 @@
         <tr>
             <th>Item</th>
             <th>Task</th>
-            <th>Volunteer</th>
+            <th style="text-align: center;">Volunteer</th>
         </tr>
     </thead>
     <tbody>
@@ -94,3 +94,5 @@ Lo Sprint goal è stato raggiunto con un paio di giorni di anticipo.
 
 # Sprint retrospective
 Essendo questo il primo Sprint, il Team ha impiegato un certo periodo di tempo per ottimizzare il proprio rendimento. Inoltre, all'avvicinarsi della deadline, il Team ha constatato di non aver preso inizialmente in considerazione 2 passaggi fondamentali per il completo setup del progetto (*configurazione del versioning/release* e *configurazione della QA*).
+
+[Indietro](/README.md) | [Backlog seconda sprint](/second-sprint.md)

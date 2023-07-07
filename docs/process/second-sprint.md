@@ -5,7 +5,7 @@
         <tr>
             <th>Item</th>
             <th>Task</th>
-            <th>Volunteer</th>
+            <th style="text-align: center;">Volunteer</th>
         </tr>
     </thead>
     <tbody>
@@ -37,3 +37,5 @@ Lo Sprint goal è stato raggiunto con una settimana di ritardo, pubblicando la p
 
 # Sprint retrospective
 Il ritardo è stato causato principalmente dalle difficoltà riscontrate nella fase di integrazione e utilizzo di *ScalaFX*/*JavaFX* e file *FXML*, in quanto è un framework in fase ancora sperimentale per la versione di *Scala 3*.
+
+[Indietro](/README.md) | [Backlog terza sprint](/third-sprint.md)
