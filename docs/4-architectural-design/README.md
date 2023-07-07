@@ -6,7 +6,9 @@ Una volta definiti i requisiti, e tenuto conto del tipo di progetto (un gioco co
 ## Utilizzo di MVC
 Nella figura sottostante è riportato una diagramma di alto livello che mostra il sistema implementato tramite pattern MVC.
 
-![Utilizzo di MVC in Scalopoly](../images/MVC.png)
+<p align="center">
+  <img src="../images/MVC.png" alt="Utilizzo di MVC in Scalopoly"/>
+</p>
 
 Come si può vedere i componenti utilizzati non sono 3 ma 4:
 - **Model**: al suo interno si trovano tutte le entità che modellano il dominio del gioco;
