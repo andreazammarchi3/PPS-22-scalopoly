@@ -1,10 +1,10 @@
 # Processo di sviluppo
 
 ## Agile
-Lo sviluppo del progetto è avvenuto seguendo i prinicipi della metodologia Agile, adottando alcuni aspetti del framework **Scrum**. In particolare è stato utilizzato un processo incrementale e iterativo: lo sviluppo è stato diviso in diverse iterazioni (Sprint), ognuna delle quali ha aggiunto nuove funzionalità a quanto già implementato o ha raffinato quanto già presente.
+Lo sviluppo del progetto è avvenuto seguendo i prinicipi della metodologia *Agile*, adottando alcuni aspetti del framework **Scrum**. In particolare è stato utilizzato un processo incrementale e iterativo: lo sviluppo è stato diviso in diverse iterazioni (Sprint), ognuna delle quali ha aggiunto nuove funzionalità a quanto già implementato o ha raffinato quanto già presente.
 
 ## Product Backlog
-Il Product Backlog rappresenta un elenco delle funzionalità essenziali da sviluppare per la realizzazione dell'applicativo e viene costantemente aggiornato durante ogni Sprint Planning, tenendo conto delle esigenze che emergono durante l'avanzamento del progetto. Per ciascuna funzionalità, vengono identificati i task necessari per completarla.
+Il [*Product Backlog*](../process/README.md) rappresenta un elenco delle funzionalità essenziali da sviluppare per la realizzazione dell'applicativo e viene raffinato durante ogni *Sprint Planning* tramite la stesura di uno *Sprint Backlog*, tenendo conto delle esigenze che emergono durante l'avanzamento del progetto. Per ciascuna funzionalità, vengono identificati i task necessari per completarla.
 
 ## Sprint
 Durante ogni fase di Sprint Planning, viene stabilito un obiettivo specifico che consiste nella produzione di un prototipo funzionante entro la scadenza dello Sprint, seguendo un approccio di sviluppo incrementale. Sulla base di tale obiettivo, vengono selezionati i task da completare durante lo Sprint, utilizzando il Product Backlog come riferimento. Ogni task viene assegnato a un membro del team, in modo che ogni sviluppatore si dedichi a diversi aspetti del progetto.
