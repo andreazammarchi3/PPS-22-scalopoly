@@ -9,7 +9,7 @@ Il product backlog è il seguente
 | 4 | Gioco dell'oca GUI | BASIC |
 | 5 | Proprietà base (senza costruzioni) | BASIC |
 | 6 | Logica fine gioco | BASIC |
-| 7 | Proprietà special e abitazioni | CLASSIC |  
+| 7 | Proprietà speciali e abitazioni | CLASSIC |  
 
 ## Sprint backlogs
 I backlog creati durante lo sviluppo sono i seguenti:

@@ -1,4 +1,4 @@
-# Sprint backlog
+# Sprint backlog - 1
 
 <table>
     <thead>
@@ -87,10 +87,10 @@ I 2 obiettivi di questa Sprint sono:
   - le uniche azioni possibili per un giocatore sono tirare i dadi, avanzare nel tabellone e finire il turno
 
 ## Deadline
-27/05/2023
+02/06/2023
 
 # Sprint review
-Lo Sprint goal è stato raggiunto con un paio di giorni di ritardo.
+Lo Sprint goal è stato raggiunto con un paio di giorni di anticipo.
 
 # Sprint retrospective
 Essendo questo il primo Sprint, il Team ha impiegato un certo periodo di tempo per ottimizzare il proprio rendimento. Inoltre, all'avvicinarsi della deadline, il Team ha constatato di non aver preso inizialmente in considerazione 2 passaggi fondamentali per il completo setup del progetto (*configurazione del versioning/release* e *configurazione della QA*).
