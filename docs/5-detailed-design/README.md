@@ -145,7 +145,14 @@ Tali costanti sono state necessarie in quanto tali valori sono utilizzati in var
 * checkIfPlayerOwnsAllPropertiesOfSameGroup: verifica se il giocatore possiede tutte le caselle di uno stesso SpaceGroup,
 * getBuildableSpaceFromName: restituisce un BuildableSpace dato il suo nome,
 * getNumStationFromOwner: restituisce il numero di stazioni possedute dal giocatore dello stesso SpaceGroup della stazione su cui si è fermato.
-  
+
+### Resources
+Abbiamo raccolto le varie risorse dell'appliatico in alcuni enum per una loro gestione programmatica:
+* FxmlResources: raccoglie tutte le risorse di tipo fxml utilizzate nell'applicativo,
+* ImgResources: raccoglie tutte le risorse di tipo immagine utilizzate nell'applicativo,
+* JsonResources: raccoglie tutte le risorse di tipo JSON utilizzate nell'applicativo,
+* CssResources: raccoglie tutte le risorse di tipo css utilizzate nell'applicativo,
+* PrologResources: raccoglie tutte le risorse di tipo pl (file prolog) utilizzate nell'applicativo.
 
 ## Deserialization
 In figura viene mostrato il modulo di deserializzazione dei dati applicativi.
