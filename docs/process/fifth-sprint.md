@@ -30,10 +30,10 @@
 L'obiettivo principale di questa Sprint è fare gli ultimi ritocchi al gioco, in modo da renderlo pronto per la consegna, pulizia di codice e documentazione.
 
 ## Deadline
-07/07/2023
+11/07/2023
 
 # Sprint review
-Lo Sprint goal è stato raggiunto il giorno stesso della deadline, pubblicando la quarta e ultima release del progetto il 07/07/2023.
+Lo Sprint goal è stato raggiunto qualche giorno prima della finale, pubblicando la quarta e ultima release del progetto il 08/07/2023.
 
 # Sprint retrospective
 Il team ha rispettato la deadline, senza particolari problemi.
