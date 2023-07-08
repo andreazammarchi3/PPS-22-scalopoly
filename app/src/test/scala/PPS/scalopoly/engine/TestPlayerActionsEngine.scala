@@ -15,9 +15,9 @@ class TestPlayerActionsEngine extends BaseTest:
 
   @Test
   def testPlayerPaysRent(): Unit =
-    val vicoloCorto = GameEngine.gameBoard.purchasableSpaces(0)
+    val vicoloCorto = GameReader.gameBoard.purchasableSpaces(0)
     PlayerActionsEngine.playerPaysRent(player1, vicoloCorto, player2)
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player1.token)
       .foreach(
         assertEquals(
@@ -26,12 +26,13 @@ class TestPlayerActionsEngine extends BaseTest:
             player1.token,
             player1.actualPosition,
             player1.money - vicoloCorto.calculateRent,
-            player1.ownedProperties
+            player1.ownedProperties,
+            player1.isBot
           ),
           _
         )
       )
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player2.token)
       .foreach(
         assertEquals(
@@ -40,7 +41,8 @@ class TestPlayerActionsEngine extends BaseTest:
             player2.token,
             player2.actualPosition,
             player2.money + vicoloCorto.calculateRent,
-            player2.ownedProperties
+            player2.ownedProperties,
+            player2.isBot
           ),
           _
         )
@@ -48,18 +50,18 @@ class TestPlayerActionsEngine extends BaseTest:
 
   @Test
   def testPlayerObtainHeritage(): Unit =
-    val vicoloCorto = GameEngine.gameBoard.purchasableSpaces(0)
+    val vicoloCorto = GameReader.gameBoard.purchasableSpaces(0)
     val MONEY_P1 = 2000 - vicoloCorto.sellingPrice
     PlayerActionsEngine.playerBuysPurchasableSpace(
       player1,
       vicoloCorto
     )
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player1.token)
       .foreach(
         PlayerActionsEngine.playerObtainHeritage(player2, _)
       )
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player2.token)
       .foreach(
         assertEquals(
@@ -68,7 +70,8 @@ class TestPlayerActionsEngine extends BaseTest:
             player2.token,
             player2.actualPosition,
             player2.money + MONEY_P1,
-            List(vicoloCorto)
+            List(vicoloCorto),
+            player2.isBot
           ),
           _
         )
@@ -78,15 +81,15 @@ class TestPlayerActionsEngine extends BaseTest:
   def testPlayerPassByGo(): Unit =
     val PASS_GO_MONEY = 200
     val STARTING_MONEY = 2000
-    assertEquals(STARTING_MONEY, GameEngine.currentPlayer.money)
-    PlayerActionsEngine.playerPassByGo(GameEngine.currentPlayer)
-    assertEquals(STARTING_MONEY + PASS_GO_MONEY, GameEngine.currentPlayer.money)
+    assertEquals(STARTING_MONEY, GameReader.currentPlayer.money)
+    PlayerActionsEngine.playerPassByGo(GameReader.currentPlayer)
+    assertEquals(STARTING_MONEY + PASS_GO_MONEY, GameReader.currentPlayer.money)
 
   @Test
   def testPlayerBuildsHouse(): Unit =
-    val BUILDABLE_SPACE = GameEngine.gameBoard.buildableSpaces(1)
+    val BUILDABLE_SPACE = GameReader.gameBoard.buildableSpaces(1)
     PlayerActionsEngine.playerBuildsHouse(player1, BUILDABLE_SPACE)
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player1.token)
       .foreach(p =>
         assertEquals(player1.money - BUILDABLE_SPACE.buildingCost, p.money)
@@ -104,13 +107,13 @@ class TestPlayerActionsEngine extends BaseTest:
 
   @Test
   def testPlayerOnNotPurchasableSpace(): Unit =
-    GameEngine.gameBoard.notPurchasableSpace
+    GameReader.gameBoard.notPurchasableSpaces
       .find(
         _.name == "Tassa di Lusso"
       )
       .foreach(notPurchasableSpace =>
         PlayerActionsEngine.playerOnNotPurchasableSpace(player1, notPurchasableSpace)
-        GameEngine.players
+        GameReader.players
           .find(p => p.token == player1.token)
           .foreach(p =>
             assertEquals(

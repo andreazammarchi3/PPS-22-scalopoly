@@ -16,6 +16,6 @@ class TestEndGameLogicEngine extends BaseTest:
   @Test
   def testCheckVictory(): Unit =
     assertFalse(EndgameLogicEngine.checkVictory())
-    for (_ <- GameEngine.MIN_PLAYERS to players.length)
+    for (_ <- GameReader.MIN_PLAYERS to players.length)
       GameEngine.currentPlayerQuit()
     assertTrue(EndgameLogicEngine.checkVictory())

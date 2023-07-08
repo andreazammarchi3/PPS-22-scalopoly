@@ -1,14 +1,14 @@
 package PPS.scalopoly.model.space.purchasable
 
 import PPS.scalopoly.BaseTest
-import PPS.scalopoly.engine.{GameEngine, PlayerActionsEngine}
+import PPS.scalopoly.engine.{GameEngine, GameReader, PlayerActionsEngine}
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.{BeforeEach, Test}
 
 class TestStationSpace extends BaseTest:
 
-  private val stazioneNord = GameEngine.gameBoard.stationSpaces(2)
-  private val stazioneSud = GameEngine.gameBoard.stationSpaces(0)
+  private val stazioneNord = GameReader.gameBoard.stationSpaces(2)
+  private val stazioneSud = GameReader.gameBoard.stationSpaces(0)
   private val rents = List(25, 50, 100, 200)
 
   @BeforeEach
@@ -22,7 +22,7 @@ class TestStationSpace extends BaseTest:
     assertEquals(0, stazioneNord.calculateRent)
     PlayerActionsEngine.playerBuysPurchasableSpace(player1, stazioneNord)
     assertEquals(rents(0), stazioneNord.calculateRent)
-    GameEngine.players
+    GameReader.players
       .find(p => p.token == player1.token)
       .foreach(
         PlayerActionsEngine.playerBuysPurchasableSpace(_, stazioneSud)

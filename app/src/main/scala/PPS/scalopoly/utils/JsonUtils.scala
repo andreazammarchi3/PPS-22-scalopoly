@@ -12,19 +12,6 @@ import scala.io.Source
 /** An object that provides utilities for reading JSON files.
   */
 object JsonUtils:
-  /** Reads a list of rents from a JSON file.
-    * @param reader
-    *   the reader of the JSON file
-    * @return
-    *   the list of rents
-    */
-  def readRents(reader: JsonReader): List[Int] =
-    val rents = new ListBuffer[Int]
-    reader.beginArray()
-    while (reader.hasNext)
-      rents += reader.nextInt()
-    reader.endArray()
-    rents.toList
 
   /** Reads a list of spaces from a JSON file.
     * @param jsonResources

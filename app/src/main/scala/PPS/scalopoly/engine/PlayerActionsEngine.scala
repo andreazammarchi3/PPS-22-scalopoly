@@ -1,6 +1,6 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.engine.GameEngine.{gameBoard, players}
+import PPS.scalopoly.engine.GameReader.players
 import PPS.scalopoly.model.Player
 import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}
@@ -68,6 +68,8 @@ object PlayerActionsEngine:
     *   the player ont the not purchasable space.
     * @param notPurchasableSpace
     *   the not purchasable space.
+    * @return
+    *   new value of the player's money.
     */
   def playerOnNotPurchasableSpace(player: Player, notPurchasableSpace: NotPurchasableSpace): Int =
     val (resultPlayer: Player, moneyOperationResult: Int) = notPurchasableSpace.action(player)

@@ -83,6 +83,7 @@
                       <TableColumn fx:id="playerNameColumn" editable="false" prefWidth="75.0" sortable="false" text="Nome" />
                       <TableColumn fx:id="playerTokenColumn" editable="false" prefWidth="75.0" sortable="false" text="Token" />
                         <TableColumn fx:id="playerMoneyColumn" editable="false" prefWidth="75.0" sortable="false" text="Capitale" />
+                        <TableColumn fx:id="botColumn" prefWidth="75.0" text="Bot" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

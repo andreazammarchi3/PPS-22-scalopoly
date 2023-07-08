@@ -13,6 +13,12 @@ protected[engine] object Game:
   private var _winner: Option[Player] = None
   private var _availableTokens: List[Token] = Token.values.toList
   private var _gameBoard = GameBoard()
+  private var _botIsPlaying: Boolean = false
+
+  def botIsPlaying: Boolean = _botIsPlaying
+
+  def botIsPlaying_=(value: Boolean): Unit =
+    _botIsPlaying = value
 
   def gameBoard: GameBoard = _gameBoard
 

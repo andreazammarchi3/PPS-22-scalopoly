@@ -36,7 +36,7 @@ object AlertUtils:
     * @return
     *   The button pressed by the user.
     */
-  def showPlayerEliminated(
+  def showPlayerEliminatedByRent(
       currentPlayer: Player,
       owner: Player
   ): Optional[ButtonType] =
@@ -46,6 +46,21 @@ object AlertUtils:
       "Eliminazione dal gioco",
       s"${currentPlayer.nickname}(${currentPlayer.token}) non puo' pagare l'affito, ha perso!" +
         s" Il suo patrimonio e' diventato di ${owner.nickname}(${owner.token})"
+    )
+
+  /** Shows an alert to the user, with the player eliminated information.
+    * @return
+    *   The button pressed by the user.
+    */
+  def showPlayerEliminatedByTax(
+      currentPlayer: Player,
+      tax: Int
+  ): Optional[ButtonType] =
+    FxmlUtils.showAlert(
+      AlertType.WARNING,
+      "Attenzione",
+      "Eliminazione dal gioco",
+      s"${currentPlayer.nickname}(${currentPlayer.token}) non puo' pagare l'importo di ${tax}M, ha perso!"
     )
 
   /** Shows an alert to the user, asking if he wants to buy a purchasable space.

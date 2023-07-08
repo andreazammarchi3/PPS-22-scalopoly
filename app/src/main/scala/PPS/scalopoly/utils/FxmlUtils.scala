@@ -57,7 +57,7 @@ object FxmlUtils:
     */
   def changeScene(fxmlPath: String): Unit =
     val scene = loadFXMLResource(fxmlPath)
-    stage.setScene(scene)
+    stage setScene scene
 
   /** Create the primary stage to be used in the application.
     */
@@ -116,21 +116,21 @@ object FxmlUtils:
       contentText: String
   ): Optional[ButtonType] =
     val alert = new Alert(alertType)
-    alert.setTitle(title)
-    alert.setHeaderText(headerText)
-    alert.setContentText(contentText)
+    alert setTitle title
+    alert setHeaderText headerText
+    alert setContentText contentText
     alert.showAndWait()
 
   private def loadFXMLResource(fxmlPath: String): Scene =
     val fxmlFile = getClass.getResource(fxmlPath)
     if fxmlFile == null then throw new IOException("Cannot load resource: " + fxmlPath)
-    val root: Parent = FXMLLoader.load(fxmlFile)
+    val root: Parent = FXMLLoader load fxmlFile
     new Scene(root)
 
   private def setGameBoardSize(pane: BorderPane, gameBoard: ImageView): Unit =
     val gameBoardSize = pane.getPrefHeight
-    gameBoard.setFitWidth(gameBoardSize)
-    gameBoard.setFitHeight(gameBoardSize)
+    gameBoard setFitWidth gameBoardSize
+    gameBoard setFitHeight gameBoardSize
 
   private def setGameBoardImage(gameBoard: ImageView): Unit =
     gameBoard.setImage(new Image(getClass.getResource(ImgResources.GAMEBOARD_SQUARED.path).toString))
@@ -140,8 +140,8 @@ object FxmlUtils:
     val screenResolution = Screen.getPrimary.getBounds
     width = screenResolution.getWidth * widthPerc
     height = screenResolution.getHeight * heightPerc
-    pane.setPrefWidth(width)
-    pane.setPrefHeight(height)
+    pane setPrefWidth width
+    pane setPrefHeight height
 
   private def setPaneStyle(pane: BorderPane, cssResources: CssResources): Unit =
     pane.getStylesheets.add(getClass.getResource(cssResources.path).toExternalForm)
