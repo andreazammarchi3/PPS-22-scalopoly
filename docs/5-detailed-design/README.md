@@ -59,7 +59,7 @@ Il trait PurchableSpace è implementato dalle classi:
 
 
 ## View
-In figura viene mostrata il modulo View.
+In figura viene mostrato il modulo View.
 
 <p align="center">
   <img src="../images/View.png" alt="Diagramma del package View"/>
@@ -72,10 +72,16 @@ Questo modulo è composto dalle 3 viste che è possibile incontrare nel gioco ed
 * GameView: rappresenta la vista di gioco dove sono presenti i comandi per permettere ad un giocatore di abbandonare il gioco (quitBtnClick), lanciare i dadi (throwDiceBtnClick), di aggiornare la vista a seguito del lancio dei dadi (diceThrown), per permettere al giocatore di terminare il turno (endTurnBtnClick), di costruire una casa (buildBtnClick), aggiornare la vista mostrando il nome del giocatore di turno (updateTurnLabel).
 
 ## Controller
+In figura viene mostrato il modulo Controller.
 
 <p align="center">
   <img src="../images/Controller.png" alt="Diagramma del package Controller"/>
 </p>
+
+In questo modulo Controller sono state implementate le logiche di interazione tra Vista e Modello rispettando il pattern MVC attraverso le seguenti classi:
+* StartMenuController: si occupa di comunicare con la vista iniziale StartMenuView esponendo i comandi playGame per passare alla schermata di configurazione ConfigurationMenuView, e exitGame per terminare il gioco.
+* ConfigurationMenuController: si occupa di comunicare con la vista di configurazione ConfigurationMenuView attra verso i metodi addPlayer (per aggiungere un nuovo giocatore), removePlayer (per rimuoverne uno), availableToken (che restituisce la lista dei token ancora utilizzabili per i nuovi gioccatori), cadAddPlayer e canStartPlay che verificano se è possibile aggiungere ancora giocatori e se è possibile avviare la partita (questi utilizzati per pilotare la visibilità di alcuni campi nella vista) ed infine playGame (per avviare il gioco e spostarsi nella vista GameView) e exitGame (per terminare il gioco.
+* GameController: si occupa di comunicare con la vista GameView di cui mantiene un riferimenti nella variabile view. È composto dai metodi currentPlayerQuit (che viene invocato quando un giocatore decide di abbandonare), throwDice (invocato quando un giocatore lancia i dadi), endTurn (chiamato quando un giocatore termina il proprio turno), checkPlayerActions (per verificare quali azioni può fare li giocatore) ed infine playerBuildHouse (che prende in ingresso il BuildableSpace dove il giocatore vuole costruire e restituisce un booleano che indica se l'operazione è stata completata con successo o meno). 
 
 ## Engine
 
