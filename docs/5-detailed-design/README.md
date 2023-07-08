@@ -115,10 +115,12 @@ Questo object rappresenta un Reader per permettere di consultare i dati di gioco
 * canStartGame: specifica se è possibile avviare il gioco, 
 * canAddPlayer: specifica se è possibile aggiungere un giocatore.
 
+### EngineUtils
+Questo object racchiude alcuni strumenti utili per i vari Engine:
+* updatePlayerWith: permette di aggiornare un giocatore in base all'indice fornito
+* updateBuildableSpacesWith: aggiorna la GameBoard fornito il suo BuildableSpace
 
 ### PlayerActionEngine
-
-### EngineUtils
 
 ### EndGameLogicEngine
 
