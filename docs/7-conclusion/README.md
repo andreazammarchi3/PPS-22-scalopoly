@@ -13,7 +13,7 @@ Questo è un risultato molto positivo, poiché conferma che il sistema sviluppat
 
 Di seguito alcune proposte:
 - Aumentare la quantità di conseguenze che possono verificarsi capitando sulle caselle degli Imprevisti o delle Probabilità.
-- Gestire le caselle speciali che ancora non lo sono.
+- Gestire le caselle speciali come la Prigione.
 - Aumentare l'intelligenza dei Bot, rendendoli in grado di prendere decisioni più sagge in base alla situazione di gioco.
 - Implementare un'interfaccia grafica più intuitiva e curata.
 - Aggiungere animazioni e suoni per rendere l'esperienza di gioco più coinvolgente.
