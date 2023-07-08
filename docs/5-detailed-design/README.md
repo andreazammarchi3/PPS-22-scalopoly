@@ -99,7 +99,10 @@ In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
   <img src="../images/Utils.png" alt="Diagramma del package Utils"/>
 </p>
 
+
 Il modulo Utils contiene le varie classi implementate per fornire gli strumenti necessari a compiere operazioni che si ripetevano all'interno del programma.
+
+### UI
 Lato UI si è reso necessario creare FxmlUtils per integrare ed utilizzare le librerie grafiche javafx e scalafx.
 L'object FxmlUtils contiente:
 * un'istanza dello Stage di ScalaFx necessario per mostrare lo stage della UI,
@@ -110,7 +113,7 @@ L'object FxmlUtils contiente:
 * getResolution che si occupa di recuperare la risoluzione dello schermo in cui l'applicativo parte,
 * showAlert che permette di mostrate una finestra per notificare al giocatore un messaggio.
   
-Sempre lato UI è stato poi necessario creare un AlertUtils per definire i vari Alert mostrati durante il gioco utilizzando le funzionalità di FxmlUtils, di seguito una breve spiegazione dei vari metodi utilizzabili:
+Sempre lato UI è stato poi necessario creare un AlertUtils per definire i vari Alert mostrati durante il gioco utilizzando le funzionalità di FxmlUtils, di seguito una breve spiegazione dei vari metodi utilizzabili i quali fanno tutti uso di showAlrt definito in FxmlUtils appena visto:
 * showRentPayment: permette di segnalare al giocatore corrente che pagherà un affitto in quanto è arrivato su una casella posseduta da un altro giocatore,
 * showPlayerEliminaterByRent: permette di segnalare al giocatore corrente che è stato sconfitto in quanto non ha abbastanza denaro per pagare un affitto,
 * showPlayerEliminatedByTax: permette di segnalare al giocatore corrente che è stato sconfitto in quanto non ha abbastanza denaro per pagare una tassa,
@@ -123,6 +126,25 @@ Sempre lato UI è stato poi necessario creare un AlertUtils per definire i vari 
 * showNotEnoughPlayersWarning: permette di segnalare che non ci sono abbastanza giocatore per iniziare la partita,
 * showEmptyPlayerNameWarning: permette di segnalare che non è possibile aggiungere un giocatore con nome vuoto.
 
+### Deserialization
+Abbiamo creato l'object JsonUtils per deifnire il metodo readTypeSpaces parametrizzato sul tipo T che permette di deserializzare gli Space da un file Json restituendo una lista degli stessi.
+
+### Game
+Abbiamo ritenuto necessario creare l'object GameUtils per centralizzare le operazioni necessarie al calcolo delle operazioni di gioco:
+* GAMEBOARD_SIDES è una costante che indica il numero di lati della GAMEBOARD,
+* CELLS_IN_SIDE è una costante che indica il numero di caselle per lato,
+Tali costanti sono state necessarie in quanto tali valori sono utilizzati in vari punti e quindi sono stati identificati come magic numbers e isolati.
+* shufflePlayers: mischia una lista di Player per modificarne l'ordine,
+* addSumToPosition: restituisce la nuova posizione di un giocatore a seguito di un lancio di dadi,
+* getCoordinateFromPosition: restituisce le coordinate di una cella data la posizione del giocatore sulla GameBoard,
+* getNthCellInGridWithStartingPos: restituisce l'n-esima cella della griglia passata a partire dalla cella di partenza fornita,
+* propertyIsAlreadyOwned: verifica se una proprietà appartiene già ad un altro giocatore,
+* getOwnerFromPurchasableSpace: restituisce il proprietario di una casella acquistabile se tale casella è stata acquistata,
+* getPurchasableSpaceFromPlayerPosition: restituisce la casella acquistabile su cui è il giocatore, nel caso sia su una casella acquistabile,
+* getNotPurchasableSpaceFromPlayerPosition: restituisce la casella non acquistabile su cui è il giocatore, nel caso sia su una casella non acquistabile,
+* checkIfPlayerOwnsAllPropertiesOfSameGroup: verifica se il giocatore possiede tutte le caselle di uno stesso SpaceGroup,
+* getBuildableSpaceFromName: restituisce un BuildableSpace dato il suo nome,
+* getNumStationFromOwner: restituisce il numero di stazioni possedute dal giocatore dello stesso SpaceGroup della stazione su cui si è fermato.
   
 
 ## Deserialization
