@@ -1,7 +1,7 @@
 package PPS.scalopoly.view
 
 import PPS.scalopoly.controller.GameController
-import PPS.scalopoly.engine.{EndgameLogicEngine, GameEngine}
+import PPS.scalopoly.engine.{EndgameLogicEngine, GameReader}
 import PPS.scalopoly.model.space.purchasable.BuildableSpace
 import PPS.scalopoly.model.{GameBoard, Player, Token}
 import PPS.scalopoly.utils
@@ -114,7 +114,7 @@ class GameView extends Initializable:
     setDiceImg(diceImageView1)
     setDiceImg(diceImageView2)
 
-    GameEngine.players.foreach(p =>
+    GameReader.players.foreach(p =>
       val tokenImg = new ImageView(new Image(getClass.getResource(p.token.img.path).toString))
       tokensImgView.addOne(p.token, tokenImg)
       setImageViewDimensions(tokenImg)
@@ -140,15 +140,15 @@ class GameView extends Initializable:
   /** Remove current player from the game
     */
   def quitBtnClick(): Unit =
-    tokensImgView(GameEngine.currentPlayer.token).setDisable(true)
+    tokensImgView(GameReader.currentPlayer.token).setDisable(true)
     GameController.currentPlayerQuit()
-    if GameEngine.players.nonEmpty && !EndgameLogicEngine.checkOnlyBotsRemaining then
+    if GameReader.players.nonEmpty && !EndgameLogicEngine.checkOnlyBotsRemaining then
       setBtnsForEndTurn(false)
       updatePlayersTable()
       updateTurnLabel()
 
   def diceThrown(dice1: Int, dice2: Int): Unit =
-    updateTokenPosition(GameEngine.currentPlayer)
+    updateTokenPosition(GameReader.currentPlayer)
     updateDiceImg(dice1, dice2)
     updatePlayersTable() // necessary to update the money in case the player has passed from the Go cell
     GameController.checkPlayerActions()
@@ -156,11 +156,11 @@ class GameView extends Initializable:
     updatePropertiesList()
     updateTurnLabel()
     tokensImgView.foreach(t =>
-      GameEngine.players.find(p => p.token == t._1) match
+      GameReader.players.find(p => p.token == t._1) match
         case None => t._2.setDisable(true)
         case _    =>
     )
-    if dice1 != dice2 && !GameEngine.currentPlayer.isBot then setBtnsForEndTurn(true)
+    if dice1 != dice2 && !GameReader.currentPlayer.isBot then setBtnsForEndTurn(true)
 
   /** Throw dice
     */
@@ -189,7 +189,7 @@ class GameView extends Initializable:
   /** Update the turn label with the current player
     */
   def updateTurnLabel(): Unit =
-    turnLabel.setText("Turno di " + GameEngine.currentPlayer.nickname + "(" + GameEngine.currentPlayer.token + ")")
+    turnLabel.setText("Turno di " + GameReader.currentPlayer.nickname + "(" + GameReader.currentPlayer.token + ")")
 
   private def initCellGrids(): Unit =
     val RIGHT_ANGLE = 90
@@ -228,7 +228,7 @@ class GameView extends Initializable:
     throwDiceBtn.setDisable(can)
 
   private def setDiceImg(diceImgView: ImageView): Unit =
-    diceImgView.setFitWidth(pane.getPrefHeight / (GameEngine.gameBoard.size / GameUtils.GAMEBOARD_SIDES + 1))
+    diceImgView.setFitWidth(pane.getPrefHeight / (GameReader.gameBoard.size / GameUtils.GAMEBOARD_SIDES + 1))
 
   private def updateDiceImg(dice1: Int, dice2: Int): Unit =
     updateSingleDiceImg(dice1, diceImageView1)
@@ -241,7 +241,7 @@ class GameView extends Initializable:
   private def updateHouseImg(buildableSpace: BuildableSpace): Unit =
     val cellGrid = cellsGrids(
       GameUtils
-        .getCoordinateFromPosition(GameEngine.gameBoard.gameBoardList.indexOf(buildableSpace))
+        .getCoordinateFromPosition(GameReader.gameBoard.gameBoardList.indexOf(buildableSpace))
     )
     buildableSpace.numHouse match
       case numHouse if numHouse < BuildableSpace.MAX_HOUSES - 1 =>
@@ -277,7 +277,7 @@ class GameView extends Initializable:
 
   private def updatePlayersTable(): Unit =
     playersTable.getItems.clear()
-    GameEngine.players.foreach(p => playersTable.getItems.add(p))
+    GameReader.players.foreach(p => playersTable.getItems.add(p))
 
   private def updatePropertiesList(): Unit = playersTable.getSelectionModel.getSelectedItem match
     case p if p != null =>

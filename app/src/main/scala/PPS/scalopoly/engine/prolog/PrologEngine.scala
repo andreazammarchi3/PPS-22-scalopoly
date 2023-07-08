@@ -67,7 +67,7 @@ object PrologEngine:
       .filter(l => l.nonEmpty && !isComment(l))
       .mkString(" ")
     engine.setTheory(Theory.parseWithStandardOperators(theory))
-    val solution = engine.solve(goal)
+    val solution = engine solve goal
     if solution.isSuccess then termToListOfInt(solution.getTerm(rents)).reverse
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")
 
@@ -78,6 +78,6 @@ object PrologEngine:
       .filter(l => l.nonEmpty && !isComment(l))
       .mkString(" ")
     engine.setTheory(Theory.parseWithStandardOperators(theory))
-    val solution = engine.solve(goal)
+    val solution = engine solve goal
     if solution.isSuccess then (termToInt(solution.getTerm(sol1)), termToInt(solution.getTerm(sol2)))
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")

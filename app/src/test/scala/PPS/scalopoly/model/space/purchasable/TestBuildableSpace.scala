@@ -1,12 +1,12 @@
 package PPS.scalopoly.model.space.purchasable
 
-import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.engine.{GameEngine, GameReader}
 import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue}
 import org.junit.jupiter.api.Test
 
 class TestBuildableSpace:
 
-  private val vicoloCorto = GameEngine.gameBoard.buildableSpaces(0)
+  private val vicoloCorto = GameReader.gameBoard.buildableSpaces(0)
 
   @Test
   def testNumHouse(): Unit =

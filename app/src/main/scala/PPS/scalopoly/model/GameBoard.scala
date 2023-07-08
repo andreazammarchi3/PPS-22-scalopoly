@@ -22,7 +22,7 @@ import PPS.scalopoly.utils.resources.JsonResources
   *   the list of company spaces.
   * @param _stationSpaces
   *   the list of station spaces.
-  * @param _notPurchasableSpace
+  * @param _notPurchasableSpaces
   *   the list of not purchasable spaces.
   */
 class GameBoard(
@@ -30,7 +30,7 @@ class GameBoard(
     _buildableSpaces: List[BuildableSpace],
     _companySpaces: List[CompanySpace],
     _stationSpaces: List[StationSpace],
-    _notPurchasableSpace: List[NotPurchasableSpace]
+    _notPurchasableSpaces: List[NotPurchasableSpace]
 ):
 
   /** Returns the list of [[CompanySpace]].
@@ -55,7 +55,7 @@ class GameBoard(
     * @return
     *   the list of [[NotPurchasableSpace]]
     */
-  def notPurchasableSpace: List[NotPurchasableSpace] = _notPurchasableSpace
+  def notPurchasableSpaces: List[NotPurchasableSpace] = _notPurchasableSpaces
 
   /** Returns the list of [[PurchasableSpace]].
     * @return
@@ -75,13 +75,13 @@ class GameBoard(
     val build = buildableSpaces.find(_.name == buildableSpace.name)
     (space, build) match
       case (Some(space), Some(build)) =>
-        val (spaceIndex, buildIndex) = (spaces.indexOf(space), buildableSpaces.indexOf(build))
+        val (spaceIndex, buildIndex) = (spaces indexOf space, buildableSpaces indexOf build)
         GameBoard(
           spaces.updated(spaceIndex, buildableSpace),
           buildableSpaces.updated(buildIndex, buildableSpace),
           _companySpaces,
           _stationSpaces,
-          _notPurchasableSpace
+          _notPurchasableSpaces
         )
       case _ => this
 

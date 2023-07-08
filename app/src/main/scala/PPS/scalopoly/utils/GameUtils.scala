@@ -1,6 +1,6 @@
 package PPS.scalopoly.utils
 
-import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.engine.GameReader
 import PPS.scalopoly.engine.prolog.PrologEngine
 import PPS.scalopoly.model.space.Space
 import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
@@ -14,7 +14,7 @@ import scala.util.Random
 object GameUtils:
 
   val GAMEBOARD_SIDES = 4
-  val CELLS_IN_SIDE: Int = GameEngine.gameBoard.size / GAMEBOARD_SIDES
+  val CELLS_IN_SIDE: Int = GameReader.gameBoard.size / GAMEBOARD_SIDES
 
   /** Shuffles a list of players.
     * @param players
@@ -23,7 +23,7 @@ object GameUtils:
     *   Shuffled list of players.
     */
   def shufflePlayers(players: List[Player]): List[Player] =
-    val shuffledList = Random.shuffle(players)
+    val shuffledList = Random shuffle players
     shuffledList
 
   /** Return the new position of a player after a dice roll.
@@ -35,7 +35,7 @@ object GameUtils:
     *   The new position of the player.
     */
   def addSumToPosition(sum: Int, position: Int): Int = sum + position match
-    case result if result >= GameEngine.gameBoard.size => result - GameEngine.gameBoard.size
+    case result if result >= GameReader.gameBoard.size => result - GameReader.gameBoard.size
     case result                                        => result
 
   /** Return the coordinates of a grid cell given the position of the player on the game board.
@@ -46,7 +46,7 @@ object GameUtils:
     */
   def getCoordinateFromPosition(position: Int): (Int, Int) = position match
     case _ if position < 0 => throw new IllegalArgumentException("Position cannot be negative")
-    case _ if position >= GameEngine.gameBoard.size =>
+    case _ if position >= GameReader.gameBoard.size =>
       throw new IllegalArgumentException("Position cannot be greater than board size")
     case _ => PrologEngine.getCoordinateFromPosition(position, CELLS_IN_SIDE)
 
@@ -75,7 +75,7 @@ object GameUtils:
     *   True if the property is already owned, false otherwise.
     */
   def propertyIsAlreadyOwned(purchasableSpace: PurchasableSpace): Boolean =
-    GameEngine.players.exists(_.ownedProperties.contains(purchasableSpace))
+    GameReader.players.exists(_.ownedProperties.contains(purchasableSpace))
 
   /** Returns the owner of a purchasable space if it exists.
     *
@@ -85,7 +85,7 @@ object GameUtils:
     *   the owner of the purchasable space or None otherwise.
     */
   def getOwnerFromPurchasableSpace(purchasableSpace: PurchasableSpace): Option[Player] =
-    GameEngine.players.find(_.ownedProperties.contains(purchasableSpace))
+    GameReader.players.find(_.ownedProperties.contains(purchasableSpace))
 
   /** Returns the purchasable space where the player is if the player is on a purchasable space.
     *
@@ -95,8 +95,8 @@ object GameUtils:
     *   the purchasable space where the player is or None otherwise.
     */
   def getPurchasableSpaceFromPlayerPosition(player: Player): Option[PurchasableSpace] =
-    GameEngine.gameBoard.purchasableSpaces.find(
-      _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
+    GameReader.gameBoard.purchasableSpaces.find(
+      _.name == GameReader.gameBoard.gameBoardList(player.actualPosition).name
     )
 
   /** Returns the not purchasable space where the player is if the player is on a not purchasable space.
@@ -107,8 +107,8 @@ object GameUtils:
     *   the not purchasable space where the player is or None otherwise.
     */
   def getNotPurchasableSpaceFromPlayerPosition(player: Player): Option[NotPurchasableSpace] =
-    GameEngine.gameBoard.notPurchasableSpace.find(
-      _.name == GameEngine.gameBoard.gameBoardList(player.actualPosition).name
+    GameReader.gameBoard.notPurchasableSpaces.find(
+      _.name == GameReader.gameBoard.gameBoardList(player.actualPosition).name
     )
 
   /** Checks if all the properties of a space group are owned by the same player.
@@ -119,8 +119,8 @@ object GameUtils:
     *   true if all the properties of the space group are owned by the same player, false otherwise.
     */
   def checkIfPlayerOwnsAllPropertiesOfSameGroup(spaceGroup: SpaceGroup): Boolean =
-    val propertiesOfSameGroup = GameEngine.gameBoard.purchasableSpaces.count(_.spaceGroup == spaceGroup)
-    GameEngine.players.exists(p => p.ownedProperties.count(_.spaceGroup == spaceGroup) == propertiesOfSameGroup)
+    val propertiesOfSameGroup = GameReader.gameBoard.purchasableSpaces.count(_.spaceGroup == spaceGroup)
+    GameReader.players.exists(p => p.ownedProperties.count(_.spaceGroup == spaceGroup) == propertiesOfSameGroup)
 
   /** Return a buildable space given its name.
     * @param name
@@ -129,7 +129,7 @@ object GameUtils:
     *   the buildable space with the given name or None if it doesn't exist.
     */
   def getBuildableSpaceFromName(name: String): Option[BuildableSpace] =
-    GameEngine.gameBoard.buildableSpaces.find(_.name == name)
+    GameReader.gameBoard.buildableSpaces.find(_.name == name)
 
   /** Returns the number of stations owned by the owner of the actual position of the player.
     *

@@ -1,7 +1,7 @@
 package PPS.scalopoly.engine
 
 import PPS.scalopoly.model.Player
-import PPS.scalopoly.engine.GameEngine.MIN_PLAYERS
+import PPS.scalopoly.engine.GameReader.MIN_PLAYERS
 import PPS.scalopoly.engine.Game
 
 /** Object that contains the logic for the endgame. It checks if there is a winner and, if so, it sets the winner in the
@@ -15,7 +15,7 @@ object EndgameLogicEngine:
     *   true if the current player has won the game, false otherwise.
     */
   def checkVictory(): Boolean =
-    GameEngine.players.length match
+    GameReader.players.length match
       case players if players == MIN_PLAYERS - 1 =>
         Game.winner = Game.players.headOption
         true
@@ -25,4 +25,4 @@ object EndgameLogicEngine:
       case _ => false
 
   def checkOnlyBotsRemaining: Boolean =
-    GameEngine.players.forall(_.isBot)
+    GameReader.players.forall(_.isBot)

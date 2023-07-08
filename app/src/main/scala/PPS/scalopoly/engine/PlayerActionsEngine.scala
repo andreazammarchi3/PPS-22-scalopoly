@@ -1,6 +1,6 @@
 package PPS.scalopoly.engine
 
-import PPS.scalopoly.engine.GameEngine.{gameBoard, players}
+import PPS.scalopoly.engine.GameReader.players
 import PPS.scalopoly.model.Player
 import PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace
 import PPS.scalopoly.model.space.purchasable.{BuildableSpace, PurchasableSpace}

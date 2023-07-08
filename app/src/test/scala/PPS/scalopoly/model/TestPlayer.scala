@@ -1,6 +1,6 @@
 package PPS.scalopoly.model
 
-import PPS.scalopoly.engine.GameEngine
+import PPS.scalopoly.engine.{GameEngine, GameReader}
 import org.junit.jupiter.api.Assertions.{assertEquals, assertFalse, assertTrue}
 import org.junit.jupiter.api.Test
 
@@ -41,7 +41,7 @@ class TestPlayer:
 
   @Test
   def testBuy(): Unit =
-    val PROPERTY_TO_BUY = GameEngine.gameBoard.purchasableSpaces(0)
+    val PROPERTY_TO_BUY = GameReader.gameBoard.purchasableSpaces(0)
     assertEquals(
       new Player(
         player.nickname,

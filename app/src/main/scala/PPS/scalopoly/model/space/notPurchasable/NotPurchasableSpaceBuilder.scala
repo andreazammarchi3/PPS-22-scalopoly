@@ -16,14 +16,14 @@ import scala.util.Random
 case class NotPurchasableSpaceBuilder(name: String, notPurchasableSpaceType: NotPurchasableSpaceType, spaceValue: Int):
   private def payAction(player: Player): (Player, Int) =
     val playerMoney = player.money
-    val updatePlayer = player.pay(spaceValue)
+    val updatePlayer = player pay spaceValue
     (updatePlayer, updatePlayer.money - playerMoney)
 
   private def chanceAction(player: Player): (Player, Int) =
     val playerMoney = player.money
     val updatedPlayer =
-      if Random.nextBoolean() then player.pay(spaceValue)
-      else player.cashIn(spaceValue)
+      if Random.nextBoolean() then player pay spaceValue
+      else player cashIn spaceValue
     (updatedPlayer, updatedPlayer.money - playerMoney)
 
   private def noAction(player: Player): (Player, Int) = (player, 0)

@@ -19,9 +19,9 @@ class TestBotEngine:
     Game.botIsPlaying = true
     BotEngine.play()
     Game.botIsPlaying = false
-    assertEquals(p1.token, GameEngine.currentPlayer.token)
-    GameEngine.players.find(p => p.token == bot1.token).foreach(b => assertFalse(b.actualPosition == 0))
+    assertEquals(p1.token, GameReader.currentPlayer.token)
+    GameReader.players.find(p => p.token == bot1.token).foreach(b => assertFalse(b.actualPosition == 0))
 
   @Test
   def testDecideToBuySpace(): Unit =
-    assertTrue(BotEngine.decideToBuySpace(GameEngine.gameBoard.purchasableSpaces(0)))
+    assertTrue(BotEngine.decideToBuySpace(GameReader.gameBoard.purchasableSpaces(0)))
