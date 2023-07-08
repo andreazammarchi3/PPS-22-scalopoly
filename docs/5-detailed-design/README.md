@@ -18,30 +18,53 @@ Nella figura sottostante è riportato il diagramma delle classi. I rettangoli bl
 Viene ora analizzato ogni singolo modulo.
 
 ## Model
-In figura viene mostrato il modulo `Model` con i relativi sotto-moduli, `Space`, `NotPurchasable` e `Purchasable`.
+In figura viene mostrato il modulo *Model* con i relativi sotto-moduli, *Space*, *NotPurchasable* e *Purchasable*.
 
 <p align="center">
   <img src="../images/Model.png" alt="Diagramma del package Model"/>
 </p>
 
+All'interno di *Model* sono state implementate le varie entità rappresentanti i diversi elementi del dominio:
+- `Player`: rappresenta un giocatore e le sue caratteristiche, in particolare:
+  -  *nickname*: il nome scelto;
+  -  *token*: la pedina scelta;
+  -  *actualPosition*: la posizione attuale del giocatore sul tabellone (compresa tra 0 e 39);
+  -  *money*: il quantitativo di soldi attualmente posseduti dal giocatore (default 2000);
+  -  *ownedProperties*: la lista delle proprietà possedute dal giocatore (di default è vuota);
+  -  *isBot*: necessario a verificare se il giocatore è un bot oppure no;
+- `Token`: enum contenente le varie pedine di gioco. Ad ognuna di esse è associata una *imgResources* che consente di recuperare l'immagine della pedina da mostrare poi sul tabellone;
+- `SpaceGroup`: enum contenente i vari colori/valori con cui sono raggruppate le diverse proprietà;
+- `SpaceStatus`: enum contenente i diversi stati che può assumere una casella:
+  - *NOT_PURCHASABLE*: la casella non è acquistabile (es. Probabilità, Imprevisti, ...);
+  - *OWNED_BY_ANOTHER_PLAYER*: la cella contiene una proprietà e questa è di un altro giocatore, il giocatore attuale dovrà quindi pagare l'affitto al proprietario;
+  - *OWNED_BY_CURRENT_PLAYER*: la cella contiene una proprietà e questa è del giocatore attuale, non succede nulla;
+  - *PURCHASABLE*: la cella contiene una proprietà e questa non appartiene a nessuno, il giocatore attuale può decidere se comprarla se ha abbastanza soldi;
+- `DiceManager`: gestore dei dadi, consente di generare casualmente 2 numeri ognuno compreso tra 1 e 6;
+- `GameBoard`: rappresenta il tabellone di gioco, composto da 40 caselle. La lista ordinata delle caselle viene salvata in *spaces*, mentre negli altri 4 attributi vengono raggruppate in base al loro tipo:
+  - *buildableSpaces*: lista delle proprietà su cui è possibile costruire. Quando viene costruita una casa o un albergo su una di esse, essa viene aggiornata tramite il metodo *updateBuildableSpace*;
+  - *companySpaces*: lista delle società;
+  - *stationSpaces*: lista delle stazioni;
+  - *notPurchasableSpaces*: lista delle caselle non acquistabili con i relativi effetti;
+`SpaceStatus` e `DiceManager` vengono utilizzati direttamente dagli engine.
+
 ### Space
-Nel modulo space sono state implementate le logiche di cella della GameBoard definite dal trait Space poi specializzato da SpaceImpl, NotPurchasableSpace e da PurchasableSpace.
+Nel modulo *Space* sono state implementate le logiche di cella della `GameBoard` definite dal trait `Space` poi specializzato da `SpaceImpl`, `NotPurchasableSpace` e da `PurchasableSpace`.
 
 #### NotPurchasable
 In questo sotto modulo sono state implementate le caselle non acquistabili nel gioco.
-Queste celle sono poi differenziante in base al tipo NotPurcasableSpaceType nel seguente modo:
-* BLANK: cella non definita,
-* CHANCE: Possibilità,
-* COMMUNITY_CHEST: Imprevisti,
-* INCOME_TAX: Tassa patrimoniale,
-* LUXURY_TAX: Tassa di lusso.
+Queste celle sono poi differenziante in base al tipo `NotPurcasableSpaceType` nel seguente modo:
+* *BLANK*: cella non definita,
+* *CHANCE*: Possibilità,
+* *COMMUNITY_CHEST*: Imprevisti,
+* *INCOME_TAX*: Tassa patrimoniale,
+* *LUXURY_TAX*: Tassa di lusso.
   
-La classe NotPurchasableSpace è uno Space che rappresenta una casella non acquistabile dai giocatori ed composta da:
-* un parametro spaceValue che rappresenta il valore utilizzato nell'azione della casella,
-* un parametro spaceType di tipo NotPurcasableSpaceType,
-* un parametro action che rappresenta un metodo che dato un Player esegue un'azione su di esso.
+La classe `NotPurchasableSpace` è uno `Space` che rappresenta una casella non acquistabile dai giocatori ed composta da:
+* un parametro *spaceValue* che rappresenta il valore utilizzato nell'azione della casella,
+* un parametro *spaceType* di tipo `NotPurcasableSpaceType`,
+* un parametro *action* che rappresenta un metodo che dato un `Player` esegue un'azione su di esso.
 
-La classe NotPurchasableSpaceBuilder si occupa infine di instanziare questi tipi di classe in base al name e allo spaceType il quale va a pilotare anche la action definita.
+La classe `NotPurchasableSpaceBuilder` si occupa infine di instanziare questi tipi di classe in base al name e allo *spaceType* il quale va a pilotare anche la *action* definita.
 
 #### Purchasable
 In questo sotto modulo sono state implementate le caselle acquistabili nel gioco.
