@@ -60,9 +60,11 @@ Il trait PurchableSpace è implementato dalle classi:
 
 ## View
 In figura viene mostrata il modulo View.
+
 <p align="center">
   <img src="../images/View.png" alt="Diagramma del package View"/>
 </p>
+
 In questo modulo sono state implementate le viste rispettando il pattern MVC per permettere quindi un'interazione tra il giocatore e il controller che effettuerà poi le varie azioni.
 Questo modulo è composto dalle 3 viste che è possibile incontrare nel gioco ed ereditano tutte dall'interfaccia javafx.fxml.Initializable:
 * StartMenuView: rappresenta la vista di avvio in cui ci sono i tasti per avviare il gioco (playGameBtnClick) o per terminarlo (exitGameBtnClick).
