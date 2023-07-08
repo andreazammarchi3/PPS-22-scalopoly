@@ -27,7 +27,7 @@ In figura viene mostrato il modulo `Model` con i relativi sotto-moduli, `Space`,
 
 
 ### Space
-Il trait Space rappresenta genericamente una cella della GameBoard poi specializzato da SpaceImpl, NotPurchasableSpace e da PurchasableSpace.
+Nel modulo space sono state implementate le logiche di cella della GameBoard definite dal trait Space poi specializzato da SpaceImpl, NotPurchasableSpace e da PurchasableSpace.
 
 #### NotPurchasable
 In questo sotto modulo sono state implementate le caselle non acquistabili nel gioco.
@@ -59,10 +59,15 @@ Il trait PurchableSpace è implementato dalle classi:
 
 
 ## View
-
+In figura viene mostrata il modulo View.
 <p align="center">
   <img src="../images/View.png" alt="Diagramma del package View"/>
 </p>
+In questo modulo sono state implementate le viste rispettando il pattern MVC per permettere quindi un'interazione tra il giocatore e il controller che effettuerà poi le varie azioni.
+Questo modulo è composto dalle 3 viste che è possibile incontrare nel gioco ed ereditano tutte dall'interfaccia javafx.fxml.Initializable:
+* StartMenuView: rappresenta la vista di avvio in cui ci sono i tasti per avviare il gioco (playGameBtnClick) o per terminarlo (exitGameBtnClick).
+* ConfigurationMenuView: rappresenta la vista la vista di configurazione per impostare i giocatori e sono presenti i comandi per avviare il gioco (playGameBtnClick), terminare il gioco (exitGameBtnClick), verificare e validare l'inserimento di un nuovo giocatore (checkAndAddPlayerToTableView) ed infine per rimuovere un giocatore dall'elenco di quelli già aggiunti (removePlayerFromTableView). 
+* GameView: rappresenta la vista di gioco dove sono presenti i comandi per permettere ad un giocatore di abbandonare il gioco (quitBtnClick), lanciare i dadi (throwDiceBtnClick), di aggiornare la vista a seguito del lancio dei dadi (diceThrown), per permettere al giocatore di terminare il turno (endTurnBtnClick), di costruire una casa (buildBtnClick), aggiornare la vista mostrando il nome del giocatore di turno (updateTurnLabel).
 
 ## Controller
 
