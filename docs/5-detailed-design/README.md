@@ -24,8 +24,6 @@ In figura viene mostrato il modulo `Model` con i relativi sotto-moduli, `Space`,
   <img src="../images/Model.png" alt="Diagramma del package Model"/>
 </p>
 
-
-
 ### Space
 Nel modulo space sono state implementate le logiche di cella della GameBoard definite dal trait Space poi specializzato da SpaceImpl, NotPurchasableSpace e da PurchasableSpace.
 
@@ -98,7 +96,6 @@ In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
 <p align="center">
   <img src="../images/Utils.png" alt="Diagramma del package Utils"/>
 </p>
-
 
 Il modulo Utils contiene le varie classi implementate per fornire gli strumenti necessari a compiere operazioni che si ripetevano all'interno del programma.
 
