@@ -73,10 +73,16 @@ object PrologEngine:
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")
 
 
-  /** Return a boolean used to decide the chanceAction of the [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpaceBuilder]].
+  /** Return a value used to decide the chanceAction of some [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
    *
+   * @param numOfPlayers
+   * The number of players of the game.
+   * @param ownedProperties
+   * The number of player owned properties.
+   * @param actualPosition
+   * The actualPosition of player.
    * @return
-   * The boolean.
+   * The value of the chance.
    */
   def calculateChanceValue(numOfPlayers: Int, ownedProperties: Int, actualPosition: Int): Int =
     val result = "X"
