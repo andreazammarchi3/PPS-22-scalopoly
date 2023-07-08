@@ -88,7 +88,33 @@ In figura viene mostrato il modulo Engine che contiene le varie parti che gestis
   <img src="../images/Engine.png" alt="Diagramma del package Engine"/>
 </p>
 
+### GameEngine
+Si tratta dell'engine che gestisce tutte le varie logiche di gioco:
 
+
+### Game
+Questo object rappresenta il modello del Game accessibile solamente dal pacchetto Engine, viene richiamato e modificato dal GameEngine e dall'EndgameLogicEngine:
+* currentPlayer: il giocatore corrente,
+* players: la lista dei giocatori,
+* winner: indica il vincitore del gioco quando presente,
+* availableTokens: indica i Token dei giocatori non ancora utilizzati,
+* gameBoard: rappresenta la GameBoard di gioco,
+* botIsPlaying: indica se sta giocando il giocatore Bot,
+* addPlayer: metodo per aggiungere un giocatore al Game
+* removePlayer: metodo er rimuovere un giocatore al Game,
+* reset: per ripristinare il Game allo stato iniziale.
+
+### PlayerActionEngine
+
+### EngineUtils
+
+### EndGameLogicEngine
+
+### BotEngine
+
+### PrologEngine
+
+###
 
 ## Utils
 In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
