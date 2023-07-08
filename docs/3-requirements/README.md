@@ -51,7 +51,7 @@ Di seguito una formulazione dei requisiti del sistema individuati durante l'anal
 Utilizzo di:
 - Scala 3.x
 - JDK 17+
-- TuProlog x
+- TuProlog 4.x
 
 ## Requisiti opzionali
 - Notifiche dei vari eventi ai giocatori durante il gioco
