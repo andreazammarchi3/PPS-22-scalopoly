@@ -100,13 +100,59 @@ chance_value(3, 3, 2, R).
 Come risultato ottengo 0 o 1 che verrà poi utilizzato per decidere se far pagare o dare soldi al giocatore.
 
 Come risultato ottengo la lista di affitti in caso di proprietà con 0..4 case costruite (la quinta casa equivale ad un hotel).
+
 ## Andrea Negri
-Le classi dove ho singolarmente lavorato maggiormente, oltre a quelle già elencate nella parte di Pair Programming, sono le seguenti, raggruppate per package:
+Durante lo svolgimento del progetto ho lavorato a stretto contatto con Zammarchi, come mostrato nella parte di Pair Programming; inoltre mi sono occupato dell'intero sviluppo delle seguenti classi:
 - *Engine*:
   - `EndgameLogicEngine`
   - `EngineUtils`
+  - `GameReader`
 - *Utils*:
   - `AlertUtils`
+ 
+### EndgameLogicEngine
+Con questo object ho sviluppato la logica di fine gioco adatta alla nostra implementazione. In particolare, visto che quando un giocatore perde viene eliminato dal `Game`, il metodo `checkVictory` verifica semplicemente quanti sono i giocatori rimasti appunto dentro `Game`: nel caso sia solo uno, lo imposta come vincitore.
+
+Nel momento in cui è stata inserita la possibilità di giocare anche contro dei bot, è stata presa la decisione che la partita termina anche quando rimangono solo bot in gioco (quindi anche se dentro `Game` sono presenti più giocatori): in questo caso al metodo descritto sopra è stata aggiunta un'ulteriore verifica che controlla se in `Game` sono presenti solo bot, e in questo caso la partita avrà termina.
+
+### EngineUtils
+L'object nasce da una scomposizione del `GameEngine` avvenuta dopo aver analizzato la sua complessità troppo elevata. Ho deciso quindi di estrarre la logica che consente l'aggiornamento di un giocatore o di una proprietà e inserirle in questo object, molto più snello e il cui unico compito è quello di aggiornare entità già presenti nel `Game`.
+
+### GameReader
+Anche questo object nasche dalla scomposizione del `GameEngine`, motivata non solo dalla sua elevata complessità, ma anche dalla necessità di consentire alle viste di accedere al modello senza possibilità di aggiornarlo direttamente. L'utilizzo diretto del `GameEngine` avrebbe permesso alle viste di richiamare direttamente un metodo per la modifica del modello, violando le regole del pattern MVC che stabiliscono che questa responsabilità spetti al Controller. Pertanto, in questo oggetto ho inserito solo dei metodi getter, in modo che le viste possano utilizzarlo senza problemi e senza violare il pattern MVC.
+
+### Prolog
+Ho contribuito allo sviluppo del `PrologEngine` e in particolare ho implementato i metodi `getNthCellInGrid` e `getCoordinateFromPosition` entrambi utilizzati dalla `GameUtils` e utili a mostrare correttamente le immagini dei `Token` e delle case/alberghi nella GUI:
+- `getNthCellInGrid` consente di trovare le coordinate dell'n-esima cella in una griglia di X righe e Y colonne. Questa informazione serve nel momento in cui la View deve mostrare le immagini dei `Token` presenti su di una casella in maniera corretta (non sovrapposti l'uno all'altro). Per farlo recupera il numero di immagini già presenti (N-1) e poi invoca il metodo in `GameUtils` chiedendo la coordinata della cella N (cioè la prima libera).
+- `getCoordinateFromPosition`: consente di trovare le coordinate di una cella data la sua posizione nel tabellone (compresa tra 0 e 39). In seguito all'aggiornamento di uno spazio nel tabellone (ad esempio perché sono state costruite delle case), la View deve recuperare le coordinate della cella relativa allo spazio modificato per aggiornarla anche graficamente: per farlo invoca questo metodo in `GameUtils` ottenendo così le coordinate alle quali andare a effettuare la modifica.
+
+#### Teoria
+```prolog
+% Return the coordinates of the N-th cell in a grid of X rows and Y columns.
+% N = Nth cell, Y = number of columns, X = number of rows
+% SolY = column, Solx = row
+getNthCellInGrid(N,Y,X,SolY,SolX) :- R is (N mod Y), R = 0 -> SolY is Y - 1, SolX is N//Y - 1;
+SolY is ((N mod Y)-1), SolX is N//Y.
+
+%Return the coordinates of a grid cell given the position of a player
+%P = Position, CIS = Cells in Side (default 10)
+%SolY = column of N cell, SolX = row of N cell
+getCoordinateFromPosition(P,CIS,SolY,SolX) :- P < CIS -> SolY is CIS - P, SolX is CIS;
+P < CIS * 2 -> SolY is 0, SolX is (CIS * 2) - P;
+P < CIS * 3 -> SolY is P - (CIS * 2), SolX is 0;
+SolY is CIS, SolX is P - (CIS * 3).
+```
+
+#### Possibile Goal
+```prolog
+% Get the coordinates of the 5th cell in a grid with 4 columns and 3 rows
+getNthCellInGrid(5, 4, 3, SolY, SolX).
+
+% Get the coordinates of the 12th space in the GameBoard, known that each side of the board has 10 cells.
+getCoordinateFromPosition(12, 10, SolY, SolX).
+```
+
+Come risultato del primo goal ottengo i valori 0 e 1 (cella nella prima colonna e seconda riga) mentre per il secondo i valori 0 e 8 (prima colonna e ottava riga).
 
 
 ## Andrea Zammarchi
