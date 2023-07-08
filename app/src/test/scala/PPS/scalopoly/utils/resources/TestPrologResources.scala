@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test
 
 class TestPrologResources:
   private val GAMEUTILS_PROLOG_POSITION = 0
-  private val NUM_PROLOG_RESOURCES = 2
+  private val NUM_PROLOG_RESOURCES = 3
 
   @Test
   def testPath(): Unit =
     assertEquals("/prolog/GameUtilsProlog.pl", PrologResources.GAMEUTILS_PROLOG.path)
     assertEquals("/prolog/RentsCalculatorProlog.pl", PrologResources.RENTS_CALCULATOR_PROLOG.path)
+    assertEquals("/prolog/ChanceCalculatorProlog.pl", PrologResources.CHANCE_CALCULATOR_PROLOG.path)
 
   @Test
   def testFromOrdinal(): Unit =
@@ -27,6 +28,7 @@ class TestPrologResources:
   def testGetResource(): Unit =
     assertNotNull(getClass.getResource(PrologResources.GAMEUTILS_PROLOG.path))
     assertNotNull(getClass.getResource(PrologResources.RENTS_CALCULATOR_PROLOG.path))
+    assertNotNull(getClass.getResource(PrologResources.CHANCE_CALCULATOR_PROLOG.path))
 
   @Test
   def testValues(): Unit =

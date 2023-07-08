@@ -10,6 +10,7 @@ import scala.io.Source
 object PrologEngine:
   implicit def stringToTerm(s: String): Term = Term.createTerm(s)
   implicit def termToInt(t: Term): Int = t.toString.toInt
+  implicit def termToBoolean(t: Term): Boolean = t.toString.toBoolean
   implicit def termToListOfInt(t: Term): List[Int] =
     t.toString.replace("[", "").replace("]", "").split(",").map(_.toInt).toList
 
@@ -69,6 +70,31 @@ object PrologEngine:
     engine.setTheory(Theory.parseWithStandardOperators(theory))
     val solution = engine solve goal
     if solution.isSuccess then termToListOfInt(solution.getTerm(rents)).reverse
+    else throw new RuntimeException(s"Prolog error while solving goal: $goal")
+
+
+  /** Return a value used to decide the chanceAction of some [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
+   *
+   * @param numOfPlayers
+   * The number of players of the game.
+   * @param ownedProperties
+   * The number of player owned properties.
+   * @param actualPosition
+   * The actualPosition of player.
+   * @return
+   * The value of the chance.
+   */
+  def calculateChanceValue(numOfPlayers: Int, ownedProperties: Int, actualPosition: Int): Int =
+    val result = "X"
+    val goal = s"chance_value($numOfPlayers, $ownedProperties, $actualPosition, $result)"
+    val theory = Source
+      .fromInputStream(getClass.getResourceAsStream(PrologResources.CHANCE_CALCULATOR_PROLOG.path))
+      .getLines()
+      .filter(l => l.nonEmpty && !isComment(l))
+      .mkString(" ")
+    engine.setTheory(Theory.parseWithStandardOperators(theory))
+    val solution = engine.solve(goal)
+    if solution.isSuccess then termToInt(solution.getTerm(result))
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")
 
   private def resolveGameUtilsGoal(goal: String, sol1: String, sol2: String): (Int, Int) =
