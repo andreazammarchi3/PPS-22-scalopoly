@@ -150,7 +150,11 @@ Questo object è responsabile delle azioni del giocatore bot.
 * decideToBuySpace: metodo che decide se il bot acquisterà la casella acquistabile.
 
 ### PrologEngine
-
+Questo object è responsabile della gestione delle funzionalità sviluppate in Prolog:
+* getNthCellInGrid: restituisce le coordinate dell'n-essima cella della griglia della dimensione specificata,
+* getCoordinateFromPosition: restituisce le coordinate di una cella della griglia data la poszione del gicaotre sulla GameBoard,
+* calculateRents: restituisce la lista degli affitti di una proprietà dato un moltiplicatore e il numero di case su tale proprietà,
+* calculateChanceValue: restituisce un interno tra 0 e 1 per permettere poi di definire se far pagare o dare soldi al giocatore che subisce l'azione della casella Probabilità
 
 ## Utils
 In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.

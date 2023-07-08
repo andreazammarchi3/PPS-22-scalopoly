@@ -1,5 +1,5 @@
 # Requisiti di sistema
-Di seguito una formulazione dei requisiti del sistema individuati durante l'analisi del problema per un'applicazione che permette di giocare a Monopoly.
+Di seguito una formulazione dei requisiti del sistema individuati durante l'analisi del problema per un'applicazione che permetta di giocare a Monopoly.
 
 ## Requisiti di business
 - Creare un sistema che permetta di giocare a Monopoly con alcune regole del gioco originale.
@@ -9,15 +9,17 @@ Di seguito una formulazione dei requisiti del sistema individuati durante l'anal
 - Gli utenti dovranno interagire con il sistema tramite un'interfaccia grafica (GUI).
 - Gli utenti possono visualizzare le proprie informazioni inerenti la partita (nome, pedina, soldi, proprietà).
 - Gli utenti possono interagire col sistema effettuando diverse azioni:
-  - aggiungere/rimuovere giocatori;
-  - settare alcuni giocatori come Bot;
-  - scegliere un nome e una pedina;
-  - avviare una nuova partita;
-  - lanciare i dadi;
-  - comprare proprietà;
-  - costruire case/alberghi;
-  - terminare il proprio turno;
-  - abbandonare la partita.
+  - Durante la fase di preparazione della partita potranno:
+    - aggiungere/rimuovere giocatori;
+    - settare alcuni giocatori come Bot;
+    - scegliere un nome e una pedina;
+    - avviare una nuova partita;
+  - Durante lo svolgimento di una partita potranno:
+    - lanciare i dadi;
+    - comprare proprietà;
+    - costruire case/alberghi;
+    - terminare il proprio turno;
+    - abbandonare la partita.
 
 ## Requisiti funzionali
 - Una partita può essere avviata solo se il numero di giocatori è compreso tra 2 e 6.
@@ -30,9 +32,9 @@ Di seguito una formulazione dei requisiti del sistema individuati durante l'anal
   - proprietà acquistabili dove si possono costruire case;
   - proprietà acquistabili dove non si possono costruire case (società e stazioni);
   - caselle speciali (via, probabilità, imprevisti, tasse, parcheggio gratuito, transito/prigione).
-- Un giocatore può acquistare solo le proprietà acquistabili, nel momento in cui si trova sopra una di esse e non sono già state acquistate da un altro giocatore.
+- Un giocatore può acquistare solo le proprietà acquistabili, nel momento in cui termina il proprio movimento sopra una di esse e se non sono già state acquistate da un altro giocatore.
 - Se un giocatore finisce sopra una proprietà posseduta da un avversario gli pagherà l'affitto.
-- Un giocatore perde quando non può permettersi di pagare un affitto, una tassa o un imprevisto.
+- Un giocatore perde quando non può permettersi di pagare un affitto, cioè quando i suoi soldi vanno in negativo.
 - Quando un giocatore perde, la sua eredità (soldi + proprietà) viene data al giocatore che dovrebbe incassare l'affitto (se perde per affitto).
 - Vince il giocatore che rimane per ultimo in gioco.
 
@@ -59,7 +61,13 @@ Utilizzo di:
   - se finisce sopra una Tassa (Patrimoniale o Di Lusso) o gli Imprevisti paga una determinata cifra fissa,
   - se capita sulle Probabilità può casualmente incassare o pagare una determinata cifra fissa,
   - se capita sopra Parcheggio Gratuito, Transito o Prigione non succede nulla.
-- Se un giocatore finisce sopra una proprietà posseduta da un avversario gli pagherà non un affitto fisso ma cambierà a seconda del numero di case.
+- Se un giocatore finisce sopra una proprietà posseduta da un avversario gli pagherà non un affitto fisso ma cambierà a seconda del tipo di proprietà:
+  - proprietà acquistabili dove si possono costruire case:
+    - se sono presenti case o alberghi l'affitto varia in base al loro numero;
+    - se non sono presenti case o alberghi, si verifica se il proprietario possiede tutte le proprietà dello stesso colore di quella in cui è finito il giocatore: in caso negativo è previsto un affito base, in caso affermativo l'affitto è uguale al doppio di quello base;
+  - proprietà acquistabili dove non si possono costruire case (società e stazioni);
+    - nel caso delle società si verifica se il proprietario le possiede entrambe oppure no: a seconda del caso si moltiplica l'affitto base per un diverso moltiplicatore;
+    - nel caso delle stazioni si verifica quante stazioni possiedere il proprietario e l'affitto varia in base a questo numero;
 - Possibilità di etichettare un giocatore come Bot, cioè un giocatore controllato dal computer che esegue azioni e decisioni di base. In particolare:
   - lancia i dadi;
   - se finisce su una proprietà acquistabile e libera la compra se può permettersela;
