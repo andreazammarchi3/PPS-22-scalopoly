@@ -84,21 +84,36 @@ In questo modulo Controller sono state implementate le logiche di interazione tr
 * GameController: si occupa di comunicare con la vista GameView di cui mantiene un riferimenti nella variabile view. È composto dai metodi currentPlayerQuit (che viene invocato quando un giocatore decide di abbandonare), throwDice (invocato quando un giocatore lancia i dadi), endTurn (chiamato quando un giocatore termina il proprio turno), checkPlayerActions (per verificare quali azioni può fare li giocatore) ed infine playerBuildHouse (che prende in ingresso il BuildableSpace dove il giocatore vuole costruire e restituisce un booleano che indica se l'operazione è stata completata con successo o meno). 
 
 ## Engine
+In figura viene mostrato il modulo Engine che contiene le varie parti che gestiscono le logiche di gioco.
 
 <p align="center">
   <img src="../images/Engine.png" alt="Diagramma del package Engine"/>
 </p>
 
+
+
 ## Utils
+In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
 
 <p align="center">
   <img src="../images/Utils.png" alt="Diagramma del package Utils"/>
 </p>
 
 ## Deserialization
+In figura viene mostrato il modulo di deserializzazione dei dati applicativi.
 
 <p align="center">
   <img src="../images/Deserialization.png" alt="Diagramma del package Deserialization"/>
 </p>
+
+Il trait MyJsonReader definisce un generico JsonReader con il rispettivo comando read che prende in ingresso il JsonReader da analizzare.
+Tale trai è implementato dagli altri 5 Object come si vede nella figura:
+* SpaceJsonReader: si occupa di deserializzare oggetti Space
+* StationSpaceJsonReader: si occupa di deserializzare oggetti StationSpace
+* NotPurchasableSpaceJsonReader: si occupa di deserializzare oggetti NotPurchasableSpace
+* CompanySpaceJsonReader: si occupa di deserializzare oggetti CompanySpace
+* BuildableSpaceJsonReader: si occupa di deserializzare oggetti BuildableSpace
+
+I vari Json sono nella cartella di progetto  app/src/resources/json.
 
 [Indietro](../4-architectural-design/README.md) | [Torna alla Home](../README.md) | [Vai a Implementazione](../6-implementation/README.md)
