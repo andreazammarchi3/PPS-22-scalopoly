@@ -32,28 +32,28 @@ Nel modulo space sono state implementate le logiche di cella della GameBoard def
 #### NotPurchasable
 In questo sotto modulo sono state implementate le caselle non acquistabili nel gioco.
 Queste celle sono poi differenziante in base al tipo NotPurcasableSpaceType nel seguente modo:
-* BLANK: cella non definita
-* CHANCE: Possibilità
-* COMMUNITY_CHEST: Imprevisti
-* INCOME_TAX: Tassa patrimoniale
-* LUXURY_TAX: Tassa di lusso
+* BLANK: cella non definita,
+* CHANCE: Possibilità,
+* COMMUNITY_CHEST: Imprevisti,
+* INCOME_TAX: Tassa patrimoniale,
+* LUXURY_TAX: Tassa di lusso.
   
 La classe NotPurchasableSpace è uno Space che rappresenta una casella non acquistabile dai giocatori ed composta da:
-* un parametro spaceValue che rappresenta il valore utilizzato nell'azione della casella
-* un parametro spaceType di tipo NotPurcasableSpaceType
-* un parametro action che rappresenta un metodo che dato un Player esegue un'azione su di esso
+* un parametro spaceValue che rappresenta il valore utilizzato nell'azione della casella,
+* un parametro spaceType di tipo NotPurcasableSpaceType,
+* un parametro action che rappresenta un metodo che dato un Player esegue un'azione su di esso.
 
 La classe NotPurchasableSpaceBuilder si occupa infine di instanziare questi tipi di classe in base al name e allo spaceType il quale va a pilotare anche la action definita.
 
 #### Purchasable
 In questo sotto modulo sono state implementate le caselle acquistabili nel gioco.
 Il trait PurchableSpace è uno Space che rappresenta una casella acquistabile dai giocatori ed è compsta da:
-* un parametro sellingPrice che indica il prezzo di vendita della casella
-* un parametro rents che inidica gli affitti che i giocatorri pagheranno al passaggio della casella in base al numero di case presenti in essa, questo se la cella appartiene ad un altro giocatore
-* un parametro spaceGroup che indica il gruppo di appartenenza della cella
+* un parametro sellingPrice che indica il prezzo di vendita della casella,
+* un parametro rents che inidica gli affitti che i giocatorri pagheranno al passaggio della casella in base al numero di case presenti in essa, questo se la cella appartiene ad un altro giocatore,
+* un parametro spaceGroup che indica il gruppo di appartenenza della cella.
 
 Il trait PurchableSpace è implementato dalle classi:
-* CompanySpace e StationSpace in cui è definita una specifica logica di calcolo del pedaggio (implementata nel calculateRent)
+* CompanySpace e StationSpace in cui è definita una specifica logica di calcolo del pedaggio (implementata nel calculateRent),
 * BuildableSpace che rappresenta il restto delle caselle acquistabili dove è possibile costruire case (definite da numHouse) e alberghi pagando il buildingCost.
 
 
@@ -67,8 +67,8 @@ In figura viene mostrato il modulo View.
 
 In questo modulo sono state implementate le viste rispettando il pattern MVC per permettere quindi un'interazione tra il giocatore e il controller che effettuerà poi le varie azioni.
 Questo modulo è composto dalle 3 viste che è possibile incontrare nel gioco ed ereditano tutte dall'interfaccia javafx.fxml.Initializable:
-* StartMenuView: rappresenta la vista di avvio in cui ci sono i tasti per avviare il gioco (playGameBtnClick) o per terminarlo (exitGameBtnClick).
-* ConfigurationMenuView: rappresenta la vista la vista di configurazione per impostare i giocatori e sono presenti i comandi per avviare il gioco (playGameBtnClick), terminare il gioco (exitGameBtnClick), verificare e validare l'inserimento di un nuovo giocatore (checkAndAddPlayerToTableView) ed infine per rimuovere un giocatore dall'elenco di quelli già aggiunti (removePlayerFromTableView). 
+* StartMenuView: rappresenta la vista di avvio in cui ci sono i tasti per avviare il gioco (playGameBtnClick) o per terminarlo (exitGameBtnClick),
+* ConfigurationMenuView: rappresenta la vista la vista di configurazione per impostare i giocatori e sono presenti i comandi per avviare il gioco (playGameBtnClick), terminare il gioco (exitGameBtnClick), verificare e validare l'inserimento di un nuovo giocatore (checkAndAddPlayerToTableView) ed infine per rimuovere un giocatore dall'elenco di quelli già aggiunti (removePlayerFromTableView),
 * GameView: rappresenta la vista di gioco dove sono presenti i comandi per permettere ad un giocatore di abbandonare il gioco (quitBtnClick), lanciare i dadi (throwDiceBtnClick), di aggiornare la vista a seguito del lancio dei dadi (diceThrown), per permettere al giocatore di terminare il turno (endTurnBtnClick), di costruire una casa (buildBtnClick), aggiornare la vista mostrando il nome del giocatore di turno (updateTurnLabel).
 
 ## Controller
@@ -79,8 +79,8 @@ In figura viene mostrato il modulo Controller.
 </p>
 
 In questo modulo Controller sono state implementate le logiche di interazione tra Vista e Modello rispettando il pattern MVC attraverso le seguenti classi:
-* StartMenuController: si occupa di comunicare con la vista iniziale StartMenuView esponendo i comandi playGame per passare alla schermata di configurazione ConfigurationMenuView, e exitGame per terminare il gioco.
-* ConfigurationMenuController: si occupa di comunicare con la vista di configurazione ConfigurationMenuView attra verso i metodi addPlayer (per aggiungere un nuovo giocatore), removePlayer (per rimuoverne uno), availableToken (che restituisce la lista dei token ancora utilizzabili per i nuovi gioccatori), cadAddPlayer e canStartPlay che verificano se è possibile aggiungere ancora giocatori e se è possibile avviare la partita (questi utilizzati per pilotare la visibilità di alcuni campi nella vista) ed infine playGame (per avviare il gioco e spostarsi nella vista GameView) e exitGame (per terminare il gioco.
+* StartMenuController: si occupa di comunicare con la vista iniziale StartMenuView esponendo i comandi playGame per passare alla schermata di configurazione ConfigurationMenuView, e exitGame per terminare il gioco,
+* ConfigurationMenuController: si occupa di comunicare con la vista di configurazione ConfigurationMenuView attra verso i metodi addPlayer (per aggiungere un nuovo giocatore), removePlayer (per rimuoverne uno), availableToken (che restituisce la lista dei token ancora utilizzabili per i nuovi gioccatori), cadAddPlayer e canStartPlay che verificano se è possibile aggiungere ancora giocatori e se è possibile avviare la partita (questi utilizzati per pilotare la visibilità di alcuni campi nella vista) ed infine playGame (per avviare il gioco e spostarsi nella vista GameView) e exitGame (per terminare il gioco,
 * GameController: si occupa di comunicare con la vista GameView di cui mantiene un riferimenti nella variabile view. È composto dai metodi currentPlayerQuit (che viene invocato quando un giocatore decide di abbandonare), throwDice (invocato quando un giocatore lancia i dadi), endTurn (chiamato quando un giocatore termina il proprio turno), checkPlayerActions (per verificare quali azioni può fare li giocatore) ed infine playerBuildHouse (che prende in ingresso il BuildableSpace dove il giocatore vuole costruire e restituisce un booleano che indica se l'operazione è stata completata con successo o meno). 
 
 ## Engine
@@ -99,6 +99,32 @@ In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
   <img src="../images/Utils.png" alt="Diagramma del package Utils"/>
 </p>
 
+Il modulo Utils contiene le varie classi implementate per fornire gli strumenti necessari a compiere operazioni che si ripetevano all'interno del programma.
+Lato UI si è reso necessario creare FxmlUtils per integrare ed utilizzare le librerie grafiche javafx e scalafx.
+L'object FxmlUtils contiente:
+* un'istanza dello Stage di ScalaFx necessario per mostrare lo stage della UI,
+* dei valori fissi (DEFAULT_WIDTH_PERC, DEFAULT_HEIGHT_PERC, GAME_WIDTH_PERC) che indicano la percentuale di altezza/larghezza di alcuni elementi rispetto al finestra globale dell'applicativo,
+* il metodo changeScene utilizzato per passare da una scena del gioco ad un'altra,
+* il metodo createPrimaryStage che inizializza l'istanza di stage definita sopra,
+* initUIElements che si occupa di inizializzare i vari elementi della UI,
+* getResolution che si occupa di recuperare la risoluzione dello schermo in cui l'applicativo parte,
+* showAlert che permette di mostrate una finestra per notificare al giocatore un messaggio.
+  
+Sempre lato UI è stato poi necessario creare un AlertUtils per definire i vari Alert mostrati durante il gioco utilizzando le funzionalità di FxmlUtils, di seguito una breve spiegazione dei vari metodi utilizzabili:
+* showRentPayment: permette di segnalare al giocatore corrente che pagherà un affitto in quanto è arrivato su una casella posseduta da un altro giocatore,
+* showPlayerEliminaterByRent: permette di segnalare al giocatore corrente che è stato sconfitto in quanto non ha abbastanza denaro per pagare un affitto,
+* showPlayerEliminatedByTax: permette di segnalare al giocatore corrente che è stato sconfitto in quanto non ha abbastanza denaro per pagare una tassa,
+* showAskToBuyPurchasableSpace: permette di chiedere al giocatore corrente se vuole acquistare una casella libera su cui è arrivato,
+* showNotPurchasableSpace: permette di segnalare al giocatore corrente che non possiede abbastanza denaro per acquistare la casella su cui è arrivato,
+* showPlayerCannotBuyHouse: permette di segnalare al giocatore che non possiede abbastanza denaro per acuistare una casa,
+* showPlayerDonNotOwnAllPropertiesOfSameGroup: permette di segnalare al giocatore che non può acuistare una casa in una sua proprietà perchè non possiede tutte le caselle dello stesso SpaceGroup,
+* showNotPurchasableSpaceAction: permette di segnalare al giocatore l'azione della casella non acquistabile che subirà,
+* showVictory: permette di segnalare al giocatore che ha vinto la partita,
+* showNotEnoughPlayersWarning: permette di segnalare che non ci sono abbastanza giocatore per iniziare la partita,
+* showEmptyPlayerNameWarning: permette di segnalare che non è possibile aggiungere un giocatore con nome vuoto.
+
+  
+
 ## Deserialization
 In figura viene mostrato il modulo di deserializzazione dei dati applicativi.
 
@@ -108,11 +134,11 @@ In figura viene mostrato il modulo di deserializzazione dei dati applicativi.
 
 Il trait MyJsonReader definisce un generico JsonReader con il rispettivo comando read che prende in ingresso il JsonReader da analizzare.
 Tale trai è implementato dagli altri 5 Object come si vede nella figura:
-* SpaceJsonReader: si occupa di deserializzare oggetti Space
-* StationSpaceJsonReader: si occupa di deserializzare oggetti StationSpace
-* NotPurchasableSpaceJsonReader: si occupa di deserializzare oggetti NotPurchasableSpace
-* CompanySpaceJsonReader: si occupa di deserializzare oggetti CompanySpace
-* BuildableSpaceJsonReader: si occupa di deserializzare oggetti BuildableSpace
+* SpaceJsonReader: si occupa di deserializzare oggetti Space,
+* StationSpaceJsonReader: si occupa di deserializzare oggetti StationSpace,
+* NotPurchasableSpaceJsonReader: si occupa di deserializzare oggetti NotPurchasableSpace,
+* CompanySpaceJsonReader: si occupa di deserializzare oggetti CompanySpace,
+* BuildableSpaceJsonReader: si occupa di deserializzare oggetti BuildableSpace.
 
 I vari Json sono nella cartella di progetto  app/src/resources/json.
 
