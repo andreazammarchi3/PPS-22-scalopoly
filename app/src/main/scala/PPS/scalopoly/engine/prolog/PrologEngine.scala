@@ -72,18 +72,18 @@ object PrologEngine:
     if solution.isSuccess then termToListOfInt(solution.getTerm(rents)).reverse
     else throw new RuntimeException(s"Prolog error while solving goal: $goal")
 
-
-  /** Return a value used to decide the chanceAction of some [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
-   *
-   * @param numOfPlayers
-   * The number of players of the game.
-   * @param ownedProperties
-   * The number of player owned properties.
-   * @param actualPosition
-   * The actualPosition of player.
-   * @return
-   * The value of the chance.
-   */
+  /** Return a value used to decide the chanceAction of some
+    * [[PPS.scalopoly.model.space.notPurchasable.NotPurchasableSpace]].
+    *
+    * @param numOfPlayers
+    *   The number of players of the game.
+    * @param ownedProperties
+    *   The number of player owned properties.
+    * @param actualPosition
+    *   The actualPosition of player.
+    * @return
+    *   The value of the chance.
+    */
   def calculateChanceValue(numOfPlayers: Int, ownedProperties: Int, actualPosition: Int): Int =
     val result = "X"
     val goal = s"chance_value($numOfPlayers, $ownedProperties, $actualPosition, $result)"
