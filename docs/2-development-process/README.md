@@ -21,9 +21,9 @@ In questo modo, il flusso di lavoro Git Flow permette di gestire in modo struttu
 ## Build Automation
 Per automatizzare i processi di compilazione, testing ed esecuzione, si è scelto di utilizzare **Gradle** come strumento di *Build Automation*.
 
-La scelta di preferire *Gradle* rispetto a *Sbt* si è basata su diversi fattori. Innanzitutto, Gradle è considerato una tecnologia più matura e consolidata nel campo dell'automazione della build. Ha una vasta base di utenti e una comunità attiva, il che significa che è possibile trovare un ampio supporto, risorse e plugin per esigenze specifiche.
+La preferenza di *Gradle* rispetto a *Sbt* è basata su diversi fattori. Innanzitutto, Gradle è considerato una tecnologia più matura e consolidata nel campo dell'automazione della build. Ha una vasta base di utenti e una comunità attiva, il che significa che è possibile trovare un ampio supporto, risorse e plugin per esigenze specifiche.
 
-Inoltre, gli sviluppatori del nostro team hanno più esperienza con Gradle rispetto a Sbt. Conoscono la sintassi e le funzionalità di Gradle e si sentono più a loro agio nell'utilizzarlo per gestire i processi di compilazione, testing ed esecuzione. Scegliere uno strumento con cui gli sviluppatori sono già familiari e che offre un ecosistema solido può contribuire a ridurre il tempo di apprendimento, migliorare l'efficienza e facilitare la risoluzione dei problemi durante lo sviluppo del progetto.
+Inoltre, gli sviluppatori del team hanno più esperienza con Gradle rispetto a Sbt, conoscono la sua sintassi e le sue funzionalità e si sentono più a loro agio nell'utilizzarlo per gestire i processi di compilazione, testing ed esecuzione. Scegliere uno strumento con cui gli sviluppatori sono già familiari e che offre un ecosistema solido può contribuire a ridurre il tempo di apprendimento, migliorare l'efficienza e facilitare la risoluzione dei problemi durante lo sviluppo del progetto.
 
 ## Test Driven Development
 Durante lo sviluppo del sistema, abbiamo scelto di applicare il **Test-Driven Development** (TDD) il più possibile. L'obiettivo principale del TDD è quello di anticipare la fase di testing il più presto possibile, al fine di ridurre i costi di manutenzione e il rischio di incorrere in bug o failures.
