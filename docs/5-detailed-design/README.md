@@ -105,79 +105,79 @@ In questo modulo sono state implementate le logiche di interazione tra *View* e 
 - `GameController`: si occupa di comunicare con la vista `GameView` di cui mantiene un riferimento nella variabile `view`. È composto dai metodi `currentPlayerQuit` (che viene invocato quando un giocatore decide di abbandonare), `throwDice` (invocato quando un giocatore lancia i dadi), `endTurn` (chiamato quando un giocatore termina il proprio turno), `checkPlayerActions` (per verificare quali azioni può fare li giocatore) ed infine `playerBuildHouse` (che prende in ingresso il `BuildableSpace` dove il giocatore vuole costruire e restituisce un booleano che indica se l'operazione è stata completata con successo o meno). 
 
 ## Engine
-In figura viene mostrato il modulo Engine che contiene le varie parti che gestiscono le logiche di gioco.
+In figura viene mostrato il modulo *Engine* che contiene le varie parti che gestiscono le logiche di gioco.
 
 <p align="center">
   <img src="../images/Engine.png" alt="Diagramma del package Engine"/>
 </p>
 
 ### GameEngine
-Si tratta dell'engine che gestisce tutte le varie logiche di gioco e che si interfaccia con gli altri moduli esterni al modulo Engine:
-* addPlayer: metodo per aggiungere un giocatore al Game,
-* removePlayer: metodo per rimuovere un giocatore al Game,
-* newGame: metodo per creare un nuovo gioco,
-* startGame: metodo per avviare un nuovo gioco,
-* exitGame: metodo per chiudere l'applicativo,
-* endTurn: metodo per terminare il turno del giocatore corrente,
-* moveCurrentPlayer: metodo per spostare il giocatore corrente,
-* currentPlayerQuit: metodo per gestire l'abbandono di un giocatore,
-* checkSpaceStatus: metodo per verificare lo stato della casella su cui si è fermato il giocatore corrente,
-* botPlays: indica se sta giocando il giocatore Bot.
+Si tratta dell'engine che gestisce tutte le varie logiche di gioco e che consente ai Controller di interagire con il sistema e modificare lo stato di gioco:
+- `addPlayer`: aggiunge un giocatore al `Game`;
+- `removePlayer`: rimuove un giocatore dal `Game`;
+- `newGame`: consente di creare una nuovo gioco, resettando l'oggetto `Game`;
+- `startGame`: avvia un nuovo gioco;
+- `exitGame`: metodo per chiudere l'applicativo;
+- `endTurn`: termina il turno del giocatore corrente;
+- `moveCurrentPlayer`: muove il giocatore corrente di `steps` caselle nel tabellone;
+- `currentPlayerQuit`: elimina il giocatore corrente dal gioco richiamando il metodo `removePlayer`;
+- `checkSpaceStatus`: verifica lo stato della casella su cui si è fermato il giocatore corrente, utilizzando l'enum `SpaceStatus`;
+- `botPlays`: effettua il turno del bot.
 
 
 ### Game
-Questo object rappresenta il modello del Game accessibile solamente dal pacchetto Engine, viene richiamato e modificato dal GameEngine e dall'EndgameLogicEngine:
-* currentPlayer: indica il giocatore corrente,
-* players: indica la lista dei giocatori,
-* winner: indica il vincitore del gioco quando presente,
-* availableTokens: indica i Token dei giocatori non ancora utilizzati,
-* gameBoard: rappresenta la GameBoard di gioco,
-* botIsPlaying: indica se sta giocando il giocatore Bot,
-* addPlayer: metodo per aggiungere un giocatore al Game,
-* removePlayer: metodo er rimuovere un giocatore al Game,
-* reset: per ripristinare il Game allo stato iniziale.
+Questo object modella il concetto di "gioco" ed è accessibile solamente all'interno del modulo *Engine*. Viene richiamato e modificato dal `GameEngine` e dall'`EngineUtils`:
+- `currentPlayer`: indice del giocatore corrente;
+- `players`: lista dei giocatori;
+- `winner`: eventuale vincitore del gioco;
+- `availableTokens`: lista delle pedine non ancora utilizzate dai giocatori;
+- `gameBoard`: tabellone di gioco;
+- `botIsPlaying`: flag che segnala se nella partita sono presenti dei bot;
+- `addPlayer`: aggiune un giocatore alla lista `players`;
+- `removePlayer`: rimuove un giocatore dalla lista `players`;
+- `reset`: resetta lo stato di gioco (in particolare setta ai valori di default `currentPlayer`, `players`, `availableTokens`, `winner` e `gameBoard`).
 
 ### GameReader
-Questo object rappresenta un Reader per permettere di consultare i dati di gioco dai moduli che non devono aver accesso a modifiche su quest'ultimo (come ad esempio le viste):
-* currentPlayer: indica il giocatore corrente,
-* players: indica la lista dei giocatori,
-* winner: indica il vincitore del gioco quando presente,
-* availableTokens: indica i Token dei giocatori non ancora utilizzati,
-* gameBoard: rappresenta la GameBoard di gioco,
-* botIsPlaying: indica se sta giocando il giocatore Bot,
-* canStartGame: specifica se è possibile avviare il gioco, 
-* canAddPlayer: specifica se è possibile aggiungere un giocatore.
+Tramite il `GameReader` è possibile leggere i dati del `Game` ma non modificarli, in questa maniera le viste possono aggiornarsi senza infrangere la logica del pattern MVC:
+- `currentPlayer`: restituisce il giocatore corrente;
+- `players`: restituisce la lista dei giocatori;
+- `winner`: restituisce l'eventuale vincitore del gioco;
+- `availableTokens`: restituisce la lista delle pedine non ancora utilizzate dai giocatori;
+- `gameBoard`: restituisce il tabellone di gioco;
+- `botIsPlaying`: restituisce il flag che segnala se nella partita sono presenti dei bot;
+- `canStartGame`: verifica se è possibile avviare la partita (se è stato raggiunto il numero minimo di giocatori);
+- `canAddPlayer`: verifica se è possibile aggiungere un giocatore alla partita (se è stato raggiunto il numero massimo di giocatori).
 
 ### EngineUtils
-Questo object racchiude alcuni strumenti utili per i vari Engine:
-* updatePlayerWith: permette di aggiornare un giocatore in base all'indice fornito,
-* updateBuildableSpacesWith: aggiorna la GameBoard fornito il suo BuildableSpace.
+In `EngineUtils` sono state racchiuse 2 funzioni utili a vari altri engine:
+- `updatePlayerWith`: aggiorna un giocatore all'interno della lista `Game.players` in base all'indice fornito;
+- `updateBuildableSpacesWith`: aggiorna un `BuildableSpace` all'interno della `Game.gameBoard`.
 
 ### PlayerActionEngine
-Questo object gestisce le logiche di gioco legame alle azioni dei giocatori:
-* playerBuysPurchasableSpace: gestisce l'acquisto di una casella acquistabile da parte di un giocatore,
-* playerPaysRent: gestisce il pagamento dell'affitto di un giocatore che passa su una casella che appartiene ad un altro giocatore,
-* playerObtainHeritage: gestisce l'eredità ricevuta da un giocatore da parte di un altro giocatore,
-* playerPassByGo: gestisce il passaggio dal via di un giocatore,
-* playerBuildsHouse: gestisce la costruzione di una casa su una casella dove è possibile costruire,
-* playerOnNotPurchasableSpace: gestisce l'azione su un giocatore che si trova su una casella non acquistabile.
+`PlayerActionEngine` gestisce le logiche di gioco legate alle azioni dei giocatori:
+- `playerBuysPurchasableSpace`: gestisce l'acquisto di una casella acquistabile da parte di un giocatore;
+- `playerPaysRent`: gestisce il pagamento dell'affitto di un giocatore che passa su una casella che appartiene ad un altro giocatore;
+- `playerObtainHeritage`: gestisce il passaggio dell'eredità da un giocatore a un altro;
+- `playerPassByGo`: gestisce il passaggio dal via di un giocatore;
+- `playerBuildsHouse`: gestisce la costruzione di una casa su una casella dove è possibile costruire;
+- `playerOnNotPurchasableSpace`: gestisce l'azione su un giocatore che si trova su una casella non acquistabile.
 
 ### EndGameLogicEngine
-Questo object gestisce le logiche di fine gioco, verifica se è presente un vincitore e in quel caso lo imposta sul Game:
-* checkVictory: verifica se il giocatore corrente ha vinto il gioco,
-* checkOnlyBotsRemaining: verifica se l'ultimo giocatore rimasto è il giocatore bot.
+Questo object gestisce le logiche di fine gioco:
+- `checkVictory`: verifica se è rimasto un solo giocatore in gioco e nel caso lo imposta come vincitore in `Game`;
+- `checkOnlyBotsRemaining`: verifica se nella partita sono rimasti solo bot.
 
 ### BotEngine
-Questo object è responsabile delle azioni del giocatore bot.
-* play: metodo che fa partire il turno del bot,
-* decideToBuySpace: metodo che decide se il bot acquisterà la casella acquistabile.
+Questo object è responsabile delle azioni del giocatore bot:
+- `play`: metodo che fa partire il turno del bot;
+- `decideToBuySpace`: metodo che decide se il bot acquisterà la casella acquistabile.
 
 ### PrologEngine
 Questo object è responsabile della gestione delle funzionalità sviluppate in Prolog:
-* getNthCellInGrid: restituisce le coordinate dell'n-essima cella della griglia della dimensione specificata,
-* getCoordinateFromPosition: restituisce le coordinate di una cella della griglia data la poszione del gicaotre sulla GameBoard,
-* calculateRents: restituisce la lista degli affitti di una proprietà dato un moltiplicatore e il numero di case su tale proprietà,
-* calculateChanceValue: restituisce un interno tra 0 e 1 per permettere poi di definire se far pagare o dare soldi al giocatore che subisce l'azione della casella Probabilità
+- `getNthCellInGrid`: restituisce le coordinate dell'n-essima cella della griglia della dimensione specificata;
+- `getCoordinateFromPosition`: restituisce le coordinate di una cella data la posizione del giocatore sulla `GameBoard`;
+- `calculateRents`: restituisce la lista degli affitti di una proprietà dato un moltiplicatore e il numero di case su tale proprietà;
+- `calculateChanceValue`: restituisce un intero tra 0 e 1 per permettere poi di definire se far pagare o dare soldi al giocatore che subisce l'azione della casella Probabilità.
 
 ## Utils
 In figura viene mostrato il modulo di strumenti  di utilità utilizzati nell'applicativo.
@@ -223,7 +223,7 @@ Tali costanti sono state necessarie in quanto tali valori sono utilizzati in var
 * `shufflePlayers`: mischia una lista di Player per modificarne l'ordine,
 * `addSumToPosition`: restituisce la nuova posizione di un giocatore a seguito di un lancio di dadi,
 * `getCoordinateFromPosition`: restituisce le coordinate di una cella data la posizione del giocatore sulla `GameBoard`,
-* `getNthCellInGridWithStartingPos`: restituisce l'n-esima cella della griglia passata a partire dalla cella di partenza fornita,
+* `getNthCellInGridWithStartingPos`: restituisce le coordinate dell'n-esima cella della griglia passata a partire dalla cella di partenza fornita,
 * `propertyIsAlreadyOwned`: verifica se una proprietà appartiene già ad un altro giocatore,
 * `getOwnerFromPurchasableSpace`: restituisce il proprietario di una casella acquistabile se tale casella è stata acquistata,
 * `getPurchasableSpaceFromPlayerPosition`: restituisce la casella acquistabile su cui è il giocatore, nel caso sia su una casella acquistabile,
