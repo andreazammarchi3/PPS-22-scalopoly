@@ -10,6 +10,13 @@ object GameReader:
   val MIN_PLAYERS = 2
   private val MAX_PLAYERS = 6
 
+  /** Returns the current player.
+    *
+    * @return
+    *   the current player.
+    */
+  def currentPlayer: Player = players(Game.currentPlayer)
+
   /** Returns the list of players.
     *
     * @return
@@ -65,10 +72,3 @@ object GameReader:
     Game.players.length match
       case i if i < MAX_PLAYERS => true
       case _                    => false
-
-  /** Returns the current player.
-    *
-    * @return
-    *   the current player.
-    */
-  def currentPlayer: Player = players(Game.currentPlayer)

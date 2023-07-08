@@ -110,7 +110,7 @@ object GameController:
       case NotPurchasableSpaceType.BLANK =>
       case NotPurchasableSpaceType.CHANCE =>
         val actionResult = PlayerActionsEngine.playerOnNotPurchasableSpace(player, notPurchasableSpace)
-        if actionResult < 0 then
+        if GameReader.currentPlayer.money < 0 then
           AlertUtils.showPlayerEliminatedByTax(player, notPurchasableSpace.spaceValue)
           currentPlayerQuit()
         else if !GameReader.botIsPlaying then

@@ -8,9 +8,7 @@ import alice.tuprolog.{Prolog, Struct, Term, Theory}
 import scala.io.Source
 
 object PrologEngine:
-  implicit def stringToTerm(s: String): Term = Term.createTerm(s)
   implicit def termToInt(t: Term): Int = t.toString.toInt
-  implicit def termToBoolean(t: Term): Boolean = t.toString.toBoolean
   implicit def termToListOfInt(t: Term): List[Int] =
     t.toString.replace("[", "").replace("]", "").split(",").map(_.toInt).toList
 
