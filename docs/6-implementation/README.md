@@ -60,6 +60,7 @@ Le classi dove ho singolarmente lavorato maggiormente (interamente o in parte) s
       - `NotPurchasableSpace`
       - `NotPurchasableSpaceBuilder`
       - `NotPurchasableSpaceType`
+    - `SpaceGroup`
 - *Utils*:
   - `GameUtils`
 - *View*:
@@ -74,6 +75,31 @@ Applicando quindi il principio DRY è stato unito tutto il codice ridondante and
 Come anticipato all'inizio, in questa fase lo sviluppo Test Driven si è rivelato molto utile permettendo di procedere senza introdurre problematiche di nessun genere.
 Come ultima annotazione riporto l'implementazione di un esempio in Prolog per il calcolo di un valore utilizzato per definire il comportamento delle celle di probabilità: tali celle, per semplicità nel progetto proposto, portano l'utente a pagare o a riscuotere una determinata cifra in base al valore restituito dalla regola definita in prolog. Tale implementazione di esempio potrà essere facilmente espansa andando a modificare le regole del file app/src/main/resources/prolog/ChanceCalculatorProlog.pl.
 
+Per quanto riguarda la mia parte sviluppata in **Prolog**, ho contribuito allo sviluppo del `PrologEngine`. In particolare, il metodo `calculateChanceValue` si occupa di  definire il comportamento delle celle di probabilità: tali celle, per semplicità nel progetto proposto, portano l'utente a pagare o a riscuotere una determinata cifra in base al valore restituito dalla regola definita in prolog. In output restituisce un `Int` col valore 0 o 1, quando si capita su una cella Probabilità viene poi deciso cosa fare in base a qusto risultato.
+
+#### Teoria
+```prolog
+% NUM_PLAYERS -> Number of players
+% OWNED_PROPERTIES -> Numbero of the player owned properties
+% ACTUAL_POSITION -> Actual position of the player
+% RESULT -> the result (0 or 1)
+chance_value(NUM_PLAYERS, OWNED_PROPERTIES, ACTUAL_POSITION, RESULT) :-
+    (OWNED_PROPERTIES >= ACTUAL_POSITION ->
+        RESULT is ((NUM_PLAYERS - OWNED_PROPERTIES + ACTUAL_POSITION) mod 2)
+    ;
+        RESULT is ((NUM_PLAYERS + OWNED_PROPERTIES - ACTUAL_POSITION) mod 2)
+    ), !.
+
+```
+
+#### Possibile Goal
+```prolog
+% Calculate which chance to choose in game with 3 players, when the player owns 3 properties int the 2nd position
+chance_value(3, 3, 2, R).
+```
+Come risultato ottengo 0 o 1 che verrà poi utilizzato per decidere se far pagare o dare soldi al giocatore.
+
+Come risultato ottengo la lista di affitti in caso di proprietà con 0..4 case costruite (la quinta casa equivale ad un hotel).
 ## Andrea Negri
 Le classi dove ho singolarmente lavorato maggiormente, oltre a quelle già elencate nella parte di Pair Programming, sono le seguenti, raggruppate per package:
 - *Engine*:
