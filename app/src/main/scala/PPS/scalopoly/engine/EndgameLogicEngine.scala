@@ -24,5 +24,10 @@ object EndgameLogicEngine:
         true
       case _ => false
 
+  /** Checks if there are only bots remaining in the game.
+    *
+    * @return
+    *   true if there are only bots remaining in the game, false otherwise.
+    */
   def checkOnlyBotsRemaining: Boolean =
     GameReader.players.forall(_.isBot)
