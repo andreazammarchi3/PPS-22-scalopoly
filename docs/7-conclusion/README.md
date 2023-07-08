@@ -9,7 +9,7 @@ Allo stato attuale, il sistema soddisfa tutti i requisiti obbligatori definiti a
 Questo è un risultato molto positivo, poiché conferma che il sistema sviluppato ha raggiunto gli obiettivi prestabiliti, nonostante non siano mancate (soprattutto inizialmente) alcune difficoltà organizzative, e che il lavoro svolto dal team è stato in grado di soddisfare le aspettative iniziali.
 
 ## Sviluppi futuri
-Tuttavia, è importante tenere presente che l'evoluzione del progetto potrebbe richiedere aggiornamenti e miglioramenti futuri per adattarsi a esigenze in continua evoluzione o per affrontare nuove sfide.
+È importante tenere presente che l'evoluzione del progetto potrebbe richiedere aggiornamenti e miglioramenti futuri per adattarsi a esigenze in continua evoluzione o per affrontare nuove sfide.
 
 Di seguito alcune proposte:
 - Aumentare la quantità di conseguenze che possono verificarsi capitando sulle caselle degli Imprevisti o delle Probabilità.
