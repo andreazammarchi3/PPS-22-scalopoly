@@ -94,15 +94,27 @@ Si tratta dell'engine che gestisce tutte le varie logiche di gioco:
 
 ### Game
 Questo object rappresenta il modello del Game accessibile solamente dal pacchetto Engine, viene richiamato e modificato dal GameEngine e dall'EndgameLogicEngine:
-* currentPlayer: il giocatore corrente,
-* players: la lista dei giocatori,
+* currentPlayer: indica il giocatore corrente,
+* players: indica la lista dei giocatori,
 * winner: indica il vincitore del gioco quando presente,
 * availableTokens: indica i Token dei giocatori non ancora utilizzati,
 * gameBoard: rappresenta la GameBoard di gioco,
 * botIsPlaying: indica se sta giocando il giocatore Bot,
-* addPlayer: metodo per aggiungere un giocatore al Game
+* addPlayer: metodo per aggiungere un giocatore al Game,
 * removePlayer: metodo er rimuovere un giocatore al Game,
 * reset: per ripristinare il Game allo stato iniziale.
+
+### GameReader
+Questo object rappresenta un Reader per permettere di consultare i dati di gioco dai moduli che non devono aver accesso a modifiche su quest'ultimo (come ad esempio le viste):
+* currentPlayer: indica il giocatore corrente,
+* players: indica la lista dei giocatori,
+* winner: indica il vincitore del gioco quando presente,
+* availableTokens: indica i Token dei giocatori non ancora utilizzati,
+* gameBoard: rappresenta la GameBoard di gioco,
+* botIsPlaying: indica se sta giocando il giocatore Bot,
+* canStartGame: specifica se è possibile avviare il gioco, 
+* canAddPlayer: specifica se è possibile aggiungere un giocatore.
+
 
 ### PlayerActionEngine
 
