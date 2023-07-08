@@ -123,16 +123,17 @@ Questo object racchiude alcuni strumenti utili per i vari Engine:
 ### PlayerActionEngine
 
 ### EndGameLogicEngine
+Questo object gestisce le logiche di fine gioco, verifica se è presente un vincitore e in quel caso lo imposta sul Game:
+* checkVictory: verifica se il giocatore corrente ha vinto il gioco,
+* checkOnlyBotsRemaining: verifica se l'ultimo giocatore rimasto è il giocatore bot.
 
 ### BotEngine
 Questo object è responsabile delle azioni del giocatore bot.
 * play: metodo che fa partire il turno del bot,
 * decideToBuySpace: metodo che decide se il bot acquisterà la casella acquistabile.
 
-
 ### PrologEngine
 
-###
 
 ## Utils
 In figura viene mostrato il modulo di strumenti utilizzati nell'applicativo.
