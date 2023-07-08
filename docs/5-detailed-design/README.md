@@ -89,7 +89,18 @@ In figura viene mostrato il modulo Engine che contiene le varie parti che gestis
 </p>
 
 ### GameEngine
-Si tratta dell'engine che gestisce tutte le varie logiche di gioco:
+Si tratta dell'engine che gestisce tutte le varie logiche di gioco e che si interfaccia con gli altri moduli esterni al modulo Engine:
+* addPlayer: metodo per aggiungere un giocatore al Game,
+* removePlayer: metodo per rimuovere un giocatore al Game,
+* newGame: metodo per creare un nuovo gioco,
+* startGame: metodo per avviare un nuovo gioco,
+* exitGame: metodo per chiudere l'applicativo,
+* endTurn: metodo per terminare il turno del giocatore corrente,
+* moveCurrentPlayer: metodo per spostare il giocatore corrente,
+* currentPlayerQuit: metodo per gestire l'abbandono di un giocatore,
+* checkSpaceStatus: metodo per verificare lo stato della casella su cui si è fermato il giocatore corrente,
+* botPlays: indica se sta giocando il giocatore Bot.
+
 
 ### Game
 Questo object rappresenta il modello del Game accessibile solamente dal pacchetto Engine, viene richiamato e modificato dal GameEngine e dall'EndgameLogicEngine:
