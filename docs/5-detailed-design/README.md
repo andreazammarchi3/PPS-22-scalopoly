@@ -67,17 +67,16 @@ La classe `NotPurchasableSpace` è uno `Space` che rappresenta una casella non a
 La classe `NotPurchasableSpaceBuilder` si occupa infine di instanziare questi tipi di classe in base al name e allo *spaceType* il quale va a pilotare anche la *action* definita.
 
 #### Purchasable
-In questo sotto modulo sono state implementate le caselle acquistabili nel gioco.
-Il trait PurchableSpace è uno Space che rappresenta una casella acquistabile dai giocatori ed è compsta da:
-* un parametro sellingPrice che indica il prezzo di vendita della casella,
-* un parametro rents che inidica gli affitti che i giocatorri pagheranno al passaggio della casella in base al numero di case presenti in essa, questo se la cella appartiene ad un altro giocatore,
-* un parametro spaceGroup che indica il gruppo di appartenenza della cella.
+In questo sotto modulo sono state implementate le proprietà, cioè le caselle acquistabili nel gioco.
+Il trait `PurchableSpace` è uno `Space` che rappresenta una proprietà ed è composta da:
+- *sellingPrice*: indica prezzo di vendita della proprietà;
+- *rents*: elenco dei diversi possibili affitti;
+- *spaceGroup*: gruppo di appartenenza della proprietà;
+- *calculateRent*: questo metodo, implementato diversamente a seconda del tipo di proprietà, consente di calcolarne l'affitto tenendo conto delle regole precedentemente elencate.
 
-Il trait PurchableSpace è implementato dalle classi:
-* CompanySpace e StationSpace in cui è definita una specifica logica di calcolo del pedaggio (implementata nel calculateRent),
-* BuildableSpace che rappresenta il restto delle caselle acquistabili dove è possibile costruire case (definite da numHouse) e alberghi pagando il buildingCost.
-
-
+Il trait `PurchableSpace` è implementato dalle classi:
+* `CompanySpace` e `StationSpace`: implementano semplicemente il metodo *calculateRent*;
+* `BuildableSpace`: rappresenta una proprietà dove è possibile costruire, grazie al metodo *buildHouse*, case e alberghi (il cui numero è salvato in *numHouse*) pagando il relativo *buildingCost*.
 
 ## View
 In figura viene mostrato il modulo View.
