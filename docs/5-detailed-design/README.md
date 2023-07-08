@@ -91,7 +91,6 @@ In figura viene mostrato il modulo Engine che contiene le varie parti che gestis
 ### GameEngine
 Si tratta dell'engine che gestisce tutte le varie logiche di gioco:
 
-
 ### Game
 Questo object rappresenta il modello del Game accessibile solamente dal pacchetto Engine, viene richiamato e modificato dal GameEngine e dall'EndgameLogicEngine:
 * currentPlayer: indica il giocatore corrente,
@@ -121,6 +120,13 @@ Questo object racchiude alcuni strumenti utili per i vari Engine:
 * updateBuildableSpacesWith: aggiorna la GameBoard fornito il suo BuildableSpace.
 
 ### PlayerActionEngine
+Questo object gestisce le logiche di gioco legame alle azioni dei giocatori:
+* playerBuysPurchasableSpace: gestisce l'acquisto di una casella acquistabile da parte di un giocatore,
+* playerPaysRent: gestisce il pagamento dell'affitto di un giocatore che passa su una casella che appartiene ad un altro giocatore,
+* playerObtainHeritage: gestisce l'eredità ricevuta da un giocatore da parte di un altro giocatore,
+* playerPassByGo: gestisce il passaggio dal via di un giocatore,
+* playerBuildsHouse: gestisce la costruzione di una casa su una casella dove è possibile costruire,
+* playerOnNotPurchasableSpace: gestisce l'azione su un giocatore che si trova su una casella non acquistabile.
 
 ### EndGameLogicEngine
 Questo object gestisce le logiche di fine gioco, verifica se è presente un vincitore e in quel caso lo imposta sul Game:
