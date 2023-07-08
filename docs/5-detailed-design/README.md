@@ -117,14 +117,18 @@ Questo object rappresenta un Reader per permettere di consultare i dati di gioco
 
 ### EngineUtils
 Questo object racchiude alcuni strumenti utili per i vari Engine:
-* updatePlayerWith: permette di aggiornare un giocatore in base all'indice fornito
-* updateBuildableSpacesWith: aggiorna la GameBoard fornito il suo BuildableSpace
+* updatePlayerWith: permette di aggiornare un giocatore in base all'indice fornito,
+* updateBuildableSpacesWith: aggiorna la GameBoard fornito il suo BuildableSpace.
 
 ### PlayerActionEngine
 
 ### EndGameLogicEngine
 
 ### BotEngine
+Questo object è responsabile delle azioni del giocatore bot.
+* play: metodo che fa partire il turno del bot,
+* decideToBuySpace: metodo che decide se il bot acquisterà la casella acquistabile.
+
 
 ### PrologEngine
 
