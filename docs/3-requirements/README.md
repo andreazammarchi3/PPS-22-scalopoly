@@ -1,11 +1,31 @@
-# Requisiti di sistema
+# Analisi dei requisiti
 Di seguito una formulazione dei requisiti del sistema individuati durante l'analisi del problema per un'applicazione che permetta di giocare a Monopoly.
 
 ## Requisiti di business
 - Creare un sistema che permetta di giocare a Monopoly con alcune regole del gioco originale.
 - Il sistema sarà in grado di supportare partite interattive tra 2 e 6 giocatori, in modalità "hotseat" (dove i giocatori si alternano sullo stesso dispositivo).
 
-## Requisiti utente
+## Modello di dominio
+Nella figura sottostante viene riportato uno schema ad alto livello del modello di dominio.
+
+<p align="center">
+  <img src="../images/Domain_Diagram.png" alt="Modello di dominio"/>
+</p>
+
+Il modello di dominio del Monopoly comprende quindi le seguenti entità:
+- Game(gioco/partita): rappresenta il concetto di partita, ad esso sono collegati i giocatori e il tabellone su cui essa si svolge;
+- Player(giocatore): uno dei giocatori partecipanti al gioco. Ogni giocatore sceglie a inizio partita una pedina che lo contraddistingue (il token) e possiede una certa quantità di denaro iniziale. Durante il gioco, i giocatori si muovono lungo il tabellone, acquistano proprietà, pagano affitti e accumulano denaro;
+- GameBoard(tabellone): il tabellone rappresenta la plancia di gioco su cui si svolge la partita. È costituito da una griglia di caselle disposte in un percorso circolare. Ogni casella rappresenta uno spazio specifico e può essere di diversi tipi;
+- Space(spazio/casella): rappresenta una delle caselle del tabellone, e si divide in:
+  - NotPurchasableSpace(spazi non acquistabili): questi spazi includono diverse caselle che non possono essere acquistate, come il "Via", "Probabilità" e "Imprevisti", "Parcheggio gratuito", "Transito/Prigione", "In Prigione!", "Tassa patrimoniale" e "Tassa di lusso" (il cui effetto verrà descritto in una sezione successiva);
+  - PurchasableSpace(spazi acquistabili): questi spazi rappresentano le proprietà che i giocatori possono acquistare durante il gioco. Ognuna di esse ha un costo di acquisto e uno o più affitti associati; sono suddivise a loro volta in 3 categorie:
+    - BuildableSpace(spazi edificabili): sono le proprietà su cui è possibile costruire case o alberghi e l'affitto varia in base al loro numero;
+    - StationSpace(spazi ferroviari): rappresentano le stazioni ferroviarie, il cui affitto varia in base al numero di stazioni possedute dal proprietario;
+    - CompanySpace(spazi societari) rappresentano le società pubbliche, il cui affitto varia in base al numero di altre società possedute.
+
+## Requisiti funzionali
+
+### Requisiti utente
 - Gli utenti dovranno interagire con il sistema tramite un'interfaccia grafica (GUI).
 - Gli utenti possono visualizzare le proprie informazioni inerenti la partita (nome, pedina, soldi, proprietà).
 - Gli utenti possono interagire col sistema effettuando diverse azioni:
@@ -21,7 +41,7 @@ Di seguito una formulazione dei requisiti del sistema individuati durante l'anal
     - terminare il proprio turno;
     - abbandonare la partita.
 
-## Requisiti funzionali
+### Requisiti di sistema
 - Una partita può essere avviata solo se il numero di giocatori è compreso tra 2 e 6.
 - Il gioco si svolge in maniera interattiva, mantenendo il corretto ordine dei turni.
 - Il campo da gioco consiste nel tabellone quadrato di Monopoly, composto da 40 caselle.
