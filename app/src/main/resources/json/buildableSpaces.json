@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Vicolo Corto",
+    "sellingPrice": 60,
+    "baseRent": 2,
+    "spaceGroup": "MARRONE",
+    "buildingCost": 50,
+    "numHouse": 0
+  },
+  {
+    "name": "Vicolo Stretto",
+    "sellingPrice": 60,
+    "baseRent": 4,
+    "spaceGroup": "MARRONE",
+    "buildingCost": 50,
+    "numHouse": 0
+  },
+  {
+    "name": "Bastioni Gran Sasso",
+    "sellingPrice": 100,
+    "baseRent": 6,
+    "spaceGroup": "CELESTE",
+    "buildingCost": 50,
+    "numHouse": 0
+  },
+  {
+    "name": "Viale Monterosa",
+    "sellingPrice": 100,
+    "baseRent": 6,
+    "spaceGroup": "CELESTE",
+    "buildingCost": 50,
+    "numHouse": 0
+  },
+  {
+    "name": "Viale Vesuvio",
+    "sellingPrice": 120,
+    "baseRent": 8,
+    "spaceGroup": "CELESTE",
+    "buildingCost": 50,
+    "numHouse": 0
+  },
+  {
+    "name": "Via Accademia",
+    "sellingPrice": 140,
+    "baseRent": 10,
+    "spaceGroup": "ROSA",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Corso Ateneo",
+    "sellingPrice": 140,
+    "baseRent": 10,
+    "spaceGroup": "ROSA",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Piazza Universita'",
+    "sellingPrice": 160,
+    "baseRent": 12,
+    "spaceGroup": "ROSA",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Via Verdi",
+    "sellingPrice": 180,
+    "baseRent": 14,
+    "spaceGroup": "ARANCIONE",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Corso Raffaello",
+    "sellingPrice": 180,
+    "baseRent": 14,
+    "spaceGroup": "ARANCIONE",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Piazza Dante",
+    "sellingPrice": 200,
+    "baseRent": 16,
+    "spaceGroup": "ARANCIONE",
+    "buildingCost": 100,
+    "numHouse": 0
+  },
+  {
+    "name": "Via Marco Polo",
+    "sellingPrice": 220,
+    "baseRent": 18,
+    "spaceGroup": "ROSSO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Corso Magellano",
+    "sellingPrice": 220,
+    "baseRent": 18,
+    "spaceGroup": "ROSSO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Largo Colombo",
+    "sellingPrice": 240,
+    "baseRent": 20,
+    "spaceGroup": "ROSSO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Viale Costantino",
+    "sellingPrice": 260,
+    "baseRent": 22,
+    "spaceGroup": "GIALLO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Viale Traiano",
+    "sellingPrice": 260,
+    "baseRent": 22,
+    "spaceGroup": "GIALLO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Piazza Giulio Cesare",
+    "sellingPrice": 280,
+    "baseRent": 24,
+    "spaceGroup": "GIALLO",
+    "buildingCost": 150,
+    "numHouse": 0
+  },
+  {
+    "name": "Via Roma",
+    "sellingPrice": 300,
+    "baseRent": 26,
+    "spaceGroup": "VERDE",
+    "buildingCost": 200,
+    "numHouse": 0
+  },
+  {
+    "name": "Corso Impero",
+    "sellingPrice": 300,
+    "baseRent": 26,
+    "spaceGroup": "VERDE",
+    "buildingCost": 200,
+    "numHouse": 0
+  },
+  {
+    "name": "Largo Augusto",
+    "sellingPrice": 320,
+    "baseRent": 28,
+    "spaceGroup": "VERDE",
+    "buildingCost": 200,
+    "numHouse": 0
+  },
+  {
+    "name": "Viale dei Giardini",
+    "sellingPrice": 350,
+    "baseRent": 35,
+    "spaceGroup": "BLU",
+    "buildingCost": 200,
+    "numHouse": 0
+  },
+  {
+    "name": "Parco della Vittoria",
+    "sellingPrice": 400,
+    "baseRent": 50,
+    "spaceGroup": "BLU",
+    "buildingCost": 200,
+    "numHouse": 0
+  }
+]

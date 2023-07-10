@@ -53,11 +53,11 @@ Nel modulo *Space* sono state implementate le logiche di cella della `GameBoard`
 #### NotPurchasable
 In questo sotto modulo sono state implementate le caselle non acquistabili nel gioco.
 Queste celle sono poi differenziante in base al tipo `NotPurcasableSpaceType` nel seguente modo:
-* *BLANK*: cella non definita,
-* *CHANCE*: Possibilità,
-* *COMMUNITY_CHEST*: Imprevisti,
-* *INCOME_TAX*: Tassa patrimoniale,
-* *LUXURY_TAX*: Tassa di lusso.
+* *BLANK*: Prigione/Transito, Parcheggio gratuito, In prigione!, Via -> celle che non hanno azioni;
+* *CHANCE*: Probabilità -> 50% possibilità di ricevere soldi, 50% di perderli;
+* *COMMUNITY_CHEST*: Imprevisti -> perdita di soldi;
+* *INCOME_TAX*: Tassa patrimoniale -> perdita di soldi;
+* *LUXURY_TAX*: Tassa di lusso -> perdita di soldi.
   
 La classe `NotPurchasableSpace` è uno `Space` che rappresenta una casella non acquistabile dai giocatori ed composta da:
 * un parametro *spaceValue* che rappresenta il valore utilizzato nell'azione della casella,

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Societa' Elettrica",
+    "sellingPrice": 150,
+    "baseRent": 25,
+    "spaceGroup": "SOCIETA"
+  },
+  {
+    "name": "Societa' Acqua Potabile",
+    "sellingPrice": 150,
+    "baseRent": 25,
+    "spaceGroup": "SOCIETA"
+  }
+]

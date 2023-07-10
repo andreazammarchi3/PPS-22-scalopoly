@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Stazione Sud",
+    "sellingPrice": 200,
+    "baseRent": 25,
+    "spaceGroup": "FERROVIARIO"
+  },
+  {
+    "name": "Stazione Ovest",
+    "sellingPrice": 200,
+    "baseRent": 25,
+    "spaceGroup": "FERROVIARIO"
+  },
+  {
+    "name": "Stazione Nord",
+    "sellingPrice": 200,
+    "baseRent": 25,
+    "spaceGroup": "FERROVIARIO"
+  },
+  {
+    "name": "Stazione Est",
+    "sellingPrice": 200,
+    "baseRent": 25,
+    "spaceGroup": "FERROVIARIO"
+  }
+]
